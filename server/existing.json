@@ -1,0 +1,67 @@
+{
+	"projects": [
+		{
+			"project-id": 1,
+			"project-name": "Sierra Street Bike Path Rehabilitation",
+			"project-developer": "?",
+			"project-cost": 1012,
+			"county": "Inyo",
+			"city": "Bishop",
+			"osm-ids": [
+				10377075,
+				465481470,
+				607842890,
+				489172857,
+				182297199
+			]
+		},
+		{
+			"project-id": 2,
+			"project-name": "South Chester Avenue Pedestrian Safety Project",
+			"project-developer": "?",
+			"project-cost": 2257,
+			"county": "Kern",
+			"city": "Bakersfield",
+			"osm-ids": [
+				918769056,
+				91642147
+			]
+		},
+		{
+			"project-id": 3,
+			"project-name": "Liechty Middle and Neighborhood Elementary Schools Safety Improvement Project",
+			"project-developer": "?",
+			"project-cost": 29000,
+			"county": "Los Angeles",
+			"city": "Los Angeles",
+			"osm-ids": [
+				399264540,
+				399264552,
+				399264558,
+				173717947,
+				186070712,
+				13340600,
+				399276102,
+				485629626,
+				607568624,
+				13430424,
+				607576346,
+				399276115,
+				399276114
+			]
+		},
+		{
+			"project-id": 4,
+			"project-name": "Ridge Lane",
+			"project-developer": "?",
+			"project-cost": 4050,
+			"county": "San Francisco",
+			"city": "San Francisco",
+			"osm-ids": [
+				828551969,
+				27145750,
+				43759486
+			]
+		}
+	]
+}
