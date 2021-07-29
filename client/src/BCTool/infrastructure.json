@@ -1,8 +1,24 @@
 {
 	"items": {
 		"Amenity": [
-			"Bike Parking",
-			"Bikeshare Infrastructure"
+			{
+				"label": "Bike Parking",
+				"shortname": "bike-parking"
+			},
+			{
+				"label": "Bikeshare Infrastructure",
+				"shortname": "bikeshare-infrastructure"
+			}
+		],
+		"Intersection": [
+			{
+				"label": "Bike Signal",
+				"shortname": "bike-signal"
+			},
+			{
+				"label": "Crossing Island",
+				"shortname": "crossing-island"
+			}
 		]
 	}
 }

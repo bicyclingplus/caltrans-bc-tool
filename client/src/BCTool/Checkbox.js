@@ -8,16 +8,11 @@ class Checkbox extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidMount() {
-
-    }
-
-    componentWillUnmount() {
-
-    }
-
     handleChange(e) {
-        this.props.onCheckedChange(e.target.checked);
+        this.props.onCheckedChange(
+            this.props.shortname,
+            e.target.checked
+        );
     }
 
     render() {

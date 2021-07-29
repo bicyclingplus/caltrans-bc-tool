@@ -19,6 +19,16 @@ class BCTool extends React.Component {
     this.map = null;
     this.features = null;
 
+
+    let checkboxes = {};
+    for(let category in infrastructure.items) {
+
+      for(let i = 0; i < infrastructure.items[category].length; i++) {
+        checkboxes[infrastructure.items[category][i]['shortname']] = false;
+      }
+
+    }
+
     this.state = {
       'existing': [],
       'selected-project': '',
@@ -27,11 +37,12 @@ class BCTool extends React.Component {
       'project-cost': '',
       'city': '',
       'county': '',
-      'checked': true,
+      'checkboxes': checkboxes,
     };
 
     this.handleProjectChange = this.handleProjectChange.bind(this);
     this.updateMap = this.updateMap.bind(this);
+    this.onCheckedChange = this.onCheckedChange.bind(this);
 
   }
 
@@ -112,6 +123,17 @@ class BCTool extends React.Component {
     this.map.fitBounds(this.features.getBounds());
   }
 
+  onCheckedChange(shortname, value) {
+
+    let updatedCheckboxes = this.state.checkboxes;
+
+    updatedCheckboxes[shortname] = value;
+
+    this.setState({
+      checkboxes: updatedCheckboxes
+    });
+  }
+
   render() {
     return (
       <div className="container">
@@ -179,7 +201,12 @@ class BCTool extends React.Component {
           <div className="col-sm-12">
             <h4>Define Project Elements</h4>
 
-            <CategorizedCheckboxDropdown buttonText="Dropdown button" items={infrastructure.items} />
+            <CategorizedCheckboxDropdown
+              buttonText="Dropdown button"
+              items={infrastructure.items}
+              checkboxes={this.state.checkboxes}
+              onCheckedChange={this.onCheckedChange}
+            />
           </div>
         </div>
 
