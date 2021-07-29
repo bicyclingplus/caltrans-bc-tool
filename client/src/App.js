@@ -1,9 +1,9 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import BCTool from './BCTool/BCTool';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 function App() {
   return (

@@ -1,8 +1,15 @@
 import React from 'react';
 import Leaflet from 'leaflet';
 
+import 'bootstrap/js/dist/dropdown';
+import 'bootstrap/js/dist/button';
+
 import 'leaflet/dist/leaflet.css';
 import './BCTool.css';
+
+import CategorizedCheckboxDropdown from './CategorizedCheckboxDropdown';
+
+const infrastructure = require('./infrastructure.json');
 
 class BCTool extends React.Component {
 
@@ -20,10 +27,12 @@ class BCTool extends React.Component {
       'project-cost': '',
       'city': '',
       'county': '',
+      'checked': true,
     };
 
     this.handleProjectChange = this.handleProjectChange.bind(this);
     this.updateMap = this.updateMap.bind(this);
+
   }
 
   componentDidMount() {
@@ -157,6 +166,7 @@ class BCTool extends React.Component {
 
           </div>
         </div>
+
         { this.state['selected-project'] ?
         <div className="row">
           <div className="col-sm-12">
@@ -164,6 +174,15 @@ class BCTool extends React.Component {
           </div>
         </div>
         : null }
+
+        <div className="row">
+          <div className="col-sm-12">
+            <h4>Define Project Elements</h4>
+
+            <CategorizedCheckboxDropdown buttonText="Dropdown button" items={infrastructure.items} />
+          </div>
+        </div>
+
       </div>
     );
   }
