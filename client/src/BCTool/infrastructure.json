@@ -3,21 +3,192 @@
 		"Amenity": [
 			{
 				"label": "Bike Parking",
-				"shortname": "bike-parking"
+				"shortname": "bike-parking",
+				"description": ""
 			},
 			{
 				"label": "Bikeshare Infrastructure",
-				"shortname": "bikeshare-infrastructure"
+				"shortname": "bikeshare-infrastructure",
+				"description": ""
+			},
+			{
+				"label": "Dynamic Speed Display Sign",
+				"shortname": "dynamic-speed-display-sign",
+				"description": ""
+			},
+			{
+				"label": "Flashing Beacon",
+				"shortname": "flashing-beacon",
+				"description": ""
+			},
+			{
+				"label": "Landscaping",
+				"shortname": "landscaping",
+				"description": ""
+			},
+			{
+				"label": "Lighting",
+				"shortname": "lighting",
+				"description": ""
+			},
+			{
+				"label": "Speed Limit Reduction",
+				"shortname": "speed-limit-reduction",
+				"description": ""
+			},
+			{
+				"label": "Wayfaring Signs",
+				"shortname": "wayfairing-signs",
+				"description": ""
+			}
+		],
+		"Corridor": [
+			{
+				"label": "Bike Boulevard",
+				"shortname": "bike-boulevard",
+				"description": ""
+			},
+			{
+				"label": "Bike Highway",
+				"shortname": "bike-highway",
+				"description": ""
+			},
+			{
+				"label": "Bike Shared Lane Markings (Sharrows)",
+				"shortname": "bike-shared-lane-markings",
+				"description": ""
+			},
+			{
+				"label": "Buffered Bike Lane",
+				"shortname": "buffered-bike-lane",
+				"description": ""
+			},
+			{
+				"label": "Conventional Bike Lane",
+				"shortname": "conventional-bike-lane",
+				"description": ""
+			},
+			{
+				"label": "Edge Lanes (Advisory Lanes)",
+				"shortname": "edge-lanes",
+				"description": ""
+			},
+			{
+				"label": "Horizontal Deflector",
+				"shortname": "horizontal-deflector",
+				"description": "(chicane)"
+			},
+			{
+				"label": "Lane Narrowing",
+				"shortname": "lane-narrowing",
+				"description": ""
+			},
+			{
+				"label": "Multi-Use Path",
+				"shortname": "multi-use-path",
+				"description": ""
+			},
+			{
+				"label": "Off-Street Bike Path (Sidepaths included)",
+				"shortname": "off-street-bike-path",
+				"description": ""
+			},
+			{
+				"label": "Road Diet",
+				"shortname": "road-diet",
+				"description": ""
+			},
+			{
+				"label": "Separated Bike Lane",
+				"shortname": "separated-bike-lane",
+				"description": ""
+			},
+			{
+				"label": "Shared/Open Street",
+				"shortname": "shared-open-street",
+				"description": ""
+			},
+			{
+				"label": "Sidewalk (improvement)",
+				"shortname": "sidewalk-improvement",
+				"description": ""
+			},
+			{
+				"label": "Sidewalk (new)",
+				"shortname": "sidewalk-new",
+				"description": ""
+			},
+			{
+				"label": "Vertical Deflector",
+				"shortname": "vertical-deflector",
+				"description": "(hump, bump, table)"
 			}
 		],
 		"Intersection": [
 			{
+				"label": "Bike Box (turn or cue)",
+				"shortname": "bike-box",
+				"description": ""
+			},
+			{
 				"label": "Bike Signal",
-				"shortname": "bike-signal"
+				"shortname": "bike-signal",
+				"description": ""
 			},
 			{
 				"label": "Crossing Island",
-				"shortname": "crossing-island"
+				"shortname": "crossing-island",
+				"description": ""
+			},
+			{
+				"label": "Crosswalk",
+				"shortname": "crosswalk",
+				"description": ""
+			},
+			{
+				"label": "Curb Extension",
+				"shortname": "curb-extension",
+				"description": ""
+			},
+			{
+				"label": "Pedestrian Countdown",
+				"shortname": "pedestrian-countdown",
+				"description": ""
+			},
+			{
+				"label": "Pedestrian Scramble",
+				"shortname": "pedestrian-scramble",
+				"description": ""
+			},
+			{
+				"label": "Protected Intersection",
+				"shortname": "protected-intersection",
+				"description": ""
+			},
+			{
+				"label": "Raised Crossing",
+				"shortname": "raised-crossing",
+				"description": ""
+			},
+			{
+				"label": "Raised Intersection",
+				"shortname": "raised-intersection",
+				"description": ""
+			},
+			{
+				"label": "Roundabout (New)",
+				"shortname": "roundabout",
+				"description": ""
+			},
+			{
+				"label": "Signal Phasing (improvement)",
+				"shortname": "signal-phasing",
+				"description": ""
+			},
+			{
+				"label": "Traffic Signal (New)",
+				"shortname": "traffic-signal",
+				"description": ""
 			}
 		]
 	}

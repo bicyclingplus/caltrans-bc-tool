@@ -1,0 +1,34 @@
+{
+	"items": [
+		{
+			"label": "Safe routes to school",
+			"shortname": "safe-routes-to-school",
+			"description": "including any combination of elements such as in classroom education; bike rodeos/mock city; encouragement days; walk/bike audits; walking school bus; crossing-guard programs; safety patrol"
+		},
+		{
+			"label": "Commutity events",
+			"shortname": "community-events",
+			"description": "including any combination of elements such as in community education; bike rodeos/mock city; encouragement days; walk/bike audits; ciclovias; bike-share encouragement"
+		},
+		{
+			"label": "Social marketing, education or campaigns",
+			"shortname": "social-marketing-education-campaings",
+			"description": "social media or traditional flyers/signage"
+		},
+		{
+			"label": "Active transportation experiments",
+			"shortname": "active-transportation-experiments",
+			"description": "(i.e. demonstration projects with education component)"
+		},
+		{
+			"label": "Programs to decrease car use",
+			"shortname": "programs-to-decrease-car-use",
+			"description": "including car free zones, parking pricing)"
+		},
+		{
+			"label": "Programs to connect to transit",
+			"shortname": "programs-to-connect-to-transit",
+			"description": ""
+		}
+	]
+}

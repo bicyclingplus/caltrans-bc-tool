@@ -2,6 +2,8 @@
 	"projects": [
 		{
 			"project-id": 1,
+			"project-type": "infrastructure",
+			"project-subtype": "bike-only",
 			"project-name": "Sierra Street Bike Path Rehabilitation",
 			"project-developer": "?",
 			"project-cost": 1012,
@@ -17,6 +19,8 @@
 		},
 		{
 			"project-id": 2,
+			"project-type": "infrastructure",
+			"project-subtype": "pedestrian-only",
 			"project-name": "South Chester Avenue Pedestrian Safety Project",
 			"project-developer": "?",
 			"project-cost": 2257,
@@ -29,6 +33,8 @@
 		},
 		{
 			"project-id": 3,
+			"project-type": "infrastructure",
+			"project-subtype": "both",
 			"project-name": "Liechty Middle and Neighborhood Elementary Schools Safety Improvement Project",
 			"project-developer": "?",
 			"project-cost": 29000,
@@ -52,6 +58,8 @@
 		},
 		{
 			"project-id": 4,
+			"project-type": "infrastructure",
+			"project-subtype": "both",
 			"project-name": "Ridge Lane",
 			"project-developer": "?",
 			"project-cost": 4050,

@@ -8,8 +8,10 @@ import 'leaflet/dist/leaflet.css';
 import './BCTool.css';
 
 import CategorizedCheckboxDropdown from './CategorizedCheckboxDropdown';
+import CheckboxDropdown from './CheckboxDropdown';
 
 const infrastructure = require('./infrastructure.json');
+const nonInfrastructure = require('./nonInfrastructure.json');
 
 class BCTool extends React.Component {
 
@@ -29,8 +31,14 @@ class BCTool extends React.Component {
 
     }
 
+    for(let i = 0; i < nonInfrastructure.items.length; i++ ) {
+      checkboxes[nonInfrastructure.items[i]['shortname']] = false;
+    }
+
     this.state = {
       'existing': [],
+      'project-type': '',
+      'project-subtype': '',
       'selected-project': '',
       'project-name': '',
       'project-developer': '',
@@ -68,8 +76,6 @@ class BCTool extends React.Component {
 
   handleProjectChange(e) {
 
-    console.log(e.target.value);
-
     let project;
 
     for(let i = 0; i < this.state.existing.length; i++) {
@@ -80,6 +86,8 @@ class BCTool extends React.Component {
 
     this.setState({
       'selected-project': e.target.value,
+      'project-type': project['project-type'],
+      'project-subtype': project['project-subtype'],
       'project-name': project['project-name'],
       'project-developer': project['project-developer'],
       'project-cost': project['project-cost'],
@@ -137,7 +145,7 @@ class BCTool extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="row justify-content-center">
+        <div className="row justify-content-center mb-3">
           <div className="col-sm-8 p-4">
             <form>
               <div className="row mb-2">
@@ -169,10 +177,24 @@ class BCTool extends React.Component {
                 </div>
               </div>
               <div className="row mb-2">
-                <label htmlFor="county" className="col-sm-2 col-form-label text-end">County</label>
+                <label htmlFor="project-type" className="col-sm-2 col-form-label text-end">Project Type</label>
                 <div className="col-md-4">
-                  <select id="county" className="form-select" value={this.state.county} disabled>
-                    <option value={this.state.county}>{this.state.county}</option>
+                  <select id="project-type" className="form-select" value={this.state['project-type']} disabled>
+                    <option value=""></option>
+                    <option value="infrastructure">Infrastructure</option>
+                    <option value="non-infrastructure">Non-Infrastructure</option>
+                    <option value="both">Both</option>
+                  </select>
+                </div>
+              </div>
+              <div className="row mb-2">
+                <label htmlFor="project-subtype" className="col-sm-2 col-form-label text-end">Project Subtype</label>
+                <div className="col-md-4">
+                  <select id="project-subtype" className="form-select" value={this.state['project-subtype']} disabled>
+                    <option value=""></option>
+                    <option value="bike-only">Bike Only</option>
+                    <option value="pedestrian-only">Pedestrian Only</option>
+                    <option value="both">Both</option>
                   </select>
                 </div>
               </div>
@@ -190,26 +212,48 @@ class BCTool extends React.Component {
         </div>
 
         { this.state['selected-project'] ?
-        <div className="row">
+        <div className="row mb-3">
           <div className="col-sm-12">
             <div id="map"></div>
           </div>
         </div>
         : null }
 
-        <div className="row">
+        <div className="row mb-3">
           <div className="col-sm-12">
             <h4>Define Project Elements</h4>
 
-            <CategorizedCheckboxDropdown
-              buttonText="Dropdown button"
-              items={infrastructure.items}
-              checkboxes={this.state.checkboxes}
-              onCheckedChange={this.onCheckedChange}
-            />
+            <div className="row mb-3">
+              <div className="col-sm-4"><h5 class="form-label">Infrastructure Elements</h5></div>
+              <div className="col-sm-8">
+                <CategorizedCheckboxDropdown
+                  id="infrastructure-dropdown"
+                  className="col-sm-10"
+                  buttonText="Click to select"
+                  name="infrastructure"
+                  items={infrastructure.items}
+                  checkboxes={this.state.checkboxes}
+                  onCheckedChange={this.onCheckedChange}
+                  />
+              </div>
+            </div>
+
+            <div className="row mb-3">
+              <div className="col-sm-4"><h5 class="form-label">Non-Infrastructure Elements</h5></div>
+              <div className="col-sm-8">
+                <CheckboxDropdown
+                  id="non-infrastructure-dropdown"
+                  className="col-sm-10"
+                  buttonText="Click to select"
+                  name="non-infrastructure"
+                  items={nonInfrastructure.items}
+                  checkboxes={this.state.checkboxes}
+                  onCheckedChange={this.onCheckedChange}
+                  />
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     );
   }
