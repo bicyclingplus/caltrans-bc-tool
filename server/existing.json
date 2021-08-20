@@ -3,7 +3,7 @@
 		{
 			"project-id": 1,
 			"project-type": "infrastructure",
-			"project-subtype": "bike-only",
+			"project-subtype": "both",
 			"project-name": "Sierra Street Bike Path Rehabilitation",
 			"project-developer": "?",
 			"project-cost": 1012,
@@ -15,7 +15,19 @@
 				607842890,
 				489172857,
 				182297199
-			]
+			],
+			"demand": {
+				"bike": {
+					"lower": 200,
+					"mean": 350,
+					"upper": 500
+				},
+				"pedestrian": {
+					"lower": 120,
+					"mean": 230,
+					"upper": 340
+				}
+			}
 		},
 		{
 			"project-id": 2,
@@ -29,7 +41,19 @@
 			"osm-ids": [
 				918769056,
 				91642147
-			]
+			],
+			"demand": {
+				"bike": {
+					"lower": 0,
+					"mean": 0,
+					"upper": 0
+				},
+				"pedestrian": {
+					"lower": 270,
+					"mean": 360,
+					"upper": 450
+				}
+			}
 		},
 		{
 			"project-id": 3,
@@ -54,12 +78,24 @@
 				607576346,
 				399276115,
 				399276114
-			]
+			],
+			"demand": {
+				"bike": {
+					"lower": 265,
+					"mean": 476,
+					"upper": 687
+				},
+				"pedestrian": {
+					"lower": 878,
+					"mean": 984,
+					"upper": 1090
+				}
+			}
 		},
 		{
 			"project-id": 4,
 			"project-type": "infrastructure",
-			"project-subtype": "both",
+			"project-subtype": "pedestrian-only",
 			"project-name": "Ridge Lane",
 			"project-developer": "?",
 			"project-cost": 4050,
@@ -69,7 +105,19 @@
 				828551969,
 				27145750,
 				43759486
-			]
+			],
+			"demand": {
+				"bike": {
+					"lower": 0,
+					"mean": 0,
+					"upper": 0
+				},
+				"pedestrian": {
+					"lower": 500,
+					"mean": 745,
+					"upper": 990
+				}
+			}
 		}
 	]
 }
