@@ -1,14 +1,16 @@
 import React from 'react';
-import Leaflet from 'leaflet';
 
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/button';
 
-import 'leaflet/dist/leaflet.css';
 import './BCTool.css';
 
 import CategorizedCheckboxDropdown from './CategorizedCheckboxDropdown';
 import CheckboxDropdown from './CheckboxDropdown';
+
+import ProjectForm from './ProjectForm';
+import ProjectSummary from './ProjectSummary';
+import ProjectMap from './ProjectMap';
 
 const infrastructure = require('./infrastructure.json');
 const nonInfrastructure = require('./nonInfrastructure.json');
@@ -21,35 +23,20 @@ class BCTool extends React.Component {
     this.map = null;
     this.features = null;
 
-
-    let checkboxes = {};
-    for(let category in infrastructure.items) {
-
-      for(let i = 0; i < infrastructure.items[category].length; i++) {
-        checkboxes[infrastructure.items[category][i]['shortname']] = false;
-      }
-
-    }
-
-    for(let i = 0; i < nonInfrastructure.items.length; i++ ) {
-      checkboxes[nonInfrastructure.items[i]['shortname']] = false;
-    }
-
     this.state = {
       'existing': [],
-      'project-type': '',
-      'project-subtype': '',
+      'type': '',
+      'subtype': '',
       'selected-project': '',
-      'project-name': '',
-      'project-developer': '',
-      'project-cost': '',
+      'name': '',
+      'developer': '',
+      'cost': '',
       'city': '',
       'county': '',
-      'checkboxes': checkboxes,
+      'checkboxes': [],
     };
 
     this.handleProjectChange = this.handleProjectChange.bind(this);
-    this.updateMap = this.updateMap.bind(this);
     this.onCheckedChange = this.onCheckedChange.bind(this);
 
   }
@@ -84,51 +71,43 @@ class BCTool extends React.Component {
       }
     }
 
-    this.setState({
-      'selected-project': e.target.value,
-      'project-type': project['project-type'],
-      'project-subtype': project['project-subtype'],
-      'project-name': project['project-name'],
-      'project-developer': project['project-developer'],
-      'project-cost': project['project-cost'],
-      'county': project['county'],
-      'city': project['city'],
-    });
+    let checkboxes = {};
+    for(let category in infrastructure.items) {
+
+      for(let i = 0; i < infrastructure.items[category].length; i++) {
+        checkboxes[infrastructure.items[category][i]['shortname']] = false;
+      }
+
+    }
+
+    for(let i = 0; i < nonInfrastructure.items.length; i++ ) {
+      checkboxes[nonInfrastructure.items[i]['shortname']] = false;
+    }
 
     fetch('/api/geojson/'+e.target.value)
       .then((res) => res.json())
       .then(
         (result) => {
           this.geojson = result;
-          this.updateMap();
+
+          this.setState({
+            'selected-project': e.target.value,
+            'type': project['project-type'],
+            'subtype': project['project-subtype'],
+            'name': project['project-name'],
+            'developer': project['project-developer'],
+            'cost': project['project-cost'],
+            'county': project['county'],
+            'city': project['city'],
+            'demand': project['demand'],
+            'osm-ids': project['osm-ids'],
+            'checkboxes': checkboxes,
+          });
         },
         (error) => {
           console.log(error);
         },
       );
-  }
-
-  updateMap() {
-    if(!this.map) {
-      this.map = Leaflet.map('map');
-
-      Leaflet.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>',
-          maxZoom: 18,
-          id: 'mapbox/streets-v11',
-          tileSize: 512,
-          zoomOffset: -1,
-          accessToken: 'pk.eyJ1IjoibWZhdmV0dGkiLCJhIjoiY2tvYnFyYndpMDB2dDJwcGRiM3h4dG9sciJ9.lpkeRUBN_K546qVPWRs2BA'
-      }).addTo(this.map);
-    }
-
-    if(this.features) {
-      this.map.removeLayer(this.features);
-    }
-
-    this.features = Leaflet.geoJSON(this.geojson);
-    this.features.addTo(this.map);
-    this.map.fitBounds(this.features.getBounds());
   }
 
   onCheckedChange(shortname, value) {
@@ -146,9 +125,9 @@ class BCTool extends React.Component {
     return (
       <div className="container">
         <div className="row justify-content-center mb-3">
-          <div className="col-sm-8 p-4">
+          <div className="col-sm-8 mt-4">
             <form>
-              <div className="row mb-2">
+              <div className="row">
                 <label htmlFor="existing-project" className="col-sm-2 col-form-label text-end">Existing Project</label>
                 <div className="col-md-10">
                   <select id="existing-project" className="form-select" onChange={this.handleProjectChange}>
@@ -157,103 +136,80 @@ class BCTool extends React.Component {
                   </select>
                 </div>
               </div>
-              <div className="row mb-2">
-                <label htmlFor="project-name" className="col-sm-2 col-form-label text-end">Project Name</label>
-                <div className="col-sm-4">
-                  <input type="text" className="form-control" id="project-name" value={this.state['project-name']} disabled />
-                </div>
-                <label htmlFor="project-developer" className="col-sm-3 col-form-label text-end">Project Developer</label>
-                <div className="col-sm-3">
-                  <input type="text" className="form-control" id="project-developer"  value={this.state['project-developer']} disabled />
-                </div>
-              </div>
-              <div className="row mb-2">
-                <label htmlFor="project-cost" className="col-sm-2 col-form-label text-end">Project Cost</label>
-                <div className="col-sm-2">
-                  <div className="input-group">
-                    <span className="input-group-text">$</span>
-                    <input type="text" className="form-control" id="project-cost"  value={this.state['project-cost']} disabled />
-                  </div>
-                </div>
-              </div>
-              <div className="row mb-2">
-                <label htmlFor="project-type" className="col-sm-2 col-form-label text-end">Project Type</label>
-                <div className="col-md-4">
-                  <select id="project-type" className="form-select" value={this.state['project-type']} disabled>
-                    <option value=""></option>
-                    <option value="infrastructure">Infrastructure</option>
-                    <option value="non-infrastructure">Non-Infrastructure</option>
-                    <option value="both">Both</option>
-                  </select>
-                </div>
-              </div>
-              <div className="row mb-2">
-                <label htmlFor="project-subtype" className="col-sm-2 col-form-label text-end">Project Subtype</label>
-                <div className="col-md-4">
-                  <select id="project-subtype" className="form-select" value={this.state['project-subtype']} disabled>
-                    <option value=""></option>
-                    <option value="bike-only">Bike Only</option>
-                    <option value="pedestrian-only">Pedestrian Only</option>
-                    <option value="both">Both</option>
-                  </select>
-                </div>
-              </div>
-              <div className="row mb-2">
-                <label htmlFor="city" className="col-sm-2 col-form-label text-end">City</label>
-                <div className="col-md-4">
-                  <select id="city" className="form-select" value={this.state.city} disabled>
-                    <option value={this.state.city}>{this.state.city}</option>
-                  </select>
-                </div>
-              </div>
             </form>
+          </div>
+        </div>
 
+        <div className="row justify-content-center mb-3">
+          <div className="col-sm-8">
+            <ProjectForm name={this.state['name']}
+              developer={this.state['developer']}
+              cost={this.state['cost']}
+              type={this.state['type']}
+              subtype={this.state['subtype']}
+              city={this.state['city']} />
           </div>
         </div>
 
         { this.state['selected-project'] ?
+        <>
         <div className="row mb-3">
           <div className="col-sm-12">
-            <div id="map"></div>
+            <ProjectMap geojson={this.geojson} />
           </div>
         </div>
+
+        <div className="row mb-3">
+          <div className="col-sm-12">
+            <ProjectSummary
+              corridors={this.state['osm-ids'].length}
+              subtype={this.state['project-subtype']}
+              demand={this.state.demand} />
+          </div>
+        </div>
+
+        <div className="row mb-3">
+          <div className="col-sm-12">
+            <div className="card">
+              <div className="card-body">
+                <h4 className="card-title text-center">Define Project Elements</h4>
+
+                <div className="row mb-3 mt-4">
+                  <div className="col-sm-4"><h5 className="form-label">Infrastructure Elements</h5></div>
+                  <div className="col-sm-8">
+                    <CategorizedCheckboxDropdown
+                      id="infrastructure-dropdown"
+                      className="col-sm-10"
+                      buttonText="Click to select"
+                      name="infrastructure"
+                      items={infrastructure.items}
+                      checkboxes={this.state.checkboxes}
+                      onCheckedChange={this.onCheckedChange}
+                      />
+                  </div>
+                </div>
+
+                <div className="row mb-3">
+                  <div className="col-sm-4"><h5 className="form-label">Non-Infrastructure Elements</h5></div>
+                  <div className="col-sm-8">
+                    <CheckboxDropdown
+                      id="non-infrastructure-dropdown"
+                      className="col-sm-10"
+                      buttonText="Click to select"
+                      name="non-infrastructure"
+                      items={nonInfrastructure.items}
+                      checkboxes={this.state.checkboxes}
+                      onCheckedChange={this.onCheckedChange}
+                      />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </>
         : null }
 
-        <div className="row mb-3">
-          <div className="col-sm-12">
-            <h4>Define Project Elements</h4>
-
-            <div className="row mb-3">
-              <div className="col-sm-4"><h5 class="form-label">Infrastructure Elements</h5></div>
-              <div className="col-sm-8">
-                <CategorizedCheckboxDropdown
-                  id="infrastructure-dropdown"
-                  className="col-sm-10"
-                  buttonText="Click to select"
-                  name="infrastructure"
-                  items={infrastructure.items}
-                  checkboxes={this.state.checkboxes}
-                  onCheckedChange={this.onCheckedChange}
-                  />
-              </div>
-            </div>
-
-            <div className="row mb-3">
-              <div className="col-sm-4"><h5 class="form-label">Non-Infrastructure Elements</h5></div>
-              <div className="col-sm-8">
-                <CheckboxDropdown
-                  id="non-infrastructure-dropdown"
-                  className="col-sm-10"
-                  buttonText="Click to select"
-                  name="non-infrastructure"
-                  items={nonInfrastructure.items}
-                  checkboxes={this.state.checkboxes}
-                  onCheckedChange={this.onCheckedChange}
-                  />
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
