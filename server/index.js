@@ -5,10 +5,10 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 const geojson = {
-  '1': require('../geojson/bishop.json'),
-  '2': require('../geojson/kern.json'),
-  '3': require('../geojson/la.json'),
-  '4': require('../geojson/sf.json'),
+  '1': require('./data/bishop.json'),
+  '2': require('./data/kern.json'),
+  '3': require('./data/la.json'),
+  '4': require('./data/sf.json'),
 };
 
 const existing = require('./existing.json');
