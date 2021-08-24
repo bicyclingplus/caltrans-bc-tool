@@ -11,9 +11,10 @@ import CheckboxDropdown from './CheckboxDropdown';
 import ProjectForm from './ProjectForm';
 import ProjectSummary from './ProjectSummary';
 import ProjectMap from './ProjectMap';
+import SelectedInfrastructure from './SelectedInfrastructure';
 
-const infrastructure = require('./infrastructure.json');
-const nonInfrastructure = require('./nonInfrastructure.json');
+const infrastructure = require('./data/infrastructure.json');
+const nonInfrastructure = require('./data/nonInfrastructure.json');
 
 class BCTool extends React.Component {
 
@@ -37,11 +38,16 @@ class BCTool extends React.Component {
 
       'infrastructure': [],
       'non-infrastructure': [],
+      'selectedInfrastructure': 0,
+      'selectedNonInfrastructure': 0,
+
+      'showBenefits': false,
     };
 
     this.handleProjectChange = this.handleProjectChange.bind(this);
     this.onInfrastructureChange = this.onInfrastructureChange.bind(this);
     this.onNonInfrastructureChange = this.onNonInfrastructureChange.bind(this);
+    this.handleBenefitButton = this.handleBenefitButton.bind(this);
 
   }
 
@@ -126,6 +132,9 @@ class BCTool extends React.Component {
 
             'infrastructure': newInfrastructure,
             'non-infrastructure': newNonInfrastructure,
+            'selectedInfrastructure': 0,
+
+            'showBenefits': false,
           });
         },
         (error) => {
@@ -136,7 +145,8 @@ class BCTool extends React.Component {
 
   onInfrastructureChange(category, shortname, value) {
 
-    let updated = this.state.infrastructure;
+    let updated = this.state.infrastructure,
+        selected = this.state.selectedInfrastructure;
 
     for(let i = 0; i < updated[category].length; i++) {
       if(updated[category][i]['shortname'] === shortname) {
@@ -147,12 +157,14 @@ class BCTool extends React.Component {
 
     this.setState({
       'infrastructure': updated,
+      'selectedInfrastructure': value ? selected + 1 : selected - 1,
     });
   }
 
   onNonInfrastructureChange(shortname, value) {
 
-    let updated = this.state['non-infrastructure'];
+    let updated = this.state['non-infrastructure'],
+        selected = this.state.selectedInfrastructure;
 
     for(let i = 0; i < updated.length; i++) {
       if(updated[i]['shortname'] === shortname) {
@@ -163,7 +175,16 @@ class BCTool extends React.Component {
 
     this.setState({
       'non-infrastructure': updated,
+      'selectedNonInfrastructure': value ? selected + 1 : selected - 1,
     });
+  }
+
+  handleBenefitButton() {
+
+    this.setState({
+      'showBenefits': true,
+    });
+
   }
 
   render() {
@@ -198,20 +219,25 @@ class BCTool extends React.Component {
 
         { this.state['selected-project'] ?
         <>
+
+        { this.state['osm-ids'].length ?
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectMap geojson={this.geojson} />
           </div>
         </div>
+        : null }
 
+        { this.state['type'] === 'infrastructure' ?
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectSummary
               corridors={this.state['osm-ids'].length}
-              subtype={this.state['project-subtype']}
+              subtype={this.state['subtype']}
               demand={this.state.demand} />
           </div>
         </div>
+        : null }
 
         <div className="row mb-3">
           <div className="col-sm-12">
@@ -219,6 +245,7 @@ class BCTool extends React.Component {
               <div className="card-body">
                 <h4 className="card-title text-center">Define Project Elements</h4>
 
+                { this.state['type'] === 'infrastructure' ?
                 <div className="row mb-3 mt-4">
                   <div className="col-sm-4"><h5 className="form-label">Infrastructure Elements</h5></div>
                   <div className="col-sm-8">
@@ -233,7 +260,9 @@ class BCTool extends React.Component {
                       />
                   </div>
                 </div>
+                : null }
 
+                { this.state['type'] === 'non-infrastructure' ?
                 <div className="row mb-3">
                   <div className="col-sm-4"><h5 className="form-label">Non-Infrastructure Elements</h5></div>
                   <div className="col-sm-8">
@@ -248,6 +277,8 @@ class BCTool extends React.Component {
                       />
                   </div>
                 </div>
+                : null }
+
               </div>
             </div>
           </div>
@@ -255,6 +286,38 @@ class BCTool extends React.Component {
         </>
         : null }
 
+        { this.state.selectedInfrastructure > 0 ?
+        <div className="row mb-3">
+          <div className="col-sm-12">
+            <SelectedInfrastructure
+              items={this.state.infrastructure}
+            />
+          </div>
+        </div>
+        : null }
+
+        { this.state.selectedInfrastructure > 0 || this.state.selectedNonInfrastructure > 0 ?
+        <div className="row mb-3">
+          <div className="col-sm-12 text-center">
+            <button
+              type="button"
+              className="btn btn-primary btn-lg"
+              onClick={this.handleBenefitButton}>Estimate Benefits</button>
+          </div>
+        </div>
+        : null }
+
+        { this.state.showBenefits ?
+        <div className="row mb-3">
+          <div className="col-sm-12 text-center">
+            <div className="card">
+              <div className="card-body">
+                  <h4 className="card-title text-center">Benefits</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        : null }
       </div>
     );
   }

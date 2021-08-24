@@ -43,6 +43,8 @@ class ProjectForm extends React.Component {
             </select>
           </div>
         </div>
+
+        { this.type === 'infrastructure' ?
         <div className="row mb-2">
           <label htmlFor="project-subtype" className="col-sm-2 col-form-label text-end">Project Subtype</label>
           <div className="col-md-4">
@@ -54,6 +56,8 @@ class ProjectForm extends React.Component {
             </select>
           </div>
         </div>
+        : null }
+
         <div className="row mb-2">
           <label htmlFor="city" className="col-sm-2 col-form-label text-end">City</label>
           <div className="col-md-4">

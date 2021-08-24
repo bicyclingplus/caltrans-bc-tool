@@ -11,7 +11,7 @@ const geojson = {
   '4': require('./data/sf.json'),
 };
 
-const existing = require('./existing.json');
+const existing = require('./data/existing.json');
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 

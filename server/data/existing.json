@@ -157,6 +157,52 @@
 					"upper": 990
 				}
 			}
+		},
+		{
+			"id": 5,
+			"type": "non-infrastructure",
+			"subtype": null,
+			"name": "Butte County Safe Routes Resource Center and 5 Community Projects",
+			"developer": "?",
+			"cost": 1140,
+			"county": "Butte",
+			"city": "Multiple",
+			"osm-ids": [],
+			"demand": {
+				"bike": {
+					"lower": 0,
+					"mean": 0,
+					"upper": 0
+				},
+				"pedestrian": {
+					"lower": 0,
+					"mean": 0,
+					"upper": 0
+				}
+			}
+		},
+		{
+			"id": 6,
+			"type": "non-infrastructure",
+			"subtype": null,
+			"name": "Safe Routes to School, Neighborhoods and Destinations",
+			"developer": "?",
+			"cost": 898,
+			"county": "Shasta",
+			"city": "Multiple",
+			"osm-ids": [],
+			"demand": {
+				"bike": {
+					"lower": 0,
+					"mean": 0,
+					"upper": 0
+				},
+				"pedestrian": {
+					"lower": 0,
+					"mean": 0,
+					"upper": 0
+				}
+			}
 		}
 	]
 }
