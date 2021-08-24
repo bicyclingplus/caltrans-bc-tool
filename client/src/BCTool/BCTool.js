@@ -24,20 +24,24 @@ class BCTool extends React.Component {
     this.features = null;
 
     this.state = {
-      'existing': [],
-      'type': '',
-      'subtype': '',
+      'existing-projects': [],
       'selected-project': '',
+
       'name': '',
       'developer': '',
       'cost': '',
+      'type': '',
+      'subtype': '',
       'city': '',
       'county': '',
-      'checkboxes': [],
+
+      'infrastructure': [],
+      'non-infrastructure': [],
     };
 
     this.handleProjectChange = this.handleProjectChange.bind(this);
-    this.onCheckedChange = this.onCheckedChange.bind(this);
+    this.onInfrastructureChange = this.onInfrastructureChange.bind(this);
+    this.onNonInfrastructureChange = this.onNonInfrastructureChange.bind(this);
 
   }
 
@@ -48,7 +52,7 @@ class BCTool extends React.Component {
       .then(
         (result) => {
           this.setState({
-            'existing': result,
+            'existing-projects': result,
           });
         },
         (error) => {
@@ -65,23 +69,39 @@ class BCTool extends React.Component {
 
     let project;
 
-    for(let i = 0; i < this.state.existing.length; i++) {
-      if(this.state.existing[i]['project-id'] === parseInt(e.target.value)) {
-        project = this.state.existing[i];
+    for(let i = 0; i < this.state['existing-projects'].length; i++) {
+      if(this.state['existing-projects'][i]['id'] === parseInt(e.target.value)) {
+        project = this.state['existing-projects'][i];
       }
     }
 
-    let checkboxes = {};
-    for(let category in infrastructure.items) {
+    let newInfrastructure = [];
 
-      for(let i = 0; i < infrastructure.items[category].length; i++) {
-        checkboxes[infrastructure.items[category][i]['shortname']] = false;
+    for(let category in infrastructure['items']) {
+
+      newInfrastructure[category] = [];
+
+      let current = infrastructure['items'][category];
+
+      for(let i = 0; i < current.length; i++) {
+        newInfrastructure[category].push({
+          "label": current[i]['label'],
+          "shortname": current[i]['shortname'],
+          "description": current[i]['description'],
+          "selected": false
+        });
       }
-
     }
 
-    for(let i = 0; i < nonInfrastructure.items.length; i++ ) {
-      checkboxes[nonInfrastructure.items[i]['shortname']] = false;
+    let newNonInfrastructure = [];
+
+    for(let i = 0; i < nonInfrastructure['items'].length; i++) {
+      newNonInfrastructure.push({
+        "label": nonInfrastructure['items'][i]['label'],
+        "shortname": nonInfrastructure['items'][i]['shortname'],
+        "description": nonInfrastructure['items'][i]['description'],
+        "selected": false
+      });
     }
 
     fetch('/api/geojson/'+e.target.value)
@@ -92,16 +112,20 @@ class BCTool extends React.Component {
 
           this.setState({
             'selected-project': e.target.value,
-            'type': project['project-type'],
-            'subtype': project['project-subtype'],
-            'name': project['project-name'],
-            'developer': project['project-developer'],
-            'cost': project['project-cost'],
-            'county': project['county'],
+
+            'name': project['name'],
+            'developer': project['developer'],
+            'cost': project['cost'],
+            'type': project['type'],
+            'subtype': project['subtype'],
             'city': project['city'],
+            'county': project['county'],
+
             'demand': project['demand'],
             'osm-ids': project['osm-ids'],
-            'checkboxes': checkboxes,
+
+            'infrastructure': newInfrastructure,
+            'non-infrastructure': newNonInfrastructure,
           });
         },
         (error) => {
@@ -110,14 +134,35 @@ class BCTool extends React.Component {
       );
   }
 
-  onCheckedChange(shortname, value) {
+  onInfrastructureChange(category, shortname, value) {
 
-    let updatedCheckboxes = this.state.checkboxes;
+    let updated = this.state.infrastructure;
 
-    updatedCheckboxes[shortname] = value;
+    for(let i = 0; i < updated[category].length; i++) {
+      if(updated[category][i]['shortname'] === shortname) {
+        updated[category][i]['selected'] = value;
+        break;
+      }
+    }
 
     this.setState({
-      checkboxes: updatedCheckboxes
+      'infrastructure': updated,
+    });
+  }
+
+  onNonInfrastructureChange(shortname, value) {
+
+    let updated = this.state['non-infrastructure'];
+
+    for(let i = 0; i < updated.length; i++) {
+      if(updated[i]['shortname'] === shortname) {
+        updated[i]['selected'] = value;
+        break;
+      }
+    }
+
+    this.setState({
+      'non-infrastructure': updated,
     });
   }
 
@@ -132,7 +177,7 @@ class BCTool extends React.Component {
                 <div className="col-md-10">
                   <select id="existing-project" className="form-select" onChange={this.handleProjectChange}>
                     <option>-- Select a project --</option>
-                    {this.state.existing.map((project) => <option key={project['project-id']} value={project['project-id']}>{project['project-name']}</option>)}
+                    {this.state['existing-projects'].map((project) => <option key={project['id']} value={project['id']}>{project['name']}</option>)}
                   </select>
                 </div>
               </div>
@@ -181,10 +226,10 @@ class BCTool extends React.Component {
                       id="infrastructure-dropdown"
                       className="col-sm-10"
                       buttonText="Click to select"
+                      maxLength="75"
                       name="infrastructure"
-                      items={infrastructure.items}
-                      checkboxes={this.state.checkboxes}
-                      onCheckedChange={this.onCheckedChange}
+                      items={this.state.infrastructure}
+                      onChange={this.onInfrastructureChange}
                       />
                   </div>
                 </div>
@@ -196,10 +241,10 @@ class BCTool extends React.Component {
                       id="non-infrastructure-dropdown"
                       className="col-sm-10"
                       buttonText="Click to select"
+                      maxLength="75"
                       name="non-infrastructure"
-                      items={nonInfrastructure.items}
-                      checkboxes={this.state.checkboxes}
-                      onCheckedChange={this.onCheckedChange}
+                      items={this.state['non-infrastructure']}
+                      onChange={this.onNonInfrastructureChange}
                       />
                   </div>
                 </div>

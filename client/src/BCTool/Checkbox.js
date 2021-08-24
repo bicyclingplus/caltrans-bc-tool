@@ -5,11 +5,11 @@ class Checkbox extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleChange = this.handleChange.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
-    handleChange(e) {
-        this.props.onCheckedChange(
+    onChange(e) {
+        this.props.onChange(
             this.props.shortname,
             e.target.checked
         );
@@ -22,8 +22,17 @@ class Checkbox extends React.Component {
 
         return (
             <div className="form-check">
-                <input type="checkbox" className="form-check-input" id={"check-"+shortname} checked={checked} onChange={this.handleChange} />
-                <label className="form-check-label" htmlFor={"check-"+shortname}>{label}</label>
+                <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id={"check-"+shortname}
+                    checked={checked}
+                    onChange={this.onChange} />
+                <label
+                    className="form-check-label"
+                    htmlFor={"check-"+shortname}>
+                    {label}
+                </label>
             </div>
         )
     }

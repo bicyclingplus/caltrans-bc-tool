@@ -6,16 +6,15 @@ class CheckboxList extends React.Component {
     render() {
 
         const items = this.props.items;
-        const checkboxes = this.props.checkboxes;
-        const onCheckedChange = this.props.onCheckedChange
+        const onChange = this.props.onChange;
 
-        let checkboxComponents = items.map((item) => 
+        let checkboxComponents = items.map((item) =>
             <Checkbox
                 key={item.label}
                 label={item.label}
                 shortname={item.shortname}
-                checked={checkboxes[item]}
-                onCheckedChange={onCheckedChange}
+                checked={item.selected}
+                onChange={onChange}
             />
         );
 
