@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DemandTableRow from './DemandTableRow';
+import DemandTableRow5 from './DemandTableRow5';
 
 class DemandSplitTable extends React.Component {
 
@@ -9,7 +9,7 @@ class DemandSplitTable extends React.Component {
     let benefits = this.props.benefits;
 
     let tableRows = benefits.map((item) =>
-      <DemandTableRow
+      <DemandTableRow5
         key={item['name']+"-"+item['type']}
         element={item['name']}
         type={item['type']}
@@ -22,7 +22,7 @@ class DemandSplitTable extends React.Component {
     return (
       <>
       <h5>Demand Split</h5>
-      <table className="table">
+      <table className="table mb-4">
         <thead>
           <tr>
             <th scope="col">Infrastructure Element</th>

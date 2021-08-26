@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DemandTableRow from './DemandTableRow';
+import DemandTableRow5 from './DemandTableRow5';
 
 class DemandIncreaseTable extends React.Component {
 
@@ -17,7 +17,7 @@ class DemandIncreaseTable extends React.Component {
         let benefit = benefits[element][type];
 
         tableRows.push(
-          <DemandTableRow
+          <DemandTableRow5
             key={benefit['name']+"-"+type}
             element={benefit['name']}
             type={type}
@@ -31,7 +31,7 @@ class DemandIncreaseTable extends React.Component {
     return (
       <>
       <h5>Demand Increase</h5>
-      <table className="table">
+      <table className="table mb-4">
         <thead>
           <tr>
             <th scope="col">Infrastructure Element</th>

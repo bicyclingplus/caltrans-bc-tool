@@ -10,6 +10,10 @@ function calcDemandSplits(demandIncreases) {
 
             for(const splitType in demand_split[element]) {
 
+                if(! ('bike' in demandIncreases[element])) {
+                    continue;
+                }
+
                 let demandIncrease = demandIncreases[element]['bike'];
 
                 let effect = demand_split[element][splitType]['effect'];

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { readableNumber } from './helpers/formatting';
 
-class DemandTableRow extends React.Component {
+class DemandTableRow5 extends React.Component {
 
   render() {
 
@@ -14,7 +14,7 @@ class DemandTableRow extends React.Component {
 
     return (
       <tr>
-        <td scope="row">{element}</td>
+        <td>{element}</td>
         <td>{type}</td>
         <td>{lower}</td>
         <td>{mean}</td>
@@ -25,4 +25,4 @@ class DemandTableRow extends React.Component {
 
 }
 
-export default DemandTableRow;
+export default DemandTableRow5;

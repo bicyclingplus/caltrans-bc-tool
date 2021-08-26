@@ -2,6 +2,7 @@ import React from 'react';
 
 import DemandIncreaseTable from './DemandIncreaseTable';
 import DemandSplitTable from './DemandSplitTable';
+import VMTReductions from './VMTReductions';
 
 class ProjectBenefits extends React.Component {
 
@@ -18,9 +19,11 @@ class ProjectBenefits extends React.Component {
             <DemandIncreaseTable benefits={benefits['demand-increases']} />
             : null }
 
-            { Object.keys(benefits['demand-increases']).length ?
+            { benefits['demand-splits'].length ?
             <DemandSplitTable benefits={benefits['demand-splits']} />
             : null }
+
+            <VMTReductions benefits={benefits['vmt-reductions']} />
 
         </div>
       </div>

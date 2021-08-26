@@ -16,6 +16,7 @@ import ProjectBenefits from './ProjectBenefits';
 
 import calcDemandIncreases from './helpers/calcDemandIncreases';
 import calcDemandSplits from './helpers/calcDemandSplits';
+import calcVMTReductions from './helpers/calcVMTReductions';
 
 const infrastructure = require('./data/infrastructure.json');
 const non_infrastructure = require('./data/non_infrastructure.json');
@@ -194,9 +195,12 @@ class BCTool extends React.Component {
 
     let demandSplits = calcDemandSplits(demandIncreases);
 
+    let vmtReductions = calcVMTReductions(this.state.subtype, this.state.demand);
+
     let benefits = {
       'demand-increases': demandIncreases,
       'demand-splits': demandSplits,
+      'vmt-reductions': vmtReductions,
     };
 
     console.log(benefits);
@@ -331,7 +335,10 @@ class BCTool extends React.Component {
         { this.state.showBenefits ?
         <div className="row mb-3">
           <div className="col-sm-12">
-            <ProjectBenefits benefits={this.state.benefits} />
+            <ProjectBenefits
+              benefits={this.state.benefits}
+              demand={this.state.demand}
+              subtype={this.state.subtype} />
           </div>
         </div>
         : null }
