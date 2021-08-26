@@ -14,9 +14,11 @@ import ProjectMap from './ProjectMap';
 import SelectedInfrastructure from './SelectedInfrastructure';
 import ProjectBenefits from './ProjectBenefits';
 
+import calcDemandIncreases from './helpers/calcDemandIncreases';
+import calcDemandSplits from './helpers/calcDemandSplits';
+
 const infrastructure = require('./data/infrastructure.json');
 const non_infrastructure = require('./data/non_infrastructure.json');
-const demand_volume = require('./data/demand_volume.json');
 
 class BCTool extends React.Component {
 
@@ -187,70 +189,14 @@ class BCTool extends React.Component {
 
   handleBenefitButton() {
 
-    let demandIncreases = {},
-        validTypes = [];
+    let demandIncreases = calcDemandIncreases(
+        this.state.infrastructure, this.state.subtype, this.state.demand);
 
-    if(this.state.subtype === "both") {
-      validTypes = ['bike', 'pedestrian'];
-    }
-    else if(this.state.subtype === "pedestrian-only") {
-      validTypes = ['pedestrian'];
-    }
-
-    // Go through each infrastructure category
-    for(let category in this.state.infrastructure) {
-
-      // Go through each infrastructure element in this category
-      for(const element of this.state.infrastructure[category]) {
-
-        // Check if this element is selected
-        if(element['selected']) {
-
-          // Check for demand increases for each type of demand
-          for(const demandType of validTypes) {
-
-            // Check the current infrastructure element has a demand
-            // increase to calculate for this demand type
-            for(let demandElement in demand_volume[demandType]) {
-
-              if(demandElement === element['shortname']) {
-
-                // add this element to output object if it doesn't already exist
-                if(!(demandElement in demandIncreases)) {
-                  demandIncreases[demandElement] = {};
-                }
-
-                let demandIncrease = {
-                  'name': element['label'],
-                };
-
-                let calculated = demand_volume[demandType][demandElement]['calculated'];
-                let effect = demand_volume[demandType][demandElement]['effect'];
-                let currentDemand = this.state.demand[demandType];
-
-                // Calculated ones have a lower, mean, and upper effect
-                if(calculated) {
-                  demandIncrease['lower'] = (effect['calculated']['lower'] / 100) * currentDemand['lower'];
-                  demandIncrease['mean'] =  (effect['calculated']['mean'] / 100) * currentDemand['mean'];
-                  demandIncrease['upper'] = (effect['calculated']['upper'] / 100) * currentDemand['upper'];
-                }
-                // Otherwise we only have a given mean effect
-                else {
-                  demandIncrease['lower'] = null;
-                  demandIncrease['mean'] =  (effect['mean'] / 100) * currentDemand['mean'];
-                  demandIncrease['upper'] = null;
-                }
-
-                demandIncreases[demandElement][demandType] = demandIncrease;
-              }
-            }
-          }
-        }
-      }
-    }
+    let demandSplits = calcDemandSplits(demandIncreases);
 
     let benefits = {
       'demand-increases': demandIncreases,
+      'demand-splits': demandSplits,
     };
 
     console.log(benefits);

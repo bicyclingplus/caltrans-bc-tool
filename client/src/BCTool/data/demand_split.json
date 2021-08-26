@@ -1,0 +1,63 @@
+{
+	"bike-highway": {
+		"Mode Shift": {
+			"calculated": false,
+			"effect": {
+				"mean": 30,
+				"calculated": {
+					"lower": null,
+					"mean": null,
+					"upper": null
+				}
+			}
+		},
+		"Induced Travel": {
+			"calculated": false,
+			"effect": {
+				"mean": 30,
+				"calculated": {
+					"lower": null,
+					"mean": null,
+					"upper": null
+				}
+			}
+		}
+	},
+	"conventional-bike-lane": {
+		"Route Shift": {
+			"calculated": false,
+			"effect": {
+				"mean": 13,
+				"calculated": {
+					"lower": null,
+					"mean": null,
+					"upper": null
+				}
+			}
+		}
+	},
+	"separated-bike-lane": {
+		"Route Shift": {
+			"calculated": false,
+			"effect": {
+				"mean": 24,
+				"calculated": {
+					"lower": null,
+					"mean": null,
+					"upper": null
+				}
+			}
+		},
+		"Mode Shift": {
+			"calculated": false,
+			"effect": {
+				"mean": 10,
+				"calculated": {
+					"lower": null,
+					"mean": null,
+					"upper": null
+				}
+			}
+		}
+	}
+}
