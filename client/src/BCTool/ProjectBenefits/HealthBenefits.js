@@ -1,31 +1,28 @@
 import React from 'react';
 
-import DemandTableRow5 from './DemandTableRow5';
+import DemandTableRow4 from './DemandTableRow4';
 
-class DemandSplitTable extends React.Component {
+class HealthBenefits extends React.Component {
 
   render() {
 
     let benefits = this.props.benefits;
 
     let tableRows = benefits.map((item) =>
-      <DemandTableRow5
-        key={item['name']+"-"+item['type']}
-        element={item['name']}
-        type={item['type']}
-        lower={item['lower']}
-        mean={item['mean']}
-        upper={item['upper']}
-      />
+      <DemandTableRow4
+          key={item['type']}
+          type={item['type']}
+          lower={item['lower']}
+          mean={item['mean']}
+          upper={item['upper']} />
     );
 
     return (
       <>
-      <h5>Demand Split</h5>
+      <h5>Health Benefits</h5>
       <table className="table mb-4">
         <thead>
           <tr>
-            <th scope="col">Infrastructure Element</th>
             <th scope="col">Type</th>
             <th scope="col">Lower</th>
             <th scope="col">Mean</th>
@@ -42,4 +39,5 @@ class DemandSplitTable extends React.Component {
 
 }
 
-export default DemandSplitTable;
+export default HealthBenefits;
+

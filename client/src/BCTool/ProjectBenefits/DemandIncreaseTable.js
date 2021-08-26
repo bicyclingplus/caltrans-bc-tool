@@ -8,25 +8,16 @@ class DemandIncreaseTable extends React.Component {
 
     let benefits = this.props.benefits;
 
-    let tableRows = [];
-
-    for(const element in benefits) {
-
-      for(const type in benefits[element]) {
-
-        let benefit = benefits[element][type];
-
-        tableRows.push(
-          <DemandTableRow5
-            key={benefit['name']+"-"+type}
-            element={benefit['name']}
-            type={type}
-            lower={benefit['lower']}
-            mean={benefit['mean']}
-            upper={benefit['upper']} />
-        )
-      }
-    }
+    let tableRows = benefits.map((item) =>
+      <DemandTableRow5
+        key={item['shortname']+"-"+item['shorttype']}
+        element={item['name']}
+        type={item['type']}
+        lower={item['lower']}
+        mean={item['mean']}
+        upper={item['upper']}
+      />
+    );
 
     return (
       <>

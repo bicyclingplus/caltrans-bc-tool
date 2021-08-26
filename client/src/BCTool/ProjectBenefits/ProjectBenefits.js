@@ -3,6 +3,8 @@ import React from 'react';
 import DemandIncreaseTable from './DemandIncreaseTable';
 import DemandSplitTable from './DemandSplitTable';
 import VMTReductions from './VMTReductions';
+import EmissionBenefits from './EmissionBenefits';
+import HealthBenefits from './HealthBenefits';
 
 class ProjectBenefits extends React.Component {
 
@@ -24,6 +26,12 @@ class ProjectBenefits extends React.Component {
             : null }
 
             <VMTReductions benefits={benefits['vmt-reductions']} />
+
+            <EmissionBenefits benefits={benefits['emissions']} />
+
+            { benefits['health'].length ?
+            <HealthBenefits benefits={benefits['health']} />
+            : null }
 
         </div>
       </div>

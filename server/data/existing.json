@@ -9,6 +9,7 @@
 			"cost": 1012,
 			"county": "Inyo",
 			"city": "Bishop",
+			"year": 2018,
 			"osm-ids": [
 				182330175,
 				10377075
@@ -35,6 +36,7 @@
 			"cost": 2257,
 			"county": "Kern",
 			"city": "Bakersfield",
+			"year": 2018,
 			"osm-ids": [
 				918769056,
 				91642147
@@ -61,6 +63,7 @@
 			"cost": 29000,
 			"county": "Los Angeles",
 			"city": "Los Angeles",
+			"year": 2017,
 			"osm-ids": [
 				161690253,
 				399264566,
@@ -140,6 +143,7 @@
 			"cost": 4050,
 			"county": "San Francisco",
 			"city": "San Francisco",
+			"year": 2017,
 			"osm-ids": [
 				828551969,
 				27145750,
@@ -167,6 +171,7 @@
 			"cost": 1140,
 			"county": "Butte",
 			"city": "Multiple",
+			"year": 2016,
 			"osm-ids": [],
 			"demand": {
 				"bike": {
@@ -190,6 +195,7 @@
 			"cost": 898,
 			"county": "Shasta",
 			"city": "Multiple",
+			"year": 2016,
 			"osm-ids": [],
 			"demand": {
 				"bike": {

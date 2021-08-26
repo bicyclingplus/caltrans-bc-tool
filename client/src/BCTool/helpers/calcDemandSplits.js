@@ -1,27 +1,29 @@
+import { NICE_NAMES } from './formatting';
+
 const demand_split = require('../data/demand_split.json');
 
 function calcDemandSplits(demandIncreases) {
 
     let demandSplits = [];
 
-    for(const element in demandIncreases) {
+    for(const row of demandIncreases) {
 
-        if(element in demand_split) {
+        console.log(row);
 
-            for(const splitType in demand_split[element]) {
+        if(row['shortname'] in demand_split && row['shorttype'] === 'bike') {
 
-                if(! ('bike' in demandIncreases[element])) {
-                    continue;
-                }
+            console.log('Calculating demand split for: '+row['name']);
 
-                let demandIncrease = demandIncreases[element]['bike'];
+            for(const type in demand_split[row['shortname']]) {
 
-                let effect = demand_split[element][splitType]['effect'];
-                let calculated = demand_split[element][splitType]['calculated'];
+                let effect = demand_split[row['shortname']][type]['effect'];
+                let calculated = demand_split[row['shortname']][type]['calculated'];
 
                 let demandSplit = {
-                    "name": demandIncrease['name'],
-                    "type": splitType,
+                    "shortname": row['shortname'],
+                    "name": row['name'],
+                    "shorttype": type,
+                    "type": NICE_NAMES[type],
                 };
 
                 // Calculated ones have a lower, mean, and upper effect
@@ -30,8 +32,8 @@ function calcDemandSplits(demandIncreases) {
                     let limits = ['lower', 'mean', 'upper'];
 
                     for(const cur_limit in limits) {
-                        if(demandIncrease[cur_limit] !== null) {
-                            demandSplit[cur_limit] = (effect['calculated'][cur_limit] / 100) * demandIncrease[cur_limit];
+                        if(row[cur_limit] !== null) {
+                            demandSplit[cur_limit] = (effect['calculated'][cur_limit] / 100) * row[cur_limit];
                         }
                         else {
                             demandSplit[cur_limit] = null;
@@ -41,7 +43,7 @@ function calcDemandSplits(demandIncreases) {
                 // Otherwise we only have a given mean effect
                 else {
                     demandSplit['lower'] = null;
-                    demandSplit['mean'] =  (effect['mean'] / 100) * demandIncrease['mean'];
+                    demandSplit['mean'] =  (effect['mean'] / 100) * row['mean'];
                     demandSplit['upper'] = null;
                 }
 

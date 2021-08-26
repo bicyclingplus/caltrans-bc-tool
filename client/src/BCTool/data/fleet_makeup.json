@@ -1,0 +1,26 @@
+{
+	"Inyo": {
+		"Gasoline": 5788,
+		"Diesel": 54,
+		"Plug-in Hybrid": 26,
+		"Total": 5888
+	},
+	"Kern": {
+		"Gasoline": 252198,
+		"Diesel": 930,
+		"Plug-in Hybrid": 1336,
+		"Total": 255609
+	},
+	"Los Angeles": {
+		"Gasoline": 3663709,
+		"Diesel": 11512,
+		"Plug-in Hybrid": 54917,
+		"Total": 3803055
+	},
+	"Butte": {
+		"Gasoline": 61618,
+		"Diesel": 481,
+		"Plug-in Hybrid": 319,
+		"Total": 62428
+	}
+}

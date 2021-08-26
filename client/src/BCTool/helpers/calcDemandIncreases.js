@@ -1,8 +1,10 @@
+import { NICE_NAMES } from './formatting';
+
 const demand_volume = require('../data/demand_volume.json');
 
 function calcDemandIncreases(infrastructure, subtype, demand) {
 
-    let demandIncreases = {},
+    let demandIncreases = [],
         validTypes = [];
 
     if(subtype === "both") {
@@ -27,11 +29,6 @@ function calcDemandIncreases(infrastructure, subtype, demand) {
 
             if(demandElement === element['shortname']) {
 
-              // add this element to output object if it doesn't already exist
-              if(!(demandElement in demandIncreases)) {
-                demandIncreases[demandElement] = {};
-              }
-
               // Check if this infrastructure element has a demand
               // increase to calculate for this demand type
               for(const demandType of validTypes) {
@@ -39,7 +36,10 @@ function calcDemandIncreases(infrastructure, subtype, demand) {
                 if(demandType in demand_volume[demandElement]) {
 
                   let demandIncrease = {
+                    'shortname': element['shortname'],
                     'name': element['label'],
+                    'shorttype': demandType,
+                    'type': NICE_NAMES[demandType],
                   };
 
                   let calculated = demand_volume[demandElement][demandType]['calculated'];
@@ -59,7 +59,7 @@ function calcDemandIncreases(infrastructure, subtype, demand) {
                     demandIncrease['upper'] = null;
                   }
 
-                  demandIncreases[demandElement][demandType] = demandIncrease;
+                  demandIncreases.push(demandIncrease);
                 }
               }
             }

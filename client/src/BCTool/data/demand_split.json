@@ -1,6 +1,6 @@
 {
 	"bike-highway": {
-		"Mode Shift": {
+		"mode-shift": {
 			"calculated": false,
 			"effect": {
 				"mean": 30,
@@ -11,7 +11,7 @@
 				}
 			}
 		},
-		"Induced Travel": {
+		"induced-travel": {
 			"calculated": false,
 			"effect": {
 				"mean": 30,
@@ -24,7 +24,7 @@
 		}
 	},
 	"conventional-bike-lane": {
-		"Route Shift": {
+		"route-shift": {
 			"calculated": false,
 			"effect": {
 				"mean": 13,
@@ -37,7 +37,7 @@
 		}
 	},
 	"separated-bike-lane": {
-		"Route Shift": {
+		"route-shift": {
 			"calculated": false,
 			"effect": {
 				"mean": 24,
@@ -48,7 +48,7 @@
 				}
 			}
 		},
-		"Mode Shift": {
+		"mode-shift": {
 			"calculated": false,
 			"effect": {
 				"mean": 10,

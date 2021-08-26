@@ -8,21 +8,14 @@ class VMTReductions extends React.Component {
 
     let benefits = this.props.benefits;
 
-    let tableRows = [];
-
-    for(const type in benefits) {
-
-      let benefit = benefits[type];
-
-      tableRows.push(
-        <DemandTableRow4
-          key={type}
-          type={type}
-          lower={benefit['lower']}
-          mean={benefit['mean']}
-          upper={benefit['upper']} />
-      )
-    }
+    let tableRows = benefits.map((item) =>
+      <DemandTableRow4
+            key={item['type']}
+            type={item['type']}
+            lower={item['lower']}
+            mean={item['mean']}
+            upper={item['upper']} />
+    );
 
     return (
       <>
