@@ -44,7 +44,7 @@ class ProjectForm extends React.Component {
           </div>
         </div>
 
-        { this.type === 'infrastructure' ?
+        { type === 'infrastructure' ?
         <div className="row mb-2">
           <label htmlFor="project-subtype" className="col-sm-2 col-form-label text-end">Project Subtype</label>
           <div className="col-md-4">

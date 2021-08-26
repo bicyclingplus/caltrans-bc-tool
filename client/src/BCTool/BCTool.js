@@ -12,9 +12,11 @@ import ProjectForm from './ProjectForm';
 import ProjectSummary from './ProjectSummary';
 import ProjectMap from './ProjectMap';
 import SelectedInfrastructure from './SelectedInfrastructure';
+import ProjectBenefits from './ProjectBenefits';
 
 const infrastructure = require('./data/infrastructure.json');
-const nonInfrastructure = require('./data/nonInfrastructure.json');
+const non_infrastructure = require('./data/non_infrastructure.json');
+const demand_volume = require('./data/demand_volume.json');
 
 class BCTool extends React.Component {
 
@@ -36,10 +38,13 @@ class BCTool extends React.Component {
       'city': '',
       'county': '',
 
+      'osm-ids': [],
+      'demand': {},
+
       'infrastructure': [],
       'non-infrastructure': [],
-      'selectedInfrastructure': 0,
-      'selectedNonInfrastructure': 0,
+      'selected-infrastructure': 0,
+      'selected-non-infrastructure': 0,
 
       'showBenefits': false,
     };
@@ -81,16 +86,16 @@ class BCTool extends React.Component {
       }
     }
 
-    let newInfrastructure = [];
+    let new_infrastructure = [];
 
     for(let category in infrastructure['items']) {
 
-      newInfrastructure[category] = [];
+      new_infrastructure[category] = [];
 
       let current = infrastructure['items'][category];
 
       for(let i = 0; i < current.length; i++) {
-        newInfrastructure[category].push({
+        new_infrastructure[category].push({
           "label": current[i]['label'],
           "shortname": current[i]['shortname'],
           "description": current[i]['description'],
@@ -99,13 +104,13 @@ class BCTool extends React.Component {
       }
     }
 
-    let newNonInfrastructure = [];
+    let new_non_infrastructure = [];
 
-    for(let i = 0; i < nonInfrastructure['items'].length; i++) {
-      newNonInfrastructure.push({
-        "label": nonInfrastructure['items'][i]['label'],
-        "shortname": nonInfrastructure['items'][i]['shortname'],
-        "description": nonInfrastructure['items'][i]['description'],
+    for(let i = 0; i < non_infrastructure['items'].length; i++) {
+      new_non_infrastructure.push({
+        "label": non_infrastructure['items'][i]['label'],
+        "shortname": non_infrastructure['items'][i]['shortname'],
+        "description": non_infrastructure['items'][i]['description'],
         "selected": false
       });
     }
@@ -130,9 +135,10 @@ class BCTool extends React.Component {
             'demand': project['demand'],
             'osm-ids': project['osm-ids'],
 
-            'infrastructure': newInfrastructure,
-            'non-infrastructure': newNonInfrastructure,
-            'selectedInfrastructure': 0,
+            'infrastructure': new_infrastructure,
+            'non-infrastructure': new_non_infrastructure,
+            'selected-infrastructure': 0,
+            'selected-non-infrastructure': 0,
 
             'showBenefits': false,
           });
@@ -146,7 +152,7 @@ class BCTool extends React.Component {
   onInfrastructureChange(category, shortname, value) {
 
     let updated = this.state.infrastructure,
-        selected = this.state.selectedInfrastructure;
+        selected = this.state['selected-infrastructure'];
 
     for(let i = 0; i < updated[category].length; i++) {
       if(updated[category][i]['shortname'] === shortname) {
@@ -157,7 +163,7 @@ class BCTool extends React.Component {
 
     this.setState({
       'infrastructure': updated,
-      'selectedInfrastructure': value ? selected + 1 : selected - 1,
+      'selected-infrastructure': value ? selected + 1 : selected - 1,
     });
   }
 
@@ -175,13 +181,82 @@ class BCTool extends React.Component {
 
     this.setState({
       'non-infrastructure': updated,
-      'selectedNonInfrastructure': value ? selected + 1 : selected - 1,
+      'selected-non-infrastructure': value ? selected + 1 : selected - 1,
     });
   }
 
   handleBenefitButton() {
 
+    let demandIncreases = {},
+        validTypes = [];
+
+    if(this.state.subtype === "both") {
+      validTypes = ['bike', 'pedestrian'];
+    }
+    else if(this.state.subtype === "pedestrian-only") {
+      validTypes = ['pedestrian'];
+    }
+
+    // Go through each infrastructure category
+    for(let category in this.state.infrastructure) {
+
+      // Go through each infrastructure element in this category
+      for(const element of this.state.infrastructure[category]) {
+
+        // Check if this element is selected
+        if(element['selected']) {
+
+          // Check for demand increases for each type of demand
+          for(const demandType of validTypes) {
+
+            // Check the current infrastructure element has a demand
+            // increase to calculate for this demand type
+            for(let demandElement in demand_volume[demandType]) {
+
+              if(demandElement === element['shortname']) {
+
+                // add this element to output object if it doesn't already exist
+                if(!(demandElement in demandIncreases)) {
+                  demandIncreases[demandElement] = {};
+                }
+
+                let demandIncrease = {
+                  'name': element['label'],
+                };
+
+                let calculated = demand_volume[demandType][demandElement]['calculated'];
+                let effect = demand_volume[demandType][demandElement]['effect'];
+                let currentDemand = this.state.demand[demandType];
+
+                // Calculated ones have a lower, mean, and upper effect
+                if(calculated) {
+                  demandIncrease['lower'] = (effect['calculated']['lower'] / 100) * currentDemand['lower'];
+                  demandIncrease['mean'] =  (effect['calculated']['mean'] / 100) * currentDemand['mean'];
+                  demandIncrease['upper'] = (effect['calculated']['upper'] / 100) * currentDemand['upper'];
+                }
+                // Otherwise we only have a given mean effect
+                else {
+                  demandIncrease['lower'] = null;
+                  demandIncrease['mean'] =  (effect['mean'] / 100) * currentDemand['mean'];
+                  demandIncrease['upper'] = null;
+                }
+
+                demandIncreases[demandElement][demandType] = demandIncrease;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    let benefits = {
+      'demand-increases': demandIncreases,
+    };
+
+    console.log(benefits);
+
     this.setState({
+      'benefits': benefits,
       'showBenefits': true,
     });
 
@@ -286,7 +361,7 @@ class BCTool extends React.Component {
         </>
         : null }
 
-        { this.state.selectedInfrastructure > 0 ?
+        { this.state['selected-infrastructure'] > 0 ?
         <div className="row mb-3">
           <div className="col-sm-12">
             <SelectedInfrastructure
@@ -296,7 +371,7 @@ class BCTool extends React.Component {
         </div>
         : null }
 
-        { this.state.selectedInfrastructure > 0 || this.state.selectedNonInfrastructure > 0 ?
+        { this.state['selected-infrastructure'] > 0 || this.state['selected-non-infrastructure'] > 0 ?
         <div className="row mb-3">
           <div className="col-sm-12 text-center">
             <button
@@ -309,12 +384,8 @@ class BCTool extends React.Component {
 
         { this.state.showBenefits ?
         <div className="row mb-3">
-          <div className="col-sm-12 text-center">
-            <div className="card">
-              <div className="card-body">
-                  <h4 className="card-title text-center">Benefits</h4>
-              </div>
-            </div>
+          <div className="col-sm-12">
+            <ProjectBenefits benefits={this.state.benefits} />
           </div>
         </div>
         : null }
