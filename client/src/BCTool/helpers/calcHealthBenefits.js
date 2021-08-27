@@ -22,7 +22,7 @@ const BIKE_MMET = {
   'upper': 9.0,
 };
 
-function calcHealthBenefits(demandIncreases) {
+function calcHealthBenefits(subtype, demandIncreases) {
 
   let totals = {
     'pedestrian': {
@@ -52,20 +52,26 @@ function calcHealthBenefits(demandIncreases) {
   // (demand increase in miles / speed in mph)
   //    * Marginal Metabolic Equivalent of Task (MMET) per hour
   // yields MMET
-  return [
-    {
+
+  let benefits = [];
+
+  benefits.push({
       'type': 'Pedestrian',
       'lower': (totals['pedestrian']['lower'] / WALK_SPEED['lower']) * WALK_MMET['lower'],
       'mean': (totals['pedestrian']['mean'] / WALK_SPEED['mean']) * WALK_MMET['mean'],
       'upper': (totals['pedestrian']['upper'] / WALK_SPEED['upper']) * WALK_MMET['upper'],
-    },
-    {
+  })
+
+  if(subtype !== 'pedestrian-only') {
+    benefits.push({
       'type': 'Bike',
       'lower': (totals['bike']['lower'] / BIKE_SPEED['lower']) * BIKE_MMET['lower'],
       'mean': (totals['bike']['mean'] / BIKE_SPEED['mean']) * BIKE_MMET['mean'],
       'upper': (totals['bike']['upper'] / BIKE_SPEED['upper']) * BIKE_MMET['upper'],
-    },
-  ];
+    });
+  }
+
+  return benefits;
 
 }
 

@@ -14,11 +14,6 @@ function calcEmissionBenefits(county, year, vmtReductions) {
     return [];
   }
 
-  if(! (county in fleet_makeup)) {
-    console.log('Missing fleet makeup for: '+county);
-    return [];
-  }
-
   if(! (county in emission_rates)) {
     console.log('Missing emission rates for: '+county);
     return [];
@@ -30,7 +25,7 @@ function calcEmissionBenefits(county, year, vmtReductions) {
   }
 
   if(! (futureYear in emission_rates[county])) {
-    console.log('Missing emission rates for start year '+ futureYear + ' for county '+county);
+    console.log('Missing emission rates for future year '+ futureYear + ' for county '+county);
     return [];
   }
 
@@ -101,8 +96,6 @@ function calcEmissionBenefits(county, year, vmtReductions) {
 
     vehEmissionsReductions.push(current);
   }
-
-  console.log(vehEmissionsReductions);
 
   return vehEmissionsReductions;
 

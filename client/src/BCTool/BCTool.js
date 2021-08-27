@@ -215,7 +215,7 @@ class BCTool extends React.Component {
     let emissionsBenefits = calcEmissionBenefits(
       this.state.county, this.state.year, vmtReductions);
 
-    let healthBenefits = calcHealthBenefits(demandIncreases);
+    let healthBenefits = calcHealthBenefits(this.state.subtype, demandIncreases);
 
     let benefits = {
       'demand-increases': demandIncreases,

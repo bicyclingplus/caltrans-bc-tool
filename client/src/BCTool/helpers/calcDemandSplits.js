@@ -8,11 +8,7 @@ function calcDemandSplits(demandIncreases) {
 
     for(const row of demandIncreases) {
 
-        console.log(row);
-
         if(row['shortname'] in demand_split && row['shorttype'] === 'bike') {
-
-            console.log('Calculating demand split for: '+row['name']);
 
             for(const type in demand_split[row['shortname']]) {
 
