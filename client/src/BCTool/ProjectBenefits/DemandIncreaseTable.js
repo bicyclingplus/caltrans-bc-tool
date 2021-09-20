@@ -1,39 +1,111 @@
 import React from 'react';
 
-import DemandTableRow5 from './DemandTableRow5';
-
 class DemandIncreaseTable extends React.Component {
 
   render() {
 
     let benefits = this.props.benefits;
 
-    let tableRows = benefits.map((item) =>
-      <DemandTableRow5
-        key={item['shortname']+"-"+item['shorttype']}
-        element={item['name']}
-        type={item['type']}
-        lower={item['lower']}
-        mean={item['mean']}
-        upper={item['upper']}
-      />
-    );
 
     return (
       <>
-      <h5>Demand Increase</h5>
-      <table className="table mb-4">
-        <thead>
-          <tr>
-            <th scope="col">Infrastructure Element</th>
-            <th scope="col">Type</th>
-            <th scope="col">Lower</th>
-            <th scope="col">Mean</th>
-            <th scope="col">Upper</th>
-          </tr>
-        </thead>
+      <h5 className="mb-4">Project-Level Active Travel</h5>
+
+      <h5>Estimated Average Daily Bike Miles Traveled (BMT)</h5>
+      <table className="table table-bordered mb-4">
         <tbody>
-          {tableRows}
+          <tr>
+            <td colSpan="2"></td>
+            <td>Mean</td>
+            <td>Lower</td>
+            <td>Upper</td>
+          </tr>
+          <tr>
+            <td colSpan="2">Existing</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td rowSpan="4">Increase</td>
+            <td>Induced Travel</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Route Shift</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Car Shift</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>Total</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colSpan="2">Projected (Existing + Increase)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h5>Estimated Average Daily Walk Miles Traveled (WMT)</h5>
+      <table className="table table-bordered mb-4">
+        <tbody>
+          <tr>
+            <td colSpan="2"></td>
+            <td>Mean</td>
+            <td>Lower</td>
+            <td>Upper</td>
+          </tr>
+          <tr>
+            <td colSpan="2">Existing</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td rowSpan="4">Increase</td>
+            <td>Induced Travel</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Route Shift</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Car Shift</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>Total</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colSpan="2">Projected (Existing + Increase)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
         </tbody>
       </table>
       </>

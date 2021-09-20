@@ -24,6 +24,7 @@ class SelectedInfrastructure extends React.Component {
             infrastructureCategories.push(
                 <InfrastructureCategory
                     key={category}
+                    name={category}
                     items={items[category]}
                 />
             )

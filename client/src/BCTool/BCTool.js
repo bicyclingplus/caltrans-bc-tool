@@ -86,6 +86,8 @@ class BCTool extends React.Component {
       }
     }
 
+    console.log(project);
+    let preselected = Object.keys(project.infrastructure);
     let new_infrastructure = [];
 
     for(let category in infrastructure['items']) {
@@ -99,7 +101,8 @@ class BCTool extends React.Component {
           "label": current[i]['label'],
           "shortname": current[i]['shortname'],
           "description": current[i]['description'],
-          "selected": false
+          "selected": preselected.includes(current[i]['shortname']),
+          "count": project.infrastructure[current[i]['shortname']],
         });
       }
     }
@@ -138,8 +141,8 @@ class BCTool extends React.Component {
 
             'infrastructure': new_infrastructure,
             'non-infrastructure': new_non_infrastructure,
-            'selected-infrastructure': false,
-            'selected-non-infrastructure': false,
+            'infrastructure-selected': preselected.length ? true : false,
+            'non-infrastructure-selected': false,
 
             'showBenefits': false,
           });

@@ -5,7 +5,7 @@ import InfrastructureItem from './InfrastructureItem';
 class InfrastructureCategory extends React.Component {
 
     render() {
-        let items = this.props.items;
+        let { items, name } = this.props;
 
         let infrastructureItems = [];
 
@@ -15,6 +15,7 @@ class InfrastructureCategory extends React.Component {
                     <InfrastructureItem
                         key={items[i]['shortname']}
                         name={items[i]['label']}
+                        count={items[i]['count']}
                     />
                 )
             }
@@ -22,9 +23,18 @@ class InfrastructureCategory extends React.Component {
 
         return (
             <>
-            <ul className="list-unstyled mb-3">
-                {infrastructureItems}
-            </ul>
+            <h5>{name}</h5>
+            <table className="table mb-3">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {infrastructureItems}
+                </tbody>
+            </table>
             </>
         );
     }

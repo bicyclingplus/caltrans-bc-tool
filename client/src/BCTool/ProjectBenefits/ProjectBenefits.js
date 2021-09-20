@@ -21,15 +21,11 @@ class ProjectBenefits extends React.Component {
             <DemandIncreaseTable benefits={benefits['demand-increases']} />
             : null }
 
-            { benefits['demand-splits'].length ?
-            <DemandSplitTable benefits={benefits['demand-splits']} />
+            { benefits['emissions'] && benefits['vmt-reductions'] ?
+            <EmissionBenefits emissions={benefits['emissions']} vmt={benefits['vmt-reductions']} />
             : null }
 
-            <VMTReductions benefits={benefits['vmt-reductions']} />
-
-            <EmissionBenefits benefits={benefits['emissions']} />
-
-            { benefits['health'].length ?
+            { benefits['health'] ?
             <HealthBenefits benefits={benefits['health']} />
             : null }
 

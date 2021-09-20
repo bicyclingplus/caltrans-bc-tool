@@ -35,6 +35,11 @@ function calcHealthBenefits(subtype, demandIncreases) {
       'mean': 0,
       'upper': 0,
     },
+    'total': {
+      'lower': 0,
+      'mean': 0,
+      'upper': 0,
+    }
   };
 
   if(! demandIncreases.length) {
@@ -53,25 +58,19 @@ function calcHealthBenefits(subtype, demandIncreases) {
   //    * Marginal Metabolic Equivalent of Task (MMET) per hour
   // yields MMET
 
-  let benefits = [];
+  totals['pedestrian']['lower'] = (totals['pedestrian']['lower'] / WALK_SPEED['lower']) * WALK_MMET['lower'];
+  totals['pedestrian']['mean'] = (totals['pedestrian']['mean'] / WALK_SPEED['mean']) * WALK_MMET['mean'];
+  totals['pedestrian']['upper'] = (totals['pedestrian']['upper'] / WALK_SPEED['upper']) * WALK_MMET['upper'];
 
-  benefits.push({
-      'type': 'Pedestrian',
-      'lower': (totals['pedestrian']['lower'] / WALK_SPEED['lower']) * WALK_MMET['lower'],
-      'mean': (totals['pedestrian']['mean'] / WALK_SPEED['mean']) * WALK_MMET['mean'],
-      'upper': (totals['pedestrian']['upper'] / WALK_SPEED['upper']) * WALK_MMET['upper'],
-  })
+  totals['bike']['lower'] = (totals['bike']['lower'] / BIKE_SPEED['lower']) * BIKE_MMET['lower'];
+  totals['bike']['mean'] = (totals['bike']['mean'] / BIKE_SPEED['mean']) * BIKE_MMET['mean'];
+  totals['bike']['upper'] = (totals['bike']['upper'] / BIKE_SPEED['upper']) * BIKE_MMET['upper'];
 
-  if(subtype !== 'pedestrian-only') {
-    benefits.push({
-      'type': 'Bike',
-      'lower': (totals['bike']['lower'] / BIKE_SPEED['lower']) * BIKE_MMET['lower'],
-      'mean': (totals['bike']['mean'] / BIKE_SPEED['mean']) * BIKE_MMET['mean'],
-      'upper': (totals['bike']['upper'] / BIKE_SPEED['upper']) * BIKE_MMET['upper'],
-    });
-  }
+  totals['total']['lower'] = totals['pedestrian']['lower'] + totals['bike']['lower'];
+  totals['total']['mean'] = totals['pedestrian']['mean'] + totals['bike']['mean'];
+  totals['total']['upper'] = totals['pedestrian']['upper'] + totals['bike']['upper'];
 
-  return benefits;
+  return totals;
 
 }
 

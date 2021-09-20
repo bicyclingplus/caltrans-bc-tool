@@ -1,11 +1,11 @@
 const fleet_makeup = require('../data/fleet_makeup.json');
 const emission_rates = require('../data/emission_rates.json');
 
-const LIFE_OF_PROJECT = 15; // specified in docs for these calcs
+// const LIFE_OF_PROJECT = 15; // specified in docs for these calcs
 
 function calcEmissionBenefits(county, year, vmtReductions) {
 
-  const futureYear = year + LIFE_OF_PROJECT;
+  // const futureYear = year + LIFE_OF_PROJECT;
 
   console.log('Trying to calculate emission benefits');
 
@@ -24,22 +24,12 @@ function calcEmissionBenefits(county, year, vmtReductions) {
     return [];
   }
 
-  if(! (futureYear in emission_rates[county])) {
-    console.log('Missing emission rates for future year '+ futureYear + ' for county '+county);
-    return [];
-  }
+  // if(! (futureYear in emission_rates[county])) {
+  //   console.log('Missing emission rates for future year '+ futureYear + ' for county '+county);
+  //   return [];
+  // }
 
   // Should be good to go on lookups
-
-  let totalVmtReductions = 0;
-
-  // Just using mean for now as this was not specified
-  // we have a lower, mean, and upper bound available
-  // add up vmt reductions for bike and ped
-  // (could also be only ped)
-  for(let reduction of vmtReductions) {
-    totalVmtReductions+= reduction['mean'];
-  }
 
   let vehicleTypes = [
     "Diesel",
@@ -68,33 +58,50 @@ function calcEmissionBenefits(county, year, vmtReductions) {
   for(let vehType of vehicleTypes) {
 
     for(let type of emissionTypes) {
-      avgEmissionRates[vehType][type] = (emission_rates[county][year][vehType][type] +
-        emission_rates[county][futureYear][vehType][type]) / 2;
+      avgEmissionRates[vehType][type] = emission_rates[county][year][vehType][type];
+
+    //   avgEmissionRates[vehType][type] = (emission_rates[county][year][vehType][type] +
+    //     emission_rates[county][futureYear][vehType][type]) / 2;
     }
   }
 
   let vehVMTReductions = {};
 
   for(let vehType of vehicleTypes) {
-    vehVMTReductions[vehType] = (fleet_makeup[county][vehType] /
-      fleet_makeup[county]['Total']) * totalVmtReductions;
+
+    vehVMTReductions[vehType] = {
+      'lower': (fleet_makeup[county][vehType] /
+                  fleet_makeup[county]['Total']) * vmtReductions.total.lower,
+      'mean': (fleet_makeup[county][vehType] /
+                  fleet_makeup[county]['Total']) * vmtReductions.total.mean,
+      'upper': (fleet_makeup[county][vehType] /
+                  fleet_makeup[county]['Total']) * vmtReductions.total.upper,
+    };
   }
 
-  let vehEmissionsReductions = [];
+  let vehEmissionsReductions = {};
 
+  for(let emissionType of emissionTypes) {
 
-  for(let vehType of vehicleTypes) {
+    let totals = {
+      'lower': 0,
+      'mean': 0,
+      'upper': 0,
+    };
 
-    let current = {
-      'type': vehType,
-    }
+    for(let vehType of vehicleTypes) {
 
-    for(let emissionType of emissionTypes) {
-      current[emissionType] = vehVMTReductions[vehType] *
+      totals['lower'] += vehVMTReductions[vehType]['lower'] *
+        avgEmissionRates[vehType][emissionType];
+
+      totals['mean'] += vehVMTReductions[vehType]['mean'] *
+        avgEmissionRates[vehType][emissionType];
+
+      totals['upper'] += vehVMTReductions[vehType]['upper'] *
         avgEmissionRates[vehType][emissionType];
     }
 
-    vehEmissionsReductions.push(current);
+    vehEmissionsReductions[emissionType] = totals;
   }
 
   return vehEmissionsReductions;

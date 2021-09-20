@@ -25,7 +25,8 @@
 					"mean": 230,
 					"upper": 340
 				}
-			}
+			},
+			"infrastructure": {}
 		},
 		{
 			"id": 2,
@@ -52,7 +53,8 @@
 					"mean": 360,
 					"upper": 450
 				}
-			}
+			},
+			"infrastructure": {}
 		},
 		{
 			"id": 3,
@@ -132,6 +134,21 @@
 					"mean": 984,
 					"upper": 1090
 				}
+			},
+			"infrastructure": {
+				"dynamic-speed-display-sign": 11,
+				"conventional-bike-lane": 6,
+				"bike-shared-lane-markings": 5,
+				"sidewalk-improvement": 8,
+				"crosswalk": 5,
+				"signal-phasing": 4,
+				"flashing-beacon": 17,
+				"lighting": 120,
+				"landscaping": 5,
+				"roundabout": 2,
+				"traffic-signal": 1,
+				"vertical-deflector": 6,
+				"lane-narrowing": 1
 			}
 		},
 		{
@@ -160,7 +177,8 @@
 					"mean": 745,
 					"upper": 990
 				}
-			}
+			},
+			"infrastructure": {}
 		},
 		{
 			"id": 5,
@@ -184,7 +202,8 @@
 					"mean": 0,
 					"upper": 0
 				}
-			}
+			},
+			"infrastructure": {}
 		},
 		{
 			"id": 6,
@@ -208,7 +227,8 @@
 					"mean": 0,
 					"upper": 0
 				}
-			}
+			},
+			"infrastructure": {}
 		}
 	]
 }

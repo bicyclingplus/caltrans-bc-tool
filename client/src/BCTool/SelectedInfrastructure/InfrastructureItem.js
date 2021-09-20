@@ -3,10 +3,13 @@ import React from 'react';
 class infrastructureItem extends React.Component {
 
     render() {
-        let name = this.props.name;
+        let { name, count } = this.props;
 
         return (
-            <li>{name}</li>
+            <tr>
+                <td>{name}</td>
+                <td><input className="form-control" type="number" value={count} /></td>
+            </tr>
         );
     }
 
