@@ -2,16 +2,16 @@ import React from 'react';
 
 import { readableNumber } from '../helpers/formatting';
 
-class Emissionemissions extends React.Component {
+class Emissions extends React.Component {
 
   render() {
 
     let emissions = this.props.emissions;
-    let vmt = this.props.vmt;
+    let vmtReductions = this.props.vmtReductions;
 
     return (
       <>
-      <h5>Emission Benefits</h5>
+      <h5>5/6) VMT Reductions / Emission Benefits</h5>
       <table className="table table-bordered mb-4">
         <tbody>
           <tr>
@@ -30,9 +30,9 @@ class Emissionemissions extends React.Component {
           </tr>
           <tr>
             <td>Vehicle Miles Traveled</td>
-            <td>{readableNumber(vmt.total.lower)}</td>
-            <td>{readableNumber(vmt.total.mean)}</td>
-            <td>{readableNumber(vmt.total.upper)}</td>
+            <td>{readableNumber(vmtReductions.lower)}</td>
+            <td>{readableNumber(vmtReductions.mean)}</td>
+            <td>{readableNumber(vmtReductions.upper)}</td>
             <td></td>
             <td></td>
             <td></td>
@@ -135,6 +135,6 @@ class Emissionemissions extends React.Component {
 
 }
 
-export default Emissionemissions;
+export default Emissions;
 
 

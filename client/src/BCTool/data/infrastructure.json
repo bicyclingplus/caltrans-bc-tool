@@ -109,13 +109,8 @@
 				"description": ""
 			},
 			{
-				"label": "Sidewalk (improvement)",
-				"shortname": "sidewalk-improvement",
-				"description": ""
-			},
-			{
-				"label": "Sidewalk (new)",
-				"shortname": "sidewalk-new",
+				"label": "Sidewalk",
+				"shortname": "sidewalk",
 				"description": ""
 			},
 			{

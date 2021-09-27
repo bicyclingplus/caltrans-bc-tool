@@ -5,6 +5,7 @@ class ProjectSummary extends React.Component {
     render() {
 
         const corridors = this.props.corridors;
+        const intersections = this.props.intersections;
         const subtype = this.props.subtype;
         const demand = this.props.demand;
 
@@ -15,7 +16,7 @@ class ProjectSummary extends React.Component {
 
                 <h5>Project Reach</h5>
                 <ul className="list-unstyled">
-                  <li>Number of Intersections: [TODO]</li>
+                  <li>Number of Intersections: {intersections}</li>
                   <li>Number of Corridors (Blocks): {corridors}</li>
                 </ul>
 

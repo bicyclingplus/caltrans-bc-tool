@@ -1,11 +1,3 @@
-export const NICE_NAMES = {
-    'route-shift': 'Route Shift',
-    'mode-shift': 'Mode Shift',
-    'induced-travel': 'Induced Travel',
-    'bike': 'Bike',
-    'pedestrian': 'Pedestrian',
-};
-
 export function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -29,6 +21,6 @@ export function readableNumber(number) {
   //   );
   // }
 
-  return numberWithCommas(Math.round(number));
+  return numberWithCommas(Math.round(number + Number.EPSILON));
 
 }

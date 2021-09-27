@@ -1,104 +1,56 @@
 {
 	"bike-highway": {
 		"bike": {
-			"calculated": false,
-			"effect": {
-				"mean": 77,
-				"calculated": {
-					"lower": null,
-					"mean": null,
-					"upper": null
-				}
-			}
+			"lower": null,
+			"mean": 77,
+			"upper": null
 		}
 	},
 	"buffered-bike-lane": {
 		"bike": {
-			"calculated": true,
-			"effect": {
-				"mean": null,
-				"calculated": {
-					"lower": 77,
-					"mean": 174,
-					"upper": 271
-				}
-			}
+			"lower": 77,
+			"mean": 174,
+			"upper": 271
 		}
 	},
 	"conventional-bike-lane": {
 		"bike": {
-			"calculated": false,
-			"effect": {
-				"mean": 22,
-				"calculated": {
-					"lower": -21,
-					"mean": 124,
-					"upper": 268
-				}
-			}
+			"lower": -21,
+			"mean": 124,
+			"upper": 268
 		}
 	},
 	"separated-bike-lane": {
 		"bike": {
-			"calculated": true,
-			"effect": {
-				"mean": null,
-				"calculated": {
-					"lower": 21,
-					"mean": 96,
-					"upper": 171
-				}
-			}
+			"lower": 21,
+			"mean": 96,
+			"upper": 171
 		}
 	},
 	"road-diet": {
 		"bike": {
-			"calculated": true,
-			"effect": {
-				"mean": null,
-				"calculated": {
-					"lower": 0,
-					"mean": 13,
-					"upper": 25
-				}
-			}
+			"lower": 0,
+			"mean": 13,
+			"upper": 25
 		},
 		"pedestrian": {
-			"calculated": true,
-			"effect": {
-				"mean": null,
-				"calculated": {
-					"lower": 0,
-					"mean": 15,
-					"upper": 30
-				}
-			}
+			"lower": 0,
+			"mean": 15,
+			"upper": 30
 		}
 	},
 	"crossing-island": {
 		"pedestrian": {
-			"calculated": false,
-			"effect": {
-				"mean": 10,
-				"calculated": {
-					"lower": null,
-					"mean": null,
-					"upper": null
-				}
-			}
+			"lower": null,
+			"mean": 10,
+			"upper": null
 		}
 	},
-	"sidewalk-new": {
+	"sidewalk": {
 		"pedestrian": {
-			"calculated": true,
-			"effect": {
-				"mean": null,
-				"calculated": {
-					"lower": 12,
-					"mean": 23,
-					"upper": 33
-				}
-			}
+			"lower": 12,
+			"mean": 23,
+			"upper": 33
 		}
 	}
 }

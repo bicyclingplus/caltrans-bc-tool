@@ -1,10 +1,10 @@
 import React from 'react';
 
-import DemandIncreaseTable from './DemandIncreaseTable';
-import DemandSplitTable from './DemandSplitTable';
-import VMTReductions from './VMTReductions';
-import EmissionBenefits from './EmissionBenefits';
-import HealthBenefits from './HealthBenefits';
+import Demand from './Demand';
+import SafetyQualitative from './SafetyQualitative';
+import SafetyQuantative from './SafetyQuantative';
+import Emissions from './Emissions';
+import Health from './Health';
 
 class ProjectBenefits extends React.Component {
 
@@ -17,17 +17,15 @@ class ProjectBenefits extends React.Component {
         <div className="card-body">
             <h4 className="card-title text-center">Benefits</h4>
 
-            { Object.keys(benefits['demand-increases']).length ?
-            <DemandIncreaseTable benefits={benefits['demand-increases']} />
-            : null }
+            <Demand benefits={benefits.demand} />
 
-            { benefits['emissions'] && benefits['vmt-reductions'] ?
-            <EmissionBenefits emissions={benefits['emissions']} vmt={benefits['vmt-reductions']} />
-            : null }
+            <SafetyQualitative benefits={benefits.safetyQualitative} />
 
-            { benefits['health'] ?
-            <HealthBenefits benefits={benefits['health']} />
-            : null }
+            <SafetyQuantative benefits={benefits.safetyQuantitative} />
+
+            <Emissions emissions={benefits.emissions} vmtReductions={benefits.vmtReductions} />
+
+            <Health benefits={benefits.health} />
 
         </div>
       </div>

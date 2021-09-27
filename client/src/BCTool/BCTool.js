@@ -12,11 +12,12 @@ import ProjectElements from './ProjectElements/ProjectElements';
 import SelectedInfrastructure from './SelectedInfrastructure/SelectedInfrastructure';
 import ProjectBenefits from './ProjectBenefits/ProjectBenefits';
 
-import calcDemandIncreases from './helpers/calcDemandIncreases';
-import calcDemandSplits from './helpers/calcDemandSplits';
+import calcDemand from './helpers/calcDemand';
 import calcVMTReductions from './helpers/calcVMTReductions';
-import calcHealthBenefits from './helpers/calcHealthBenefits';
-import calcEmissionBenefits from './helpers/calcEmissionBenefits';
+import calcHealth from './helpers/calcHealth';
+import calcEmissions from './helpers/calcEmissions';
+import calcSafetyQualitative from './helpers/calcSafetyQualitative';
+import calcSafetyQuantitative from './helpers/calcSafetyQuantitative';
 
 const infrastructure = require('./data/infrastructure.json');
 const non_infrastructure = require('./data/non_infrastructure.json');
@@ -41,6 +42,9 @@ class BCTool extends React.Component {
       'city': '',
       'county': '',
       'year': '',
+
+      'corridors': '',
+      'intersections': '',
 
       'osm-ids': [],
       'demand': {},
@@ -86,7 +90,7 @@ class BCTool extends React.Component {
       }
     }
 
-    console.log(project);
+    // console.log(project);
     let preselected = Object.keys(project.infrastructure);
     let new_infrastructure = [];
 
@@ -135,6 +139,9 @@ class BCTool extends React.Component {
             'city': project['city'],
             'county': project['county'],
             'year': project['year'],
+
+            'corridors': project['corridors'],
+            'intersections': project['intersections'],
 
             'demand': project['demand'],
             'osm-ids': project['osm-ids'],
@@ -208,24 +215,32 @@ class BCTool extends React.Component {
 
   handleBenefitButton() {
 
-    let demandIncreases = calcDemandIncreases(
-        this.state.infrastructure, this.state.subtype, this.state.demand);
+    let demand = calcDemand(
+      this.state.infrastructure,
+      this.state.subtype,
+      this.state.demand,
+      this.state.corridors
+    )
 
-    let demandSplits = calcDemandSplits(demandIncreases);
+    let vmtReductions = calcVMTReductions(demand);
 
-    let vmtReductions = calcVMTReductions(this.state.subtype, this.state.demand);
-
-    let emissionsBenefits = calcEmissionBenefits(
+    let emissions = calcEmissions(
       this.state.county, this.state.year, vmtReductions);
 
-    let healthBenefits = calcHealthBenefits(this.state.subtype, demandIncreases);
+    let health = calcHealth(this.state.subtype, demand);
+
+    let safetyQualitative = calcSafetyQualitative(this.state.infrastructure);
+
+    let safetyQuantitative = calcSafetyQuantitative(
+      this.state.infrastructure, demand);
 
     let benefits = {
-      'demand-increases': demandIncreases,
-      'demand-splits': demandSplits,
-      'vmt-reductions': vmtReductions,
-      'emissions': emissionsBenefits,
-      'health': healthBenefits,
+      'demand': demand,
+      'vmtReductions': vmtReductions,
+      'emissions': emissions,
+      'health': health,
+      'safetyQualitative': safetyQualitative,
+      'safetyQuantitative': safetyQuantitative,
     };
 
     console.log(benefits);
@@ -282,7 +297,8 @@ class BCTool extends React.Component {
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectSummary
-              corridors={this.state['osm-ids'].length}
+              corridors={this.state.corridors}
+              intersections={this.state.intersections}
               subtype={this.state['subtype']}
               demand={this.state.demand} />
           </div>
