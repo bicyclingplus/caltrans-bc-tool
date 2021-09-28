@@ -1,0 +1,198 @@
+{
+	"bike-boulevard": [
+		{
+			"description": "While bike boulevards have not been studied extensively, they can make cyclists feel safer. One case study has shown that collisions involving cyclists are 2-8 times less likely on bike boulevards than on arterial roads that prioritize vehicle travel.",
+			"sources": "Minikel, E. (2012)."
+		}
+	],
+	"bike-box": [
+		{
+			"description": "Bike boxes have been associated with increased perceptions of safety among cyclists. This is especially true at busy intersections where cyclists must be wary of both vehicles and pedestrians.",
+			"sources": "Dill et. al. (2012)."
+		}
+	],
+	"bike-highway": [
+		{
+			"description": "Bike highways have been associated with increases in total bike volume between 4 and 30% and a 77% increase in bike volume on the route including the highway itself due to people opting to use it instead of alternative routes.",
+			"sources": "Skov-Peterson, H. et. al. (2017)."
+		}
+	],
+	"bike-parking": [
+		{
+			"description": "More bike parking has been associated with higher rates of commuting to work and improved network connectivity.",
+			"sources": "Heinen & Buehler (2019)"
+		}
+	],
+	"bike-shared-lane-markings": [
+		{
+			"description": "The effects of shared lane markings are unclear. In some cases, vehicles have exhibited more yielding behavior, improving safety for cyclists. In other cases, the lack of separation has led to decreased safety for cyclists as they weave through traffic.",
+			"sources": "Ferenchak & Marshall (2019). , Hunter et. al. (2010)."
+		}
+	],
+	"bike-signal": [
+		{
+			"description": "Bike signals are associated with increased cyclist comfort. Between 67 and 70% of riders prefer them and riders report higher comfort levels when they are present.",
+			"sources": "Monsere et al. (2019)"
+		}
+	],
+	"bikeshare-infrastructure": [
+		{
+			"description": "New bike-share programs have been associated with mode shift away from cars and pubic transit and toward biking. They have been most successful when integrated with public transit systems because they can help users reach their final destination more directly than public transit.",
+			"sources": "Fishman et. al. (2013)."
+		}
+	],
+	"buffered-bike-lane": [
+		{
+			"description": "Buffered bike lanes have been shown to increase cyclist comfort levels and cycling activity by between 71 and 271%. In some contexts, buffered bike lanes have led to sustained increases in cycling year after year.",
+			"sources": "Monsere et. al. (2014). , Goodno et. al. (2013)."
+		}
+	],
+	"conventional-bike-lane": [
+		{
+			"description": "New conventional bike lanes have been associated with reductions in crashes from 5-66% and changes in bike volume ranging from a 21% decrease to a 262% increase. On average, conventional bike lanes have resulted in a 22% increase in bike volume and positive health outcomes due to increased physical activity.",
+			"sources": "Mölenberg, F. et al. (2019)"
+		}
+	],
+	"crossing-island": [
+		{
+			"description": "Crossing islands have been associated with vehicle speed reductions from 2-5 mph, 10-20% increases in yielding to pedestrians, 23-50% reductions in pedestrian-involved crashes, and a 10% increase in crosswalk use.",
+			"sources": "Mead, Zegeer, & Bushell 2014"
+		}
+	],
+	"crosswalk": [
+		{
+			"description": "While marked crosswalks alone have not been directly associated with any benefits, they can result in safety improvements when combined with other interventions including signals or flashing beacons.",
+			"sources": "Zegeer et. al. (2001)."
+		}
+	],
+	"curb-extension": [
+		{
+			"description": "Curb extensions have been associated with reductions in pedestrian injuries from 4 to 40% with an average reduction of 24%.",
+			"sources": "Stipancic, J. et. al. (2020)."
+		}
+	],
+	"dynamic-speed-display-sign": [
+		{
+			"description": "Dynamic speed display signs have resulted in 1.1-9.0 mph reductions in vehicle speed. These effects have been greatest in school zones.",
+			"sources": "Ullman & Rose (2005). , City of Bellevue Transportation Department (2009)"
+		}
+	],
+	"edge-lanes": [
+		{
+			"description": "Edge lane road design has resulted in changes in vehicle speed ranging from 1 mph increases in average speeds to 3 mph decreases in average speeds. They likely improve safety and/or perceived safety for cyclists by allowing them more lateral space on narrow roads. Their benefits have been almost exclusively studied in rural areas.",
+			"sources": "Gilpin et. al. (2017)"
+		}
+	],
+	"flashing-beacon": [
+		{
+			"description": "Flashing beacons at pedestrian crossings have been associated with a 60% increase in yield compliance and a 35-50% reduction in pedestrian crashes across 12 sites. The higher end of this range is more likely to be achieved with more intense flashing.",
+			"sources": "Fitzpatrick et. al. (2015)."
+		}
+	],
+	"horizontal-deflector": [
+		{
+			"description": "Horizontal deflectors including chicanes and raised central islands have resulted in 50% reductions in crashes, 61% reductions in injuries, and 100% reductions in deaths. These interventions have been especially successful when placed at the gateways of rural towns.",
+			"sources": "Lantieri, C. et. al. (2015)."
+		}
+	],
+	"lane-narrowing": [
+		{
+			"description": "Lane narrowing in rural areas has resulted in a 3.5 mph reduction in average speed for all vehicles and a 4.4 mph reduction in average speed for trucks. It has also resulted in a 31% reduction in fatal and injury-only crashes.",
+			"sources": "Gross, F. et. al. (2009)."
+		}
+	],
+	"lighting": [
+		{
+			"description": "Improving lighting along active transportation routes has been associated with a 22-32% reduction in injuries, 32-55% reduction in crashes, 66% reduction in deaths, and 27% reduction in crime. It also leads to perceived safety improvements and, in turn, more active mode share.",
+			"sources": "Beyer & Ker 2009, Welsh & Farrington 2008"
+		}
+	],
+	"multi-use-path": [
+		{
+			"description": "Multi-use paths are associated with a 25% reduction in crashes and increased physical activity among those living near them. Physical activity increased more among women, children, and seniors.",
+			"sources": "Kaczynski et. al. (2009)"
+		}
+	],
+	"shared-open-street": [
+		{
+			"description": "While open street events have not been studied extensively, they are likely to increase active transportation by making it safer and more attractive to do so. Surveys have shown that regular open street events increase physical activity and may be associated with mode shift.",
+			"sources": "Triana, C. et. al. (2019)."
+		},
+		{
+			"description": "Shared streets which alter the right-of-way and alter road design so as to make streets less car-centric have been shown to reduce all crashes by 20%, severe crashes by 50%, and crime by 35%. They have also been associated with increased outdoor play among children.",
+			"sources": "Delaware Valley Regional Planning Commission (2018)"
+		}
+	],
+	"pedestrian-countdown": [
+		{
+			"description": "Pedestrian countdown signals have been associated with safety benefits, especially for disabled and elderly pedestrians. Extending the length of time for which they allow pedestrians to cross amplifies these benefits.",
+			"sources": "National Highway Traffic Safety Administration (2020)a"
+		}
+	],
+	"pedestrian-scramble": [
+		{
+			"description": "Pedestrian scramble signals have been associated with safety benefits, especially for disabled and elderly pedestrians. By allowing pedestrians to cross in any direction and prohibiting all vehicle movement, pedestrians may save time and experience greater levels of protection.",
+			"sources": "National Highway Traffic Safety Administration (2020)a"
+		}
+	],
+	"separated-bike-lane": [
+		{
+			"description": "Protected bike lanes have resulted in a 17% reduction in crash-related injuries and a 20% reduction in all types of injuries. They have also been associated with an increase in bicycle volume between 21 and 171% with some cases observing sustained increases year after year.",
+			"sources": "Monsere et. al. (2014). , Goodno et. al. (2013)."
+		}
+	],
+	"protected-intersection": [
+		{
+			"description": "While protected intersections have not been studied extensively, they are likely to promote active transportation by making safer and more attractive to do so. They are commonly used in the Netherlands which has some of the highest rates of biking in the world.",
+			"sources": "Schepers et. al. (2017)"
+		}
+	],
+	"raised-crossing": [
+		{
+			"description": "Raised crossing have been associated with a 24% reduction in injuries and a 40% reduction in crashes. They can also act as vertical deflectors which reduce average speeds and increase driver awareness.",
+			"sources": "Loprencipe, G. et. al. (2019)."
+		}
+	],
+	"road-diet": [
+		{
+			"description": "Road diets have been associated with a wide range effects including increases in bike volume from 0-19%, increases in ped volume from 0-25%, 5% reductions in 85th percentile speeds, and 19-47% reductions in crashes. Overall effects are highly variable because road diet contexts vary greatly, but greater benefits tend to accrue in rural areas.",
+			"sources": "City of San Jose (2015). , Harkey et. al. (2008)."
+		}
+	],
+	"roundabout": [
+		{
+			"description": "Conversion of junctions to roundabouts is associated with a 15-30% reduction in crashes, 40% reduction in injuries, and 65% reduction in fatalities.",
+			"sources": "Elvik (2017)"
+		}
+	],
+	"sidewalk": [
+		{
+			"description": "New sidewalks have been associated with lower crash risks and increases in pedestrian volume between 12 and 33%. The higher end is achieved in places where there is greater demand for walking such as in commercial areas.",
+			"sources": "Guo, Z. (2009)."
+		}
+	],
+	"signal-phasing": [
+		{
+			"description": "Different signal phasing schemes are associated with different benefits. Full-red signal phasing schemes have resulted in 24% reductions in injuries while half-red signal phasing schemes have resulted in 19% reductions. Protected left turns has also resulted in safety benefits for cyclists and pedestrians.",
+			"sources": "Stipancic, J. et. al. (2020)."
+		}
+	],
+	"speed-limit-reduction": [
+		{
+			"description": "Speed limit reductions of 5-10 mph in the U.S. and 10 kph in other countries have resulted in 8-30% reductions in collisions, injuries, and fatalities, and 1-22% increases in pedestrian and bike volumes. Rural areas and areas with large numbers of children can expect effects to be on the larger side.",
+			"sources": "Gayah et. al. (2018). , Elvik et. al. (2019). , Tranter, P. (2018)."
+		}
+	],
+	"traffic-signal": [
+		{
+			"description": "New traffic signals have been associated with 19-24% reductions in pedestrian injuries. The lower end of this range has been achieved using half-red phasing while the higher end of this range has been achieved using full-red phasing as well as by protecting left turns.",
+			"sources": "Stipancic, J. et. al. (2020)."
+		}
+	],
+	"vertical-deflector": [
+		{
+			"description": "Vertical deflectors have resulted in 2.7-12.0 mph reductions in vehicle speeds. The highest reductions have been achieved using multiple successive vertical deflectors in the same area.",
+			"sources": "Ponnaluri, R.V. & Groce, P.W. (2005). , Agerholm, N. et. al. (2017)."
+		}
+	]
+}

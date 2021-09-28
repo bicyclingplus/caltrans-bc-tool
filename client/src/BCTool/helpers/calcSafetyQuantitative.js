@@ -1,5 +1,5 @@
 
-function calcSafetyQuantitative(demand) {
+function calcSafetyQuantitative(infrastructure, demand) {
 
   return [];
 }
