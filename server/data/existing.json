@@ -1,6 +1,47 @@
 {
 	"projects": [
 		{
+			"id": 0,
+			"type": "infrastructure",
+			"subtype": "both",
+			"name": "Sample Project",
+			"developer": "?",
+			"cost": 29000,
+			"county": "Los Angeles",
+			"city": "Los Angeles",
+			"year": 2016,
+			"osm-ids": [],
+			"demand": {
+				"bike": {
+					"lower": 265,
+					"mean": 476,
+					"upper": 687
+				},
+				"pedestrian": {
+					"lower": 878,
+					"mean": 984,
+					"upper": 1090
+				}
+			},
+			"infrastructure": {
+				"dynamic-speed-display-sign": 11,
+				"conventional-bike-lane": 6,
+				"bike-shared-lane-markings": 5,
+				"sidewalk": 8,
+				"crosswalk": 5,
+				"signal-phasing": 4,
+				"flashing-beacon": 17,
+				"lighting": 120,
+				"landscaping": 5,
+				"roundabout": 2,
+				"traffic-signal": 1,
+				"vertical-deflector": 6,
+				"lane-narrowing": 1
+			},
+			"corridors": 10,
+			"intersections": 10
+		},
+		{
 			"id": 1,
 			"type": "infrastructure",
 			"subtype": "both",
@@ -139,23 +180,9 @@
 					"upper": 1090
 				}
 			},
-			"infrastructure": {
-				"dynamic-speed-display-sign": 11,
-				"conventional-bike-lane": 6,
-				"bike-shared-lane-markings": 5,
-				"sidewalk": 8,
-				"crosswalk": 5,
-				"signal-phasing": 4,
-				"flashing-beacon": 17,
-				"lighting": 120,
-				"landscaping": 5,
-				"roundabout": 2,
-				"traffic-signal": 1,
-				"vertical-deflector": 6,
-				"lane-narrowing": 1
-			},
-			"corridors": 10,
-			"intersections": 10
+			"infrastructure": {},
+			"corridors": null,
+			"intersections": null
 		},
 		{
 			"id": 4,

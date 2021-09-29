@@ -94,19 +94,18 @@ class BCTool extends React.Component {
     let preselected = Object.keys(project.infrastructure);
     let new_infrastructure = [];
 
-    for(let category in infrastructure['items']) {
+    for(let category in infrastructure.items) {
 
       new_infrastructure[category] = [];
 
-      let current = infrastructure['items'][category];
+      for(let item of infrastructure.items[category]) {
 
-      for(let i = 0; i < current.length; i++) {
         new_infrastructure[category].push({
-          "label": current[i]['label'],
-          "shortname": current[i]['shortname'],
-          "description": current[i]['description'],
-          "selected": preselected.includes(current[i]['shortname']),
-          "count": project.infrastructure[current[i]['shortname']],
+          "label": item.label,
+          "shortname": item.shortname,
+          "description": item.description,
+          "selected": preselected.includes(item.shortname),
+          "count": preselected.includes(item.shortname) ? project.infrastructure[item.shortname] : 0,
         });
       }
     }
@@ -140,8 +139,8 @@ class BCTool extends React.Component {
             'county': project['county'],
             'year': project['year'],
 
-            'corridors': project['corridors'],
-            'intersections': project['intersections'],
+            'corridors': project['corridors'] ? project['corridors'] : project['osm-ids'].length,
+            'intersections': project['intersections'] ? project['intersections'] : null,
 
             'demand': project['demand'],
             'osm-ids': project['osm-ids'],
@@ -196,6 +195,7 @@ class BCTool extends React.Component {
     for(const item of updated) {
       if(item['shortname'] === shortname) {
         item['selected'] = value;
+        break;
       }
     }
 
@@ -212,6 +212,30 @@ class BCTool extends React.Component {
       'selected-non-infrastructure': selected,
     });
   }
+
+  onItemChange = (shortname, value) => {
+
+    // console.log(`Item ${shortname} changed to ${value}`);
+
+    let { infrastructure } = this.state;
+
+    category_loop:
+    for(let category in infrastructure) {
+
+      for(let item of infrastructure[category]) {
+
+        if(item.shortname === shortname) {
+          item.count = value;
+          break category_loop;
+        }
+      }
+    }
+
+    this.setState({
+      'infrastructure': infrastructure,
+    })
+
+  };
 
   handleBenefitButton() {
 
@@ -324,6 +348,7 @@ class BCTool extends React.Component {
           <div className="col-sm-12">
             <SelectedInfrastructure
               items={this.state.infrastructure}
+              onItemChange={this.onItemChange}
             />
           </div>
         </div>

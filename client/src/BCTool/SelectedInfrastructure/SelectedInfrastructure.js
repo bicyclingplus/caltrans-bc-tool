@@ -6,7 +6,7 @@ class SelectedInfrastructure extends React.Component {
 
     render() {
 
-        let items = this.props.items;
+        let { items, onItemChange } = this.props;
         let infrastructureCategories = [];
 
         for(let category in items) {
@@ -26,6 +26,7 @@ class SelectedInfrastructure extends React.Component {
                     key={category}
                     name={category}
                     items={items[category]}
+                    onItemChange={onItemChange}
                 />
             )
           }

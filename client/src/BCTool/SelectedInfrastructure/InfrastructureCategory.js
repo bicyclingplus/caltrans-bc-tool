@@ -5,7 +5,7 @@ import InfrastructureItem from './InfrastructureItem';
 class InfrastructureCategory extends React.Component {
 
     render() {
-        let { items, name } = this.props;
+        let { items, name, onItemChange } = this.props;
 
         let infrastructureItems = [];
 
@@ -14,8 +14,10 @@ class InfrastructureCategory extends React.Component {
                 infrastructureItems.push(
                     <InfrastructureItem
                         key={items[i]['shortname']}
-                        name={items[i]['label']}
+                        shortname={items[i]['shortname']}
+                        label={items[i]['label']}
                         count={items[i]['count']}
+                        onItemChange={onItemChange}
                     />
                 )
             }
@@ -27,7 +29,7 @@ class InfrastructureCategory extends React.Component {
             <table className="table mb-3">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th width="50%"></th>
                         <th>Count</th>
                     </tr>
                 </thead>

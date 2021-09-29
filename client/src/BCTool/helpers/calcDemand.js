@@ -16,6 +16,7 @@ const CAR_SHIFT = {
 };
 
 function calcDemandMode(mode, infrastructure, subtype, existingDemand, corridors) {
+
     let demand = {};
 
     demand.existing = {
@@ -77,9 +78,11 @@ function calcDemandMode(mode, infrastructure, subtype, existingDemand, corridors
         weighted.upper += increases[i].upper;
     }
 
-    weighted.lower /= increases.length;
-    weighted.mean /= increases.length;
-    weighted.upper /= increases.length;
+    if(increases.length) {
+        weighted.lower /= increases.length;
+        weighted.mean /= increases.length;
+        weighted.upper /= increases.length;
+    }
 
     // console.log(weighted);
 
@@ -120,13 +123,27 @@ function calcDemandMode(mode, infrastructure, subtype, existingDemand, corridors
 
 function calcDemand(infrastructure, subtype, existingDemand, corridors) {
 
-    let demand = {};
+    let demand = {
+        "totalProjected": {
+            "lower": 0,
+            "mean": 0,
+            "upper": 0,
+        }
+    };
 
     if(subtype !== "pedestrian-only") {
         demand.bike = calcDemandMode('bike', infrastructure, subtype, existingDemand, corridors);
+
+        demand.totalProjected.lower += demand.bike.projected.lower;
+        demand.totalProjected.mean += demand.bike.projected.mean;
+        demand.totalProjected.upper += demand.bike.projected.upper;
     }
 
     demand.pedestrian = calcDemandMode('pedestrian', infrastructure, subtype, existingDemand, corridors);
+
+    demand.totalProjected.lower += demand.pedestrian.projected.lower;
+    demand.totalProjected.mean += demand.pedestrian.projected.mean;
+    demand.totalProjected.upper += demand.pedestrian.projected.upper;
 
     return demand;
 
