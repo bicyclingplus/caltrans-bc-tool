@@ -1,0 +1,8 @@
+version: '3.2'
+services:
+
+  www:
+    build: .
+    ports:
+      - "127.0.0.1:3002:3001"
+    restart: always

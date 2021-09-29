@@ -3,6 +3,8 @@ const express = require('express');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+const tool = express();
+const morgan = require('morgan');
 
 const geojson = {
   '1': require('./data/bishop.json'),
@@ -13,14 +15,16 @@ const geojson = {
 
 const existing = require('./data/existing.json');
 
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(morgan('combined'));
+
+tool.use(express.static(path.resolve(__dirname, '../client/build')));
 
 // Handle GET requests to /api route
-app.get("/api/existing", (req, res) => {
+tool.get("/api/existing", (req, res) => {
   res.json(existing['projects']);
 });
 
-app.get("/api/geojson/:project", (req, res) => {
+tool.get("/api/geojson/:project", (req, res) => {
 
   if(req.params.project in geojson) {
     res.json(geojson[req.params.project]);
@@ -29,6 +33,8 @@ app.get("/api/geojson/:project", (req, res) => {
     res.json({});
   }
 });
+
+app.use('/caltrans-bc-tool', tool);
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {

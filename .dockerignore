@@ -1,0 +1,9 @@
+.git/
+
+client/build/
+client/node_modules/
+
+data_transform/
+geojson/
+
+server/node_modules/

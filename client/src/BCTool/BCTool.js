@@ -66,7 +66,7 @@ class BCTool extends React.Component {
 
   componentDidMount() {
 
-    fetch('/api/existing')
+    fetch(`${process.env.PUBLIC_URL}/api/existing`)
       .then((res) => res.json())
       .then(
         (result) => {
@@ -121,7 +121,7 @@ class BCTool extends React.Component {
       });
     }
 
-    fetch('/api/geojson/'+e.target.value)
+    fetch(`${process.env.PUBLIC_URL}/api/geojson/${e.target.value}`)
       .then((res) => res.json())
       .then(
         (result) => {
