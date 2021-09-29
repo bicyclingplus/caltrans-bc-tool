@@ -43,8 +43,8 @@ class BCTool extends React.Component {
       'county': '',
       'year': '',
 
-      'corridors': '',
-      'intersections': '',
+      'corridors': 0,
+      'intersections': 0,
 
       'osm-ids': [],
       'demand': {},
@@ -164,7 +164,7 @@ class BCTool extends React.Component {
 
     // Update the changed one
     outer:
-    for(let category of updated) {
+    for(let category of updated.categories) {
 
       if(category.shortname === changedCategory) {
 
@@ -181,7 +181,7 @@ class BCTool extends React.Component {
 
     // Check if any are selected
     outer2:
-    for(let category of updated) {
+    for(let category of updated.categories) {
 
       for(let item of category.items) {
 
@@ -269,7 +269,10 @@ class BCTool extends React.Component {
     let safetyQualitative = calcSafetyQualitative(this.state.infrastructure);
 
     let safetyQuantitative = calcSafetyQuantitative(
-      this.state.infrastructure, demand);
+      this.state.infrastructure,
+      demand,
+      this.state.corridors,
+      this.state.intersections);
 
     let benefits = {
       'demand': demand,
@@ -298,8 +301,8 @@ class BCTool extends React.Component {
               <div className="row">
                 <label htmlFor="existing-project" className="col-sm-2 col-form-label text-end">Existing Project</label>
                 <div className="col-md-10">
-                  <select id="existing-project" className="form-select" onChange={this.handleProjectChange}>
-                    <option>-- Select a project --</option>
+                  <select id="existing-project" className="form-select" onChange={this.handleProjectChange} defaultValue="">
+                    <option value="" disabled>-- Select a project --</option>
                     {this.state['existing-projects'].map((project) => <option key={project['id']} value={project['id']}>{project['name']}</option>)}
                   </select>
                 </div>

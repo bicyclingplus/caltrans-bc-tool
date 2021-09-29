@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { readableNumber } from '../helpers/formatting';
+
 class SafetyQuantative extends React.Component {
 
 	render = () => {
@@ -21,11 +23,11 @@ class SafetyQuantative extends React.Component {
 				<tbody>
 					{
 						benefits.map((benefit) => (
-							<tr>
-								<th>{benefit.parameter}</th>
-								<th>{benefit.lower}</th>
-								<th>{benefit.mean}</th>
-								<th>{benefit.upper}</th>
+							<tr key={benefit.shortname}>
+								<td>{benefit.label}</td>
+								<td>{readableNumber(benefit.lower)}</td>
+								<td>{readableNumber(benefit.mean)}</td>
+								<td>{readableNumber(benefit.upper)}</td>
 							</tr>
 						))
 					}

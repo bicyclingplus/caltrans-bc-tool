@@ -69,10 +69,10 @@
 				{
 					"mode": "bike",
 					"parameter": "collisions",
-					"units": "factor",
-					"lower": -2,
-					"mean": -5,
-					"upper": -8
+					"units": "percent",
+					"lower": -200,
+					"mean": -500,
+					"upper": -800
 				}
 			]
 		},
