@@ -39,5 +39,5 @@
     ]
   },
   "proxy": "http://localhost:3001",
-  "homepage": "http://localhost/caltrans-bc-tool"
+  "homepage": "https://gis.its.ucdavis.edu/caltrans-bc-tool"
 }
