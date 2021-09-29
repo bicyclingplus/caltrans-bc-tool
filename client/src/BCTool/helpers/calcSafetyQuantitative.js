@@ -23,7 +23,7 @@ function calcSafetyQuantitative(infrastructure, demand, corridors, intersections
       // check if item has an entry in benefits
       if(item.shortname in quantitative.benefits) {
 
-        // console.log(`Found quantitative safety benefits for ${item.label}`);
+        console.log(`Found quantitative safety benefits for ${item.label}`);
 
         // calc fraction of counts for this item compared to project counts
         // amenity could have value for both
@@ -36,7 +36,7 @@ function calcSafetyQuantitative(infrastructure, demand, corridors, intersections
 
         for(let effect of benefit.effects) {
 
-          // console.log(`Calculating benefit for ${effect.mode} ${effect.parameter}`);
+          console.log(`Calculating benefit for ${effect.mode} ${effect.parameter}`);
 
           let modeProjectedDemand;
 
@@ -53,6 +53,7 @@ function calcSafetyQuantitative(infrastructure, demand, corridors, intersections
             case 'vehicle':
               // WHAT TO USE HERE?
               // skip for now...
+              console.log(`Skipping because of vehicle`);
               continue;
             default:
               console.log(`Unknown effect mode: ${effect.mode}!`);
@@ -62,20 +63,33 @@ function calcSafetyQuantitative(infrastructure, demand, corridors, intersections
           if(effect.units === 'percent') {
 
             if(corridors) {
-              counts[effect.parameter].lower += modeProjectedDemand.lower * corridorFraction * (1 + (effect.lower / 100));
-              counts[effect.parameter].mean += modeProjectedDemand.mean * corridorFraction * (1 + (effect.mean / 100));
-              counts[effect.parameter].upper += modeProjectedDemand.upper * corridorFraction * (1 + (effect.upper / 100));
+              if(effect.lower) {
+                counts[effect.parameter].lower += modeProjectedDemand.lower * corridorFraction * (1 + (effect.lower / 100));
+              }
+              if(effect.mean) {
+                counts[effect.parameter].mean += modeProjectedDemand.mean * corridorFraction * (1 + (effect.mean / 100));
+              }
+              if(effect.upper) {
+                counts[effect.parameter].upper += modeProjectedDemand.upper * corridorFraction * (1 + (effect.upper / 100));
+              }
             }
 
             if(intersections) {
-              counts[effect.parameter].lower += modeProjectedDemand.lower * intersectionFraction * (1 + (effect.lower / 100));
-              counts[effect.parameter].mean += modeProjectedDemand.mean * intersectionFraction * (1 + (effect.mean / 100));
-              counts[effect.parameter].upper += modeProjectedDemand.upper * intersectionFraction * (1 + (effect.upper / 100));
+              if(effect.lower) {
+                counts[effect.parameter].lower += modeProjectedDemand.lower * intersectionFraction * (1 + (effect.lower / 100));
+              }
+              if(effect.mean) {
+                counts[effect.parameter].mean += modeProjectedDemand.mean * intersectionFraction * (1 + (effect.mean / 100));
+              }
+              if(effect.upper) {
+                counts[effect.parameter].upper += modeProjectedDemand.upper * intersectionFraction * (1 + (effect.upper / 100));
+              }
             }
           }
           else if(effect.units === 'mph') {
             // WHAT TO DO HERE?
             // skip for now...
+            console.log(`Skipping because of mph`);
             continue;
           }
           else {
