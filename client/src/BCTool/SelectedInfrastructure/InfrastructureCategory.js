@@ -5,36 +5,35 @@ import InfrastructureItem from './InfrastructureItem';
 class InfrastructureCategory extends React.Component {
 
     render() {
-        let { items, name, onItemChange } = this.props;
-
-        let infrastructureItems = [];
-
-        for(let i = 0; i < items.length; i++) {
-            if(items[i]['selected']) {
-                infrastructureItems.push(
-                    <InfrastructureItem
-                        key={items[i]['shortname']}
-                        shortname={items[i]['shortname']}
-                        label={items[i]['label']}
-                        count={items[i]['count']}
-                        onItemChange={onItemChange}
-                    />
-                )
-            }
-        }
+        let { category, onItemChange } = this.props;
 
         return (
             <>
-            <h5>{name}</h5>
+            <h5>{category.label}</h5>
             <table className="table mb-3">
                 <thead>
                     <tr>
                         <th width="50%"></th>
-                        <th>Count</th>
+                        { category.corridors ? <th>Corridors</th> : null }
+                        { category.intersections ? <th>Intersections</th> : null }
                     </tr>
                 </thead>
                 <tbody>
-                    {infrastructureItems}
+                    {
+                        category.items
+                            .filter((item) => (item.selected))
+                            .map((item) => (
+                                <InfrastructureItem
+                                    key={item.shortname}
+                                    shortname={item.shortname}
+                                    label={item.label}
+                                    counts={item.counts}
+                                    corridors={category.corridors}
+                                    intersections={category.intersections}
+                                    onItemChange={onItemChange}
+                                />
+                            ))
+                    }
                 </tbody>
             </table>
             </>

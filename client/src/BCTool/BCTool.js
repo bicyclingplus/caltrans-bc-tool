@@ -90,23 +90,21 @@ class BCTool extends React.Component {
       }
     }
 
-    // console.log(project);
+    // Use project config to preselect some items and prefill their counts
     let preselected = Object.keys(project.infrastructure);
-    let new_infrastructure = [];
 
-    for(let category in infrastructure.items) {
+    for(let category in infrastructure.categories) {
 
-      new_infrastructure[category] = [];
+      for(let item of infrastructure.categories[category].items) {
 
-      for(let item of infrastructure.items[category]) {
+        let intersections = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].intersections : 0;
+        let corridors = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].corridors : 0;
 
-        new_infrastructure[category].push({
-          "label": item.label,
-          "shortname": item.shortname,
-          "description": item.description,
-          "selected": preselected.includes(item.shortname),
-          "count": preselected.includes(item.shortname) ? project.infrastructure[item.shortname] : 0,
-        });
+        item.selected = preselected.includes(item.shortname);
+        item.counts = {
+          "intersections": intersections,
+          "corridors": corridors,
+        };
       }
     }
 
@@ -145,7 +143,7 @@ class BCTool extends React.Component {
             'demand': project['demand'],
             'osm-ids': project['osm-ids'],
 
-            'infrastructure': new_infrastructure,
+            'infrastructure': infrastructure,
             'non-infrastructure': new_non_infrastructure,
             'infrastructure-selected': preselected.length ? true : false,
             'non-infrastructure-selected': false,
@@ -159,24 +157,39 @@ class BCTool extends React.Component {
       );
   }
 
-  onInfrastructureChange(category, shortname, value) {
+  onInfrastructureChange(changedCategory, changedItem, value) {
 
-    const updated = this.state.infrastructure;
+    let updated = this.state.infrastructure;
     let selected = false;
 
     // Update the changed one
-    for(let item of updated[category]) {
+    outer:
+    for(let category of updated) {
 
-      if(item['shortname'] === shortname) {
-        item['selected'] = value;
+      if(category.shortname === changedCategory) {
+
+        for(let item of category.items) {
+
+          if(item.shortname === changedItem) {
+
+            item.selected = value;
+            break outer;
+          }
+        }
       }
     }
 
     // Check if any are selected
-    for(let item of updated[category]) {
-      if(item['selected']) {
-        selected = true;
-        break;
+    outer2:
+    for(let category of updated) {
+
+      for(let item of category.items) {
+
+        if(item.selected) {
+
+          selected = true;
+          break outer2;
+        }
       }
     }
 
@@ -213,26 +226,26 @@ class BCTool extends React.Component {
     });
   }
 
-  onItemChange = (shortname, value) => {
+  onItemChange = (shortname, countType, value) => {
 
     // console.log(`Item ${shortname} changed to ${value}`);
 
-    let { infrastructure } = this.state;
+    let updated = this.state.infrastructure;
 
-    category_loop:
-    for(let category in infrastructure) {
+    outer:
+    for(let category of updated.categories) {
 
-      for(let item of infrastructure[category]) {
+      for(let item of category.items) {
 
         if(item.shortname === shortname) {
-          item.count = value;
-          break category_loop;
+          item.counts[countType] = value;
+          break outer;
         }
       }
     }
 
     this.setState({
-      'infrastructure': infrastructure,
+      'infrastructure': updated,
     })
 
   };
@@ -347,7 +360,7 @@ class BCTool extends React.Component {
         <div className="row mb-3">
           <div className="col-sm-12">
             <SelectedInfrastructure
-              items={this.state.infrastructure}
+              categories={this.state.infrastructure.categories}
               onItemChange={this.onItemChange}
             />
           </div>

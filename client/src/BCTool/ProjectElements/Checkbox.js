@@ -2,23 +2,16 @@ import React from 'react';
 
 class Checkbox extends React.Component {
 
-    constructor(props) {
-        super(props);
+    onChange = (e) => {
 
-        this.onChange = this.onChange.bind(this);
-    }
+        let { onChange, shortname } = this.props;
 
-    onChange(e) {
-        this.props.onChange(
-            this.props.shortname,
-            e.target.checked
-        );
+        onChange(shortname, e.target.checked);
     }
 
     render() {
-        const checked = this.props.checked;
-        const label = this.props.label;
-        const shortname = this.props.shortname;
+
+        let { checked, label, shortname } = this.props;
 
         return (
             <div className="form-check">

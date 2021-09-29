@@ -49,4 +49,4 @@ class SafetyQualitative extends React.Component {
 	};
 }
 
-export default SafetyQualitative
+export default SafetyQualitative;

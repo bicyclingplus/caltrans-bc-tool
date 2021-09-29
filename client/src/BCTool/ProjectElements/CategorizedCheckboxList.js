@@ -4,30 +4,22 @@ import CheckboxList from './CheckboxList';
 
 class CategorizedCheckboxList extends React.Component {
 
-    constructor(props) {
-        super(props);
+    onChange = (shortname, value) => {
 
-        this.onChange = this.onChange.bind(this);
-    }
+        let { onChange, category } = this.props;
 
-    onChange(shortname, value) {
-        this.props.onChange(
-            this.props.category,
-            shortname,
-            value,
-        );
+        onChange(category.shortname, shortname, value);
     }
 
     render() {
 
-        const category = this.props.category;
-        const items = this.props.items;
+        let { category } = this.props;
 
         return (
             <div className="col-sm-4">
-                <h6 className="dropdown-header">{category}</h6>
+                <h6 className="dropdown-header">{category.label}</h6>
                 <CheckboxList
-                    items={items}
+                    items={category.items}
                     onChange={this.onChange}
                 />
             </div>

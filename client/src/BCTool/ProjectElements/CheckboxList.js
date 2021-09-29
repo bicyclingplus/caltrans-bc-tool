@@ -5,22 +5,21 @@ import Checkbox from './Checkbox';
 class CheckboxList extends React.Component {
     render() {
 
-        const items = this.props.items;
-        const onChange = this.props.onChange;
-
-        let checkboxComponents = items.map((item) =>
-            <Checkbox
-                key={item.label}
-                label={item.label}
-                shortname={item.shortname}
-                checked={item.selected}
-                onChange={onChange}
-            />
-        );
+        let { items, onChange } = this.props;
 
         return (
             <>
-                {checkboxComponents}
+            {
+                items.map((item) =>
+                    <Checkbox
+                        key={item.shortname}
+                        label={item.label}
+                        shortname={item.shortname}
+                        checked={item.selected}
+                        onChange={onChange}
+                    />
+                )
+            }
             </>
         );
     }

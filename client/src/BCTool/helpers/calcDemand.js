@@ -28,25 +28,25 @@ function calcDemandMode(mode, infrastructure, subtype, existingDemand, corridors
     let increases = [];
 
     // Go through each infrastructure category
-    for(let category in infrastructure) {
+    for(let category of infrastructure.categories) {
 
         // Go through each infrastructure element in this category
-        for(const element of infrastructure[category]) {
+        for(const item of category.items) {
 
             // Check if this element is selected
-            if(element['selected']) {
+            if(item['selected']) {
 
                 // Check the current infrastructure element has a demand
                 // increase to calculate
                 for(let demandElement in demand_volume) {
 
-                    if(demandElement === element['shortname']) {
+                    if(demandElement === item['shortname']) {
 
                         if(mode in demand_volume[demandElement]) {
 
                             // console.log(`Adding demand increase for ${mode} for ${demandElement}`);
 
-                            let share = element.count / corridors;
+                            let share = item.counts.corridors / corridors;
 
                             // console.log(`Share is ${share}`);
 

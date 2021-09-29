@@ -4,20 +4,16 @@ import CategorizedCheckboxList from './CategorizedCheckboxList';
 
 class CategorizedCheckboxDropdown extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.buildButtonText = this.buildButtonText.bind(this);
-    }
-
-    buildButtonText() {
+    buildButtonText = () => {
 
         let selectedText = [];
+        let { categories, buttonText } = this.props;
 
-        for(let category in this.props.items) {
-            for(let i = 0; i < this.props.items[category].length; i++) {
-                if(this.props.items[category][i]['selected']) {
-                    selectedText.push(this.props.items[category][i]['label']);
+        for(let category of categories) {
+
+            for(let item of category.items) {
+                if(item.selected) {
+                    selectedText.push(item.['label']);
                 }
             }
         }
@@ -30,24 +26,22 @@ class CategorizedCheckboxDropdown extends React.Component {
             return list.length > maxLength ? trimmed : list;
         }
 
-        return this.props.buttonText;
+        // default to cue to click the dropdown
+        return buttonText;
     }
 
     render() {
 
         const buttonText = this.buildButtonText();
-        const items = this.props.items;
-        const onChange = this.props.onChange;
-        const name = this.props.name;
+        let { categories, onChange, name } = this.props;
 
         let categorizedCheckboxLists = [];
 
-        for(let category in items) {
+        for(let category of categories) {
             categorizedCheckboxLists.push(
                 <CategorizedCheckboxList
-                    key={category}
+                    key={category.shortname}
                     category={category}
-                    items={items[category]}
                     onChange={onChange}
                 />
             )

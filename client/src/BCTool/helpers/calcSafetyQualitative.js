@@ -5,20 +5,20 @@ function calcSafetyQualitative(infrastructure) {
   let benefits = [];
 
   // Go through each infrastructure category
-  for(let category in infrastructure) {
+  for(let category of infrastructure.categories) {
 
       // Go through each infrastructure element in this category
-      for(const element of infrastructure[category]) {
+      for(const item of category.items) {
 
           // Check if this element is selected
-          if(element.selected && element.shortname in qualitative) {
+          if(item.selected && item.shortname in qualitative) {
 
             benefits.push({
-              element: element.label,
-              benefits: qualitative[element.shortname].map((benefit, idx) => (
+              element: item.label,
+              benefits: qualitative[item.shortname].map((benefit, idx) => (
                 {
-                  'key': `${element.shortname}-${idx}`,
-                  'element': element.label,
+                  'key': `${item.shortname}-${idx}`,
+                  'element': item.label,
                   'description': benefit.description,
                   'sources': benefit.sources,
                 }

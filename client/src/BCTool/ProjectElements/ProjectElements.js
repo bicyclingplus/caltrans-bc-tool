@@ -29,7 +29,7 @@ class ProjectElements extends React.Component {
                 buttonText="Click to select"
                 maxLength="75"
                 name="infrastructure"
-                items={infrastructure}
+                categories={infrastructure.categories}
                 onChange={onInfrastructureChange}
                 />
             </div>

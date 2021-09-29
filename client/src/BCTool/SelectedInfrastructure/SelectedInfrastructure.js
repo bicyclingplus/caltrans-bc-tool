@@ -6,15 +6,15 @@ class SelectedInfrastructure extends React.Component {
 
     render() {
 
-        let { items, onItemChange } = this.props;
+        let { categories, onItemChange } = this.props;
         let infrastructureCategories = [];
 
-        for(let category in items) {
+        for(let category of categories) {
 
           let hasSelectedItems = false;
 
-          for(let i = 0; i < items[category].length; i++) {
-            if(items[category][i]['selected']) {
+          for(let item of category.items) {
+            if(item.selected) {
               hasSelectedItems = true;
               break;
             }
@@ -23,9 +23,8 @@ class SelectedInfrastructure extends React.Component {
           if(hasSelectedItems) {
             infrastructureCategories.push(
                 <InfrastructureCategory
-                    key={category}
-                    name={category}
-                    items={items[category]}
+                    key={category.shortname}
+                    category={category}
                     onItemChange={onItemChange}
                 />
             )

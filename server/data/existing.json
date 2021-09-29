@@ -24,19 +24,58 @@
 				}
 			},
 			"infrastructure": {
-				"dynamic-speed-display-sign": 11,
-				"conventional-bike-lane": 6,
-				"bike-shared-lane-markings": 5,
-				"sidewalk": 8,
-				"crosswalk": 5,
-				"signal-phasing": 4,
-				"flashing-beacon": 17,
-				"lighting": 120,
-				"landscaping": 5,
-				"roundabout": 2,
-				"traffic-signal": 1,
-				"vertical-deflector": 6,
-				"lane-narrowing": 1
+				"dynamic-speed-display-sign": {
+					"corridors": 11,
+					"intersections": 0
+				},
+				"conventional-bike-lane": {
+					"corridors": 6,
+					"intersections": 0
+				},
+				"bike-shared-lane-markings": {
+					"corridors": 5,
+					"intersections": 0
+				},
+				"sidewalk": {
+					"corridors": 8,
+					"intersections": 0
+				},
+				"crosswalk": {
+					"corridors": 0,
+					"intersections": 5
+				},
+				"signal-phasing": {
+					"corridors": 0,
+					"intersections": 4
+				},
+				"flashing-beacon": {
+					"corridors": 17,
+					"intersections": 0
+				},
+				"lighting": {
+					"corridors": 70,
+					"intersections": 50
+				},
+				"landscaping": {
+					"corridors": 5,
+					"intersections": 0
+				},
+				"roundabout": {
+					"corridors": 0,
+					"intersections": 2
+				},
+				"traffic-signal": {
+					"corridors": 0,
+					"intersections": 1
+				},
+				"vertical-deflector": {
+					"corridors": 6,
+					"intersections": 0
+				},
+				"lane-narrowing": {
+					"corridors": 1,
+					"intersections": 0
+				}
 			},
 			"corridors": 10,
 			"intersections": 10
