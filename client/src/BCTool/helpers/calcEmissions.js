@@ -11,17 +11,17 @@ function calcEmissions(county, year, vmtReductions) {
 
   if(! (county in fleet_makeup)) {
     console.log('Missing fleet makeup for: '+county);
-    return [];
+    return null;
   }
 
   if(! (county in emission_rates)) {
     console.log('Missing emission rates for: '+county);
-    return [];
+    return null;
   }
 
   if(! (year in emission_rates[county])) {
     console.log('Missing emission rates for start year '+ year + ' for county '+county);
-    return [];
+    return null;
   }
 
   // Should be good to go on lookups
