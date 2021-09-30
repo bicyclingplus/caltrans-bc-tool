@@ -131,13 +131,11 @@ function calcDemand(infrastructure, subtype, existingDemand, corridors) {
         }
     };
 
-    if(subtype !== "pedestrian-only") {
-        demand.bike = calcDemandMode('bike', infrastructure, subtype, existingDemand, corridors);
+    demand.bike = calcDemandMode('bike', infrastructure, subtype, existingDemand, corridors);
 
-        demand.totalProjected.lower += demand.bike.projected.lower;
-        demand.totalProjected.mean += demand.bike.projected.mean;
-        demand.totalProjected.upper += demand.bike.projected.upper;
-    }
+    demand.totalProjected.lower += demand.bike.projected.lower;
+    demand.totalProjected.mean += demand.bike.projected.mean;
+    demand.totalProjected.upper += demand.bike.projected.upper;
 
     demand.pedestrian = calcDemandMode('pedestrian', infrastructure, subtype, existingDemand, corridors);
 

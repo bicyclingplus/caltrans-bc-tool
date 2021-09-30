@@ -20,8 +20,8 @@ class Demand extends React.Component {
         <tbody>
           <tr>
             <td colSpan="2"></td>
-            <td>Mean</td>
             <td>Lower</td>
+            <td>Mean</td>
             <td>Upper</td>
           </tr>
           <tr>
@@ -77,8 +77,8 @@ class Demand extends React.Component {
         <tbody>
           <tr>
             <td colSpan="2"></td>
-            <td>Mean</td>
             <td>Lower</td>
+            <td>Mean</td>
             <td>Upper</td>
           </tr>
           <tr>

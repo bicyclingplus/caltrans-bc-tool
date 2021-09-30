@@ -39,20 +39,20 @@ class ProjectForm extends React.Component {
               <option value=""></option>
               <option value="infrastructure">Infrastructure</option>
               <option value="non-infrastructure">Non-Infrastructure</option>
-              <option value="both">Both</option>
+              <option value="both">Infrastructure and Non-Infrastructure</option>
             </select>
           </div>
         </div>
 
         { type === 'infrastructure' ?
         <div className="row mb-2">
-          <label htmlFor="project-subtype" className="col-sm-2 col-form-label text-end">Project Subtype</label>
+          <label htmlFor="project-subtype" className="col-sm-2 col-form-label text-end">Active Travel Type</label>
           <div className="col-md-4">
             <select id="project-subtype" className="form-select" value={subtype} disabled>
               <option value=""></option>
-              <option value="bike-only">Bike Only</option>
               <option value="pedestrian-only">Pedestrian Only</option>
-              <option value="both">Both</option>
+              <option value="bike-only">Bicyclist Only</option>
+              <option value="both">Pedestrian and Bicyclist</option>
             </select>
           </div>
         </div>

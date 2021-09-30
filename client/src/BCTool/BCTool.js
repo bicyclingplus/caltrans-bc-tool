@@ -283,7 +283,7 @@ class BCTool extends React.Component {
       'safetyQuantitative': safetyQuantitative,
     };
 
-    console.log(benefits);
+    // console.log(benefits);
 
     this.setState({
       'benefits': benefits,

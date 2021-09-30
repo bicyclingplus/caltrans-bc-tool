@@ -14,8 +14,8 @@ class InfrastructureCategory extends React.Component {
                 <thead>
                     <tr>
                         <th width="50%"></th>
-                        { category.corridors ? <th>Corridors</th> : null }
-                        { category.intersections ? <th>Intersections</th> : null }
+                        { category.corridors ? <th>Count of Road Segments</th> : null }
+                        { category.intersections ? <th>Count of Intersections</th> : null }
                     </tr>
                 </thead>
                 <tbody>

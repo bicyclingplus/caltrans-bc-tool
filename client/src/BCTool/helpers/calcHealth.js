@@ -50,11 +50,11 @@ function calcHealth(subtype, demand) {
   benefits.pedestrian.mean = ((demand.pedestrian.inducedTravel.mean * 365) / WALK_SPEED.mean) * WALK_MMET.mean;
   benefits.pedestrian.upper = ((demand.pedestrian.inducedTravel.upper * 365) / WALK_SPEED.upper) * WALK_MMET.upper;
 
-  if(subtype !== "pedestrian-only") {
+  // if(subtype !== "pedestrian-only") {
     benefits.bike.lower = ((demand.bike.inducedTravel.lower * 365) / BIKE_SPEED.lower) * BIKE_MMET.lower;
     benefits.bike.mean = ((demand.bike.inducedTravel.mean * 365) / BIKE_SPEED.mean) * BIKE_MMET.mean;
     benefits.bike.upper = ((demand.bike.inducedTravel.upper * 365) / BIKE_SPEED.upper) * BIKE_MMET.upper;
-  }
+  // }
 
   benefits.total.lower = benefits.pedestrian.lower + benefits.bike.lower;
   benefits.total.mean = benefits.pedestrian.mean + benefits.bike.mean;

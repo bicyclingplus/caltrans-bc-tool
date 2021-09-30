@@ -23,7 +23,9 @@ class ProjectBenefits extends React.Component {
 
             <SafetyQuantative benefits={benefits.safetyQuantitative} />
 
+            { benefits.emissions.length ?
             <Emissions emissions={benefits.emissions} vmtReductions={benefits.vmtReductions} />
+            : null }
 
             <Health benefits={benefits.health} />
 

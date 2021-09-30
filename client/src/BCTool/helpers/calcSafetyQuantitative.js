@@ -23,7 +23,7 @@ function calcSafetyQuantitative(infrastructure, demand, corridors, intersections
       // check if item has an entry in benefits
       if(item.shortname in quantitative.benefits) {
 
-        console.log(`Found quantitative safety benefits for ${item.label}`);
+        // console.log(`Found quantitative safety benefits for ${item.label}`);
 
         // calc fraction of counts for this item compared to project counts
         // amenity could have value for both
@@ -36,7 +36,7 @@ function calcSafetyQuantitative(infrastructure, demand, corridors, intersections
 
         for(let effect of benefit.effects) {
 
-          console.log(`Calculating benefit for ${effect.mode} ${effect.parameter}`);
+          // console.log(`Calculating benefit for ${effect.mode} ${effect.parameter}`);
 
           let modeProjectedDemand;
 
@@ -53,7 +53,7 @@ function calcSafetyQuantitative(infrastructure, demand, corridors, intersections
             case 'vehicle':
               // WHAT TO USE HERE?
               // skip for now...
-              console.log(`Skipping because of vehicle`);
+              // console.log(`Skipping because of vehicle`);
               continue;
             default:
               console.log(`Unknown effect mode: ${effect.mode}!`);
@@ -89,7 +89,7 @@ function calcSafetyQuantitative(infrastructure, demand, corridors, intersections
           else if(effect.units === 'mph') {
             // WHAT TO DO HERE?
             // skip for now...
-            console.log(`Skipping because of mph`);
+            // console.log(`Skipping because of mph`);
             continue;
           }
           else {
