@@ -14,20 +14,20 @@ class SafetyQuantative extends React.Component {
 			<table className="table">
 				<thead>
 					<tr>
-						<th>Parameter</th>
-						<th>Lower</th>
-						<th>Mean</th>
-						<th>Upper</th>
+						<th className="text-center">Parameter</th>
+						<th className="text-center">Lower</th>
+						<th className="text-center">Mean</th>
+						<th className="text-center">Upper</th>
 					</tr>
 				</thead>
 				<tbody>
 					{
 						benefits.map((benefit) => (
 							<tr key={benefit.shortname}>
-								<td>{benefit.label}</td>
-								<td>{readableNumber(benefit.lower)}</td>
-								<td>{readableNumber(benefit.mean)}</td>
-								<td>{readableNumber(benefit.upper)}</td>
+								<td className="text-center">{benefit.label}</td>
+								<td className="text-end">{readableNumber(benefit.lower)}</td>
+								<td className="text-end">{readableNumber(benefit.mean)}</td>
+								<td className="text-end">{readableNumber(benefit.upper)}</td>
 							</tr>
 						))
 					}
