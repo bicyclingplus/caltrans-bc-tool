@@ -3,7 +3,7 @@
 		{
 			"label": "Amenity",
 			"shortname": "amenity",
-			"corridors": true,
+			"blockFaces": true,
 			"intersections": true,
 			"items": [
 				{
@@ -49,9 +49,9 @@
 			]
 		},
 		{
-			"label": "Corridor",
-			"shortname": "corridor",
-			"corridors": true,
+			"label": "Block Face",
+			"shortname": "block-face",
+			"blockFaces": true,
 			"intersections": false,
 			"items": [
 				{
@@ -134,7 +134,7 @@
 		{
 			"label": "Intersection",
 			"shortname": "intersection",
-			"corridors": false,
+			"blockFaces": false,
 			"intersections": true,
 			"items": [
 				{

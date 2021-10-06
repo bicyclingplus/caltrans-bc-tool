@@ -1,6 +1,6 @@
 const quantitative = require('../data/quantitative.json');
 
-function calcSafetyQuantitative(infrastructure, travel, corridors, intersections) {
+function calcSafetyQuantitative(infrastructure, travel, blockFaces, intersections) {
 
   // for each parameter
   // create a dict init count  for lower mean and upper;
@@ -27,9 +27,9 @@ function calcSafetyQuantitative(infrastructure, travel, corridors, intersections
 
         // calc fraction of counts for this item compared to project counts
         // amenity could have value for both
-        // intersection will have corridor 0, so no effect
-        // corridor will have intersection 0, so no effect
-        let corridorFraction = item.counts.corridors / corridors;
+        // intersection will have blockFace 0, so no effect
+        // blockFace will have intersection 0, so no effect
+        let blockFaceFraction = item.counts.blockFaces / blockFaces;
         let intersectionFraction = item.counts.intersections / intersections;
 
         let benefit = quantitative.benefits[item.shortname];
@@ -62,15 +62,15 @@ function calcSafetyQuantitative(infrastructure, travel, corridors, intersections
 
           if(effect.units === 'percent') {
 
-            if(corridors) {
+            if(blockFaces) {
               if(effect.lower) {
-                counts[effect.parameter].lower += modeProjectedTravel.lower * corridorFraction * (1 + (effect.lower / 100));
+                counts[effect.parameter].lower += modeProjectedTravel.lower * blockFaceFraction * (1 + (effect.lower / 100));
               }
               if(effect.mean) {
-                counts[effect.parameter].mean += modeProjectedTravel.mean * corridorFraction * (1 + (effect.mean / 100));
+                counts[effect.parameter].mean += modeProjectedTravel.mean * blockFaceFraction * (1 + (effect.mean / 100));
               }
               if(effect.upper) {
-                counts[effect.parameter].upper += modeProjectedTravel.upper * corridorFraction * (1 + (effect.upper / 100));
+                counts[effect.parameter].upper += modeProjectedTravel.upper * blockFaceFraction * (1 + (effect.upper / 100));
               }
             }
 

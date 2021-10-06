@@ -15,7 +15,7 @@ const CAR_SHIFT = {
     'pedestrian': 24.41,
 };
 
-function calcTravelMode(mode, infrastructure, subtype, existingTravel, corridors) {
+function calcTravelMode(mode, infrastructure, subtype, existingTravel, blockFaces) {
 
     let travel = {};
 
@@ -46,7 +46,7 @@ function calcTravelMode(mode, infrastructure, subtype, existingTravel, corridors
 
                             // console.log(`Adding travel increase for ${mode} for ${element}`);
 
-                            let share = item.counts.corridors / corridors;
+                            let share = item.counts.blockFaces / blockFaces;
 
                             // console.log(`Share is ${share}`);
 
@@ -121,7 +121,7 @@ function calcTravelMode(mode, infrastructure, subtype, existingTravel, corridors
     return travel;
 }
 
-function calcTravel(infrastructure, subtype, existingTravel, corridors) {
+function calcTravel(infrastructure, subtype, existingTravel, blockFaces) {
 
     let travel = {
         "totalProjected": {
@@ -131,13 +131,13 @@ function calcTravel(infrastructure, subtype, existingTravel, corridors) {
         }
     };
 
-    travel.bike = calcTravelMode('bike', infrastructure, subtype, existingTravel, corridors);
+    travel.bike = calcTravelMode('bike', infrastructure, subtype, existingTravel, blockFaces);
 
     travel.totalProjected.lower += travel.bike.projected.lower;
     travel.totalProjected.mean += travel.bike.projected.mean;
     travel.totalProjected.upper += travel.bike.projected.upper;
 
-    travel.pedestrian = calcTravelMode('pedestrian', infrastructure, subtype, existingTravel, corridors);
+    travel.pedestrian = calcTravelMode('pedestrian', infrastructure, subtype, existingTravel, blockFaces);
 
     travel.totalProjected.lower += travel.pedestrian.projected.lower;
     travel.totalProjected.mean += travel.pedestrian.projected.mean;

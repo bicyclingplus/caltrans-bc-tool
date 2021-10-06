@@ -43,7 +43,7 @@ class BCTool extends React.Component {
       'county': '',
       'year': '',
 
-      'corridors': 0,
+      'blockFaces': 0,
       'intersections': 0,
 
       'osm-ids': [],
@@ -98,12 +98,12 @@ class BCTool extends React.Component {
       for(let item of infrastructure.categories[category].items) {
 
         let intersections = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].intersections : 0;
-        let corridors = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].corridors : 0;
+        let blockFaces = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].blockFaces : 0;
 
         item.selected = preselected.includes(item.shortname);
         item.counts = {
           "intersections": intersections,
-          "corridors": corridors,
+          "blockFaces": blockFaces,
         };
       }
     }
@@ -137,7 +137,7 @@ class BCTool extends React.Component {
             'county': project['county'],
             'year': project['year'],
 
-            'corridors': project['corridors'] ? project['corridors'] : project['osm-ids'].length,
+            'blockFaces': project['blockFaces'] ? project['blockFaces'] : project['osm-ids'].length,
             'intersections': project['intersections'] ? project['intersections'] : null,
 
             'existingTravel': project['existingTravel'],
@@ -256,7 +256,7 @@ class BCTool extends React.Component {
       this.state.infrastructure,
       this.state.subtype,
       this.state.existingTravel,
-      this.state.corridors
+      this.state.blockFaces
     )
 
     let vmtReductions = calcVMTReductions(travel);
@@ -271,7 +271,7 @@ class BCTool extends React.Component {
     let safetyQuantitative = calcSafetyQuantitative(
       this.state.infrastructure,
       travel,
-      this.state.corridors,
+      this.state.blockFaces,
       this.state.intersections);
 
     let benefits = {
@@ -337,7 +337,7 @@ class BCTool extends React.Component {
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectSummary
-              corridors={this.state.corridors}
+              blockFaces={this.state.blockFaces}
               intersections={this.state.intersections}
               subtype={this.state['subtype']}
               travel={this.state.existingTravel} />

@@ -25,59 +25,59 @@
 			},
 			"infrastructure": {
 				"dynamic-speed-display-sign": {
-					"corridors": 11,
+					"blockFaces": 11,
 					"intersections": 0
 				},
 				"conventional-bike-lane": {
-					"corridors": 6,
+					"blockFaces": 6,
 					"intersections": 0
 				},
 				"bike-shared-lane-markings": {
-					"corridors": 5,
+					"blockFaces": 5,
 					"intersections": 0
 				},
 				"sidewalk": {
-					"corridors": 8,
+					"blockFaces": 8,
 					"intersections": 0
 				},
 				"crosswalk": {
-					"corridors": 0,
+					"blockFaces": 0,
 					"intersections": 5
 				},
 				"signal-phasing": {
-					"corridors": 0,
+					"blockFaces": 0,
 					"intersections": 4
 				},
 				"flashing-beacon": {
-					"corridors": 17,
+					"blockFaces": 17,
 					"intersections": 0
 				},
 				"lighting": {
-					"corridors": 70,
+					"blockFaces": 70,
 					"intersections": 50
 				},
 				"landscaping": {
-					"corridors": 5,
+					"blockFaces": 5,
 					"intersections": 0
 				},
 				"roundabout": {
-					"corridors": 0,
+					"blockFaces": 0,
 					"intersections": 2
 				},
 				"traffic-signal": {
-					"corridors": 0,
+					"blockFaces": 0,
 					"intersections": 1
 				},
 				"vertical-deflector": {
-					"corridors": 6,
+					"blockFaces": 6,
 					"intersections": 0
 				},
 				"lane-narrowing": {
-					"corridors": 1,
+					"blockFaces": 1,
 					"intersections": 0
 				}
 			},
-			"corridors": 10,
+			"blockFaces": 10,
 			"intersections": 10
 		},
 		{
@@ -107,7 +107,7 @@
 				}
 			},
 			"infrastructure": {},
-			"corridors": null,
+			"blockFaces": null,
 			"intersections": null
 		},
 		{
@@ -137,7 +137,7 @@
 				}
 			},
 			"infrastructure": {},
-			"corridors": null,
+			"blockFaces": null,
 			"intersections": null
 		},
 		{
@@ -220,7 +220,7 @@
 				}
 			},
 			"infrastructure": {},
-			"corridors": null,
+			"blockFaces": null,
 			"intersections": null
 		},
 		{
@@ -251,7 +251,7 @@
 				}
 			},
 			"infrastructure": {},
-			"corridors": null,
+			"blockFaces": null,
 			"intersections": null
 		},
 		{
@@ -278,7 +278,7 @@
 				}
 			},
 			"infrastructure": {},
-			"corridors": null,
+			"blockFaces": null,
 			"intersections": null
 		},
 		{
@@ -305,7 +305,7 @@
 				}
 			},
 			"infrastructure": {},
-			"corridors": null,
+			"blockFaces": null,
 			"intersections": null
 		}
 	]

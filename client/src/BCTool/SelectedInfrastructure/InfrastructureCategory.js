@@ -14,7 +14,7 @@ class InfrastructureCategory extends React.Component {
                 <thead>
                     <tr>
                         <th width="50%"></th>
-                        { category.corridors ? <th>Count of Road Segments</th> : null }
+                        { category.blockFaces ? <th>Count of Block Faces</th> : null }
                         { category.intersections ? <th>Count of Intersections</th> : null }
                     </tr>
                 </thead>
@@ -28,7 +28,7 @@ class InfrastructureCategory extends React.Component {
                                     shortname={item.shortname}
                                     label={item.label}
                                     counts={item.counts}
-                                    corridors={category.corridors}
+                                    blockFaces={category.blockFaces}
                                     intersections={category.intersections}
                                     onItemChange={onItemChange}
                                 />

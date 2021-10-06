@@ -1,7 +1,7 @@
 {
 	"benefits": {
 		"bike-boulevard": {
-			"class": "corridor",
+			"class": "block-face",
 			"effects": [
 				{
 					"mode": "bike",
@@ -14,7 +14,7 @@
 			]
 		},
 		"conventional-bike-lane": {
-			"class": "corridor",
+			"class": "block-face",
 			"effects": [
 				{
 					"mode": "bike",
@@ -77,7 +77,7 @@
 			]
 		},
 		"edge-lanes": {
-			"class": "corridor",
+			"class": "block-face",
 			"effects": [
 				{
 					"mode": "vehicle",
@@ -111,7 +111,7 @@
 			]
 		},
 		"horizontal-deflector": {
-			"class": "corridor",
+			"class": "block-face",
 			"effects": [
 				{
 					"mode": "vehicle",
@@ -124,7 +124,7 @@
 			]
 		},
 		"lane-narrowing": {
-			"class": "corridor",
+			"class": "block-face",
 			"effects": [
 				{
 					"mode": "vehicle",
@@ -182,7 +182,7 @@
 			]
 		},
 		"separated-bike-lane": {
-			"class": "corridor",
+			"class": "block-face",
 			"effects": [
 				{
 					"mode": "bike",
@@ -216,7 +216,7 @@
 			]
 		},
 		"road-diet": {
-			"class": "corridor",
+			"class": "block-face",
 			"effects": [
 				{
 					"mode": "all",
@@ -266,7 +266,7 @@
 			]
 		},
 		"shared-open-street": {
-			"class": "corridor",
+			"class": "block-face",
 			"effects": [
 				{
 					"mode": "all",
@@ -303,7 +303,7 @@
 			]
 		},
 		"vertical-deflector": {
-			"class": "corridor",
+			"class": "block-face",
 			"effects": [
 				{
 					"mode": "vehicle",

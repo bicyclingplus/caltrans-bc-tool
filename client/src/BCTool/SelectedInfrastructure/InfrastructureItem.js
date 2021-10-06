@@ -2,10 +2,10 @@ import React from 'react';
 
 class infrastructureItem extends React.Component {
 
-    onCorridorsChange = (e) => {
+    onBlockFacesChange = (e) => {
         let { shortname, onItemChange } = this.props;
 
-        onItemChange(shortname, 'corridors', e.target.value);
+        onItemChange(shortname, 'blockFaces', e.target.value);
     }
 
     onIntersectionsChange = (e) => {
@@ -15,14 +15,14 @@ class infrastructureItem extends React.Component {
     }
 
     render() {
-        let { label, counts, corridors, intersections } = this.props;
+        let { label, counts, blockFaces, intersections } = this.props;
 
         return (
             <tr>
                 <td>{label}</td>
 
-                { corridors ?
-                <td><input className="form-control" type="number" value={counts.corridors} onChange={this.onCorridorsChange} /></td>
+                { blockFaces ?
+                <td><input className="form-control" type="number" value={counts.blockFaces} onChange={this.onBlockFacesChange} /></td>
                 : null }
 
                 { intersections ?
