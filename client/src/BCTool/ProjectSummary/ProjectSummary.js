@@ -7,7 +7,7 @@ class ProjectSummary extends React.Component {
         const corridors = this.props.corridors;
         const intersections = this.props.intersections;
         const subtype = this.props.subtype;
-        const demand = this.props.demand;
+        const travel = this.props.travel;
 
         return (
             <div className="card">
@@ -20,27 +20,27 @@ class ProjectSummary extends React.Component {
                   <li>Number of Corridors (Blocks): {corridors}</li>
                 </ul>
 
-                <h5>Estimated Existing Project Demand *</h5>
+                <h5>Estimated Existing Active Travel *</h5>
                 <div className="row">
 
                   { subtype !== "bike-only" ?
                   <div className="col-sm-6">
-                    <u>Daily Pedestrian Miles Traveled</u>
+                    <u>Existing Daily Walking Miles</u>
                     <ul className="list-unstyled">
-                      <li>Low: {demand.pedestrian.lower} miles</li>
-                      <li>Average: {demand.pedestrian.mean} miles</li>
-                      <li>High: {demand.pedestrian.upper} miles</li>
+                      <li>Low: {travel.pedestrian.lower} miles</li>
+                      <li>Average: {travel.pedestrian.mean} miles</li>
+                      <li>High: {travel.pedestrian.upper} miles</li>
                     </ul>
                   </div>
                   : null }
 
                   { subtype !== "pedestrian-only" ?
                   <div className="col-sm-6">
-                    <u>Daily Bicyclist Miles Traveled</u>
+                    <u>Existing Daily Bicyling Miles</u>
                     <ul className="list-unstyled">
-                      <li>Low: {demand.bike.lower} miles</li>
-                      <li>Average: {demand.bike.mean} miles</li>
-                      <li>High: {demand.bike.upper} miles</li>
+                      <li>Low: {travel.bike.lower} miles</li>
+                      <li>Average: {travel.bike.mean} miles</li>
+                      <li>High: {travel.bike.upper} miles</li>
                     </ul>
                   </div>
                   : null }

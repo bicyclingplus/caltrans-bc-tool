@@ -1,12 +1,12 @@
 const BIKE_FACTOR = 0.506;
 
-function calcVMTReductions(demand) {
+function calcVMTReductions(travel) {
 
-  if('bike' in demand) {
+  if('bike' in travel) {
     return {
-      'lower': demand.bike.carShift.lower * BIKE_FACTOR * 365,
-      'mean': demand.bike.carShift.mean * BIKE_FACTOR * 365,
-      'upper': demand.bike.carShift.upper * BIKE_FACTOR * 365,
+      'lower': travel.bike.carShift.lower * BIKE_FACTOR * 365,
+      'mean': travel.bike.carShift.mean * BIKE_FACTOR * 365,
+      'upper': travel.bike.carShift.upper * BIKE_FACTOR * 365,
     }
   }
 

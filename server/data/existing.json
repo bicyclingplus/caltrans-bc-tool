@@ -11,7 +11,7 @@
 			"city": "Los Angeles",
 			"year": 2016,
 			"osm-ids": [],
-			"demand": {
+			"existingTravel": {
 				"bike": {
 					"lower": 265,
 					"mean": 476,
@@ -94,7 +94,7 @@
 				182330175,
 				10377075
 			],
-			"demand": {
+			"existingTravel": {
 				"bike": {
 					"lower": 200,
 					"mean": 350,
@@ -124,7 +124,7 @@
 				918769056,
 				91642147
 			],
-			"demand": {
+			"existingTravel": {
 				"bike": {
 					"lower": 0,
 					"mean": 0,
@@ -207,7 +207,7 @@
 				606916030,
 				13300772
 			],
-			"demand": {
+			"existingTravel": {
 				"bike": {
 					"lower": 265,
 					"mean": 476,
@@ -238,7 +238,7 @@
 				27145750,
 				43759486
 			],
-			"demand": {
+			"existingTravel": {
 				"bike": {
 					"lower": 0,
 					"mean": 0,
@@ -265,7 +265,7 @@
 			"city": "Multiple",
 			"year": 2016,
 			"osm-ids": [],
-			"demand": {
+			"existingTravel": {
 				"bike": {
 					"lower": 0,
 					"mean": 0,
@@ -292,7 +292,7 @@
 			"city": "Multiple",
 			"year": 2016,
 			"osm-ids": [],
-			"demand": {
+			"existingTravel": {
 				"bike": {
 					"lower": 0,
 					"mean": 0,

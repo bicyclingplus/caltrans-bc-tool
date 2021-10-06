@@ -12,7 +12,7 @@ import ProjectElements from './ProjectElements/ProjectElements';
 import SelectedInfrastructure from './SelectedInfrastructure/SelectedInfrastructure';
 import ProjectBenefits from './ProjectBenefits/ProjectBenefits';
 
-import calcDemand from './helpers/calcDemand';
+import calcTravel from './helpers/calcTravel';
 import calcVMTReductions from './helpers/calcVMTReductions';
 import calcHealth from './helpers/calcHealth';
 import calcEmissions from './helpers/calcEmissions';
@@ -47,7 +47,7 @@ class BCTool extends React.Component {
       'intersections': 0,
 
       'osm-ids': [],
-      'demand': {},
+      'existingTravel': {},
 
       'infrastructure': [],
       'non-infrastructure': [],
@@ -140,7 +140,7 @@ class BCTool extends React.Component {
             'corridors': project['corridors'] ? project['corridors'] : project['osm-ids'].length,
             'intersections': project['intersections'] ? project['intersections'] : null,
 
-            'demand': project['demand'],
+            'existingTravel': project['existingTravel'],
             'osm-ids': project['osm-ids'],
 
             'infrastructure': infrastructure,
@@ -252,30 +252,30 @@ class BCTool extends React.Component {
 
   handleBenefitButton() {
 
-    let demand = calcDemand(
+    let travel = calcTravel(
       this.state.infrastructure,
       this.state.subtype,
-      this.state.demand,
+      this.state.existingTravel,
       this.state.corridors
     )
 
-    let vmtReductions = calcVMTReductions(demand);
+    let vmtReductions = calcVMTReductions(travel);
 
     let emissions = calcEmissions(
       this.state.county, this.state.year, vmtReductions);
 
-    let health = calcHealth(this.state.subtype, demand);
+    let health = calcHealth(this.state.subtype, travel);
 
     let safetyQualitative = calcSafetyQualitative(this.state.infrastructure);
 
     let safetyQuantitative = calcSafetyQuantitative(
       this.state.infrastructure,
-      demand,
+      travel,
       this.state.corridors,
       this.state.intersections);
 
     let benefits = {
-      'demand': demand,
+      'travel': travel,
       'vmtReductions': vmtReductions,
       'emissions': emissions,
       'health': health,
@@ -340,7 +340,7 @@ class BCTool extends React.Component {
               corridors={this.state.corridors}
               intersections={this.state.intersections}
               subtype={this.state['subtype']}
-              demand={this.state.demand} />
+              travel={this.state.existingTravel} />
           </div>
         </div>
         : null }
@@ -384,10 +384,7 @@ class BCTool extends React.Component {
         { this.state.showBenefits ?
         <div className="row mb-3">
           <div className="col-sm-12">
-            <ProjectBenefits
-              benefits={this.state.benefits}
-              demand={this.state.demand}
-              subtype={this.state.subtype} />
+            <ProjectBenefits benefits={this.state.benefits} />
           </div>
         </div>
         : null }

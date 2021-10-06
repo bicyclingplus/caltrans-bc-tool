@@ -2,7 +2,7 @@ import React from 'react';
 
 import { readableNumber } from '../helpers/formatting';
 
-class Demand extends React.Component {
+class Travel extends React.Component {
 
   render() {
 
@@ -132,4 +132,4 @@ class Demand extends React.Component {
 
 }
 
-export default Demand;
+export default Travel;

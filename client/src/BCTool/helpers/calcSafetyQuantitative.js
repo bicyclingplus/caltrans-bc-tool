@@ -1,6 +1,6 @@
 const quantitative = require('../data/quantitative.json');
 
-function calcSafetyQuantitative(infrastructure, demand, corridors, intersections) {
+function calcSafetyQuantitative(infrastructure, travel, corridors, intersections) {
 
   // for each parameter
   // create a dict init count  for lower mean and upper;
@@ -38,17 +38,17 @@ function calcSafetyQuantitative(infrastructure, demand, corridors, intersections
 
           // console.log(`Calculating benefit for ${effect.mode} ${effect.parameter}`);
 
-          let modeProjectedDemand;
+          let modeProjectedTravel;
 
           switch(effect.mode) {
             case 'bike':
-              modeProjectedDemand = demand.bike.projected;
+              modeProjectedTravel = travel.bike.projected;
             break;
             case 'pedestrian':
-              modeProjectedDemand = demand.pedestrian.projected;
+              modeProjectedTravel = travel.pedestrian.projected;
             break;
             case 'all':
-              modeProjectedDemand = demand.totalProjected;
+              modeProjectedTravel = travel.totalProjected;
             break;
             case 'vehicle':
               // WHAT TO USE HERE?
@@ -64,25 +64,25 @@ function calcSafetyQuantitative(infrastructure, demand, corridors, intersections
 
             if(corridors) {
               if(effect.lower) {
-                counts[effect.parameter].lower += modeProjectedDemand.lower * corridorFraction * (1 + (effect.lower / 100));
+                counts[effect.parameter].lower += modeProjectedTravel.lower * corridorFraction * (1 + (effect.lower / 100));
               }
               if(effect.mean) {
-                counts[effect.parameter].mean += modeProjectedDemand.mean * corridorFraction * (1 + (effect.mean / 100));
+                counts[effect.parameter].mean += modeProjectedTravel.mean * corridorFraction * (1 + (effect.mean / 100));
               }
               if(effect.upper) {
-                counts[effect.parameter].upper += modeProjectedDemand.upper * corridorFraction * (1 + (effect.upper / 100));
+                counts[effect.parameter].upper += modeProjectedTravel.upper * corridorFraction * (1 + (effect.upper / 100));
               }
             }
 
             if(intersections) {
               if(effect.lower) {
-                counts[effect.parameter].lower += modeProjectedDemand.lower * intersectionFraction * (1 + (effect.lower / 100));
+                counts[effect.parameter].lower += modeProjectedTravel.lower * intersectionFraction * (1 + (effect.lower / 100));
               }
               if(effect.mean) {
-                counts[effect.parameter].mean += modeProjectedDemand.mean * intersectionFraction * (1 + (effect.mean / 100));
+                counts[effect.parameter].mean += modeProjectedTravel.mean * intersectionFraction * (1 + (effect.mean / 100));
               }
               if(effect.upper) {
-                counts[effect.parameter].upper += modeProjectedDemand.upper * intersectionFraction * (1 + (effect.upper / 100));
+                counts[effect.parameter].upper += modeProjectedTravel.upper * intersectionFraction * (1 + (effect.upper / 100));
               }
             }
           }

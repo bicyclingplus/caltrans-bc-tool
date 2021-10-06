@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Demand from './Demand';
+import Travel from './Travel';
 import SafetyQualitative from './SafetyQualitative';
 import SafetyQuantative from './SafetyQuantative';
 import Emissions from './Emissions';
@@ -17,7 +17,7 @@ class ProjectBenefits extends React.Component {
         <div className="card-body">
             <h4 className="card-title text-center">Benefits</h4>
 
-            <Demand benefits={benefits.demand} />
+            <Travel benefits={benefits.travel} />
 
             <SafetyQualitative benefits={benefits.safetyQualitative} />
 
