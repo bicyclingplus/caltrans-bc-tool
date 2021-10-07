@@ -64,25 +64,25 @@ function calcSafetyQuantitative(infrastructure, travel, blockFaces, intersection
 
             if(blockFaces) {
               if(effect.lower) {
-                counts[effect.parameter].lower += modeProjectedTravel.lower * blockFaceFraction * (1 + (effect.lower / 100));
+                counts[effect.parameter].lower += modeProjectedTravel.lower * blockFaceFraction * (1 + (effect.lower / 100)) * 365;
               }
               if(effect.mean) {
-                counts[effect.parameter].mean += modeProjectedTravel.mean * blockFaceFraction * (1 + (effect.mean / 100));
+                counts[effect.parameter].mean += modeProjectedTravel.mean * blockFaceFraction * (1 + (effect.mean / 100)) * 365;
               }
               if(effect.upper) {
-                counts[effect.parameter].upper += modeProjectedTravel.upper * blockFaceFraction * (1 + (effect.upper / 100));
+                counts[effect.parameter].upper += modeProjectedTravel.upper * blockFaceFraction * (1 + (effect.upper / 100)) * 365;
               }
             }
 
             if(intersections) {
               if(effect.lower) {
-                counts[effect.parameter].lower += modeProjectedTravel.lower * intersectionFraction * (1 + (effect.lower / 100));
+                counts[effect.parameter].lower += modeProjectedTravel.lower * intersectionFraction * (1 + (effect.lower / 100)) * 365;
               }
               if(effect.mean) {
-                counts[effect.parameter].mean += modeProjectedTravel.mean * intersectionFraction * (1 + (effect.mean / 100));
+                counts[effect.parameter].mean += modeProjectedTravel.mean * intersectionFraction * (1 + (effect.mean / 100)) * 365;
               }
               if(effect.upper) {
-                counts[effect.parameter].upper += modeProjectedTravel.upper * intersectionFraction * (1 + (effect.upper / 100));
+                counts[effect.parameter].upper += modeProjectedTravel.upper * intersectionFraction * (1 + (effect.upper / 100)) * 365;
               }
             }
           }
