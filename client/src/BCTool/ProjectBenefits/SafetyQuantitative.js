@@ -47,7 +47,7 @@ class SafetyQuantitative extends React.Component {
 						<td></td>
 						<td></td>
 					</tr>
-					<tr style={{"border-bottom-width": "thick", "border-bottom-color": "grey"}}>
+					<tr style={{"borderBottomWidth": "thick", "borderBottomColor": "grey"}}>
 						<td className="text-center">Deaths</td>
 						<td className="text-end">{readableNumber(benefits.deaths.lower)}</td>
 						<td className="text-end">{readableNumber(benefits.deaths.mean)}</td>
