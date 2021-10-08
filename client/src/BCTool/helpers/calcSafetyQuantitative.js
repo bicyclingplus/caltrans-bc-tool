@@ -4,10 +4,19 @@ function calcSafetyQuantitative(infrastructure, travel, blockFaces, intersection
 
   // for each parameter
   // create a dict init count  for lower mean and upper;
+  let parameters = [
+    "crashes",
+    "crime",
+    "deaths",
+    "injuries",
+    "speed",
+    "yielding",
+  ];
+
   let counts = {};
 
-  for(let parameter of quantitative.parameters) {
-    counts[parameter.shortname] = {
+  for(let parameter of parameters) {
+    counts[parameter] = {
       'lower': 0,
       'mean': 0,
       'upper': 0,
@@ -105,13 +114,7 @@ function calcSafetyQuantitative(infrastructure, travel, blockFaces, intersection
 
   }
 
-  return quantitative.parameters.map((parameter) => ({
-    'label': parameter.label,
-    'shortname': parameter.shortname,
-    'lower': counts[parameter.shortname].lower,
-    'mean': counts[parameter.shortname].mean,
-    'upper': counts[parameter.shortname].upper,
-  }));
+  return counts;
 }
 
 export default calcSafetyQuantitative;

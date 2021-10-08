@@ -10,13 +10,12 @@ class Travel extends React.Component {
 
     return (
       <>
-      <h5 className="mb-4">1/2) Total Demand / Active Travel Increase Demand Split</h5>
-      <h5 className="mb-4">Project-Level Active Travel</h5>
+      <h4 className="mt-4">Project-Level Active Travel</h4>
 
       { 'bike' in benefits ?
       <>
-      <h5>Estimated Average Daily Bike Miles Traveled (BMT)</h5>
-      <table className="table table-bordered mb-4">
+      <h5 className="mt-4">Estimated Average Daily Bike Miles Traveled (BMT)</h5>
+      <table className="table table-bordered">
         <tbody>
           <tr>
             <th colSpan="2"></th>
@@ -101,8 +100,8 @@ class Travel extends React.Component {
       </>
       : null }
 
-      <h5>Estimated Average Daily Walk Miles Traveled (WMT)</h5>
-      <table className="table table-bordered mb-4">
+      <h5 className="mt-4">Estimated Average Daily Walk Miles Traveled (WMT)</h5>
+      <table className="table table-bordered">
         <tbody>
           <tr>
             <th colSpan="2"></th>

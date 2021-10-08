@@ -5,7 +5,7 @@
 			"effects": [
 				{
 					"mode": "bike",
-					"parameter": "collisions",
+					"parameter": "crashes",
 					"units": "percent",
 					"lower": -200,
 					"mean": -500,
@@ -68,7 +68,7 @@
 			"effects": [
 				{
 					"mode": "bike",
-					"parameter": "collisions",
+					"parameter": "crashes",
 					"units": "percent",
 					"lower": -200,
 					"mean": -500,
@@ -278,14 +278,6 @@
 				},
 				{
 					"mode": "all",
-					"parameter": "severe-crashes",
-					"units": "percent",
-					"lower": null,
-					"mean": -50,
-					"upper": null
-				},
-				{
-					"mode": "all",
 					"parameter": "crime",
 					"units": "percent",
 					"lower": null,
@@ -315,39 +307,5 @@
 				}
 			]
 		}
-	},
-	"parameters": [
-		{
-			"label": "Collisions",
-			"shortname": "collisions"
-		},
-		{
-			"label": "Crashes",
-			"shortname": "crashes"
-		},
-		{
-			"label": "Crime",
-			"shortname": "crime"
-		},
-		{
-			"label": "Deaths",
-			"shortname": "deaths"
-		},
-		{
-			"label": "Injuries",
-			"shortname": "injuries"
-		},
-		{
-			"label": "Severe Crashes",
-			"shortname": "severe-crashes"
-		},
-		{
-			"label": "Speed",
-			"shortname": "speed"
-		},
-		{
-			"label": "Yielding",
-			"shortname": "yielding"
-		}
-	]
+	}
 }

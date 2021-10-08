@@ -384,7 +384,11 @@ class BCTool extends React.Component {
         { this.state.showBenefits ?
         <div className="row mb-3">
           <div className="col-sm-12">
-            <ProjectBenefits benefits={this.state.benefits} />
+            <ProjectBenefits
+              benefits={this.state.benefits}
+              name={this.state.name}
+              cost={this.state.cost}
+            />
           </div>
         </div>
         : null }

@@ -10,8 +10,8 @@ class HealthBenefits extends React.Component {
 
     return (
       <>
-      <h5>7) Health Benefits</h5>
-      <table className="table table-bordered mb-4">
+      <h5 className="mt-4">Physical Activity</h5>
+      <table className="table table-bordered">
         <thead>
           <tr>
             <th></th>

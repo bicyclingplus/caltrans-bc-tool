@@ -11,7 +11,7 @@ class Emissions extends React.Component {
 
     return (
       <>
-      <h5>5/6) VMT Reductions / Emission Benefits</h5>
+      <h5 className="mt-4">VMT and Emissions</h5>
       <table className="table table-bordered mb-4">
         <tbody>
           <tr>
