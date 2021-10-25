@@ -5,7 +5,7 @@ import InfrastructureItem from './InfrastructureItem';
 class InfrastructureCategory extends React.Component {
 
     render() {
-        let { category, onItemChange } = this.props;
+        let { category, onItemChange, onTypeChange } = this.props;
 
         return (
             <>
@@ -13,7 +13,8 @@ class InfrastructureCategory extends React.Component {
             <table className="table mb-3">
                 <thead>
                     <tr>
-                        <th width="50%"></th>
+                        <th width="25%"></th>
+                        <th>Type</th>
                         { category.blockFaces ? <th>Count of Block Faces</th> : null }
                         { category.intersections ? <th>Count of Intersections</th> : null }
                     </tr>
@@ -31,6 +32,8 @@ class InfrastructureCategory extends React.Component {
                                     blockFaces={category.blockFaces}
                                     intersections={category.intersections}
                                     onItemChange={onItemChange}
+                                    onTypeChange={onTypeChange}
+                                    type={item.type}
                                 />
                             ))
                     }

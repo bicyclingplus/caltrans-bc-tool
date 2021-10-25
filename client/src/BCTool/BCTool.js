@@ -99,12 +99,14 @@ class BCTool extends React.Component {
 
         let intersections = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].intersections : 0;
         let blockFaces = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].blockFaces : 0;
+        let type = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].type : '';
 
         item.selected = preselected.includes(item.shortname);
         item.counts = {
           "intersections": intersections,
           "blockFaces": blockFaces,
         };
+        item.type = type;
       }
     }
 
@@ -250,6 +252,27 @@ class BCTool extends React.Component {
 
   };
 
+  onTypeChange = (shortname, value) => {
+
+    let updated = this.state.infrastructure;
+
+    outer:
+    for(let category of updated.categories) {
+
+      for(let item of category.items) {
+
+        if(item.shortname === shortname) {
+          item.type = value;
+          break outer;
+        }
+      }
+    }
+
+    this.setState({
+      'infrastructure': updated,
+    });
+  }
+
   handleBenefitButton() {
 
     let travel = calcTravel(
@@ -365,6 +388,7 @@ class BCTool extends React.Component {
             <SelectedInfrastructure
               categories={this.state.infrastructure.categories}
               onItemChange={this.onItemChange}
+              onTypeChange={this.onTypeChange}
             />
           </div>
         </div>

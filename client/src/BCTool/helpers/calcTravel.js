@@ -15,6 +15,8 @@ const CAR_SHIFT = {
     'pedestrian': 24.41,
 };
 
+const SCALING_FACTOR = 0.1;
+
 function calcTravelMode(mode, infrastructure, subtype, existingTravel, blockFaces) {
 
     let travel = {};
@@ -47,13 +49,16 @@ function calcTravelMode(mode, infrastructure, subtype, existingTravel, blockFace
                             // console.log(`Adding travel increase for ${mode} for ${element}`);
 
                             let share = item.counts.blockFaces / blockFaces;
+                            let multiplier = item.type === "retrofit" ? SCALING_FACTOR : 1;
+
+                            console.log(`Multiplier for ${element} is ${multiplier}`)
 
                             // console.log(`Share is ${share}`);
 
                             increases.push({
-                                'lower': ((travel_volume[element][mode].lower / 100) * existingTravel[mode].lower) * share,
-                                'mean': ((travel_volume[element][mode].mean / 100) * existingTravel[mode].mean) * share,
-                                'upper': ((travel_volume[element][mode].upper / 100) * existingTravel[mode].upper) * share,
+                                'lower': ((travel_volume[element][mode].lower / 100) * existingTravel[mode].lower) * share * multiplier,
+                                'mean': ((travel_volume[element][mode].mean / 100) * existingTravel[mode].mean) * share * multiplier,
+                                'upper': ((travel_volume[element][mode].upper / 100) * existingTravel[mode].upper) * share * multiplier,
                             });
 
                         }
