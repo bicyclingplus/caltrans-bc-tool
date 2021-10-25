@@ -29,7 +29,7 @@ class infrastructureItem extends React.Component {
 
                 <td>
                     <select className="form-select" value={type} onChange={this.onTypeChange}>
-                        <option value="" selected disabled>-- Select a Type --</option>
+                        <option value="" disabled>-- Select a Type --</option>
                         <option value="new">New Construction</option>
                         <option value="upgrade">Significant Upgrade</option>
                         <option value="retrofit">Retrofit/Maintenance</option>

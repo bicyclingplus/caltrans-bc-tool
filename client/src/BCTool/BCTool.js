@@ -18,6 +18,7 @@ import calcHealth from './helpers/calcHealth';
 import calcEmissions from './helpers/calcEmissions';
 import calcSafetyQualitative from './helpers/calcSafetyQualitative';
 import calcSafetyQuantitative from './helpers/calcSafetyQuantitative';
+import calcProjectQualitative from './helpers/calcProjectQualitative';
 
 const infrastructure = require('./data/infrastructure.json');
 const non_infrastructure = require('./data/non_infrastructure.json');
@@ -275,12 +276,17 @@ class BCTool extends React.Component {
 
   handleBenefitButton() {
 
+    let projectQualitative = calcProjectQualitative(
+      this.state.infrastructure,
+      this.state['non-infrastructure'],
+    );
+
     let travel = calcTravel(
       this.state.infrastructure,
       this.state.subtype,
       this.state.existingTravel,
       this.state.blockFaces
-    )
+    );
 
     let vmtReductions = calcVMTReductions(travel);
 
@@ -304,6 +310,7 @@ class BCTool extends React.Component {
       'health': health,
       'safetyQualitative': safetyQualitative,
       'safetyQuantitative': safetyQuantitative,
+      'projectQualitative': projectQualitative,
     };
 
     // console.log(benefits);

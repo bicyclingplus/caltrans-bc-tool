@@ -1,0 +1,130 @@
+{
+	"benefits": [
+		{
+			"name": "Safety",
+			"type": "element",
+			"elements": [
+				"landscaping",
+				"dynamic-speed-display-sign",
+				"lighting",
+				"speed-limit-reduction",
+				"bike-boulevard",
+				"bike-highway",
+				"buffered-bike-lane",
+				"conventional-bike-lane",
+				"edge-lanes",
+				"horizontal-deflector",
+				"lane-narrowing",
+				"multi-use-path",
+				"road-diet",
+				"separated-bike-lane",
+				"shared-open-street",
+				"sidewalk",
+				"vertical-deflector",
+				"bike-box",
+				"bike-signal",
+				"crossing-island",
+				"crosswalk",
+				"curb-extension",
+				"pedestrian-countdown",
+				"pedestrian-scramble",
+				"protected-intersection",
+				"raised-crossing",
+				"raised-intersection",
+				"roundabout",
+				"signal-phasing",
+				"traffic-signal",
+				"flashing-beacon",
+				"lighting"
+			],
+			"parent": null,
+			"description": {
+				"present": "Elements from this project are likely to increase safety for walking and bicycling by directly reducing crashes, injuries, dealths, or by other factors like reducing car speeds that in turn will increase safety.",
+				"not-present": "The elements for this project may or may not increase safety for walking and bicycling. Consider including other elements in your project that have known relationships with active travel safety."
+			}
+		},
+		{
+			"name": "Increasing Active Travel",
+			"type": "element",
+			"elements": [
+				"landscaping",
+				"lighting",
+				"bike-boulevard",
+				"bike-highway",
+				"buffered-bike-lane",
+				"conventional-bike-lane",
+				"multi-use-path",
+				"road-diet",
+				"separated-bike-lane",
+				"shared-open-street",
+				"sidewalk",
+				"bike-parking",
+				"bikeshare-infrastructure",
+				"wayfairing-signs"
+			],
+			"parent": null,
+			"description": {
+				"present": "Elements from this project are likely to increase walking or bicycling or both. Increasing walking and bicycling is a key way to achieve social benefits from increasing physical activity and reducing vehicle miles traveled. Additionally, increasing walking and bicycling is known to increase safety (the phenomenon known as \"safety in numbers\"). Note: The increases in safety due to increasing walking and bicycling have been reported at the city-level but are unknown at the project level.",
+				"not-present": "The elements for this project may or may not increase walking and bicycling. Consider including other elements in your project that have known effects of increasing active travel. Increasing active travel is an important was to achieve social benefits and the reason why many of the quantitative benefit categories below are unknown."
+			}
+		},
+		{
+			"name": "Encouragement and Education",
+			"type": "element",
+			"elements": [
+				"safe-routes-to-school",
+				"community-events",
+				"social-marketing-education-campaings",
+				"active-transportation-experiments",
+				"programs-to-decrease-car-use",
+				"programs-to-connect-to-transit"
+			],
+			"parent": null,
+			"description": {
+				"present": "Non-infrastructure elements from this project are likely to increase social benefits (see below). However, due to limited evidence, these benefits cannot be quantified at this time.",
+				"not-present": "Consider including non-infrastructure elements to increase the potential for social benefits from the project. Although the benefits from non-infrastructure elements cannot be quantified at the project level at this time, benefits are likely."
+			}
+		},
+		{
+			"name": "Context",
+			"type": "always",
+			"elements": [],
+			"parent": null,
+			"description": "The project context is very important for describing the expected benefits of active trasportation projects. The quantitative calculations below consider the estimated existing miles of walking and bicycling through the project reach, but do not consider how a project's context might modify the calculations."
+		},
+		{
+			"name": "Physical Activity",
+			"type": "dependent",
+			"elements": [],
+			"parent": "Increasing Active Travel",
+			"description": {
+				"present": "Some of the increase in active travel expected from your project is likely to be associated with new active travel (where people shift from other modes of travel). This increase in physical activity reduces the risk of a number of prelavent diseases.",
+				"not-present": "The elements for this project may or may not increase physical activity. Consider including other elements in your project that have known effects of increasing active travel."
+			}
+		},
+		{
+			"name": "VMT Reductions (and emissions)",
+			"type": "dependent",
+			"elements": [],
+			"parent": "Increasing Active Travel",
+			"description": {
+				"present": "A small fraction of the increase in active travel expected from your project is likely to be associated with reduced car use and reduced emissions. Reducing car use has downsteam benefits of reducing air pollutants and greenhouse gas emissions. Note: the change in air pollutant exposure from shifting from non-active travel modesl to active travel modes is uncertain with some evidence suggesting increases and some suggesting decreases. We have intentionally ignored this factor.",
+				"not-present": "The elements for this project may or may not reduce car use. Consider including other elements in your project that have known effects of increasing active travel or reducing car use."
+			}
+		},
+		{
+			"name": "Economic Activity",
+			"type": "always",
+			"elements": [],
+			"parent": null,
+			"description": "Evidence suggests that generally active transportation projects are likely to have slightly positive or non-significant economic impacts on nearby businesses and slighly positive effects on housing prices. However, becuase economic impacts are difficult to quantify and are liekly more context dependent than other benefits, this tool does not report quantiative estimates."
+		},
+		{
+			"name": "Other Costs and Benefits",
+			"type": "always",
+			"elements": [],
+			"parent": null,
+			"description": "A number of other costs and benefits are likely to accrue from active transportation projects that are not reported below because there is either a lack of evidence or the evidence is inconclusive. Please see the full report for details about other potential costs and benefits."
+		}
+	]
+}

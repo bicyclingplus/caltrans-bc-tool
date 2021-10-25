@@ -5,6 +5,7 @@ import SafetyQualitative from './SafetyQualitative';
 import SafetyQuantitative from './SafetyQuantitative';
 import Emissions from './Emissions';
 import Health from './Health';
+import ProjectQualitative from './ProjectQualitative';
 
 import { readableNumber } from '../helpers/formatting';
 
@@ -25,8 +26,7 @@ class ProjectBenefits extends React.Component {
 
             <Travel benefits={benefits.travel} />
 
-            <h4 className="mt-4">Qualitative Benefits</h4>
-            <p>TODO</p>
+            <ProjectQualitative benefits={benefits.projectQualitative} />
 
             <SafetyQualitative benefits={benefits.safetyQualitative} />
 
