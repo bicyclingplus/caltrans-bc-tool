@@ -11,6 +11,7 @@ import ProjectMap from './ProjectMap/ProjectMap';
 import ProjectElements from './ProjectElements/ProjectElements';
 import SelectedInfrastructure from './SelectedInfrastructure/SelectedInfrastructure';
 import ProjectBenefits from './ProjectBenefits/ProjectBenefits';
+import BenefitsButton from './benefits-button';
 
 import calcTravel from './helpers/calcTravel';
 import calcVMTReductions from './helpers/calcVMTReductions';
@@ -55,13 +56,14 @@ class BCTool extends React.Component {
       'infrastructure-selected': false,
       'non-infrastructure-selected': false,
 
+      'benefits': {},
       'showBenefits': false,
+      'inputsChanged': false,
     };
 
     this.handleProjectChange = this.handleProjectChange.bind(this);
     this.onInfrastructureChange = this.onInfrastructureChange.bind(this);
     this.onNonInfrastructureChange = this.onNonInfrastructureChange.bind(this);
-    this.handleBenefitButton = this.handleBenefitButton.bind(this);
 
   }
 
@@ -151,7 +153,9 @@ class BCTool extends React.Component {
             'infrastructure-selected': preselected.length ? true : false,
             'non-infrastructure-selected': false,
 
+            'benefits': {},
             'showBenefits': false,
+            'inputsChanged': false,
           });
         },
         (error) => {
@@ -199,6 +203,7 @@ class BCTool extends React.Component {
     this.setState({
       'infrastructure': updated,
       'infrastructure-selected': selected,
+      'inputsChanged': true,
     });
   }
 
@@ -226,6 +231,7 @@ class BCTool extends React.Component {
     this.setState({
       'non-infrastructure': updated,
       'selected-non-infrastructure': selected,
+      'inputsChanged': true,
     });
   }
 
@@ -249,6 +255,7 @@ class BCTool extends React.Component {
 
     this.setState({
       'infrastructure': updated,
+      'inputsChanged': true,
     })
 
   };
@@ -271,10 +278,11 @@ class BCTool extends React.Component {
 
     this.setState({
       'infrastructure': updated,
+      'inputsChanged': true,
     });
   }
 
-  handleBenefitButton() {
+  updateBenefits = () => {
 
     let projectQualitative = calcProjectQualitative(
       this.state.infrastructure,
@@ -316,8 +324,9 @@ class BCTool extends React.Component {
     // console.log(benefits);
 
     this.setState({
-      'benefits': benefits,
       'showBenefits': true,
+      'inputsChanged': false,
+      'benefits': benefits,
     });
 
   }
@@ -404,10 +413,11 @@ class BCTool extends React.Component {
         { this.state['infrastructure-selected'] || this.state['non-infrastructure-selected'] ?
         <div className="row mb-3">
           <div className="col-sm-12 text-center">
-            <button
-              type="button"
-              className="btn btn-primary btn-lg"
-              onClick={this.handleBenefitButton}>Estimate Benefits</button>
+            <BenefitsButton
+              showBenefits={this.state.showBenefits}
+              updateBenefits={this.updateBenefits}
+              inputsChanged={this.state.inputsChanged}
+            />
           </div>
         </div>
         : null }
