@@ -331,6 +331,42 @@ class BCTool extends React.Component {
 
   }
 
+  updateName = (e) => {
+    this.setState({
+      'name': e.target.value,
+    });
+  };
+
+  updateDeveloper = (e) => {
+    this.setState({
+      'developer': e.target.value,
+    });
+  };
+
+  updateCost = (e) => {
+    this.setState({
+      'cost': e.target.value,
+    });
+  };
+
+  updateType = (e) => {
+    this.setState({
+      'type': e.target.value,
+    });
+  };
+
+  updateSubtype = (e) => {
+    this.setState({
+      'subtype': e.target.value,
+    });
+  };
+
+  updateCity = (e) => {
+    this.setState({
+      'city': e.target.value,
+    });
+  };
+
   render() {
     return (
       <div className="container">
@@ -357,7 +393,14 @@ class BCTool extends React.Component {
               cost={this.state['cost']}
               type={this.state['type']}
               subtype={this.state['subtype']}
-              city={this.state['city']} />
+              city={this.state['city']}
+              updateName={this.updateName}
+              updateDeveloper={this.updateDeveloper}
+              updateCost={this.updateCost}
+              updateType={this.updateType}
+              updateSubtype={this.updateSubtype}
+              updateCity={this.updateCity}
+            />
           </div>
         </div>
 
