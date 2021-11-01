@@ -69,7 +69,7 @@ class Travel extends React.Component {
             <td></td>
           </tr>
           <tr>
-            <td>Residual</td>
+            <td>Other Mode Shift</td>
             <td className="text-end">{readableNumber(benefits.bike.residual.lower)}</td>
             <td className="text-end">{readableNumber(benefits.bike.residual.mean)}</td>
             <td className="text-end">{readableNumber(benefits.bike.residual.upper)}</td>
@@ -155,7 +155,7 @@ class Travel extends React.Component {
             <td></td>
           </tr>
           <tr>
-            <td>Residual</td>
+            <td>Other Mode Shift</td>
             <td className="text-end">{readableNumber(benefits.pedestrian.residual.lower)}</td>
             <td className="text-end">{readableNumber(benefits.pedestrian.residual.mean)}</td>
             <td className="text-end">{readableNumber(benefits.pedestrian.residual.upper)}</td>
