@@ -51,7 +51,7 @@ function calcTravelMode(mode, infrastructure, subtype, existingTravel, blockFace
                             let share = item.counts.blockFaces / blockFaces;
                             let multiplier = item.type === "retrofit" ? SCALING_FACTOR : 1;
 
-                            console.log(`Multiplier for ${element} is ${multiplier}`)
+                            // console.log(`Multiplier for ${element} is ${multiplier}`)
 
                             // console.log(`Share is ${share}`);
 

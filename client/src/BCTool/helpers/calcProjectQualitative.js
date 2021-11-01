@@ -2,8 +2,8 @@ const projectQualitative = require('../data/project_qualitative.json');
 
 function calcProjectQualitative(infrastructure, nonInfrastructure) {
 
-	console.log(infrastructure);
-	console.log(nonInfrastructure);
+	// console.log(infrastructure);
+	// console.log(nonInfrastructure);
 
 	let combinedElements = [];
 
@@ -25,7 +25,7 @@ function calcProjectQualitative(infrastructure, nonInfrastructure) {
 		}
 	}
 
-	console.log(combinedElements);
+	// console.log(combinedElements);
 
 	let benefits = [];
 	let benefitNames = [];
