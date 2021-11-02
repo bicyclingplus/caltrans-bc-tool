@@ -100,6 +100,8 @@ class Travel extends React.Component {
       </>
       : null }
 
+      { 'pedestrian' in benefits ?
+      <>
       <h5 className="mt-4">Estimated Average Daily Walk Miles Traveled (WMT)</h5>
       <table className="table table-bordered">
         <tbody>
@@ -183,6 +185,8 @@ class Travel extends React.Component {
           </tr>
         </tbody>
       </table>
+      </>
+      : null }
       </>
     );
   }

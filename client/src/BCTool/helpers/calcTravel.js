@@ -136,17 +136,24 @@ function calcTravel(infrastructure, subtype, existingTravel, blockFaces) {
         }
     };
 
-    travel.bike = calcTravelMode('bike', infrastructure, subtype, existingTravel, blockFaces);
 
-    travel.totalProjected.lower += travel.bike.projected.lower;
-    travel.totalProjected.mean += travel.bike.projected.mean;
-    travel.totalProjected.upper += travel.bike.projected.upper;
+    if(subtype !== 'pedestrian-only') {
 
-    travel.pedestrian = calcTravelMode('pedestrian', infrastructure, subtype, existingTravel, blockFaces);
+        travel.bike = calcTravelMode('bike', infrastructure, subtype, existingTravel, blockFaces);
 
-    travel.totalProjected.lower += travel.pedestrian.projected.lower;
-    travel.totalProjected.mean += travel.pedestrian.projected.mean;
-    travel.totalProjected.upper += travel.pedestrian.projected.upper;
+        travel.totalProjected.lower += travel.bike.projected.lower;
+        travel.totalProjected.mean += travel.bike.projected.mean;
+        travel.totalProjected.upper += travel.bike.projected.upper;
+    }
+
+    if(subtype !== 'bike-only') {
+
+        travel.pedestrian = calcTravelMode('pedestrian', infrastructure, subtype, existingTravel, blockFaces);
+
+        travel.totalProjected.lower += travel.pedestrian.projected.lower;
+        travel.totalProjected.mean += travel.pedestrian.projected.mean;
+        travel.totalProjected.upper += travel.pedestrian.projected.upper;
+    }
 
     return travel;
 

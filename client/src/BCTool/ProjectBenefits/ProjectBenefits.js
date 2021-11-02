@@ -22,23 +22,33 @@ class ProjectBenefits extends React.Component {
             <h4>Project Name: {name}</h4>
             <h4 className="mt-4">Project Cost: ${readableNumber(cost)}</h4>
 
-            {/*<h3 className="card-title text-center">Benefits</h3>*/}
-
+            { benefits.travel ?
             <Travel benefits={benefits.travel} />
+            : null }
 
+            { benefits.projectQualitative ?
             <ProjectQualitative benefits={benefits.projectQualitative} />
+            : null }
 
+            { benefits.safetyQualitative ?
             <SafetyQualitative benefits={benefits.safetyQualitative} />
+            : null }
 
+            { benefits.safetyQuantitative || benefits.emissions || benefits.health ?
             <h4 className="mt-4">Project-Level Quantitative Benefits</h4>
+            : null }
 
+            { benefits.safetyQuantitative ?
             <SafetyQuantitative benefits={benefits.safetyQuantitative} />
+            : null }
 
             { benefits.emissions ?
             <Emissions emissions={benefits.emissions} vmtReductions={benefits.vmtReductions} />
             : null }
 
+            { benefits.health ?
             <Health benefits={benefits.health} />
+            : null }
 
         </div>
       </div>

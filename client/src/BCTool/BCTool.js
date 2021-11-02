@@ -230,7 +230,7 @@ class BCTool extends React.Component {
 
     this.setState({
       'non-infrastructure': updated,
-      'selected-non-infrastructure': selected,
+      'non-infrastructure-selected': selected,
       'inputsChanged': true,
     });
   }
@@ -309,17 +309,21 @@ class BCTool extends React.Component {
       this.state.infrastructure,
       travel,
       this.state.blockFaces,
-      this.state.intersections);
+      this.state.intersections,
+      this.state.subtype);
 
     let benefits = {
-      'travel': travel,
-      'vmtReductions': vmtReductions,
-      'emissions': emissions,
-      'health': health,
-      'safetyQualitative': safetyQualitative,
-      'safetyQuantitative': safetyQuantitative,
       'projectQualitative': projectQualitative,
     };
+
+    if(this.state.type !== 'non-infrastructure') {
+      benefits.travel = travel;
+      benefits.vmtReductions = vmtReductions;
+      benefits.emissions = emissions;
+      benefits.health = health;
+      benefits.safetyQualitative = safetyQualitative;
+      benefits.safetyQuantitative = safetyQuantitative;
+    }
 
     // console.log(benefits);
 
@@ -352,12 +356,18 @@ class BCTool extends React.Component {
   updateType = (e) => {
     this.setState({
       'type': e.target.value,
+      'benefits': {},
+      'showBenefits': false,
+      'inputsChanged': false,
     });
   };
 
   updateSubtype = (e) => {
     this.setState({
       'subtype': e.target.value,
+      'benefits': {},
+      'showBenefits': false,
+      'inputsChanged': false,
     });
   };
 

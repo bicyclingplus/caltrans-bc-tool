@@ -29,6 +29,7 @@ class HealthBenefits extends React.Component {
           </tr>
         </thead>
         <tbody>
+          { benefits.bike ?
           <tr>
             <th>Bicyling</th>
             <td className="text-end">{readableNumber(benefits.bike.lower)}</td>
@@ -38,6 +39,8 @@ class HealthBenefits extends React.Component {
             <td className="text-end"></td>
             <td className="text-end"></td>
           </tr>
+          : null }
+          { benefits.pedestrian ?
           <tr>
             <th>Walking</th>
             <td className="text-end">{readableNumber(benefits.pedestrian.lower)}</td>
@@ -47,6 +50,8 @@ class HealthBenefits extends React.Component {
             <td className="text-end"></td>
             <td className="text-end"></td>
           </tr>
+          : null }
+          { benefits.bike && benefits.pedestrian ?
           <tr>
             <th>TOTAL</th>
             <td className="text-end">{readableNumber(benefits.total.lower)}</td>
@@ -56,6 +61,7 @@ class HealthBenefits extends React.Component {
             <td className="text-end"></td>
             <td className="text-end"></td>
           </tr>
+          : null }
         </tbody>
       </table>
       </>

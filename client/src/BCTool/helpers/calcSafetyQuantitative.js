@@ -1,6 +1,6 @@
 const quantitative = require('../data/quantitative.json');
 
-function calcSafetyQuantitative(infrastructure, travel, blockFaces, intersections) {
+function calcSafetyQuantitative(infrastructure, travel, blockFaces, intersections, subtype) {
 
   // for each parameter
   // create a dict init count  for lower mean and upper;
@@ -51,10 +51,14 @@ function calcSafetyQuantitative(infrastructure, travel, blockFaces, intersection
 
           switch(effect.mode) {
             case 'bike':
-              modeProjectedTravel = travel.bike.projected;
+              if(subtype !== 'pedestrian-only') {
+                modeProjectedTravel = travel.bike.projected;
+              }
             break;
             case 'pedestrian':
-              modeProjectedTravel = travel.pedestrian.projected;
+              if(subtype !== 'bike-only') {
+                modeProjectedTravel = travel.pedestrian.projected;
+              }
             break;
             case 'all':
               modeProjectedTravel = travel.totalProjected;
@@ -67,6 +71,10 @@ function calcSafetyQuantitative(infrastructure, travel, blockFaces, intersection
             default:
               console.log(`Unknown effect mode: ${effect.mode}!`);
               continue;
+          }
+
+          if(!modeProjectedTravel) {
+            continue;
           }
 
           if(effect.units === 'percent') {
