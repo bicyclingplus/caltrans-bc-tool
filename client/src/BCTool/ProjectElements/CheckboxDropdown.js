@@ -21,11 +21,7 @@ class CheckboxDropdown extends React.Component {
         }
 
         if(selectedText.length) {
-            let list = selectedText.join(", "),
-                maxLength = parseInt(this.props.maxLength),
-                trimmed = list.substring(0, maxLength).trim() + "...";
-
-            return list.length > maxLength ? trimmed : list;
+            return selectedText.join(", ");
         }
 
         return this.props.buttonText;

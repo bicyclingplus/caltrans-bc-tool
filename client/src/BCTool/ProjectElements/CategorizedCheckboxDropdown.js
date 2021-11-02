@@ -19,14 +19,9 @@ class CategorizedCheckboxDropdown extends React.Component {
         }
 
         if(selectedText.length) {
-            let list = selectedText.join(", "),
-                maxLength = parseInt(this.props.maxLength),
-                trimmed = list.substring(0, maxLength).trim() + "...";
-
-            return list.length > maxLength ? trimmed : list;
+            return selectedText.join(", ");
         }
 
-        // default to cue to click the dropdown
         return buttonText;
     }
 

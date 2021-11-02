@@ -5,3 +5,9 @@
 .negative-change {
 	color:  red;
 }
+
+.dropdown-toggle {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
