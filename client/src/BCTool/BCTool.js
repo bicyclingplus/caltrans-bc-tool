@@ -374,6 +374,9 @@ class BCTool extends React.Component {
   updateCounty = (e) => {
     this.setState({
       'county': e.target.value,
+      'benefits': {},
+      'showBenefits': false,
+      'inputsChanged': false,
     });
   };
 
