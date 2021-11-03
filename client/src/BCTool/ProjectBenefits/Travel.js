@@ -70,9 +70,9 @@ class Travel extends React.Component {
           </tr>
           <tr>
             <td>Other Mode Shift</td>
-            <td className="text-end">{readableNumber(benefits.bike.residual.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.residual.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.residual.upper)}</td>
+            <td className="text-end">{readableNumber(benefits.bike.otherShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.bike.otherShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.bike.otherShift.upper)}</td>
             <td></td>
             <td></td>
             <td></td>
@@ -158,9 +158,9 @@ class Travel extends React.Component {
           </tr>
           <tr>
             <td>Other Mode Shift</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.residual.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.residual.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.residual.upper)}</td>
+            <td className="text-end">{readableNumber(benefits.pedestrian.otherShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.pedestrian.otherShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.pedestrian.otherShift.upper)}</td>
             <td></td>
             <td></td>
             <td></td>

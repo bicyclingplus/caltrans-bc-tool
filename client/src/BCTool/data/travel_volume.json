@@ -1,9 +1,9 @@
 {
 	"bike-highway": {
 		"bike": {
-			"lower": null,
+			"lower": 38.5,
 			"mean": 77,
-			"upper": null
+			"upper": 115.5
 		}
 	},
 	"buffered-bike-lane": {
@@ -20,6 +20,13 @@
 			"upper": 268
 		}
 	},
+	"crossing-island": {
+		"pedestrian": {
+			"lower": 5,
+			"mean": 10,
+			"upper": 15
+		}
+	},
 	"separated-bike-lane": {
 		"bike": {
 			"lower": 21,
@@ -29,21 +36,14 @@
 	},
 	"road-diet": {
 		"bike": {
-			"lower": 0,
+			"lower": 6.5,
 			"mean": 13,
 			"upper": 25
 		},
 		"pedestrian": {
-			"lower": 0,
+			"lower": 7.5,
 			"mean": 15,
 			"upper": 30
-		}
-	},
-	"crossing-island": {
-		"pedestrian": {
-			"lower": null,
-			"mean": 10,
-			"upper": null
 		}
 	},
 	"sidewalk": {

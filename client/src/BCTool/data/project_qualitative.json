@@ -35,6 +35,7 @@
 				"signal-phasing",
 				"traffic-signal",
 				"flashing-beacon",
+				"shorten-crossing",
 				"lighting"
 			],
 			"parent": null,

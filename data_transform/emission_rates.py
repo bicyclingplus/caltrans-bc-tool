@@ -1,3 +1,4 @@
+import os
 import csv
 import json
 
@@ -13,9 +14,11 @@ emissions_types = [
     "SOx",
 ]
 
+infilename = 'CA_County_EMFAC.csv'
+outfilename = 'emission_rates.json'
 emissions = {}
 
-with open('ATP_Projects_EMFAC.csv') as infile:
+with open(os.path.join('input', infilename)) as infile:
 
     reader = csv.reader(infile)
 
@@ -50,7 +53,7 @@ with open('ATP_Projects_EMFAC.csv') as infile:
         for e,i in zip(emissions_types, emissions_idx):
             emissions[county][year][vehicle_type][e] = float(r[i])
 
-json.dump(emissions, open('emission_rates.json', 'w'))
+json.dump(emissions, open(os.path.join('output', outfilename), 'w'))
 
 
 

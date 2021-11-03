@@ -22,11 +22,6 @@
 					"description": ""
 				},
 				{
-					"label": "Flashing Beacon",
-					"shortname": "flashing-beacon",
-					"description": ""
-				},
-				{
 					"label": "Landscaping",
 					"shortname": "landscaping",
 					"description": ""
@@ -200,6 +195,21 @@
 				{
 					"label": "Traffic Signal (New)",
 					"shortname": "traffic-signal",
+					"description": ""
+				},
+				{
+					"label": "Flashing Beacon",
+					"shortname": "flashing-beacon",
+					"description": ""
+				},
+				{
+					"label": "Shorten Crossing",
+					"shortname": "shorten-crossing",
+					"description": ""
+				},
+				{
+					"label": "Crossing Surface",
+					"shortname": "crossing-surface",
 					"description": ""
 				}
 			]

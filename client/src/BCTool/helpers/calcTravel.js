@@ -2,17 +2,22 @@ const travel_volume = require('../data/travel_volume.json');
 
 const INDUCED_TRAVEL = {
     'bike': 11.8,
-    'pedestrian': 49.95,
+    'pedestrian': 10.98,
 };
 
 const ROUTE_SHIFT = {
     'bike': 58.81,
-    'pedestrian': 0,
+    'pedestrian': 7.73,
 };
 
 const CAR_SHIFT = {
     'bike': 17.64,
-    'pedestrian': 24.41,
+    'pedestrian': 33.3,
+};
+
+const OTHER_SHIFT = {
+    'bike': 11.75,
+    'pedestrian': 47.99,
 };
 
 const SCALING_FACTOR = 0.1;
@@ -109,11 +114,11 @@ function calcTravelMode(mode, infrastructure, subtype, existingTravel, blockFace
         'upper': weighted.upper * CAR_SHIFT[mode] / 100,
     };
 
-    travel.residual = {
-        'lower': weighted.lower - travel.inducedTravel.lower - travel.routeShift.lower - travel.carShift.lower,
-        'mean': weighted.mean - travel.inducedTravel.mean - travel.routeShift.mean - travel.carShift.mean,
-        'upper': weighted.upper - travel.inducedTravel.upper - travel.routeShift.upper - travel.carShift.upper,
-    }
+    travel.otherShift =  {
+        'lower': weighted.lower * OTHER_SHIFT[mode] / 100,
+        'mean': weighted.mean * OTHER_SHIFT[mode] / 100,
+        'upper': weighted.upper * OTHER_SHIFT[mode] / 100,
+    };
 
     travel.total = weighted;
 
