@@ -1,6 +1,29 @@
 {
 	"categories": [
 		{
+			"label": "Multi Element Interventions",
+			"shortname": "multi",
+			"blockFaces": true,
+			"intersections": true,
+			"items": [
+				{
+					"label": "Bike Boulevard",
+					"shortname": "bike-boulevard",
+					"description": ""
+				},
+				{
+					"label": "Road Diet",
+					"shortname": "road-diet",
+					"description": ""
+				},
+				{
+					"label": "Shared/Open Street",
+					"shortname": "shared-open-street",
+					"description": ""
+				}
+			]
+		},
+		{
 			"label": "Amenity",
 			"shortname": "amenity",
 			"blockFaces": true,
@@ -17,11 +40,6 @@
 					"description": ""
 				},
 				{
-					"label": "Dynamic Speed Display Sign",
-					"shortname": "dynamic-speed-display-sign",
-					"description": ""
-				},
-				{
 					"label": "Landscaping",
 					"shortname": "landscaping",
 					"description": ""
@@ -29,11 +47,6 @@
 				{
 					"label": "Lighting",
 					"shortname": "lighting",
-					"description": ""
-				},
-				{
-					"label": "Speed Limit Reduction",
-					"shortname": "speed-limit-reduction",
 					"description": ""
 				},
 				{
@@ -49,11 +62,6 @@
 			"blockFaces": true,
 			"intersections": false,
 			"items": [
-				{
-					"label": "Bike Boulevard",
-					"shortname": "bike-boulevard",
-					"description": ""
-				},
 				{
 					"label": "Bike Highway",
 					"shortname": "bike-highway",
@@ -72,6 +80,11 @@
 				{
 					"label": "Conventional Bike Lane",
 					"shortname": "conventional-bike-lane",
+					"description": ""
+				},
+				{
+					"label": "Dynamic Speed Display Sign",
+					"shortname": "dynamic-speed-display-sign",
 					"description": ""
 				},
 				{
@@ -100,23 +113,18 @@
 					"description": ""
 				},
 				{
-					"label": "Road Diet",
-					"shortname": "road-diet",
-					"description": ""
-				},
-				{
 					"label": "Separated Bike Lane",
 					"shortname": "separated-bike-lane",
 					"description": ""
 				},
 				{
-					"label": "Shared/Open Street",
-					"shortname": "shared-open-street",
+					"label": "Sidewalk",
+					"shortname": "sidewalk",
 					"description": ""
 				},
 				{
-					"label": "Sidewalk",
-					"shortname": "sidewalk",
+					"label": "Speed Limit Reduction",
+					"shortname": "speed-limit-reduction",
 					"description": ""
 				},
 				{
@@ -148,6 +156,11 @@
 					"description": ""
 				},
 				{
+					"label": "Crossing Surface",
+					"shortname": "crossing-surface",
+					"description": ""
+				},
+				{
 					"label": "Crosswalk",
 					"shortname": "crosswalk",
 					"description": ""
@@ -155,6 +168,11 @@
 				{
 					"label": "Curb Extension",
 					"shortname": "curb-extension",
+					"description": ""
+				},
+				{
+					"label": "Flashing Beacon",
+					"shortname": "flashing-beacon",
 					"description": ""
 				},
 				{
@@ -188,6 +206,11 @@
 					"description": ""
 				},
 				{
+					"label": "Shorten Crossing",
+					"shortname": "shorten-crossing",
+					"description": ""
+				},
+				{
 					"label": "Signal Phasing (improvement)",
 					"shortname": "signal-phasing",
 					"description": ""
@@ -195,21 +218,6 @@
 				{
 					"label": "Traffic Signal (New)",
 					"shortname": "traffic-signal",
-					"description": ""
-				},
-				{
-					"label": "Flashing Beacon",
-					"shortname": "flashing-beacon",
-					"description": ""
-				},
-				{
-					"label": "Shorten Crossing",
-					"shortname": "shorten-crossing",
-					"description": ""
-				},
-				{
-					"label": "Crossing Surface",
-					"shortname": "crossing-surface",
 					"description": ""
 				}
 			]

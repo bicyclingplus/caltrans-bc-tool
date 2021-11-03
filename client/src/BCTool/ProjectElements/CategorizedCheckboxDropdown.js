@@ -30,17 +30,13 @@ class CategorizedCheckboxDropdown extends React.Component {
         const buttonText = this.buildButtonText();
         let { categories, onChange, name } = this.props;
 
-        let categorizedCheckboxLists = [];
-
-        for(let category of categories) {
-            categorizedCheckboxLists.push(
-                <CategorizedCheckboxList
-                    key={category.shortname}
-                    category={category}
-                    onChange={onChange}
-                />
-            )
-        }
+        let categorizedCheckboxLists = categories.map((category) => (
+            <CategorizedCheckboxList
+                key={category.shortname}
+                category={category}
+                onChange={onChange}
+            />
+        ));
 
         return (
             <div className="dropdown d-grid gap-2">
@@ -52,9 +48,23 @@ class CategorizedCheckboxDropdown extends React.Component {
                 {buttonText}
               </button>
               <div className="dropdown-menu" aria-labelledby={"dropdown-"+name}>
-                <form className="px-4 py-3">
-                    <div className="row">
-                        {categorizedCheckboxLists}
+                <form>
+                    <div className="row ms-4 me-4">
+                        <div className="col-sm-4">
+                            {
+                                categorizedCheckboxLists.slice(0,2)
+                            }
+                        </div>
+                        <div className="col-sm-4">
+                            {
+                                categorizedCheckboxLists.slice(2,3)
+                            }
+                        </div>
+                        <div className="col-sm-4">
+                            {
+                                categorizedCheckboxLists.slice(3,4)
+                            }
+                        </div>
                     </div>
                 </form>
               </div>

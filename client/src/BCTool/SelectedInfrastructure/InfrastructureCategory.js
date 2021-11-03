@@ -9,8 +9,9 @@ class InfrastructureCategory extends React.Component {
 
         return (
             <>
+            <div className="mb-5">
             <h5>{category.label}</h5>
-            <table className="table mb-3">
+            <table className="table">
                 <thead>
                     <tr>
                         <th width="25%"></th>
@@ -39,6 +40,7 @@ class InfrastructureCategory extends React.Component {
                     }
                 </tbody>
             </table>
+            </div>
             </>
         );
     }

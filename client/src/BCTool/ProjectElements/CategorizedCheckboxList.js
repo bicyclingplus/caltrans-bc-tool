@@ -16,13 +16,15 @@ class CategorizedCheckboxList extends React.Component {
         let { category } = this.props;
 
         return (
-            <div className="col-sm-4">
+            <>
+            <div className="mb-3">
                 <h6 className="dropdown-header">{category.label}</h6>
                 <CheckboxList
                     items={category.items}
                     onChange={this.onChange}
                 />
             </div>
+            </>
         );
     }
 }
