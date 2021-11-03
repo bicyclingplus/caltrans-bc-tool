@@ -34,7 +34,7 @@ with open(os.path.join('input', infilename)) as infile:
 
         # standardize to match the emissions table
         if fuel == 'Plug-In Hybrid':
-            fuel == 'Plug-in Hybrid'
+            fuel = 'Plug-in Hybrid'
 
         # we don't care about the individual electric count
         # because all of the emissions numbers are 0 for it
