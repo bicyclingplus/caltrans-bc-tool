@@ -1,5 +1,7 @@
 import React from 'react';
 
+const counties = require('../data/counties.json')['counties'];
+
 class ProjectForm extends React.Component {
 
   render() {
@@ -10,13 +12,13 @@ class ProjectForm extends React.Component {
       cost,
       type,
       subtype,
-      city,
+      county,
       updateName,
       updateDeveloper,
       updateCost,
       updateType,
       updateSubtype,
-      updateCity,
+      updateCounty,
     } = this.props;
 
     return (
@@ -44,7 +46,7 @@ class ProjectForm extends React.Component {
           <label htmlFor="project-type" className="col-sm-2 col-form-label text-end">Project Type</label>
           <div className="col-md-4">
             <select id="project-type" className="form-select" value={type} onChange={updateType}>
-              <option value=""></option>
+              <option value="" disabled>-- Choose a type --</option>
               <option value="infrastructure">Infrastructure</option>
               <option value="non-infrastructure">Non-Infrastructure</option>
               <option value="both">Infrastructure and Non-Infrastructure</option>
@@ -57,7 +59,7 @@ class ProjectForm extends React.Component {
           <label htmlFor="project-subtype" className="col-sm-2 col-form-label text-end">Active Travel Type</label>
           <div className="col-md-4">
             <select id="project-subtype" className="form-select" value={subtype} onChange={updateSubtype}>
-              <option value=""></option>
+              <option value="" disabled>-- Choose a type --</option>
               <option value="pedestrian-only">Pedestrian Only</option>
               <option value="bike-only">Bicyclist Only</option>
               <option value="both">Pedestrian and Bicyclist</option>
@@ -67,10 +69,15 @@ class ProjectForm extends React.Component {
         : null }
 
         <div className="row mb-2">
-          <label htmlFor="city" className="col-sm-2 col-form-label text-end">City</label>
+          <label htmlFor="county" className="col-sm-2 col-form-label text-end">Primary County</label>
           <div className="col-md-4">
-            <select id="city" className="form-select" value={city} onChange={updateCity}>
-              <option value={city}>{city}</option>
+            <select id="county" className="form-select" value={county} onChange={updateCounty}>
+              <option value='' disabled>-- Choose a county --</option>
+              {
+                counties.map((county) => (
+                  <option key={county} value={county}>{county}</option>
+                ))
+              }
             </select>
           </div>
         </div>

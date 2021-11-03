@@ -371,9 +371,9 @@ class BCTool extends React.Component {
     });
   };
 
-  updateCity = (e) => {
+  updateCounty = (e) => {
     this.setState({
-      'city': e.target.value,
+      'county': e.target.value,
     });
   };
 
@@ -403,13 +403,13 @@ class BCTool extends React.Component {
               cost={this.state['cost']}
               type={this.state['type']}
               subtype={this.state['subtype']}
-              city={this.state['city']}
+              county={this.state['county']}
               updateName={this.updateName}
               updateDeveloper={this.updateDeveloper}
               updateCost={this.updateCost}
               updateType={this.updateType}
               updateSubtype={this.updateSubtype}
-              updateCity={this.updateCity}
+              updateCounty={this.updateCounty}
             />
           </div>
         </div>
