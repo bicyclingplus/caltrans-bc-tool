@@ -130,6 +130,7 @@ class Emissions extends React.Component {
         </tbody>
       </table>
 
+      <h5 className="mt-4">CO2 Equivalent Emissions Reductions</h5>
       <table className="table table-bordered mb-4">
         <thead>
           <tr>
@@ -139,7 +140,7 @@ class Emissions extends React.Component {
             <th colSpan="3" className="text-center">Annual Reduction / Capita</th>
           </tr>
           <tr>
-            <th></th>
+            <th>Pollutant</th>
             <th className="text-center">GWP</th>
             <th className="text-center">Lower</th>
             <th className="text-center">Mean</th>
