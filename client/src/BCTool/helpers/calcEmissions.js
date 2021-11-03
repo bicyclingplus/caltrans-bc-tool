@@ -3,6 +3,12 @@ const emission_rates = require('../data/emission_rates.json');
 
 // const LIFE_OF_PROJECT = 15; // specified in docs for these calcs
 
+const GWPS = {
+  'CO2': 1,
+  'CH4': 28,
+  'N2O': 265,
+}
+
 function calcEmissions(county, year, vmtReductions) {
 
   // const futureYear = year + LIFE_OF_PROJECT;
@@ -85,7 +91,22 @@ function calcEmissions(county, year, vmtReductions) {
 
   // console.log(emission_rates[county][year]);
 
-  return vehEmissionsReductions;
+  let equivalents = Object.keys(GWPS);
+  let equivalentReductions = {};
+
+  for(let equivalent of equivalents) {
+    equivalentReductions[equivalent] = {
+      'gwp': GWPS[equivalent],
+      'lower': vehEmissionsReductions[equivalent].lower * GWPS[equivalent],
+      'mean': vehEmissionsReductions[equivalent].mean * GWPS[equivalent],
+      'upper': vehEmissionsReductions[equivalent].upper * GWPS[equivalent],
+    };
+  }
+
+  return {
+    'reductions': vehEmissionsReductions,
+    'equivalents': equivalentReductions,
+  };
 
 }
 
