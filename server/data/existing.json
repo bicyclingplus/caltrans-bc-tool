@@ -5,7 +5,7 @@
 			"type": "infrastructure",
 			"subtype": "both",
 			"name": "Sample Project",
-			"developer": "?",
+			"developer": "LADOT",
 			"cost": 29000,
 			"county": "Los Angeles",
 			"city": "Los Angeles",
