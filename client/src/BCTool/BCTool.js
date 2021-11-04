@@ -54,6 +54,7 @@ class BCTool extends React.Component {
       'infrastructure': [],
       'non-infrastructure': [],
       'infrastructure-selected': false,
+      'multi-selected': false,
       'non-infrastructure-selected': false,
 
       'benefits': {},
@@ -168,6 +169,7 @@ class BCTool extends React.Component {
 
     let updated = this.state.infrastructure;
     let selected = false;
+    let multi = false;
 
     // Update the changed one
     outer:
@@ -187,15 +189,16 @@ class BCTool extends React.Component {
     }
 
     // Check if any are selected
-    outer2:
     for(let category of updated.categories) {
 
       for(let item of category.items) {
 
         if(item.selected) {
-
           selected = true;
-          break outer2;
+
+          if(category.shortname === 'multi') {
+            multi = true;
+          }
         }
       }
     }
@@ -203,6 +206,7 @@ class BCTool extends React.Component {
     this.setState({
       'infrastructure': updated,
       'infrastructure-selected': selected,
+      'multi-selected': multi,
       'inputsChanged': true,
     });
   }
@@ -461,6 +465,7 @@ class BCTool extends React.Component {
               categories={this.state.infrastructure.categories}
               onItemChange={this.onItemChange}
               onTypeChange={this.onTypeChange}
+              multi={this.state['multi-selected']}
             />
           </div>
         </div>
