@@ -3,222 +3,270 @@
 		{
 			"label": "Multi Element Interventions",
 			"shortname": "multi",
-			"blockFaces": true,
-			"intersections": true,
 			"items": [
 				{
 					"label": "Bike Boulevard",
 					"shortname": "bike-boulevard",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Road Diet",
 					"shortname": "road-diet",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Shared/Open Street",
 					"shortname": "shared-open-street",
-					"description": ""
+					"description": "",
+					"units": "length"
 				}
 			]
 		},
 		{
 			"label": "Amenity",
 			"shortname": "amenity",
-			"blockFaces": true,
-			"intersections": true,
 			"items": [
 				{
 					"label": "Bike Parking",
 					"shortname": "bike-parking",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Bikeshare Infrastructure",
 					"shortname": "bikeshare-infrastructure",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Landscaping",
 					"shortname": "landscaping",
-					"description": ""
-				},
-				{
-					"label": "Lighting",
-					"shortname": "lighting",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
 					"label": "Wayfaring Signs",
-					"shortname": "wayfairing-signs",
-					"description": ""
+					"shortname": "wayfaring-signs",
+					"description": "",
+					"units": "count"
 				}
 			]
 		},
 		{
 			"label": "Block Face",
 			"shortname": "block-face",
-			"blockFaces": true,
-			"intersections": false,
 			"items": [
 				{
 					"label": "Bike Highway",
 					"shortname": "bike-highway",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Bike Shared Lane Markings (Sharrows)",
 					"shortname": "bike-shared-lane-markings",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Buffered Bike Lane",
 					"shortname": "buffered-bike-lane",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Conventional Bike Lane",
 					"shortname": "conventional-bike-lane",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Dynamic Speed Display Sign",
 					"shortname": "dynamic-speed-display-sign",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
 					"label": "Edge Lanes (Advisory Lanes)",
 					"shortname": "edge-lanes",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Horizontal Deflector",
 					"shortname": "horizontal-deflector",
-					"description": "(chicane)"
+					"description": "(chicane)",
+					"units": "count"
 				},
 				{
 					"label": "Lane Narrowing",
 					"shortname": "lane-narrowing",
-					"description": ""
+					"description": "",
+					"units": "length"
+				},
+				{
+					"label": "Lighting",
+					"shortname": "lighting-block-face",
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Multi-Use Path",
 					"shortname": "multi-use-path",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Off-Street Bike Path (Sidepaths included)",
 					"shortname": "off-street-bike-path",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
-					"label": "Separated Bike Lane",
-					"shortname": "separated-bike-lane",
-					"description": ""
+					"label": "Protected Bike Lane",
+					"shortname": "protected-bike-lane",
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Sidewalk",
 					"shortname": "sidewalk",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Speed Limit Reduction",
 					"shortname": "speed-limit-reduction",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
 					"label": "Vertical Deflector",
 					"shortname": "vertical-deflector",
-					"description": "(hump, bump, table)"
+					"description": "(hump, bump, table)",
+					"units": "count"
 				}
 			]
 		},
 		{
 			"label": "Intersection",
 			"shortname": "intersection",
-			"blockFaces": false,
-			"intersections": true,
 			"items": [
+				{
+					"label": "ADA Pedestrian Signal",
+					"shortname": "ada-pedestrian-signal",
+					"description": "",
+					"units": "count"
+				},
+				{
+					"label": "ADA Ramps",
+					"shortname": "ada-ramps",
+					"description": "",
+					"units": "count"
+				},
 				{
 					"label": "Bike Box (turn or cue)",
 					"shortname": "bike-box",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
 					"label": "Bike Signal",
 					"shortname": "bike-signal",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
 					"label": "Crossing Island",
 					"shortname": "crossing-island",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
 					"label": "Crossing Surface",
 					"shortname": "crossing-surface",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Crosswalk",
 					"shortname": "crosswalk",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Curb Extension",
 					"shortname": "curb-extension",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
 					"label": "Flashing Beacon",
 					"shortname": "flashing-beacon",
-					"description": ""
+					"description": "",
+					"units": "count"
+				},
+				{
+					"label": "Lighting",
+					"shortname": "lighting-intersection",
+					"description": "",
+					"units": "count"
 				},
 				{
 					"label": "Pedestrian Countdown",
 					"shortname": "pedestrian-countdown",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
 					"label": "Pedestrian Scramble",
 					"shortname": "pedestrian-scramble",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
 					"label": "Protected Intersection",
 					"shortname": "protected-intersection",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
 					"label": "Raised Crossing",
 					"shortname": "raised-crossing",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
 					"label": "Raised Intersection",
 					"shortname": "raised-intersection",
-					"description": ""
+					"description": "",
+					"units": "length"
 				},
 				{
-					"label": "Roundabout (New)",
+					"label": "Roundabout",
 					"shortname": "roundabout",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
 					"label": "Shorten Crossing",
 					"shortname": "shorten-crossing",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
-					"label": "Signal Phasing (improvement)",
+					"label": "Signal Phasing",
 					"shortname": "signal-phasing",
-					"description": ""
+					"description": "",
+					"units": "count"
 				},
 				{
-					"label": "Traffic Signal (New)",
+					"label": "Traffic Signal",
 					"shortname": "traffic-signal",
-					"description": ""
+					"description": "",
+					"units": "count"
 				}
 			]
 		}

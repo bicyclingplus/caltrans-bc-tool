@@ -22,7 +22,7 @@ const OTHER_SHIFT = {
 
 const SCALING_FACTOR = 0.1;
 
-function calcTravelMode(mode, infrastructure, subtype, existingTravel, blockFaces) {
+function calcTravelMode(mode, infrastructure, subtype, existingTravel, length) {
 
     let travel = {};
 
@@ -53,7 +53,11 @@ function calcTravelMode(mode, infrastructure, subtype, existingTravel, blockFace
 
                             // console.log(`Adding travel increase for ${mode} for ${element}`);
 
-                            let share = item.counts.blockFaces / blockFaces;
+                            // TODO: HOW TO HANDLE THE CASE WHERE THIS IS A COUNT INSTEAD OF A LENGTH?
+                            // e.g. CROSSING ISLAND, we ask for count, but how to calculate the share?
+                            // it belongs to intersections, so use that?
+                            // BUT WHAT ABOUT THE BLOCK FACE STUFF THAT IS IN COUNTS?
+                            let share = item.value / length;
                             let multiplier = item.type === "retrofit" ? SCALING_FACTOR : 1;
 
                             // console.log(`Multiplier for ${element} is ${multiplier}`)

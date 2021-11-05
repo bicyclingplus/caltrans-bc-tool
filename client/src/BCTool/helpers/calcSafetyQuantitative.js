@@ -1,6 +1,6 @@
 const quantitative = require('../data/quantitative.json');
 
-function calcSafetyQuantitative(infrastructure, travel, blockFaces, intersections, subtype) {
+function calcSafetyQuantitative(infrastructure, travel, length, intersections, subtype) {
 
   // for each parameter
   // create a dict init count  for lower mean and upper;
@@ -35,11 +35,13 @@ function calcSafetyQuantitative(infrastructure, travel, blockFaces, intersection
         // console.log(`Found quantitative safety benefits for ${item.label}`);
 
         // calc fraction of counts for this item compared to project counts
-        // amenity could have value for both
-        // intersection will have blockFace 0, so no effect
-        // blockFace will have intersection 0, so no effect
-        let blockFaceFraction = item.counts.blockFaces / blockFaces;
-        let intersectionFraction = item.counts.intersections / intersections;
+        let share = 0;
+        if(item.units === 'length') {
+          share = item.value / length;
+        }
+        else {
+          share = item.value / intersections;
+        }
 
         let benefit = quantitative.benefits[item.shortname];
 
@@ -79,29 +81,15 @@ function calcSafetyQuantitative(infrastructure, travel, blockFaces, intersection
 
           if(effect.units === 'percent') {
 
-            if(blockFaces) {
               if(effect.lower) {
-                counts[effect.parameter].lower += modeProjectedTravel.lower * blockFaceFraction * (1 + (effect.lower / 100)) * 365;
+                counts[effect.parameter].lower += modeProjectedTravel.lower * share * (1 + (effect.lower / 100)) * 365;
               }
               if(effect.mean) {
-                counts[effect.parameter].mean += modeProjectedTravel.mean * blockFaceFraction * (1 + (effect.mean / 100)) * 365;
+                counts[effect.parameter].mean += modeProjectedTravel.mean * share * (1 + (effect.mean / 100)) * 365;
               }
               if(effect.upper) {
-                counts[effect.parameter].upper += modeProjectedTravel.upper * blockFaceFraction * (1 + (effect.upper / 100)) * 365;
+                counts[effect.parameter].upper += modeProjectedTravel.upper * share * (1 + (effect.upper / 100)) * 365;
               }
-            }
-
-            if(intersections) {
-              if(effect.lower) {
-                counts[effect.parameter].lower += modeProjectedTravel.lower * intersectionFraction * (1 + (effect.lower / 100)) * 365;
-              }
-              if(effect.mean) {
-                counts[effect.parameter].mean += modeProjectedTravel.mean * intersectionFraction * (1 + (effect.mean / 100)) * 365;
-              }
-              if(effect.upper) {
-                counts[effect.parameter].upper += modeProjectedTravel.upper * intersectionFraction * (1 + (effect.upper / 100)) * 365;
-              }
-            }
           }
           else if(effect.units === 'mph') {
             // WHAT TO DO HERE?

@@ -181,7 +181,7 @@
 				}
 			]
 		},
-		"separated-bike-lane": {
+		"protected-bike-lane": {
 			"class": "block-face",
 			"effects": [
 				{

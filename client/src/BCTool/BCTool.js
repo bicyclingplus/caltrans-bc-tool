@@ -47,6 +47,7 @@ class BCTool extends React.Component {
 
       'blockFaces': 0,
       'intersections': 0,
+      'length': 0,
 
       'osm-ids': [],
       'existingTravel': {},
@@ -101,15 +102,11 @@ class BCTool extends React.Component {
 
       for(let item of infrastructure.categories[category].items) {
 
-        let intersections = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].intersections : 0;
-        let blockFaces = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].blockFaces : 0;
         let type = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].type : '';
+        let value = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].value : 0;
 
         item.selected = preselected.includes(item.shortname);
-        item.counts = {
-          "intersections": intersections,
-          "blockFaces": blockFaces,
-        };
+        item.value = value;
         item.type = type;
       }
     }
@@ -145,6 +142,7 @@ class BCTool extends React.Component {
 
             'blockFaces': project['blockFaces'] ? project['blockFaces'] : project['osm-ids'].length,
             'intersections': project['intersections'] ? project['intersections'] : null,
+            'length': project['length'] ? project['length'] : 0,
 
             'existingTravel': project['existingTravel'],
             'osm-ids': project['osm-ids'],
@@ -239,7 +237,7 @@ class BCTool extends React.Component {
     });
   }
 
-  onItemChange = (shortname, countType, value) => {
+  onValueChange = (shortname, value) => {
 
     // console.log(`Item ${shortname} changed to ${value}`);
 
@@ -251,7 +249,7 @@ class BCTool extends React.Component {
       for(let item of category.items) {
 
         if(item.shortname === shortname) {
-          item.counts[countType] = value;
+          item.value = value;
           break outer;
         }
       }
@@ -297,7 +295,7 @@ class BCTool extends React.Component {
       this.state.infrastructure,
       this.state.subtype,
       this.state.existingTravel,
-      this.state.blockFaces
+      this.state.length
     );
 
     let vmtReductions = calcVMTReductions(travel);
@@ -312,7 +310,7 @@ class BCTool extends React.Component {
     let safetyQuantitative = calcSafetyQuantitative(
       this.state.infrastructure,
       travel,
-      this.state.blockFaces,
+      this.state.length,
       this.state.intersections,
       this.state.subtype);
 
@@ -438,6 +436,7 @@ class BCTool extends React.Component {
             <ProjectSummary
               blockFaces={this.state.blockFaces}
               intersections={this.state.intersections}
+              length={this.state.length}
               subtype={this.state['subtype']}
               travel={this.state.existingTravel} />
           </div>
@@ -463,7 +462,7 @@ class BCTool extends React.Component {
           <div className="col-sm-12">
             <SelectedInfrastructure
               categories={this.state.infrastructure.categories}
-              onItemChange={this.onItemChange}
+              onValueChange={this.onValueChange}
               onTypeChange={this.onTypeChange}
               multi={this.state['multi-selected']}
             />

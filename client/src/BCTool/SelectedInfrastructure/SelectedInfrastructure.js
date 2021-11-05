@@ -8,7 +8,7 @@ class SelectedInfrastructure extends React.Component {
 
         let {
           categories,
-          onItemChange,
+          onValueChange,
           onTypeChange,
           multi
         } = this.props;
@@ -31,7 +31,7 @@ class SelectedInfrastructure extends React.Component {
                 <InfrastructureCategory
                     key={category.shortname}
                     category={category}
-                    onItemChange={onItemChange}
+                    onValueChange={onValueChange}
                     onTypeChange={onTypeChange}
                 />
             )
@@ -46,7 +46,7 @@ class SelectedInfrastructure extends React.Component {
                   { multi ?
                   <p className="mt-5 mb-5 text-primary">
                     With multi element interventions selected, your project's benefits will reflect research for that type of intervention.
-                    If you also select a separate element that is commonly part of the selected multi element intervention (ie selecting road diet and separated bike lanes), your project's benefits will be too high unless your project involves separated bike lanes and a road diet in different places within the scope.
+                    If you also select a separate element that is commonly part of the selected multi element intervention (ie selecting road diet and protected bike lanes), your project's benefits will be too high unless your project involves protected bike lanes and a road diet in different places within the scope.
                   </p>
                   : null }
 

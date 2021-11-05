@@ -6,7 +6,8 @@
 			"elements": [
 				"landscaping",
 				"dynamic-speed-display-sign",
-				"lighting",
+				"lighting-block-face",
+				"lighting-intersection",
 				"speed-limit-reduction",
 				"bike-boulevard",
 				"bike-highway",
@@ -17,7 +18,7 @@
 				"lane-narrowing",
 				"multi-use-path",
 				"road-diet",
-				"separated-bike-lane",
+				"protected-bike-lane",
 				"shared-open-street",
 				"sidewalk",
 				"vertical-deflector",
@@ -35,8 +36,7 @@
 				"signal-phasing",
 				"traffic-signal",
 				"flashing-beacon",
-				"shorten-crossing",
-				"lighting"
+				"shorten-crossing"
 			],
 			"parent": null,
 			"description": {
@@ -49,19 +49,20 @@
 			"type": "element",
 			"elements": [
 				"landscaping",
-				"lighting",
+				"lighting-block-face",
+				"lighting-intersection",
 				"bike-boulevard",
 				"bike-highway",
 				"buffered-bike-lane",
 				"conventional-bike-lane",
 				"multi-use-path",
 				"road-diet",
-				"separated-bike-lane",
+				"protected-bike-lane",
 				"shared-open-street",
 				"sidewalk",
 				"bike-parking",
 				"bikeshare-infrastructure",
-				"wayfairing-signs"
+				"wayfaring-signs"
 			],
 			"parent": null,
 			"description": {

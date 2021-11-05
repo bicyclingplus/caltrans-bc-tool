@@ -27,7 +27,7 @@
 			"upper": 15
 		}
 	},
-	"separated-bike-lane": {
+	"protected-bike-lane": {
 		"bike": {
 			"lower": 21,
 			"mean": 96,

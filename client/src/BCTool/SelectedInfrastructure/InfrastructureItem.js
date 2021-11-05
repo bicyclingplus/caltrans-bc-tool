@@ -1,17 +1,14 @@
 import React from 'react';
 
+import CountInput from './CountInput';
+import LengthInput from './LengthInput';
+
 class infrastructureItem extends React.Component {
 
-    onBlockFacesChange = (e) => {
-        let { shortname, onItemChange } = this.props;
+    onValueChange = (e) => {
+        let { shortname, onValueChange } = this.props;
 
-        onItemChange(shortname, 'blockFaces', e.target.value);
-    }
-
-    onIntersectionsChange = (e) => {
-        let { shortname, onItemChange } = this.props;
-
-        onItemChange(shortname, 'intersections', e.target.value);
+        onValueChange(shortname, e.target.value);
     }
 
     onTypeChange = (e) => {
@@ -21,7 +18,7 @@ class infrastructureItem extends React.Component {
     }
 
     render() {
-        let { label, counts, blockFaces, intersections, type } = this.props;
+        let { label, value, units, type, shortname } = this.props;
 
         return (
             <tr>
@@ -36,13 +33,13 @@ class infrastructureItem extends React.Component {
                     </select>
                 </td>
 
-                { blockFaces ?
-                <td><input className="form-control" type="number" value={counts.blockFaces} onChange={this.onBlockFacesChange} /></td>
-                : null }
-
-                { intersections ?
-                <td><input className="form-control" type="number" value={counts.intersections} onChange={this.onIntersectionsChange} /></td>
-                : null }
+                <td>
+                { units === 'length' ?
+                <LengthInput shortname={shortname} value={value} onChange={this.onValueChange} />
+                :
+                <CountInput shortname={shortname} value={value} onChange={this.onValueChange} />
+                }
+                </td>
             </tr>
         );
     }

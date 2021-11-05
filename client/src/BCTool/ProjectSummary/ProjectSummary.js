@@ -6,6 +6,7 @@ class ProjectSummary extends React.Component {
 
         const blockFaces = this.props.blockFaces;
         const intersections = this.props.intersections;
+        const length = this.props.length;
         const subtype = this.props.subtype;
         const travel = this.props.travel;
 
@@ -18,6 +19,7 @@ class ProjectSummary extends React.Component {
                 <ul className="list-unstyled">
                   <li>Number of Intersections: {intersections}</li>
                   <li>Number of Block Faces: {blockFaces}</li>
+                  <li>Length: {length} ft</li>
                 </ul>
 
                 <h5>Estimated Existing Active Travel *</h5>
