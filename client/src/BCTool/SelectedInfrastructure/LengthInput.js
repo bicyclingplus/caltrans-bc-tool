@@ -9,8 +9,8 @@ class LengthInput extends React.Component {
 
         return (
             <div className="row">
-                <div className="col-sm-4">
-                    <label htmlFor={inputId} className="col-form-label">Length</label>
+                <div className="col-sm-4 text-end">
+                    <label htmlFor={inputId} className="col-form-label">Length:</label>
                 </div>
                 <div className="col-sm-8">
                     <div className="input-group">

@@ -16,7 +16,7 @@ class InfrastructureCategory extends React.Component {
                     <tr>
                         <th width="25%"></th>
                         <th>Type</th>
-                        <th></th>
+                        <th>Share of Project</th>
                     </tr>
                 </thead>
                 <tbody>
