@@ -71,6 +71,15 @@ class Emissions extends React.Component {
             <td className="text-end"></td>
           </tr>
           <tr>
+            <td>Total C02 Equivalent</td>
+            <td className="text-end">{readableNumber(emissions.equivalent.lower)}</td>
+            <td className="text-end">{readableNumber(emissions.equivalent.mean)}</td>
+            <td className="text-end">{readableNumber(emissions.equivalent.upper)}</td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+          </tr>
+          <tr>
             <th colSpan="7">Air Toxins</th>
           </tr>
           <tr>
@@ -123,60 +132,6 @@ class Emissions extends React.Component {
             <td className="text-end">{readableNumber(emissions.reductions['SOx'].lower)}</td>
             <td className="text-end">{readableNumber(emissions.reductions['SOx'].mean)}</td>
             <td className="text-end">{readableNumber(emissions.reductions['SOx'].upper)}</td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h5 className="mt-4">CO2 Equivalent Emissions Reductions</h5>
-      <table className="table table-bordered mb-4">
-        <thead>
-          <tr>
-            <th></th>
-            <th></th>
-            <th colSpan="3" className="text-center">Annual Reduction</th>
-            <th colSpan="3" className="text-center">Annual Reduction / Capita</th>
-          </tr>
-          <tr>
-            <th>Pollutant</th>
-            <th className="text-center">GWP</th>
-            <th className="text-center">Lower</th>
-            <th className="text-center">Mean</th>
-            <th className="text-center">Upper</th>
-            <th className="text-center">Lower</th>
-            <th className="text-center">Mean</th>
-            <th className="text-center">Upper</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>CO2</td>
-            <td className="text-end">{readableNumber(emissions.equivalents['CO2'].gwp)}</td>
-            <td className="text-end">{readableNumber(emissions.equivalents['CO2'].lower)}</td>
-            <td className="text-end">{readableNumber(emissions.equivalents['CO2'].mean)}</td>
-            <td className="text-end">{readableNumber(emissions.equivalents['CO2'].upper)}</td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-          </tr>
-          <tr>
-            <td>CH4</td>
-            <td className="text-end">{readableNumber(emissions.equivalents['CH4'].gwp)}</td>
-            <td className="text-end">{readableNumber(emissions.equivalents['CH4'].lower)}</td>
-            <td className="text-end">{readableNumber(emissions.equivalents['CH4'].mean)}</td>
-            <td className="text-end">{readableNumber(emissions.equivalents['CH4'].upper)}</td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-          </tr>
-          <tr>
-            <td>N2O</td>
-            <td className="text-end">{readableNumber(emissions.equivalents['N2O'].gwp)}</td>
-            <td className="text-end">{readableNumber(emissions.equivalents['N2O'].lower)}</td>
-            <td className="text-end">{readableNumber(emissions.equivalents['N2O'].mean)}</td>
-            <td className="text-end">{readableNumber(emissions.equivalents['N2O'].upper)}</td>
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>

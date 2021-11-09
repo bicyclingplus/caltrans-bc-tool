@@ -92,20 +92,21 @@ function calcEmissions(county, year, vmtReductions) {
   // console.log(emission_rates[county][year]);
 
   let equivalents = Object.keys(GWPS);
-  let equivalentReductions = {};
+  let equivalentReductions = {
+    'lower': 0,
+    'mean': 0,
+    'upper': 0,
+  };
 
   for(let equivalent of equivalents) {
-    equivalentReductions[equivalent] = {
-      'gwp': GWPS[equivalent],
-      'lower': vehEmissionsReductions[equivalent].lower * GWPS[equivalent],
-      'mean': vehEmissionsReductions[equivalent].mean * GWPS[equivalent],
-      'upper': vehEmissionsReductions[equivalent].upper * GWPS[equivalent],
-    };
+    equivalentReductions.lower += vehEmissionsReductions[equivalent].lower * GWPS[equivalent];
+    equivalentReductions.mean += vehEmissionsReductions[equivalent].mean * GWPS[equivalent];
+    equivalentReductions.upper += vehEmissionsReductions[equivalent].upper * GWPS[equivalent];
   }
 
   return {
     'reductions': vehEmissionsReductions,
-    'equivalents': equivalentReductions,
+    'equivalent': equivalentReductions,
   };
 
 }
