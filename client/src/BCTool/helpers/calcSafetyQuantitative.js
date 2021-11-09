@@ -13,14 +13,18 @@ function calcSafetyQuantitative(infrastructure, travel, length, intersections, s
     "yielding",
   ];
 
-  let counts = {};
+  let miles = {};
+  let percents = {};
 
   for(let parameter of parameters) {
-    counts[parameter] = {
+    let zerod = {
       'lower': 0,
       'mean': 0,
       'upper': 0,
-    }
+    };
+
+    miles[parameter] = {...zerod};
+    percents[parameter] = {...zerod};
   }
 
   // for each category
@@ -82,13 +86,16 @@ function calcSafetyQuantitative(infrastructure, travel, length, intersections, s
           if(effect.units === 'percent') {
 
               if(effect.lower) {
-                counts[effect.parameter].lower += modeProjectedTravel.lower * share * (1 + (effect.lower / 100)) * 365;
+                miles[effect.parameter].lower += modeProjectedTravel.lower * share * (1 + (effect.lower / 100)) * 365;
+                percents[effect.parameter].lower += effect.lower * share;
               }
               if(effect.mean) {
-                counts[effect.parameter].mean += modeProjectedTravel.mean * share * (1 + (effect.mean / 100)) * 365;
+                miles[effect.parameter].mean += modeProjectedTravel.mean * share * (1 + (effect.mean / 100)) * 365;
+                percents[effect.parameter].mean += effect.mean * share;
               }
               if(effect.upper) {
-                counts[effect.parameter].upper += modeProjectedTravel.upper * share * (1 + (effect.upper / 100)) * 365;
+                miles[effect.parameter].upper += modeProjectedTravel.upper * share * (1 + (effect.upper / 100)) * 365;
+                percents[effect.parameter].upper += effect.upper * share;
               }
           }
           else if(effect.units === 'mph') {
@@ -110,7 +117,10 @@ function calcSafetyQuantitative(infrastructure, travel, length, intersections, s
 
   }
 
-  return counts;
+  return {
+    'miles': miles,
+    'percents': percents,
+  };
 }
 
 export default calcSafetyQuantitative;
