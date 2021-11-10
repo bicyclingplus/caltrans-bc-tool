@@ -137,9 +137,9 @@ class ProjectMap extends React.Component {
 
     updateMap() {
 
-      console.log(`interactive: ${this.props.interactive}`)
+      // console.log(`interactive: ${this.props.interactive}`)
 
-      console.log('Map update!');
+      // console.log('Map update!');
 
       if(!this.map) {
         this.map = Leaflet.map('map');
