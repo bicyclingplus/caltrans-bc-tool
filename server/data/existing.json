@@ -353,7 +353,7 @@
 			"id": 7,
 			"type": "infrastructure",
 			"subtype": "both",
-			"name": "Map Demo (Yolo)",
+			"name": "Map Demo (Woodland)",
 			"developer": "City of Woodland",
 			"cost": 12345,
 			"county": "Yolo",

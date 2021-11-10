@@ -24,6 +24,15 @@ class ProjectMap extends React.Component {
 
     componentDidUpdate(prevProps) {
       if(this.props.geojson !== prevProps.geojson) {
+
+        this.selected = [];
+        this.length = 0;
+        this.features = null;
+        this.featuresRaw = {};
+        this.map.off();
+        this.map.remove();
+        this.map = null;
+
         this.updateMap();
       }
     }
@@ -55,9 +64,9 @@ class ProjectMap extends React.Component {
 
     featureClicked = (e) => {
 
-      console.log('Before');
-      console.log(this.selected);
-      console.log(this.length);
+      // console.log('Before');
+      // console.log(this.selected);
+      // console.log(this.length);
 
       let featureId = e.target.feature.properties.TDG_ID;
       let length = this.calcLength(e.target.getLatLngs());
@@ -79,9 +88,9 @@ class ProjectMap extends React.Component {
         this.length = 0;
       }
 
-      console.log('After');
-      console.log(this.selected);
-      console.log(this.length);
+      // console.log('After');
+      // console.log(this.selected);
+      // console.log(this.length);
 
       this.renderFeatures();
 
@@ -128,9 +137,9 @@ class ProjectMap extends React.Component {
 
     updateMap() {
 
-      // console.log(`interactive: ${this.props.interactive}`)
+      console.log(`interactive: ${this.props.interactive}`)
 
-      // console.log('Map update!');
+      console.log('Map update!');
 
       if(!this.map) {
         this.map = Leaflet.map('map');
