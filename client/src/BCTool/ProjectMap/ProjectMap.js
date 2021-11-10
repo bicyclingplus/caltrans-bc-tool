@@ -32,7 +32,7 @@ class ProjectMap extends React.Component {
 
       if(this.selected.includes(feature.properties.osm_id)) {
         return {
-          color: "#3388ff",
+          color: "#00FFFF",
         }
       }
 
