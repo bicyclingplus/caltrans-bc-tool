@@ -354,10 +354,10 @@
 			"type": "infrastructure",
 			"subtype": "both",
 			"name": "Map Demo (Yolo)",
-			"developer": "City of Davis",
+			"developer": "City of Woodland",
 			"cost": 12345,
 			"county": "Yolo",
-			"city": "Davis",
+			"city": "Woodland",
 			"year": 2020,
 			"osm-ids": [],
 			"existingTravel": {
@@ -378,8 +378,8 @@
 			"length": 0,
 			"interactive-map": true,
 			"center": [
-				38.5449,
-				-121.7405
+				38.6785,
+				-121.7733
 			]
 		}
 	]
