@@ -18,8 +18,8 @@ COPY . .
 WORKDIR /usr/src/app/client
 RUN npm run build
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/server
 
 EXPOSE 3001
 
-CMD [ "node", "server/index.js" ]
+CMD [ "node", "index.js" ]
