@@ -2,7 +2,7 @@ import shapefile
 import json
 import os
 
-infilename = os.path.join('input', 'neighborhood_ways', 'neighborhood_ways')
+infilename = os.path.join('input', 'neighborhood_ways', 'neighborhood_ways_latlong')
 
 sf = shapefile.Reader(infilename)
 records = sf.shapeRecords()

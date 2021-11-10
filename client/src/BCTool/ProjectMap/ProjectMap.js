@@ -30,7 +30,7 @@ class ProjectMap extends React.Component {
 
     style = (feature) => {
 
-      if(this.selected.includes(feature.properties.osm_id)) {
+      if(this.selected.includes(feature.properties.TDG_ID)) {
         return {
           color: "#00FFFF",
         }
@@ -55,28 +55,33 @@ class ProjectMap extends React.Component {
 
     featureClicked = (e) => {
 
-      // console.log('Before');
-      // console.log(this.selected);
-      // console.log(this.length);
+      console.log('Before');
+      console.log(this.selected);
+      console.log(this.length);
 
-      let osm_id = e.target.feature.properties.osm_id;
+      let featureId = e.target.feature.properties.TDG_ID;
+      let length = this.calcLength(e.target.getLatLngs());
 
-      if(this.selected.includes(osm_id)) {
-        this.selected = this.selected.filter((item) => (item !== osm_id));
-        this.length -= this.calcLength(e.target.getLatLngs());
+      if(!e.target.feature.properties.ONE_WAY_CA) {
+        length *= 2;
+      }
+
+      if(this.selected.includes(featureId)) {
+        this.selected = this.selected.filter((item) => (item !== featureId));
+        this.length -= length;
       }
       else {
-        this.selected.push(osm_id);
-        this.length += this.calcLength(e.target.getLatLngs());
+        this.selected.push(featureId);
+        this.length += length;
       }
 
       if(!this.selected.length) {
         this.length = 0;
       }
 
-      // console.log('After');
-      // console.log(this.selected);
-      // console.log(this.length);
+      console.log('After');
+      console.log(this.selected);
+      console.log(this.length);
 
       this.renderFeatures();
 
