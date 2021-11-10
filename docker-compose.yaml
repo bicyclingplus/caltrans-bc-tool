@@ -1,4 +1,8 @@
 version: '3.2'
+
+volumes:
+  dbdata:
+
 services:
 
   www:
@@ -6,3 +10,14 @@ services:
     ports:
       - "127.0.0.1:3002:3001"
     restart: always
+
+  db:
+    image: mongo
+    restart: always
+    volumes:
+      - type: volume
+        source: dbdata
+        target: /data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bctool
+      MONGO_INITDB_ROOT_PASSWORD: phev

@@ -5,6 +5,10 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const tool = express();
 const morgan = require('morgan');
+require('dotenv').config();
+
+const { MongoClient } = require("mongodb");
+const client = new MongoClient(process.env.MONGO_URI);
 
 const geojson = {
   '1': require('./data/bishop.json'),
@@ -32,6 +36,49 @@ tool.get("/api/geojson/:project", (req, res) => {
   else {
     res.json({});
   }
+});
+
+tool.get("/api/bounds", async (req, res) => {
+
+    let query = {
+    };
+
+    // filter by map bounds if needed
+    if(req.query.x1 && req.query.x2 && req.query.y1 && req.query.y2) {
+
+      let x1 = parseFloat(req.query.x1);
+      let x2 = parseFloat(req.query.x2);
+      let y1 = parseFloat(req.query.y1);
+      let y2 = parseFloat(req.query.y2);
+
+      query.geometry = {
+        "$geoIntersects": {
+          "$geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [x1, y1],
+              [x1, y2],
+              [x2, y2],
+              [x2, y1],
+              [x1, y1],
+            ]]
+          },
+        },
+      };
+    }
+
+    // Connect the client to the server
+    await client.connect();
+
+    const database = client.db('bctool');
+    const features = database.collection('features');
+
+    const result = await features.find(query).toArray();
+
+    res.json({
+      "type": "FeatureCollection",
+      "features": result,
+    });
 });
 
 app.use('/caltrans-bc-tool', tool);

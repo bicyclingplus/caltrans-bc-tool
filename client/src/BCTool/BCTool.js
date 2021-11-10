@@ -61,6 +61,9 @@ class BCTool extends React.Component {
       'benefits': {},
       'showBenefits': false,
       'inputsChanged': false,
+
+      "interactive-map": false,
+      "center": [],
     };
 
     this.handleProjectChange = this.handleProjectChange.bind(this);
@@ -155,6 +158,9 @@ class BCTool extends React.Component {
             'benefits': {},
             'showBenefits': false,
             'inputsChanged': false,
+
+            "interactive-map": project['interactive-map'],
+            "center": project.center,
           });
         },
         (error) => {
@@ -382,6 +388,15 @@ class BCTool extends React.Component {
     });
   };
 
+  updateLength = (length) => {
+
+    // console.log(length);
+
+    this.setState({
+      'length': length,
+    })
+  }
+
   render() {
     return (
       <div className="container">
@@ -422,10 +437,15 @@ class BCTool extends React.Component {
         { this.state['selected-project'] ?
         <>
 
-        { this.state['osm-ids'].length ?
+        { this.state['osm-ids'].length || this.state['interactive-map'] ?
         <div className="row mb-3">
           <div className="col-sm-12">
-            <ProjectMap geojson={this.geojson} />
+            <ProjectMap
+              geojson={this.geojson}
+              interactive={this.state['interactive-map']}
+              center={this.state.center}
+              updateLength={this.updateLength}
+            />
           </div>
         </div>
         : null }

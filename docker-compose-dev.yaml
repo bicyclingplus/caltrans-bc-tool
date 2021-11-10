@@ -1,0 +1,9 @@
+version: '3.2'
+services:
+  db:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bctool
+      MONGO_INITDB_ROOT_PASSWORD: phev
+    ports:
+      - "127.0.0.1:27017:27017"

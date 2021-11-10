@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { readableNumber } from '../helpers/formatting';
+
 class ProjectSummary extends React.Component {
 
     render() {
@@ -19,7 +21,7 @@ class ProjectSummary extends React.Component {
                 <ul className="list-unstyled">
                   <li>Number of Intersections: {intersections}</li>
                   <li>Number of Block Faces: {blockFaces}</li>
-                  <li>Length: {length} ft</li>
+                  <li>Length: {readableNumber(length)} ft</li>
                 </ul>
 
                 <h5>Estimated Existing Active Travel *</h5>

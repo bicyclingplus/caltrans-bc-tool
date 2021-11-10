@@ -107,7 +107,8 @@
 			},
 			"blockFaces": 10,
 			"intersections": 10,
-			"length": 10
+			"length": 10,
+			"interactive-map": false
 		},
 		{
 			"id": 1,
@@ -137,7 +138,9 @@
 			},
 			"infrastructure": {},
 			"blockFaces": null,
-			"intersections": null
+			"intersections": null,
+			"length": 0,
+			"interactive-map": false
 		},
 		{
 			"id": 2,
@@ -167,7 +170,9 @@
 			},
 			"infrastructure": {},
 			"blockFaces": null,
-			"intersections": null
+			"intersections": null,
+			"length": 0,
+			"interactive-map": false
 		},
 		{
 			"id": 3,
@@ -250,7 +255,8 @@
 			},
 			"infrastructure": {},
 			"blockFaces": null,
-			"intersections": null
+			"intersections": null,
+			"interactive-map": false
 		},
 		{
 			"id": 4,
@@ -281,7 +287,9 @@
 			},
 			"infrastructure": {},
 			"blockFaces": null,
-			"intersections": null
+			"intersections": null,
+			"length": 0,
+			"interactive-map": false
 		},
 		{
 			"id": 5,
@@ -308,7 +316,9 @@
 			},
 			"infrastructure": {},
 			"blockFaces": null,
-			"intersections": null
+			"intersections": null,
+			"length": 0,
+			"interactive-map": false
 		},
 		{
 			"id": 6,
@@ -335,7 +345,42 @@
 			},
 			"infrastructure": {},
 			"blockFaces": null,
-			"intersections": null
+			"intersections": null,
+			"length": 0,
+			"interactive-map": false
+		},
+		{
+			"id": 7,
+			"type": "infrastructure",
+			"subtype": "both",
+			"name": "Map Demo (Yolo)",
+			"developer": "City of Davis",
+			"cost": 12345,
+			"county": "Yolo",
+			"city": "Davis",
+			"year": 2020,
+			"osm-ids": [],
+			"existingTravel": {
+				"bike": {
+					"lower": 123,
+					"mean": 1234,
+					"upper": 12345
+				},
+				"pedestrian": {
+					"lower": 123,
+					"mean": 1234,
+					"upper": 12345
+				}
+			},
+			"infrastructure": {},
+			"blockFaces": 4,
+			"intersections": 5,
+			"length": 0,
+			"interactive-map": true,
+			"center": [
+				38.5449,
+				-121.7405
+			]
 		}
 	]
 }
