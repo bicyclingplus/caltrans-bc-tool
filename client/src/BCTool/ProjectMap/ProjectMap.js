@@ -70,11 +70,15 @@ class ProjectMap extends React.Component {
         this.length += this.calcLength(e.target.getLatLngs());
       }
 
+      if(!this.selected.length) {
+        this.length = 0;
+      }
+
       // console.log('After');
       // console.log(this.selected);
       // console.log(this.length);
 
-      this.onMapMove();
+      this.renderFeatures();
 
       this.props.updateLength(this.length);
     }
@@ -96,19 +100,8 @@ class ProjectMap extends React.Component {
         .then((res) => res.json())
         .then(
           (result) => {
-
-            if(this.features) {
-              this.map.removeLayer(this.features);
-            }
-
             this.featuresRaw = result;
-
-            this.features = Leaflet.geoJSON(this.featuresRaw, {
-              style: this.style,
-              onEachFeature: this.onEachFeature,
-            });
-            this.features.addTo(this.map);
-
+            this.renderFeatures()
           },
           (error) => {
             console.log(error);
@@ -116,9 +109,23 @@ class ProjectMap extends React.Component {
         );
     }
 
+    renderFeatures() {
+      // console.log('Render!');
+      if(this.features) {
+        this.map.removeLayer(this.features);
+      }
+      this.features = Leaflet.geoJSON(this.featuresRaw, {
+        style: this.style,
+        onEachFeature: this.onEachFeature,
+      });
+      this.features.addTo(this.map);
+    }
+
     updateMap() {
 
       // console.log(`interactive: ${this.props.interactive}`)
+
+      // console.log('Map update!');
 
       if(!this.map) {
         this.map = Leaflet.map('map');
@@ -152,6 +159,7 @@ class ProjectMap extends React.Component {
 
         if(this.props.geojson) {
           this.features = Leaflet.geoJSON(this.props.geojson);
+
           this.features.addTo(this.map);
           this.map.fitBounds(this.features.getBounds());
         }
