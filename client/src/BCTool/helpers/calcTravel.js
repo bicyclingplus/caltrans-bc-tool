@@ -135,7 +135,7 @@ function calcTravelMode(mode, infrastructure, subtype, existingTravel, length) {
     return travel;
 }
 
-function calcTravel(infrastructure, subtype, existingTravel, blockFaces) {
+function calcTravel(infrastructure, subtype, existingTravel, length) {
 
     let travel = {
         "totalProjected": {
@@ -148,7 +148,7 @@ function calcTravel(infrastructure, subtype, existingTravel, blockFaces) {
 
     if(subtype !== 'pedestrian-only') {
 
-        travel.bike = calcTravelMode('bike', infrastructure, subtype, existingTravel, blockFaces);
+        travel.bike = calcTravelMode('bike', infrastructure, subtype, existingTravel, length);
 
         travel.totalProjected.lower += travel.bike.projected.lower;
         travel.totalProjected.mean += travel.bike.projected.mean;
@@ -157,7 +157,7 @@ function calcTravel(infrastructure, subtype, existingTravel, blockFaces) {
 
     if(subtype !== 'bike-only') {
 
-        travel.pedestrian = calcTravelMode('pedestrian', infrastructure, subtype, existingTravel, blockFaces);
+        travel.pedestrian = calcTravelMode('pedestrian', infrastructure, subtype, existingTravel, length);
 
         travel.totalProjected.lower += travel.pedestrian.projected.lower;
         travel.totalProjected.mean += travel.pedestrian.projected.mean;

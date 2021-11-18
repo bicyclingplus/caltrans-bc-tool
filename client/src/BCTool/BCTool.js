@@ -45,7 +45,6 @@ class BCTool extends React.Component {
       'county': '',
       'year': '',
 
-      'blockFaces': 0,
       'intersections': 0,
       'length': 0,
 
@@ -143,8 +142,7 @@ class BCTool extends React.Component {
             'county': project['county'],
             'year': project['year'],
 
-            'blockFaces': project['blockFaces'] ? project['blockFaces'] : project['osm-ids'].length,
-            'intersections': project['intersections'] ? project['intersections'] : null,
+            'intersections': project['intersections'] ? project['intersections'] : 0,
             'length': project['length'] ? project['length'] : 0,
 
             'existingTravel': project['existingTravel'],
@@ -397,6 +395,12 @@ class BCTool extends React.Component {
     })
   }
 
+  updateIntersections = (intersections) => {
+    this.setState({
+      'intersections': intersections,
+    });
+  }
+
   render() {
     return (
       <div className="container">
@@ -445,6 +449,7 @@ class BCTool extends React.Component {
               interactive={this.state['interactive-map']}
               center={this.state.center}
               updateLength={this.updateLength}
+              updateIntersections={this.updateIntersections}
             />
           </div>
         </div>
@@ -454,7 +459,6 @@ class BCTool extends React.Component {
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectSummary
-              blockFaces={this.state.blockFaces}
               intersections={this.state.intersections}
               length={this.state.length}
               subtype={this.state['subtype']}

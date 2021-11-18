@@ -6,7 +6,6 @@ class ProjectSummary extends React.Component {
 
     render() {
 
-        const blockFaces = this.props.blockFaces;
         const intersections = this.props.intersections;
         const length = this.props.length;
         const subtype = this.props.subtype;
@@ -20,7 +19,6 @@ class ProjectSummary extends React.Component {
                 <h5>Project Reach</h5>
                 <ul className="list-unstyled">
                   <li>Number of Intersections: {intersections}</li>
-                  <li>Number of Block Faces: {blockFaces}</li>
                   <li>Length: {readableNumber(length)} ft</li>
                 </ul>
 

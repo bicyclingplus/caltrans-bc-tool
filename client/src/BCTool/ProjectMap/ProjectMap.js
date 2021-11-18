@@ -14,6 +14,11 @@ class ProjectMap extends React.Component {
       this.features = null;
       this.selected = [];
       this.length = 0;
+      this.selectedIntersections = [];
+
+      this.state = {
+        "mode": "way",
+      }
 
       this.updateMap = this.updateMap.bind(this);
     }
@@ -37,7 +42,7 @@ class ProjectMap extends React.Component {
       }
     }
 
-    style = (feature) => {
+    styleWay = (feature) => {
 
       if(this.selected.includes(feature.properties.TDG_ID)) {
         return {
@@ -62,11 +67,7 @@ class ProjectMap extends React.Component {
       return total * 3.28084;
     }
 
-    featureClicked = (e) => {
-
-      // console.log('Before');
-      // console.log(this.selected);
-      // console.log(this.length);
+    wayClicked = (e) => {
 
       let featureId = e.target.feature.properties.TDG_ID;
       let length = this.calcLength(e.target.getLatLngs());
@@ -88,18 +89,14 @@ class ProjectMap extends React.Component {
         this.length = 0;
       }
 
-      // console.log('After');
-      // console.log(this.selected);
-      // console.log(this.length);
-
       this.renderFeatures();
 
       this.props.updateLength(this.length);
     }
 
-    onEachFeature = (feature, mapLayer) => {
+    onEachWay = (feature, mapLayer) => {
       mapLayer.on({
-        click: this.featureClicked
+        click: this.wayClicked,
       });
     }
 
@@ -114,7 +111,13 @@ class ProjectMap extends React.Component {
         .then((res) => res.json())
         .then(
           (result) => {
-            this.featuresRaw = result;
+            if(this.props.interactive) {
+              this.ways = result.ways;
+              this.intersections = result.intersections;
+            }
+            else {
+              this.featuresRaw = result.ways;
+            }
             this.renderFeatures()
           },
           (error) => {
@@ -123,15 +126,74 @@ class ProjectMap extends React.Component {
         );
     }
 
+    pointToLayer = (feature, latlng) => {
+
+      let color = "grey";
+
+      if(this.selectedIntersections.includes(feature.properties.id)) {
+        color = "#00FFFF";
+      }
+
+      return Leaflet.circleMarker(latlng, {
+        radius: 8,
+        fillColor: color,
+        color: "#000",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+      })
+    }
+
+    onEachIntersection = (feature, mapLayer) => {
+      mapLayer.on({
+        click: this.intersectionClicked
+      });
+    }
+
+    intersectionClicked = (e) => {
+
+      let featureId = e.target.feature.properties.id;
+
+      if(this.selectedIntersections.includes(featureId)) {
+        this.selectedIntersections = this.selectedIntersections.filter((item) => (item !== featureId));
+      }
+      else {
+        this.selectedIntersections.push(featureId);
+      }
+
+      this.renderFeatures();
+
+      // Let tool know about change in number of intersections
+      this.props.updateIntersections(this.selectedIntersections.length);
+    }
+
     renderFeatures() {
       // console.log('Render!');
       if(this.features) {
         this.map.removeLayer(this.features);
       }
-      this.features = Leaflet.geoJSON(this.featuresRaw, {
-        style: this.style,
-        onEachFeature: this.onEachFeature,
-      });
+
+      if(this.props.interactive) {
+
+        if(this.state.mode === "way") {
+          this.features = Leaflet.geoJSON(this.ways, {
+            style: this.styleWay,
+            onEachFeature: this.onEachWay,
+          });
+        }
+        else {
+          this.features = Leaflet.geoJSON(this.intersections, {
+            pointToLayer: this.pointToLayer,
+            onEachFeature: this.onEachIntersection,
+          });
+        }
+      }
+      else {
+        this.features = Leaflet.geoJSON(this.featuresRaw, {
+          style: this.style,
+          onEachFeature: this.onEachFeature,
+        });
+      }
       this.features.addTo(this.map);
     }
 
@@ -181,11 +243,41 @@ class ProjectMap extends React.Component {
       }
     }
 
+    selectWays = () => {
+      this.setState({
+        "mode": "way",
+      }, this.renderFeatures);
+    }
+
+    selectIntersections = () => {
+      this.setState({
+        "mode": "intersection",
+      }, this.renderFeatures);
+    }
+
     render() {
 
-        return (
-            <div id="map"></div>
-        );
+      let { interactive } = this.props;
+      let { mode } = this.state;
+
+      let btnClasses = "btn btn-primary";
+      let wayClasses = mode === 'way' ? `${btnClasses} active` : btnClasses;
+      let intersectionClasses = mode === 'intersection' ? `${btnClasses} active` : btnClasses;
+
+      return (
+        <>
+          { interactive ?
+          <div className="mb-4">
+            <strong>Selecting on map:</strong>
+            <div className="btn-group ms-4" role="group" aria-label="Basic example">
+              <button type="button" className={wayClasses} onClick={this.selectWays}>Ways</button>
+              <button type="button" className={intersectionClasses} onClick={this.selectIntersections}>Intersections</button>
+            </div>
+          </div>
+          : null }
+          <div id="map"></div>
+        </>
+      );
     }
 
 }
