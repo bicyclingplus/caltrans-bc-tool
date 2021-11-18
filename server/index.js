@@ -71,13 +71,22 @@ tool.get("/api/bounds", async (req, res) => {
     await client.connect();
 
     const database = client.db('bctool');
-    const features = database.collection('features');
 
-    const result = await features.find(query).toArray();
+    let collection = database.collection('ways');
+    const ways = await collection.find(query).toArray();
+
+    collection = database.collection('intersections');
+    const intersections = await collection.find(query).toArray();
 
     res.json({
-      "type": "FeatureCollection",
-      "features": result,
+      "ways": {
+        "type": "FeatureCollection",
+        "features": ways,
+      },
+      "intersections": {
+        "type": "FeatureCollection",
+        "features": intersections,
+      }
     });
 });
 
