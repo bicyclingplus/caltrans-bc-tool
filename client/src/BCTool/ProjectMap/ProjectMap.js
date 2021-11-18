@@ -12,7 +12,7 @@ class ProjectMap extends React.Component {
       this.map = null;
       this.featuresRaw = {};
       this.features = null;
-      this.selected = [];
+      this.selected = []; // TODO refactor to selectedWays
       this.length = 0;
       this.selectedIntersections = [];
 
@@ -44,14 +44,14 @@ class ProjectMap extends React.Component {
 
     styleWay = (feature) => {
 
+      let color = "gray"
+
       if(this.selected.includes(feature.properties.TDG_ID)) {
-        return {
-          color: "#00FFFF",
-        }
+        color = "#00FFFF";
       }
 
       return {
-        color: "gray",
+        color: color,
       };
     }
 
@@ -79,10 +79,24 @@ class ProjectMap extends React.Component {
       if(this.selected.includes(featureId)) {
         this.selected = this.selected.filter((item) => (item !== featureId));
         this.length -= length;
+
+        // TODO remove intersections for this way that aren't part of any other selected way
       }
       else {
         this.selected.push(featureId);
         this.length += length;
+
+        let intA = e.target.feature.properties['INTERSECTI'];
+        let intB = e.target.feature.properties['INTERSE_01'];
+
+        if(!this.selectedIntersections.includes(intA)) {
+          this.selectedIntersections.push(intA);
+        }
+
+        if(!this.selectedIntersections.includes(intB)) {
+          this.selectedIntersections.push(intB);
+        }
+
       }
 
       if(!this.selected.length) {
@@ -92,6 +106,7 @@ class ProjectMap extends React.Component {
       this.renderFeatures();
 
       this.props.updateLength(this.length);
+      this.props.updateIntersections(this.selectedIntersections.length);
     }
 
     onEachWay = (feature, mapLayer) => {
@@ -128,6 +143,7 @@ class ProjectMap extends React.Component {
 
     pointToLayer = (feature, latlng) => {
 
+      // Selected feature styling
       let color = "grey";
 
       if(this.selectedIntersections.includes(feature.properties.id)) {
@@ -152,15 +168,26 @@ class ProjectMap extends React.Component {
 
     intersectionClicked = (e) => {
 
+      // don't do anything for ways
+      if(e.target.feature.geometry.type !== "Point") {
+        return;
+      }
+
       let featureId = e.target.feature.properties.id;
 
+      // Check if this intersection is already selected or not
       if(this.selectedIntersections.includes(featureId)) {
+
+        // Remove from selection
         this.selectedIntersections = this.selectedIntersections.filter((item) => (item !== featureId));
       }
       else {
+
+        // Add to selection
         this.selectedIntersections.push(featureId);
       }
 
+      // Update features on map
       this.renderFeatures();
 
       // Let tool know about change in number of intersections
@@ -175,16 +202,26 @@ class ProjectMap extends React.Component {
 
       if(this.props.interactive) {
 
+        // TODO refactor to combine onEachFeature handlers
+        // abstract out just the feature set
+
+        // Only display ways
         if(this.state.mode === "way") {
           this.features = Leaflet.geoJSON(this.ways, {
             style: this.styleWay,
             onEachFeature: this.onEachWay,
           });
         }
+
+        // Display ways and intersections together
         else {
-          this.features = Leaflet.geoJSON(this.intersections, {
+          this.features = Leaflet.geoJSON({
+            "type": "FeatureCollection",
+            "features": this.ways.features.concat(this.intersections.features),
+          }, {
             pointToLayer: this.pointToLayer,
             onEachFeature: this.onEachIntersection,
+            style: this.styleWay,
           });
         }
       }
@@ -255,6 +292,16 @@ class ProjectMap extends React.Component {
       }, this.renderFeatures);
     }
 
+    reset = () => {
+      this.selected = [];
+      this.selectedIntersections = [];
+
+      this.props.updateLength(0);
+      this.props.updateIntersections(0);
+
+      this.renderFeatures();
+    }
+
     render() {
 
       let { interactive } = this.props;
@@ -263,6 +310,8 @@ class ProjectMap extends React.Component {
       let btnClasses = "btn btn-primary";
       let wayClasses = mode === 'way' ? `${btnClasses} active` : btnClasses;
       let intersectionClasses = mode === 'intersection' ? `${btnClasses} active` : btnClasses;
+
+      // TODO refactor selector to separate component?
 
       return (
         <>
@@ -273,6 +322,8 @@ class ProjectMap extends React.Component {
               <button type="button" className={wayClasses} onClick={this.selectWays}>Ways</button>
               <button type="button" className={intersectionClasses} onClick={this.selectIntersections}>Intersections</button>
             </div>
+
+            <button type="button" className="btn btn-secondary ms-4" onClick={this.reset}>Reset</button>
           </div>
           : null }
           <div id="map"></div>
