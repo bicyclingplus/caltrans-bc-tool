@@ -373,8 +373,8 @@
 				}
 			},
 			"infrastructure": {},
-			"blockFaces": 4,
-			"intersections": 5,
+			"blockFaces": 0,
+			"intersections": 0,
 			"length": 0,
 			"interactive-map": true,
 			"center": [
