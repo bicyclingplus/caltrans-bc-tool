@@ -77,10 +77,49 @@ class ProjectMap extends React.Component {
       }
 
       if(this.selected.includes(featureId)) {
+
+        // Remove the clicked way from selection and length count
         this.selected = this.selected.filter((item) => (item !== featureId));
         this.length -= length;
 
-        // TODO remove intersections for this way that aren't part of any other selected way
+        let intA;
+        let intB;
+
+        // Grab the intersection ids attached to the way we're removing
+        for(let way of this.ways.features) {
+          if(way.properties.TDG_ID === featureId) {
+            intA = way.properties['INTERSECTI'];
+            intB = way.properties['INTERSE_01'];
+            break;
+          }
+        }
+
+        let intAFound = false;
+        let intBFound = false;
+
+        // Check all the other selected ways to see if they include this intersection
+        for(let way of this.ways.features) {
+
+          if(this.selected.includes(way.properties.TDG_ID)) {
+
+            if(intA === way.properties['INTERSECTI'] || intA === way.properties['INTERSE_01']) {
+              intAFound = true;
+            }
+
+            if(intB === way.properties['INTERSECTI'] || intB === way.properties['INTERSE_01']) {
+              intBFound = true;
+            }
+          }
+        }
+
+        // If not other selected ways use these intersections, remove them from selection
+        if(!intAFound) {
+          this.selectedIntersections = this.selectedIntersections.filter((item) => (item !== intA));
+        }
+
+        if(!intBFound) {
+          this.selectedIntersections = this.selectedIntersections.filter((item) => (item !== intB));
+        }
       }
       else {
         this.selected.push(featureId);
