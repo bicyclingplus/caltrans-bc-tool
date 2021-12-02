@@ -34,22 +34,36 @@ function calcSafetyQuantitative(infrastructure, travel, length, intersections, s
     for(let item of category.items) {
 
       // check if item has an entry in benefits
-      if(item.shortname in quantitative.benefits) {
+      if(item.shortname in quantitative) {
 
         // console.log(`Found quantitative safety benefits for ${item.label}`);
 
         // calc fraction of counts for this item compared to project counts
         let share = 0;
-        if(item.units === 'length') {
-          share = item.value / length;
+
+        if(item.calc_units === 'length') {
+
+          if(item.units === 'count') {
+            // In this case we ask them for a count and
+            // then apply a preset length per item
+            // i.e. lights every 100 feet
+            // and then apply that as a portion of the
+            // total project length
+            // all are assumed to be per 100 feet right now
+            // this will probably change at some point.
+            share = (item.value * 100) / length;
+          }
+          else if(item.units === 'length') {
+            share = item.value / length;
+          }
         }
-        else {
+        else if(item.calc_units === 'count') {
           share = item.value / intersections;
         }
 
-        let benefit = quantitative.benefits[item.shortname];
+        let benefit = quantitative[item.shortname];
 
-        for(let effect of benefit.effects) {
+        for(let effect of benefit) {
 
           // console.log(`Calculating benefit for ${effect.mode} ${effect.parameter}`);
 

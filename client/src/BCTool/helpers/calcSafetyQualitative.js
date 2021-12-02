@@ -13,11 +13,20 @@ function calcSafetyQualitative(infrastructure) {
           // Check if this element is selected
           if(item.selected && item.shortname in qualitative) {
 
+            let shortname = item.shortname;
+
+            // lighting could now be either lighting-block-face or lighting-intersection
+            // but there is only one qualitative benefit entry for lighting, so
+            // we take that if either are selected
+            if(item.shortname.startsWith('lighting')) {
+              shortname = 'lighting';
+            }
+
             benefits.push({
               element: item.label,
-              benefits: qualitative[item.shortname].map((benefit, idx) => (
+              benefits: qualitative[shortname].map((benefit, idx) => (
                 {
-                  'key': `${item.shortname}-${idx}`,
+                  'key': `${shortname}-${idx}`,
                   'element': item.label,
                   'description': benefit.description,
                   'sources': benefit.sources,
