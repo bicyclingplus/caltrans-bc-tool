@@ -69,6 +69,11 @@ class ProjectMap extends React.Component {
 
     wayClicked = (e) => {
 
+      // don't do anything for intersections
+      if(e.target.feature.geometry.type === "Point") {
+        return;
+      }
+
       let featureId = e.target.feature.properties.TDG_ID;
       let length = this.calcLength(e.target.getLatLngs());
 
@@ -246,9 +251,18 @@ class ProjectMap extends React.Component {
 
         // Only display ways
         if(this.state.mode === "way") {
-          this.features = Leaflet.geoJSON(this.ways, {
-            style: this.styleWay,
+          // this.features = Leaflet.geoJSON(this.ways, {
+          //   style: this.styleWay,
+          //   onEachFeature: this.onEachWay,
+          // });
+
+          this.features = Leaflet.geoJSON({
+            "type": "FeatureCollection",
+            "features": this.ways.features.concat(this.intersections.features),
+          }, {
+            pointToLayer: this.pointToLayer,
             onEachFeature: this.onEachWay,
+            style: this.styleWay,
           });
         }
 
