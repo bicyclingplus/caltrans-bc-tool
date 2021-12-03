@@ -2,3 +2,6 @@
 *.json
 *.geojson
 *.csv
+
+input/
+output/
