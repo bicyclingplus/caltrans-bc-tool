@@ -115,12 +115,12 @@ class BCTool extends React.Component {
 
     let new_non_infrastructure = [];
 
-    for(let i = 0; i < non_infrastructure['items'].length; i++) {
+    for(let item of non_infrastructure.items) {
       new_non_infrastructure.push({
-        "label": non_infrastructure['items'][i]['label'],
-        "shortname": non_infrastructure['items'][i]['shortname'],
-        "description": non_infrastructure['items'][i]['description'],
-        "selected": false
+        "label": item.label,
+        "shortname": item.shortname,
+        "description": item.description,
+        "selected": project['non-infrastructure'].includes(item.shortname),
       });
     }
 
@@ -151,7 +151,7 @@ class BCTool extends React.Component {
             'infrastructure': infrastructure,
             'non-infrastructure': new_non_infrastructure,
             'infrastructure-selected': preselected.length ? true : false,
-            'non-infrastructure-selected': false,
+            'non-infrastructure-selected': new_non_infrastructure.length ? true : false,
 
             'benefits': {},
             'showBenefits': false,
@@ -220,15 +220,15 @@ class BCTool extends React.Component {
 
     // Update the changed one
     for(const item of updated) {
-      if(item['shortname'] === shortname) {
-        item['selected'] = value;
+      if(item.shortname === shortname) {
+        item.selected = value;
         break;
       }
     }
 
     // Check if any are selected
     for(const item of updated) {
-      if(item['selected']) {
+      if(item.selected) {
         selected = true;
         break;
       }
@@ -506,7 +506,7 @@ class BCTool extends React.Component {
         </div>
         : null }
 
-        { this.state.showBenefits ?
+        { (this.state['infrastructure-selected'] || this.state['non-infrastructure-selected']) && this.state.showBenefits ?
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectBenefits
