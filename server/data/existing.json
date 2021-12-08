@@ -299,10 +299,6 @@
 					"value": 800,
 					"type": "new"
 				},
-				"sidewalk": {
-					"value": 800,
-					"type": "new"
-				},
 				"ada-ramps": {
 					"value": 10,
 					"type": "upgrade"
@@ -326,10 +322,6 @@
 				"crossing-surface": {
 					"value": 81,
 					"type": "new"
-				},
-				"shorten-crossing": {
-					"value": 22,
-					"type": "upgrade"
 				},
 				"lighting-block-face": {
 					"value": 10300,
