@@ -302,7 +302,7 @@ class ProjectMap extends React.Component {
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1,
-            accessToken: 'pk.eyJ1IjoibWZhdmV0dGkiLCJhIjoiY2tvYnFyYndpMDB2dDJwcGRiM3h4dG9sciJ9.lpkeRUBN_K546qVPWRs2BA'
+            accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
         }).addTo(this.map);
       }
 
