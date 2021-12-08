@@ -360,9 +360,8 @@ class ProjectMap extends React.Component {
       let { interactive } = this.props;
       let { mode } = this.state;
 
-      let btnClasses = "btn btn-primary";
-      let wayClasses = mode === 'way' ? `${btnClasses} active` : btnClasses;
-      let intersectionClasses = mode === 'intersection' ? `${btnClasses} active` : btnClasses;
+      let wayClasses = mode === 'way' ? `btn btn-primary active` : `btn btn-outline-primary`;
+      let intersectionClasses = mode === 'intersection' ? `btn btn-primary active` : `btn btn-outline-primary`;
 
       // TODO refactor selector to separate component?
 
@@ -372,7 +371,7 @@ class ProjectMap extends React.Component {
           <div className="mb-4">
             <strong>Selecting on map:</strong>
             <div className="btn-group ms-4" role="group" aria-label="Basic example">
-              <button type="button" className={wayClasses} onClick={this.selectWays}>Ways</button>
+              <button type="button" className={wayClasses} onClick={this.selectWays}>Segments</button>
               <button type="button" className={intersectionClasses} onClick={this.selectIntersections}>Intersections</button>
             </div>
 
