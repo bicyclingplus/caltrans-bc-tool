@@ -52,6 +52,8 @@ class ProjectMap extends React.Component {
 
       return {
         color: color,
+        weight: 8,
+
       };
     }
 
@@ -195,10 +197,10 @@ class ProjectMap extends React.Component {
       }
 
       return Leaflet.circleMarker(latlng, {
-        radius: 8,
+        radius: 10,
         fillColor: color,
         color: "#000",
-        weight: 1,
+        weight: 0,
         opacity: 1,
         fillOpacity: 0.8
       })
@@ -240,51 +242,59 @@ class ProjectMap extends React.Component {
 
     renderFeatures() {
       // console.log('Render!');
-      if(this.features) {
-        this.map.removeLayer(this.features);
-      }
 
       if(this.props.interactive) {
 
         // TODO refactor to combine onEachFeature handlers
         // abstract out just the feature set
 
-        // Only display ways
-        if(this.state.mode === "way") {
-          // this.features = Leaflet.geoJSON(this.ways, {
-          //   style: this.styleWay,
-          //   onEachFeature: this.onEachWay,
-          // });
-
-          this.features = Leaflet.geoJSON({
-            "type": "FeatureCollection",
-            "features": this.ways.features.concat(this.intersections.features),
-          }, {
-            pointToLayer: this.pointToLayer,
-            onEachFeature: this.onEachWay,
-            style: this.styleWay,
-          });
+        if(this.intersectionFeatures) {
+          this.map.removeLayer(this.intersectionFeatures);
         }
 
-        // Display ways and intersections together
+        if(this.wayFeatures) {
+          this.map.removeLayer(this.wayFeatures);
+        }
+
+        this.intersectionFeatures = Leaflet.geoJSON({
+          "type": "FeatureCollection",
+          "features": this.intersections.features,
+        }, {
+          onEachFeature: this.onEachIntersection,
+          pointToLayer: this.pointToLayer,
+        });
+
+        this.wayFeatures = Leaflet.geoJSON({
+          "type": "FeatureCollection",
+          "features": this.ways.features,
+        }, {
+          onEachFeature: this.onEachWay,
+          style: this.styleWay,
+        });
+
+
+        if(this.state.mode === "way") {
+          this.intersectionFeatures.addTo(this.map);
+          this.wayFeatures.addTo(this.map);
+        }
         else {
-          this.features = Leaflet.geoJSON({
-            "type": "FeatureCollection",
-            "features": this.ways.features.concat(this.intersections.features),
-          }, {
-            pointToLayer: this.pointToLayer,
-            onEachFeature: this.onEachIntersection,
-            style: this.styleWay,
-          });
+          this.wayFeatures.addTo(this.map);
+          this.intersectionFeatures.addTo(this.map);
         }
       }
       else {
+
+        if(this.features) {
+          this.map.removeLayer(this.features);
+        }
+
         this.features = Leaflet.geoJSON(this.featuresRaw, {
           style: this.style,
           onEachFeature: this.onEachFeature,
         });
+
+        this.features.addTo(this.map);
       }
-      this.features.addTo(this.map);
     }
 
     updateMap() {
