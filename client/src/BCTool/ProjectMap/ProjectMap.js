@@ -256,18 +256,12 @@ class ProjectMap extends React.Component {
           this.map.removeLayer(this.wayFeatures);
         }
 
-        this.intersectionFeatures = Leaflet.geoJSON({
-          "type": "FeatureCollection",
-          "features": this.intersections.features,
-        }, {
+        this.intersectionFeatures = Leaflet.geoJSON(this.intersections.features, {
           onEachFeature: this.onEachIntersection,
           pointToLayer: this.pointToLayer,
         });
 
-        this.wayFeatures = Leaflet.geoJSON({
-          "type": "FeatureCollection",
-          "features": this.ways.features,
-        }, {
+        this.wayFeatures = Leaflet.geoJSON(this.ways.features, {
           onEachFeature: this.onEachWay,
           style: this.styleWay,
         });
