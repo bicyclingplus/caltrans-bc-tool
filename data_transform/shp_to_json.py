@@ -15,11 +15,11 @@ files = [
         "shapefile": "neighborhood_ways_latlong",
         "outfilename": "woodland.json",
     },
-    # {
-    #     "folder": "neighborhood_ways_sacramento",
-    #     "shapefile": "neighborhood_ways",
-    #     "outfilename": "sacramento.json",
-    # },
+    {
+        "folder": "neighborhood_ways_sacramento",
+        "shapefile": "neighborhood_ways_latlong",
+        "outfilename": "sacramento.json",
+    },
 ]
 
 for file in files:

@@ -1,42 +1,74 @@
 import json
 import os
+import uuid
 
-infilename = os.path.join("output", "woodland.json")
+files = [
+    {
+        "infilename": "woodland.json",
+        "outfilename": "woodland_intersections.json"
+    },
+    {
+        "infilename": "sacramento.json",
+        "outfilename": "sacramento_intersections.json"
+    },
+]
 
-geojson = json.load(open(infilename))
+all_intersections = []
 
-intersections = {}
+for file in files:
 
-for f in geojson['features']:
+    infilename = os.path.join("output", file['infilename'])
 
-    int_a = int(f['properties']['INTERSECTI'])
-    int_a_coords = f['geometry']['coordinates'][0]
-    int_b = int(f['properties']['INTERSE_01'])
-    int_b_coords = f['geometry']['coordinates'][-1]
+    geojson = json.load(open(infilename))
 
-    if int_a not in intersections:
-        intersections[int_a] = int_a_coords
+    intersections = {}
+    new_id_lookup = {}
 
-    if int_b not in intersections:
-        intersections[int_b] = int_b_coords
+    for f in geojson['features']:
 
-newjson = {
-    "features": [],
-    "type": "FeatureCollection",
-}
+        int_a = int(f['properties']['INTERSECTI'])
+        int_a_coords = f['geometry']['coordinates'][0]
+        int_b = int(f['properties']['INTERSE_01'])
+        int_b_coords = f['geometry']['coordinates'][-1]
 
-for i in intersections.keys():
+        if int_a not in intersections:
+            intersections[int_a] = int_a_coords
 
-    newjson["features"].append({
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": intersections[i],
-        },
-        "properties": {
-            "id": i,
-        }
-    })
+        if int_b not in intersections:
+            intersections[int_b] = int_b_coords
 
-outfilename = os.path.join('output', 'woodland_intersections.json')
-json.dump(newjson, open(outfilename, 'w'))
+    newjson = {
+        "features": [],
+        "type": "FeatureCollection",
+    }
+
+    for i in intersections.keys():
+
+        new_id = str(uuid.uuid4())
+
+        if new_id in all_intersections:
+            print('Collision')
+            exit()
+
+        new_id_lookup[i] = new_id
+
+        newjson["features"].append({
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": intersections[i],
+            },
+            "properties": {
+                "id": new_id,
+            }
+        })
+
+    for f in geojson['features']:
+        f['properties']['INTERSECTI'] = new_id_lookup[f['properties']['INTERSECTI']]
+        f['properties']['INTERSE_01'] = new_id_lookup[f['properties']['INTERSE_01']]
+
+    json.dump(geojson, open(infilename, 'w'))
+
+    outfilename = os.path.join('output', file['outfilename'])
+    json.dump(newjson, open(outfilename, 'w'))
+
