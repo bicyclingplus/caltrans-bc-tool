@@ -13,7 +13,7 @@ class CategorizedCheckboxDropdown extends React.Component {
 
             for(let item of category.items) {
                 if(item.selected) {
-                    selectedText.push(item.['label']);
+                    selectedText.push(item['label']);
                 }
             }
         }
