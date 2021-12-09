@@ -1,4 +1,6 @@
-FROM node:16.5
+FROM node:16.13
+
+RUN npm install -g npm@8.2.0
 
 RUN mkdir -p /usr/src/app /usr/src/app/server /usr/src/app/client
 
