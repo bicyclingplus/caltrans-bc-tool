@@ -12,8 +12,13 @@ class ProjectMap extends React.Component {
       this.map = null;
       this.featuresRaw = {};
       this.features = null;
-      this.selected = []; // TODO refactor to selectedWays
+
+      this.selectedWayIds = [];
+      this.selectedWays = [];
+
       this.length = 0;
+
+      this.selectedIntersectionIds = [];
       this.selectedIntersections = [];
 
       this.state = {
@@ -30,13 +35,23 @@ class ProjectMap extends React.Component {
     componentDidUpdate(prevProps) {
       if(this.props.geojson !== prevProps.geojson) {
 
-        this.selected = [];
-        this.length = 0;
-        this.features = null;
-        this.featuresRaw = {};
         this.map.off();
         this.map.remove();
         this.map = null;
+
+        this.featuresRaw = {};
+        this.features = null;
+
+        this.selectedWayIds = [];
+        this.selectedWays = [];
+
+        this.length = 0;
+
+        this.selectedIntersectionIds = [];
+        this.selectedIntersections = [];
+
+        this.props.updateSelectedWays([], 0);
+        this.props.updateSelectedIntersections([]);
 
         this.updateMap();
       }
@@ -46,7 +61,7 @@ class ProjectMap extends React.Component {
 
       let color = "gray"
 
-      if(this.selected.includes(feature.properties.edgeUID)) {
+      if(this.selectedWayIds.includes(feature.properties.edgeUID)) {
         color = "#00FFFF";
       }
 
@@ -68,6 +83,7 @@ class ProjectMap extends React.Component {
       return total * 3.28084;
     }
 
+    // This can handle multilinestring and linestring
     calcLength = (latlngs) => {
 
       if(Array.isArray(latlngs[0])) {
@@ -84,102 +100,112 @@ class ProjectMap extends React.Component {
       return this.calcLengthArray(latlngs);
     }
 
+    splitSourceTarget(str) {
+      return str.split(',').map((el) => parseInt(el));
+    }
+
     wayClicked = (e) => {
 
-      // don't do anything for intersections
-      if(e.target.feature.geometry.type === "Point") {
-        return;
-      }
+      // console.log('Fire!');
 
-      if(this.state.mode !== 'way') {
-        return;
-      }
-
-      let featureId = e.target.feature.properties.edgeUID;
       let length = this.calcLength(e.target.getLatLngs());
+      let feature = e.target.feature;
+      let featureId = feature.properties.edgeUID;
 
-      console.log()
+      // console.log(feature);
 
-      if(!e.target.feature.properties.ONE_WAY_CA) {
+      if(!feature.properties.ONE_WAY_CA) {
         length *= 2;
       }
-      else {
-        console.log('ONE WAY STREET SELECTED');
-      }
+      // else {
+      //   console.log('ONE WAY STREET SELECTED');
+      // }
 
-      if(this.selected.includes(featureId)) {
+      // If this way is already selected, remove it otherwise select it
+      if(this.selectedWayIds.includes(featureId)) {
 
         // Remove the clicked way from selection and length count
-        this.selected = this.selected.filter((item) => (item !== featureId));
+        this.selectedWayIds = this.selectedWayIds.filter((item) => (item !== featureId));
+        this.selectedWays = this.selectedWays.filter((item) => (item.properties.edgeUID !== featureId));
         this.length -= length;
 
-        let intA;
-        let intB;
-
         // Grab the intersection ids attached to the way we're removing
-        for(let way of this.ways.features) {
-          if(way.properties.edgeUID === featureId) {
-            intA = way.properties['source_node'];
-            intB = way.properties['target_node'];
-            break;
-          }
-        }
+        let [ intA, intB ] = this.splitSourceTarget(feature.properties['source_target']);
 
         let intAFound = false;
         let intBFound = false;
 
         // Check all the other selected ways to see if they include this intersection
-        for(let way of this.ways.features) {
+        for(let way of this.selectedWays) {
 
-          if(this.selected.includes(way.properties.edgeUID)) {
+          // Skip this one
+          if(way.properties.edgeUID === featureId) {
+            continue;
+          }
 
-            if(intA === way.properties['source_node'] || intA === way.properties['target_node']) {
-              intAFound = true;
-            }
+          let [ source, target ] = this.splitSourceTarget(way.properties['source_target']);
 
-            if(intB === way.properties['source_node'] || intB === way.properties['target_node']) {
-              intBFound = true;
+          if(intA === source || intA === target) {
+            intAFound = true;
+          }
+
+          if(intB === source || intB === target) {
+            intBFound = true;
+          }
+        }
+
+        // If no other selected ways use these intersections, remove them from selection
+        if(!intAFound) {
+          this.selectedIntersectionIds = this.selectedIntersectionIds.filter((item) => (item !== intA));
+          this.selectedIntersections = this.selectedIntersections.filter((item) => (item.properties.nodeID !== intA));
+        }
+
+        if(!intBFound) {
+          this.selectedIntersectionIds = this.selectedIntersectionIds.filter((item) => (item !== intB));
+          this.selectedIntersections = this.selectedIntersections.filter((item) => (item.properties.nodeID !== intB));
+        }
+      }
+      else {
+        this.selectedWayIds.push(featureId);
+        this.selectedWays.push(feature);
+        this.length += length;
+
+        let [ intA, intB ] = this.splitSourceTarget(feature.properties['source_target']);
+
+        if(!this.selectedIntersectionIds.includes(intA)) {
+          this.selectedIntersectionIds.push(intA);
+
+          // find the feature for this intersection
+          for(let intersection of this.intersections) {
+            if(intersection.properties.nodeID === intA) {
+              this.selectedIntersections.push(intersection);
+              break;
             }
           }
         }
 
-        // If not other selected ways use these intersections, remove them from selection
-        if(!intAFound) {
-          this.selectedIntersections = this.selectedIntersections.filter((item) => (item !== intA));
-        }
+        if(!this.selectedIntersectionIds.includes(intB)) {
+          this.selectedIntersectionIds.push(intB);
 
-        if(!intBFound) {
-          this.selectedIntersections = this.selectedIntersections.filter((item) => (item !== intB));
-        }
-      }
-      else {
-        this.selected.push(featureId);
-        this.length += length;
-
-        let intA = e.target.feature.properties['source_node'];
-        let intB = e.target.feature.properties['target_node'];
-
-        if(!this.selectedIntersections.includes(intA)) {
-          this.selectedIntersections.push(intA);
-        }
-
-        if(!this.selectedIntersections.includes(intB)) {
-          this.selectedIntersections.push(intB);
+          // find the feature for this intersection
+          for(let intersection of this.intersections) {
+            if(intersection.properties.nodeID === intB) {
+              this.selectedIntersections.push(intersection);
+              break;
+            }
+          }
         }
 
       }
 
-      if(!this.selected.length) {
+      if(!this.selectedWayIds.length) {
         this.length = 0;
       }
 
       this.renderFeatures();
 
-      console.log(this.selected);
-      console.log(this.selectedIntersections);
-
-      this.props.updateLength(this.length);
-      this.props.updateIntersections(this.selectedIntersections.length);
+      this.props.updateSelectedWays(this.selectedWays, this.length);
+      this.props.updateSelectedIntersections(this.selectedIntersections);
     }
 
     onEachWay = (feature, mapLayer) => {
@@ -200,8 +226,8 @@ class ProjectMap extends React.Component {
         .then(
           (result) => {
             if(this.props.interactive) {
-              this.ways = result.ways;
-              this.intersections = result.intersections;
+              this.ways = result.ways.features;
+              this.intersections = result.intersections.features;
             }
             else {
               this.featuresRaw = result.ways;
@@ -219,7 +245,7 @@ class ProjectMap extends React.Component {
       // Selected feature styling
       let color = "grey";
 
-      if(this.selectedIntersections.includes(feature.properties.nodeID)) {
+      if(this.selectedIntersectionIds.includes(feature.properties.nodeID)) {
         color = "#00FFFF";
       }
 
@@ -241,63 +267,63 @@ class ProjectMap extends React.Component {
 
     intersectionClicked = (e) => {
 
-      // don't do anything for ways
-      if(e.target.feature.geometry.type !== "Point") {
-        return;
-      }
 
-      if(this.state.mode === 'way') {
-        return;
-      }
-
-      let featureId = e.target.feature.properties.nodeID;
+      let feature = e.target.feature;
+      let featureId = feature.properties.nodeID;
 
       // Check if this intersection is already selected or not
-      if(this.selectedIntersections.includes(featureId)) {
+      if(this.selectedIntersectionIds.includes(featureId)) {
 
         // Remove from selection
-        this.selectedIntersections = this.selectedIntersections.filter((item) => (item !== featureId));
+        this.selectedIntersectionIds = this.selectedIntersectionIds.filter((item) => (item !== featureId));
+        this.selectedIntersections = this.selectedIntersections.filter((item) => (item.properties.nodeID !== featureId));
       }
       else {
 
         // Add to selection
-        this.selectedIntersections.push(featureId);
+        this.selectedIntersectionIds.push(featureId);
+        this.selectedIntersections.push(feature);
       }
 
       // Update features on map
       this.renderFeatures();
 
       // Let tool know about change in number of intersections
-      this.props.updateIntersections(this.selectedIntersections.length);
+      this.props.updateSelectedIntersections(this.selectedIntersections);
     }
 
     renderFeatures() {
-      console.log('Render!');
+      // console.log('Render!');
 
       if(this.props.interactive) {
 
+        // console.log(this.selectedWayIds);
+        // console.log(this.selectedWays);
+        // console.log(this.selectedIntersectionIds);
+        // console.log(this.selectedIntersections);
+
         // TODO refactor to combine onEachFeature handlers
         // abstract out just the feature set
-
-        if(this.intersectionFeatures) {
-          this.map.removeLayer(this.intersectionFeatures);
-        }
 
         if(this.wayFeatures) {
           this.map.removeLayer(this.wayFeatures);
         }
 
-        this.intersectionFeatures = Leaflet.geoJSON(this.intersections.features, {
-          onEachFeature: this.onEachIntersection,
-          pointToLayer: this.pointToLayer,
-        });
+        if(this.intersectionFeatures) {
+          this.map.removeLayer(this.intersectionFeatures);
+        }
 
-        this.wayFeatures = Leaflet.geoJSON(this.ways.features, {
-          onEachFeature: this.onEachWay,
+        this.wayFeatures = Leaflet.geoJSON(this.ways, {
+          onEachFeature: this.state.mode === "way" ? this.onEachWay : null,
           style: this.styleWay,
         });
 
+        this.intersectionFeatures = Leaflet.geoJSON(this.intersections, {
+          onEachFeature:  this.state.mode !== "way" ? this.onEachIntersection : null,
+          pointToLayer: this.pointToLayer,
+        });
 
+        // stack order
         if(this.state.mode === "way") {
           this.intersectionFeatures.addTo(this.map);
           this.wayFeatures.addTo(this.map);
@@ -343,7 +369,7 @@ class ProjectMap extends React.Component {
 
       if(this.props.interactive) {
 
-        // this.map.setMinZoom(15)
+        this.map.setMinZoom(15);
 
         this.map.setView(this.props.center, 16);
 
@@ -381,11 +407,14 @@ class ProjectMap extends React.Component {
     }
 
     reset = () => {
-      this.selected = [];
+      this.selectedWayIds = [];
+      this.selectedWays = [];
+
+      this.selectedIntersectionIds = [];
       this.selectedIntersections = [];
 
-      this.props.updateLength(0);
-      this.props.updateIntersections(0);
+      this.props.updateSelectedWays([], 0);
+      this.props.updateSelectedIntersections([]);
 
       this.renderFeatures();
     }

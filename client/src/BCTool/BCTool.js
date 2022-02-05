@@ -48,6 +48,9 @@ class BCTool extends React.Component {
       'intersections': 0,
       'length': 0,
 
+      'selectedWays': [],
+      'selectedIntersections': [],
+
       'osm-ids': [],
       'existingTravel': {},
 
@@ -144,6 +147,9 @@ class BCTool extends React.Component {
 
             'intersections': project['intersections'] ? project['intersections'] : 0,
             'length': project['length'] ? project['length'] : 0,
+
+            'selectedWays': [],
+            'selectedIntersections': [],
 
             'existingTravel': project['existingTravel'],
             'osm-ids': project['osm-ids'],
@@ -386,19 +392,28 @@ class BCTool extends React.Component {
     });
   };
 
-  updateLength = (length) => {
 
-    // console.log(length);
+  updateSelectedWays = (selectedWays, length) => {
+
+    // update bike demand
 
     this.setState({
+      'selectedWays': selectedWays,
       'length': length,
-    })
+      'showBenefits': false,
+      'inputsChanged': true,
+    });
   }
 
-  updateIntersections = (intersections) => {
+  updateSelectedIntersections = (selectedIntersections) => {
     this.setState({
-      'intersections': intersections,
+      'selectedIntersections': selectedIntersections,
+      'intersections': selectedIntersections.length,
+      'showBenefits': false,
+      'inputsChanged': true,
     });
+
+    // update ped demand
   }
 
   render() {
@@ -448,8 +463,8 @@ class BCTool extends React.Component {
               geojson={this.geojson}
               interactive={this.state['interactive-map']}
               center={this.state.center}
-              updateLength={this.updateLength}
-              updateIntersections={this.updateIntersections}
+              updateSelectedWays={this.updateSelectedWays}
+              updateSelectedIntersections={this.updateSelectedIntersections}
             />
           </div>
         </div>
