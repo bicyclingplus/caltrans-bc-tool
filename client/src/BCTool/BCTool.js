@@ -396,8 +396,43 @@ class BCTool extends React.Component {
   updateSelectedWays = (selectedWays, length) => {
 
     // update bike demand
+    let existingTravel = { ...this.state.existingTravel};
+
+    let totalLower = 0, totalMean = 0, totalUpper = 0;
+
+    for(let way of selectedWays) {
+
+      let lower = parseInt(way.properties.low_daily);
+      let mean = parseInt(way.properties.Avg_daily);
+      let upper = parseInt(way.properties.high_daily);
+
+      if(lower) {
+        totalLower += lower;
+      }
+
+      if(mean) {
+        totalMean += mean;
+      }
+
+      if(upper) {
+        totalUpper += upper;
+      }
+    }
+
+    if(existingTravel.bike.lower !== null) {
+      existingTravel.bike.lower = totalLower;
+    }
+
+    if(existingTravel.bike.mean !== null) {
+      existingTravel.bike.mean = totalMean;
+    }
+
+    if(existingTravel.bike.upper !== null) {
+      existingTravel.bike.upper = totalUpper;
+    }
 
     this.setState({
+      'existingTravel': existingTravel,
       'selectedWays': selectedWays,
       'length': length,
       'showBenefits': false,
