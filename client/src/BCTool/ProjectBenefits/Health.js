@@ -17,9 +17,13 @@ class HealthBenefits extends React.Component {
             <th></th>
             <th colSpan="3" className="text-center">Marginal Metabolic Equivalent of Task (MMET) Increase</th>
             <th colSpan="3" className="text-center">MMET Increase / Capita</th>
+            <th colSpan="3" className="text-center">MMET Increase / Jobs</th>
           </tr>
           <tr>
             <th></th>
+            <th className="text-center">Lower</th>
+            <th className="text-center">Mean</th>
+            <th className="text-center">Upper</th>
             <th className="text-center">Lower</th>
             <th className="text-center">Mean</th>
             <th className="text-center">Upper</th>
@@ -38,6 +42,9 @@ class HealthBenefits extends React.Component {
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
           </tr>
           : null }
           { benefits.pedestrian ?
@@ -49,6 +56,9 @@ class HealthBenefits extends React.Component {
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
           </tr>
           : null }
           { benefits.bike && benefits.pedestrian ?
@@ -57,6 +67,9 @@ class HealthBenefits extends React.Component {
             <td className="text-end">{readableNumber(benefits.total.lower)}</td>
             <td className="text-end">{readableNumber(benefits.total.mean)}</td>
             <td className="text-end">{readableNumber(benefits.total.upper)}</td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>

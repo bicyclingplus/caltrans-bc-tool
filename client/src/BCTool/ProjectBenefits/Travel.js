@@ -21,9 +21,13 @@ class Travel extends React.Component {
             <th colSpan="2"></th>
             <th colSpan="3" className="text-center">Miles Traveled</th>
             <th colSpan="3" className="text-center">Miles Traveled / Capita</th>
+            <th colSpan="3" className="text-center">Miles Traveled / Jobs</th>
           </tr>
           <tr>
             <th colSpan="2"></th>
+            <th className="text-center">Lower</th>
+            <th className="text-center">Mean</th>
+            <th className="text-center">Upper</th>
             <th className="text-center">Lower</th>
             <th className="text-center">Mean</th>
             <th className="text-center">Upper</th>
@@ -39,6 +43,9 @@ class Travel extends React.Component {
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td rowSpan="5">Increase</td>
@@ -46,6 +53,9 @@ class Travel extends React.Component {
             <td className="text-end">{readableNumber(benefits.bike.inducedTravel.lower)}</td>
             <td className="text-end">{readableNumber(benefits.bike.inducedTravel.mean)}</td>
             <td className="text-end">{readableNumber(benefits.bike.inducedTravel.upper)}</td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -58,12 +68,18 @@ class Travel extends React.Component {
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td>Car Shift</td>
             <td className="text-end">{readableNumber(benefits.bike.carShift.lower)}</td>
             <td className="text-end">{readableNumber(benefits.bike.carShift.mean)}</td>
             <td className="text-end">{readableNumber(benefits.bike.carShift.upper)}</td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -76,6 +92,9 @@ class Travel extends React.Component {
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td><b>Total</b></td>
@@ -85,12 +104,18 @@ class Travel extends React.Component {
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td colSpan="2">Projected (Existing + Increase)</td>
             <td className="text-end">{readableNumber(benefits.bike.projected.lower)}</td>
             <td className="text-end">{readableNumber(benefits.bike.projected.mean)}</td>
             <td className="text-end">{readableNumber(benefits.bike.projected.upper)}</td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -109,9 +134,13 @@ class Travel extends React.Component {
             <th colSpan="2"></th>
             <th colSpan="3" className="text-center">Miles Traveled</th>
             <th colSpan="3" className="text-center">Miles Traveled / Capita</th>
+            <th colSpan="3" className="text-center">Miles Traveled / Jobs</th>
           </tr>
           <tr>
             <th colSpan="2"></th>
+            <th className="text-center">Lower</th>
+            <th className="text-center">Mean</th>
+            <th className="text-center">Upper</th>
             <th className="text-center">Lower</th>
             <th className="text-center">Mean</th>
             <th className="text-center">Upper</th>
@@ -127,6 +156,9 @@ class Travel extends React.Component {
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td rowSpan="5">Increase</td>
@@ -134,6 +166,9 @@ class Travel extends React.Component {
             <td className="text-end">{readableNumber(benefits.pedestrian.inducedTravel.lower)}</td>
             <td className="text-end">{readableNumber(benefits.pedestrian.inducedTravel.mean)}</td>
             <td className="text-end">{readableNumber(benefits.pedestrian.inducedTravel.upper)}</td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -146,12 +181,18 @@ class Travel extends React.Component {
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td>Car Shift</td>
             <td className="text-end">{readableNumber(benefits.pedestrian.carShift.lower)}</td>
             <td className="text-end">{readableNumber(benefits.pedestrian.carShift.mean)}</td>
             <td className="text-end">{readableNumber(benefits.pedestrian.carShift.upper)}</td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -164,6 +205,9 @@ class Travel extends React.Component {
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td><b>Total</b></td>
@@ -173,12 +217,18 @@ class Travel extends React.Component {
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
             <td colSpan="2">Projected (Existing + Increase)</td>
             <td className="text-end">{readableNumber(benefits.pedestrian.projected.lower)}</td>
             <td className="text-end">{readableNumber(benefits.pedestrian.projected.mean)}</td>
             <td className="text-end">{readableNumber(benefits.pedestrian.projected.upper)}</td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

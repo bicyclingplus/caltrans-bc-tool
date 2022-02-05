@@ -17,9 +17,13 @@ class Emissions extends React.Component {
             <th></th>
             <th colSpan="3" className="text-center">{timeframe} Year Reductions (Grams)</th>
             <th colSpan="3" className="text-center">{timeframe} Year Reductions / Capita</th>
+            <th colSpan="3" className="text-center">{timeframe} Year Reductions / Jobs</th>
           </tr>
           <tr>
             <th></th>
+            <th className="text-center">Lower</th>
+            <th className="text-center">Mean</th>
+            <th className="text-center">Upper</th>
             <th className="text-center">Lower</th>
             <th className="text-center">Mean</th>
             <th className="text-center">Upper</th>
@@ -32,6 +36,9 @@ class Emissions extends React.Component {
             <td className="text-end">{readableNumber(vmtReductions.lower)}</td>
             <td className="text-end">{readableNumber(vmtReductions.mean)}</td>
             <td className="text-end">{readableNumber(vmtReductions.upper)}</td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
@@ -50,12 +57,18 @@ class Emissions extends React.Component {
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
           </tr>
           <tr>
             <td>CH4</td>
             <td className="text-end">{readableNumber(emissions.reductions['CH4'].lower)}</td>
             <td className="text-end">{readableNumber(emissions.reductions['CH4'].mean)}</td>
             <td className="text-end">{readableNumber(emissions.reductions['CH4'].upper)}</td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
@@ -68,12 +81,18 @@ class Emissions extends React.Component {
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
           </tr>
           <tr>
             <td>Total C02 Equivalent</td>
             <td className="text-end">{readableNumber(emissions.equivalent.lower)}</td>
             <td className="text-end">{readableNumber(emissions.equivalent.mean)}</td>
             <td className="text-end">{readableNumber(emissions.equivalent.upper)}</td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
@@ -89,12 +108,18 @@ class Emissions extends React.Component {
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
           </tr>
           <tr>
             <td>PM 2.5</td>
             <td className="text-end">{readableNumber(emissions.reductions['PM2.5'].lower)}</td>
             <td className="text-end">{readableNumber(emissions.reductions['PM2.5'].mean)}</td>
             <td className="text-end">{readableNumber(emissions.reductions['PM2.5'].upper)}</td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
@@ -107,12 +132,18 @@ class Emissions extends React.Component {
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
           </tr>
           <tr>
             <td>NH3</td>
             <td className="text-end">{readableNumber(emissions.reductions['NH3'].lower)}</td>
             <td className="text-end">{readableNumber(emissions.reductions['NH3'].mean)}</td>
             <td className="text-end">{readableNumber(emissions.reductions['NH3'].upper)}</td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
@@ -125,12 +156,18 @@ class Emissions extends React.Component {
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
           </tr>
           <tr>
             <td>SOx</td>
             <td className="text-end">{readableNumber(emissions.reductions['SOx'].lower)}</td>
             <td className="text-end">{readableNumber(emissions.reductions['SOx'].mean)}</td>
             <td className="text-end">{readableNumber(emissions.reductions['SOx'].upper)}</td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
+            <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>
             <td className="text-end"></td>

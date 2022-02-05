@@ -36,9 +36,13 @@ class SafetyQuantitative extends React.Component {
 	                        title="Reduction miles is the percent reduction multiplied by the miles of travel in the project."></i>
                         </th>
 						<th colSpan="3" className="text-center">Benefit / Capita</th>
+						<th colSpan="3" className="text-center">Benefit / Jobs</th>
 					</tr>
 					<tr>
 						<th></th>
+						<th className="text-center">Lower</th>
+						<th className="text-center">Mean</th>
+						<th className="text-center">Upper</th>
 						<th className="text-center">Lower</th>
 						<th className="text-center">Mean</th>
 						<th className="text-center">Upper</th>
@@ -56,12 +60,18 @@ class SafetyQuantitative extends React.Component {
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td className="text-center">Injuries</td>
 						<td className="text-end">{readableNumber(benefits.miles.injuries.lower)}</td>
 						<td className="text-end">{readableNumber(benefits.miles.injuries.mean)}</td>
 						<td className="text-end">{readableNumber(benefits.miles.injuries.upper)}</td>
+						<td></td>
+						<td></td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -74,12 +84,18 @@ class SafetyQuantitative extends React.Component {
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td className="text-center">Speed</td>
 						<td className="text-end">{readableNumber(benefits.miles.speed.lower)}</td>
 						<td className="text-end">{readableNumber(benefits.miles.speed.mean)}</td>
 						<td className="text-end">{readableNumber(benefits.miles.speed.upper)}</td>
+						<td></td>
+						<td></td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -92,12 +108,18 @@ class SafetyQuantitative extends React.Component {
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td className="text-center">Crime</td>
 						<td className="text-end">{readableNumber(benefits.miles.crime.lower)}</td>
 						<td className="text-end">{readableNumber(benefits.miles.crime.mean)}</td>
 						<td className="text-end">{readableNumber(benefits.miles.crime.upper)}</td>
+						<td></td>
+						<td></td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -111,9 +133,13 @@ class SafetyQuantitative extends React.Component {
 						<th></th>
 						<th colSpan="3" className="text-center">Benefit (Percent reduction)</th>
 						<th colSpan="3" className="text-center">Benefit / Capita</th>
+						<th colSpan="3" className="text-center">Benefit / Jobs</th>
 					</tr>
 					<tr>
 						<th></th>
+						<th className="text-center">Lower</th>
+						<th className="text-center">Mean</th>
+						<th className="text-center">Upper</th>
 						<th className="text-center">Lower</th>
 						<th className="text-center">Mean</th>
 						<th className="text-center">Upper</th>
@@ -131,12 +157,18 @@ class SafetyQuantitative extends React.Component {
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td className="text-center">Injuries</td>
 						<td className="text-end">{readableNumber(benefits.percents.injuries.lower)}%</td>
 						<td className="text-end">{readableNumber(benefits.percents.injuries.mean)}%</td>
 						<td className="text-end">{readableNumber(benefits.percents.injuries.upper)}%</td>
+						<td></td>
+						<td></td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -149,12 +181,18 @@ class SafetyQuantitative extends React.Component {
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td className="text-center">Speed</td>
 						<td className="text-end">{readableNumber(benefits.percents.speed.lower)}%</td>
 						<td className="text-end">{readableNumber(benefits.percents.speed.mean)}%</td>
 						<td className="text-end">{readableNumber(benefits.percents.speed.upper)}%</td>
+						<td></td>
+						<td></td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -167,12 +205,18 @@ class SafetyQuantitative extends React.Component {
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td className="text-center">Crime</td>
 						<td className="text-end">{readableNumber(benefits.percents.crime.lower)}%</td>
 						<td className="text-end">{readableNumber(benefits.percents.crime.mean)}%</td>
 						<td className="text-end">{readableNumber(benefits.percents.crime.upper)}%</td>
+						<td></td>
+						<td></td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
