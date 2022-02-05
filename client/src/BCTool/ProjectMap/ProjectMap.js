@@ -50,8 +50,7 @@ class ProjectMap extends React.Component {
         this.selectedIntersectionIds = [];
         this.selectedIntersections = [];
 
-        this.props.updateSelectedWays([], 0);
-        this.props.updateSelectedIntersections([]);
+        this.props.updateMapSelections([], [], 0);
 
         this.updateMap();
       }
@@ -204,8 +203,7 @@ class ProjectMap extends React.Component {
 
       this.renderFeatures();
 
-      this.props.updateSelectedWays(this.selectedWays, this.length);
-      this.props.updateSelectedIntersections(this.selectedIntersections);
+      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.length);
     }
 
     onEachWay = (feature, mapLayer) => {
@@ -289,7 +287,7 @@ class ProjectMap extends React.Component {
       this.renderFeatures();
 
       // Let tool know about change in number of intersections
-      this.props.updateSelectedIntersections(this.selectedIntersections);
+      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.length);
     }
 
     renderFeatures() {
@@ -413,8 +411,7 @@ class ProjectMap extends React.Component {
       this.selectedIntersectionIds = [];
       this.selectedIntersections = [];
 
-      this.props.updateSelectedWays([], 0);
-      this.props.updateSelectedIntersections([]);
+      this.props.updateMapSelections([], [], 0);
 
       this.renderFeatures();
     }

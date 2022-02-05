@@ -20,6 +20,7 @@ import calcEmissions from './helpers/calcEmissions';
 import calcSafetyQualitative from './helpers/calcSafetyQualitative';
 import calcSafetyQuantitative from './helpers/calcSafetyQuantitative';
 import calcProjectQualitative from './helpers/calcProjectQualitative';
+import calcPedestrianDemand from './helpers/calcPedestrianDemand';
 
 const infrastructure = require('./data/infrastructure.json');
 const non_infrastructure = require('./data/non_infrastructure.json');
@@ -393,12 +394,14 @@ class BCTool extends React.Component {
   };
 
 
-  updateSelectedWays = (selectedWays, length) => {
-
-    // update bike demand
+  updateMapSelections = (selectedWays, selectedIntersections, length) => {
     let existingTravel = { ...this.state.existingTravel};
 
-    let totalLower = 0, totalMean = 0, totalUpper = 0;
+    // update bike demand
+    // there is some model for demand and each way has lower/mean/upper
+    // values for bike demand.
+    // we simply total these numbers for all the selected ways
+    let bikeDemandLower = 0, bikeDemandMean = 0, bikeDemandUpper = 0;
 
     for(let way of selectedWays) {
 
@@ -407,48 +410,82 @@ class BCTool extends React.Component {
       let upper = parseInt(way.properties.high_daily);
 
       if(lower) {
-        totalLower += lower;
+        bikeDemandLower += lower;
       }
 
       if(mean) {
-        totalMean += mean;
+        bikeDemandMean += mean;
       }
 
       if(upper) {
-        totalUpper += upper;
+        bikeDemandUpper += upper;
       }
     }
 
     if(existingTravel.bike.lower !== null) {
-      existingTravel.bike.lower = totalLower;
+      existingTravel.bike.lower = bikeDemandLower;
     }
 
     if(existingTravel.bike.mean !== null) {
-      existingTravel.bike.mean = totalMean;
+      existingTravel.bike.mean = bikeDemandMean;
     }
 
     if(existingTravel.bike.upper !== null) {
-      existingTravel.bike.upper = totalUpper;
+      existingTravel.bike.upper = bikeDemandUpper;
+    }
+
+    // update ped demand
+    // each selected intersection has some prediction of pedestrian demand,
+    // we total these up here.
+    // then the demand is weighted by the project length and
+    // number of intersections
+    let pedTotalLower = 0,
+        pedTotalMean = 0,
+        pedTotalUpper = 0;
+
+    for(let intersection of selectedIntersections) {
+      let lower = parseInt(intersection.properties.low_pred);
+      let mean = parseInt(intersection.properties.avg_pred);
+      let upper = parseInt(intersection.properties.high_pred);
+
+      if(lower) {
+        pedTotalLower += lower;
+      }
+
+      if(mean) {
+        pedTotalMean += mean;
+      }
+
+      if(upper) {
+        pedTotalUpper += upper;
+      }
+    }
+
+    let pedDemandLower = calcPedestrianDemand(length, selectedIntersections.length, pedTotalLower);
+    let pedDemandMean = calcPedestrianDemand(length, selectedIntersections.length, pedTotalMean);
+    let pedDemandUpper = calcPedestrianDemand(length, selectedIntersections.length, pedTotalUpper);
+
+    if(existingTravel.pedestrian.lower !== null) {
+      existingTravel.pedestrian.lower = pedDemandLower ? pedDemandLower : 0;
+    }
+
+    if(existingTravel.pedestrian.mean !== null) {
+      existingTravel.pedestrian.mean = pedDemandMean ? pedDemandMean : 0;
+    }
+
+    if(existingTravel.pedestrian.upper !== null) {
+      existingTravel.pedestrian.upper = pedDemandUpper ? pedDemandUpper : 0;
     }
 
     this.setState({
       'existingTravel': existingTravel,
       'selectedWays': selectedWays,
+      'selectedIntersections': selectedIntersections,
+      'intersections': selectedIntersections.length,
       'length': length,
       'showBenefits': false,
       'inputsChanged': true,
     });
-  }
-
-  updateSelectedIntersections = (selectedIntersections) => {
-    this.setState({
-      'selectedIntersections': selectedIntersections,
-      'intersections': selectedIntersections.length,
-      'showBenefits': false,
-      'inputsChanged': true,
-    });
-
-    // update ped demand
   }
 
   render() {
@@ -498,8 +535,7 @@ class BCTool extends React.Component {
               geojson={this.geojson}
               interactive={this.state['interactive-map']}
               center={this.state.center}
-              updateSelectedWays={this.updateSelectedWays}
-              updateSelectedIntersections={this.updateSelectedIntersections}
+              updateMapSelections={this.updateMapSelections}
             />
           </div>
         </div>
