@@ -16,8 +16,8 @@ class Emissions extends React.Component {
           <tr>
             <th></th>
             <th colSpan="3" className="text-center">{timeframe} Year Reductions (Grams)</th>
-            <th colSpan="3" className="text-center">{timeframe} Year Reductions / Capita</th>
-            <th colSpan="3" className="text-center">{timeframe} Year Reductions / Jobs</th>
+            <th colSpan="3" className="text-center">{timeframe} Year Reductions (Grams) / Capita</th>
+            <th colSpan="3" className="text-center">{timeframe} Year Reductions (Grams) / Jobs</th>
           </tr>
           <tr>
             <th></th>

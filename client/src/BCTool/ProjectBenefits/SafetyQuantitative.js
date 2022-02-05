@@ -8,11 +8,23 @@ const Tooltip = require('bootstrap/js/dist/tooltip');
 class SafetyQuantitative extends React.Component {
 
 	componentDidMount() {
-        this.tooltip = new Tooltip(document.getElementById(`safety-benefits-tooltip`));
+        this.tooltips = [];
+
+        let tooltip_ids = [
+        	'safety-benefits-tooltip',
+        	'safety-benefits-capita-tooltip',
+        	'safety-benefits-jobs-tooltip',
+        ];
+
+        for(let tooltip_id of tooltip_ids) {
+        	this.tooltips.push(new Tooltip(document.getElementById(tooltip_id)));
+        }
     }
 
     componentWillUnmount() {
-        this.tooltip.dispose();
+        for(let tooltip of this.tooltips) {
+        	tooltip.dispose();
+        }
     }
 
 	render = () => {
@@ -35,8 +47,23 @@ class SafetyQuantitative extends React.Component {
 	                        data-bs-html="true"
 	                        title="Reduction miles is the percent reduction multiplied by the miles of travel in the project."></i>
                         </th>
-						<th colSpan="3" className="text-center">Benefit / Capita</th>
-						<th colSpan="3" className="text-center">Benefit / Jobs</th>
+						<th colSpan="3" className="text-center">
+							Benefit (Reduction miles) / Capita
+							<i id={`safety-benefits-capita-tooltip`}
+	                        className="bi bi-info-circle ms-2"
+	                        data-bs-toggle="tooltip"
+	                        data-bs-placement="right"
+	                        data-bs-html="true"
+	                        title="Reduction miles is the percent reduction multiplied by the miles of travel in the project."></i></th>
+						<th colSpan="3" className="text-center">
+							Benefit (Reduction miles) / Jobs
+							<i id={`safety-benefits-jobs-tooltip`}
+		                        className="bi bi-info-circle ms-2"
+		                        data-bs-toggle="tooltip"
+		                        data-bs-placement="right"
+		                        data-bs-html="true"
+		                        title="Reduction miles is the percent reduction multiplied by the miles of travel in the project."></i>
+						</th>
 					</tr>
 					<tr>
 						<th></th>
@@ -132,8 +159,8 @@ class SafetyQuantitative extends React.Component {
 					<tr>
 						<th></th>
 						<th colSpan="3" className="text-center">Benefit (Percent reduction)</th>
-						<th colSpan="3" className="text-center">Benefit / Capita</th>
-						<th colSpan="3" className="text-center">Benefit / Jobs</th>
+						<th colSpan="3" className="text-center">Benefit (Percent reduction) / Capita</th>
+						<th colSpan="3" className="text-center">Benefit (Percent reduction) / Jobs</th>
 					</tr>
 					<tr>
 						<th></th>
