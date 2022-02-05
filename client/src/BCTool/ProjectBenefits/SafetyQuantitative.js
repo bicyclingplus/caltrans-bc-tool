@@ -1,8 +1,19 @@
 import React from 'react';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import { readableNumber } from '../helpers/formatting';
 
+const Tooltip = require('bootstrap/js/dist/tooltip');
+
 class SafetyQuantitative extends React.Component {
+
+	componentDidMount() {
+        this.tooltip = new Tooltip(document.getElementById(`safety-benefits-tooltip`));
+    }
+
+    componentWillUnmount() {
+        this.tooltip.dispose();
+    }
 
 	render = () => {
 
@@ -15,7 +26,15 @@ class SafetyQuantitative extends React.Component {
 				<thead>
 					<tr>
 						<th></th>
-						<th colSpan="3" className="text-center">Benefit</th>
+						<th colSpan="3" className="text-center">
+							Benefit (Reduction miles)
+							<i id={`safety-benefits-tooltip`}
+	                        className="bi bi-info-circle ms-2"
+	                        data-bs-toggle="tooltip"
+	                        data-bs-placement="right"
+	                        data-bs-html="true"
+	                        title="Reduction miles is the percent reduction multiplied by the miles of travel in the project."></i>
+                        </th>
 						<th colSpan="3" className="text-center">Benefit / Capita</th>
 					</tr>
 					<tr>
