@@ -26,14 +26,6 @@ class ProjectBenefits extends React.Component {
             <Travel benefits={benefits.travel} />
             : null }
 
-            { benefits.projectQualitative ?
-            <ProjectQualitative benefits={benefits.projectQualitative} />
-            : null }
-
-            { benefits.safetyQualitative ?
-            <SafetyQualitative benefits={benefits.safetyQualitative} />
-            : null }
-
             { benefits.safetyQuantitative || benefits.emissions || benefits.health ?
             <h4 className="mt-4">Project-Level Quantitative Benefits</h4>
             : null }
@@ -49,6 +41,15 @@ class ProjectBenefits extends React.Component {
             { benefits.health ?
             <Health benefits={benefits.health} />
             : null }
+
+            { benefits.projectQualitative ?
+            <ProjectQualitative benefits={benefits.projectQualitative} />
+            : null }
+
+            { benefits.safetyQualitative ?
+            <SafetyQualitative benefits={benefits.safetyQualitative} />
+            : null }
+
 
         </div>
       </div>
