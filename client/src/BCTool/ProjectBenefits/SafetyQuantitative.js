@@ -109,7 +109,7 @@ class SafetyQuantitative extends React.Component {
 				<thead>
 					<tr>
 						<th></th>
-						<th colSpan="3" className="text-center">Benefit</th>
+						<th colSpan="3" className="text-center">Benefit (Percent reduction)</th>
 						<th colSpan="3" className="text-center">Benefit / Capita</th>
 					</tr>
 					<tr>
