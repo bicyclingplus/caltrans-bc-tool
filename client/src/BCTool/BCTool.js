@@ -45,6 +45,7 @@ class BCTool extends React.Component {
       'city': '',
       'county': '',
       'year': '',
+      'timeframe': 1,
 
       'intersections': 0,
       'length': 0,
@@ -512,6 +513,7 @@ class BCTool extends React.Component {
             <ProjectForm name={this.state['name']}
               developer={this.state['developer']}
               cost={this.state['cost']}
+              timeframe={this.state.timeframe}
               type={this.state['type']}
               subtype={this.state['subtype']}
               county={this.state['county']}
@@ -599,6 +601,7 @@ class BCTool extends React.Component {
               benefits={this.state.benefits}
               name={this.state.name}
               cost={this.state.cost}
+              timeframe={this.state.timeframe}
             />
           </div>
         </div>

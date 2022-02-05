@@ -10,6 +10,7 @@ class ProjectForm extends React.Component {
       name,
       developer,
       cost,
+      timeframe,
       type,
       subtype,
       county,
@@ -45,7 +46,7 @@ class ProjectForm extends React.Component {
         <div className="row mb-2">
           <label htmlFor="project-type" className="col-sm-2 col-form-label text-end">Project Time Frame</label>
           <div className="col-md-4">
-            <select id="project-time-frame" className="form-select" defaultValue="1">
+            <select id="project-time-frame" className="form-select" value={timeframe}>
               <option value="" disabled>-- Choose a time frame --</option>
               <option value="1">1 year</option>
             </select>

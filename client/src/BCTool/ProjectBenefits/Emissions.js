@@ -6,8 +6,7 @@ class Emissions extends React.Component {
 
   render() {
 
-    let emissions = this.props.emissions;
-    let vmtReductions = this.props.vmtReductions;
+    let { emissions, vmtReductions, timeframe } = this.props;
 
     return (
       <>
@@ -16,8 +15,8 @@ class Emissions extends React.Component {
         <tbody>
           <tr>
             <th></th>
-            <th colSpan="3" className="text-center">Annual Reduction</th>
-            <th colSpan="3" className="text-center">Annual Reduction / Capita</th>
+            <th colSpan="3" className="text-center">{timeframe} Year Reductions (Grams)</th>
+            <th colSpan="3" className="text-center">{timeframe} Year Reductions / Capita</th>
           </tr>
           <tr>
             <th></th>
