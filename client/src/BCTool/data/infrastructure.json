@@ -3,6 +3,7 @@
 		{
 			"label": "Multi Element Interventions",
 			"shortname": "multi",
+			"tooltip": "Multi Element Interventions include many individual Block Face and Intersection elements. To avoid double counting, do not count individual elements that are already assumed for this intervention. These assumptions include: Bike Boulevards assume Bike Shared Lane Markings (Sharrows); Road Diets assume Conventional Bike Lanes, Lane Narrowing, Speed Limit Reduction, Shorten Crossing, Signal Phasing, Crosswalks; Shared\/Open Street is unique to this tool and does not share overlap with other elements. If your Bike Boulevard or Road Diet contains additional elements, please select those additional elements.",
 			"items": [
 				{
 					"label": "Bike Boulevard",
@@ -30,6 +31,7 @@
 		{
 			"label": "Amenity",
 			"shortname": "amenity",
+			"tooltip": "",
 			"items": [
 				{
 					"label": "Bike Parking",
@@ -64,6 +66,7 @@
 		{
 			"label": "Block Face",
 			"shortname": "block-face",
+			"tooltip": "",
 			"items": [
 				{
 					"label": "Bike Highway",
@@ -175,6 +178,7 @@
 		{
 			"label": "Intersection",
 			"shortname": "intersection",
+			"tooltip": "",
 			"items": [
 				{
 					"label": "ADA Pedestrian Signal",
