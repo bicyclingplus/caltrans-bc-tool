@@ -29,9 +29,9 @@ class ProjectSummary extends React.Component {
                   <div className="col-sm-6">
                     <u>Existing Daily Walking Miles</u>
                     <ul className="list-unstyled">
-                      <li>Low: {travel.pedestrian.lower} miles</li>
-                      <li>Average: {travel.pedestrian.mean} miles</li>
-                      <li>High: {travel.pedestrian.upper} miles</li>
+                      <li>Low: {travel.pedestrian.lower !== null ? travel.pedestrian.lower : 'N/A'} miles</li>
+                      <li>Average: {travel.pedestrian.mean !== null ? travel.pedestrian.mean : 'N/A'} miles</li>
+                      <li>High: {travel.pedestrian.upper !== null ? travel.pedestrian.upper : 'N/A'} miles</li>
                     </ul>
                   </div>
                   : null }
@@ -40,9 +40,9 @@ class ProjectSummary extends React.Component {
                   <div className="col-sm-6">
                     <u>Existing Daily Bicyling Miles</u>
                     <ul className="list-unstyled">
-                      <li>Low: {travel.bike.lower} miles</li>
-                      <li>Average: {travel.bike.mean} miles</li>
-                      <li>High: {travel.bike.upper} miles</li>
+                      <li>Low: {travel.bike.lower!== null ? travel.bike.lower : 'N/A'} miles</li>
+                      <li>Average: {travel.bike.mean !== null ? travel.bike.mean : 'N/A'} miles</li>
+                      <li>High: {travel.bike.upper !== null ? travel.bike.upper : 'N/A'} miles</li>
                     </ul>
                   </div>
                   : null }

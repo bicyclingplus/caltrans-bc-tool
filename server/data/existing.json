@@ -13,14 +13,14 @@
 			"osm-ids": [],
 			"existingTravel": {
 				"bike": {
-					"lower": 123,
-					"mean": 1234,
-					"upper": 12345
+					"lower": null,
+					"mean": 0,
+					"upper": null
 				},
 				"pedestrian": {
-					"lower": 123,
-					"mean": 1234,
-					"upper": 12345
+					"lower": null,
+					"mean": 0,
+					"upper": null
 				}
 			},
 			"infrastructure": {},
