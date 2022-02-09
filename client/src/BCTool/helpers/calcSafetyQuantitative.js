@@ -2,6 +2,73 @@ const quantitative = require('../data/quantitative.json');
 
 function _calc(infrastructure, travel, length, intersections, subtype) {
 
+  let benefits = {
+    "bike": {
+      "crashes": [],
+      "crime": [],
+      "deaths": [],
+      "injuries": [],
+      "speed": [],
+      "yielding": [],
+    },
+    "pedestrian": {
+      "crashes": [],
+      "crime": [],
+      "deaths": [],
+      "injuries": [],
+      "speed": [],
+      "yielding": [],
+    },
+    "combined": {
+      "crashes": [],
+      "crime": [],
+      "deaths": [],
+      "injuries": [],
+      "speed": [],
+      "yielding": [],
+    },
+  };
+
+  // go through each category
+  for(let category of infrastructure.categories) {
+
+    // go through each item
+    for(let item of category.items) {
+
+      // if selected and has benefits
+      if( ) {
+        
+      }
+    }
+  }
+
+  
+
+  // get share
+
+  // for each effect
+
+  // bike append to bike and combined percent + share
+  // ped append to ped and combined percent + share
+  // all append to combined percent + share
+
+
+  // go through benefits
+
+  // if length
+
+  // multiply all effects (percent * share) together for lower/mean/upper
+  // multiply by appropriate distance
+  // bike: travel.bike.projected
+  // ped: travel.pedestrian.projected
+  // all: travel.totalProjected
+  // multiply by time frame (1yr -> 365 days, miles are per day)
+
+
+
+
+
+
   let miles = {};
   let percents = {};
 

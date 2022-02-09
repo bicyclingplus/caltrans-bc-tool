@@ -289,6 +289,8 @@ class BCTool extends React.Component {
 
   updateBenefits = () => {
 
+    console.log(this.state.infrastructure);
+
     let projectQualitative = calcProjectQualitative(
       this.state.infrastructure,
       this.state['non-infrastructure'],
