@@ -8,12 +8,17 @@ const Tooltip = require('bootstrap/js/dist/tooltip');
 class ProjectSummary extends React.Component {
 
     componentDidMount() {
-      this.tooltip = new Tooltip(document.getElementById(`project-length-tooltip`));
+      this.tooltips = [
+        new Tooltip(document.getElementById(`project-length-tooltip`)),
+        new Tooltip(document.getElementById(`project-travel-tooltip`)),
+      ];
     }
 
     componentWillUnmount() {
-      if(this.tooltip) {
-        this.tooltip.dispose();
+      if(this.tooltips && this.tooltips.length) {
+        for(let tooltip of this.tooltips) {
+          tooltip.dispose();
+        }
       }
     }
 
@@ -39,12 +44,21 @@ class ProjectSummary extends React.Component {
                       data-bs-toggle="tooltip"
                       data-bs-placement="right"
                       data-bs-html="true"
-                      title='Project length is calculated based on unidirectional travel. Both directions of two-way streets and one direction on one-way streets are counted.'>                        
+                      title='Project length is calculated based on unidirectional travel. Both directions of two-way streets and one direction on one-way streets are counted.'>
                     </i>
                   </li>
                 </ul>
 
-                <h5>Estimated Existing Active Travel *</h5>
+                <h5>
+                  Estimated Existing Active Travel
+                  <i id={`project-travel-tooltip`}
+                      className="bi bi-info-circle ms-2"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="right"
+                      data-bs-html="true"
+                      title='This tool provides estimates of existing active travel from regression models of permanent and temporary count data based on accessibility metrics, infrastructure, demographics, and crowd sourced data. For details about the models see the Technical Guide.'>
+                    </i>
+                </h5>
                 <div className="row">
 
                   { subtype !== "bike-only" ?

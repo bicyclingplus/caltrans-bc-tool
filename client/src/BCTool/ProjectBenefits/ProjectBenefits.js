@@ -6,10 +6,23 @@ import SafetyQuantitative from './SafetyQuantitative';
 import Emissions from './Emissions';
 import Health from './Health';
 import ProjectQualitative from './ProjectQualitative';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import { readableNumber } from '../helpers/formatting';
 
+const Tooltip = require('bootstrap/js/dist/tooltip');
+
 class ProjectBenefits extends React.Component {
+
+  componentDidMount() {
+      this.tooltip = new Tooltip(document.getElementById(`project-timeframe-tooltip`));
+  }
+
+  componentWillUnmount() {
+    if(this.tooltip) {
+      this.tooltip.dispose();
+    }
+  }
 
   render() {
 
@@ -27,7 +40,16 @@ class ProjectBenefits extends React.Component {
             : null }
 
             { benefits.safetyQuantitative || benefits.emissions || benefits.health ?
-            <h4 className="mt-4">Project-Level Quantitative Benefits</h4>
+            <h4 className="mt-4">
+              Project-Level Quantitative Benefits
+              <i id={`project-timeframe-tooltip`}
+                className="bi bi-info-circle ms-2"
+                data-bs-toggle="tooltip"
+                data-bs-placement="right"
+                data-bs-html="true"
+                title={`All benefits calculated at the ${timeframe} year level.`}>
+              </i>
+            </h4>
             : null }
 
             { benefits.safetyQuantitative ?
