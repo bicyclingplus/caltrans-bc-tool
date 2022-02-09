@@ -25,8 +25,12 @@ export function readableNumber(number, places = 0, suffix = '') {
   //   );
   // }
 
-  let factor = Math.pow(10, places);
+  let factor = Math.pow(10, 3);
 
-  return numberWithCommas(Math.round((number + Number.EPSILON) * factor) / factor) + suffix;
+  if(number < 1) {
+    return numberWithCommas(Math.round((number + Number.EPSILON) * factor) / factor) + suffix;
+  }
+
+  return numberWithCommas(Math.round((number + Number.EPSILON))) + suffix;
 
 }
