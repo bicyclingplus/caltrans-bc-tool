@@ -1,8 +1,21 @@
 import React from 'react';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import { readableNumber } from '../helpers/formatting';
 
+const Tooltip = require('bootstrap/js/dist/tooltip');
+
 class ProjectSummary extends React.Component {
+
+    componentDidMount() {
+      this.tooltip = new Tooltip(document.getElementById(`project-length-tooltip`));
+    }
+
+    componentWillUnmount() {
+      if(this.tooltip) {
+        this.tooltip.dispose();
+      }
+    }
 
     render() {
 
@@ -19,7 +32,16 @@ class ProjectSummary extends React.Component {
                 <h5>Project Reach</h5>
                 <ul className="list-unstyled">
                   <li>Number of Intersections: {intersections}</li>
-                  <li>Length: {readableNumber(length/5280, 1)} miles</li>
+                  <li>
+                    Length: {readableNumber(length/5280, 1)} miles
+                    <i id={`project-length-tooltip`}
+                      className="bi bi-info-circle ms-2"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="right"
+                      data-bs-html="true"
+                      title='Project length is calculated based on unidirectional travel. Both directions of two-way streets and one direction on one-way streets are counted.'>                        
+                    </i>
+                  </li>
                 </ul>
 
                 <h5>Estimated Existing Active Travel *</h5>
