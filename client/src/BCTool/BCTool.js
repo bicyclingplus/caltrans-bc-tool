@@ -329,7 +329,7 @@ class BCTool extends React.Component {
       benefits.safetyQuantitative = safetyQuantitative;
     }
 
-    console.log(benefits);
+    // console.log(benefits);
 
     this.setState({
       'showBenefits': true,
@@ -458,7 +458,6 @@ class BCTool extends React.Component {
       waysTravel.push(current);
     }
 
-    console.log(waysTravel);
 
     for(let travel of waysTravel) {
       existingTravel.miles.bike.lower += travel.miles.lower;
@@ -515,8 +514,6 @@ class BCTool extends React.Component {
     existingTravel.jobs.pedestrian.lower = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.lower);
     existingTravel.jobs.pedestrian.mean = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.mean);
     existingTravel.jobs.pedestrian.upper = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.upper);
-
-    console.log(existingTravel);
 
     this.setState({
       'existingTravel': existingTravel,
@@ -582,7 +579,7 @@ class BCTool extends React.Component {
         </div>
         : null }
 
-        { this.state['type'] === 'infrastructure' && this.state.selectedIntersections.length || this.state.selectedWays.length ?
+        { this.state['type'] === 'infrastructure' && (this.state.selectedIntersections.length || this.state.selectedWays.length) ?
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectSummary
