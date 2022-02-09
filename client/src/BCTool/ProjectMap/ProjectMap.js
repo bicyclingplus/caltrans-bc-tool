@@ -16,8 +16,6 @@ class ProjectMap extends React.Component {
       this.selectedWayIds = [];
       this.selectedWays = [];
 
-      this.length = 0;
-
       this.selectedIntersectionIds = [];
       this.selectedIntersections = [];
 
@@ -45,12 +43,10 @@ class ProjectMap extends React.Component {
         this.selectedWayIds = [];
         this.selectedWays = [];
 
-        this.length = 0;
-
         this.selectedIntersectionIds = [];
         this.selectedIntersections = [];
 
-        this.props.updateMapSelections([], [], 0);
+        this.props.updateMapSelections([], []);
 
         this.updateMap();
       }
@@ -107,16 +103,11 @@ class ProjectMap extends React.Component {
     wayClicked = (e) => {
 
       // console.log('Fire!');
-
-      let length = this.calcLength(e.target.getLatLngs());
       let feature = e.target.feature;
       let featureId = feature.properties.edgeUID;
 
       // console.log(feature);
 
-      if(!feature.properties.ONE_WAY_CA) {
-        length *= 2;
-      }
       // else {
       //   console.log('ONE WAY STREET SELECTED');
       // }
@@ -127,7 +118,6 @@ class ProjectMap extends React.Component {
         // Remove the clicked way from selection and length count
         this.selectedWayIds = this.selectedWayIds.filter((item) => (item !== featureId));
         this.selectedWays = this.selectedWays.filter((item) => (item.properties.edgeUID !== featureId));
-        this.length -= length;
 
         // Grab the intersection ids attached to the way we're removing
         let [ intA, intB ] = this.splitSourceTarget(feature.properties['source_target']);
@@ -166,10 +156,15 @@ class ProjectMap extends React.Component {
         }
       }
       else {
+
+        let length = this.calcLength(e.target.getLatLngs());
+        if(!feature.properties.ONE_WAY_CA) {
+          length *= 2;
+        }
+
         feature.properties.length = length;
         this.selectedWayIds.push(featureId);
         this.selectedWays.push(feature);
-        this.length += length;
 
         let [ intA, intB ] = this.splitSourceTarget(feature.properties['source_target']);
 
@@ -199,13 +194,9 @@ class ProjectMap extends React.Component {
 
       }
 
-      if(!this.selectedWayIds.length) {
-        this.length = 0;
-      }
-
       this.renderFeatures();
 
-      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.length);
+      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections);
     }
 
     onEachWay = (feature, mapLayer) => {
@@ -290,7 +281,7 @@ class ProjectMap extends React.Component {
       this.renderFeatures();
 
       // Let tool know about change in number of intersections
-      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.length);
+      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections);
     }
 
     renderFeatures() {
@@ -414,7 +405,7 @@ class ProjectMap extends React.Component {
       this.selectedIntersectionIds = [];
       this.selectedIntersections = [];
 
-      this.props.updateMapSelections([], [], 0);
+      this.props.updateMapSelections([], []);
 
       this.renderFeatures();
     }

@@ -329,7 +329,7 @@ class BCTool extends React.Component {
       benefits.safetyQuantitative = safetyQuantitative;
     }
 
-    // console.log(benefits);
+    console.log(benefits);
 
     this.setState({
       'showBenefits': true,
@@ -385,7 +385,7 @@ class BCTool extends React.Component {
   };
 
 
-  updateMapSelections = (selectedWays, selectedIntersections, length) => {
+  updateMapSelections = (selectedWays, selectedIntersections) => {
 
     let existingTravel = {
       "miles": {
@@ -427,8 +427,31 @@ class BCTool extends React.Component {
     };
 
     let waysTravel = [];
+    let length = 0;
+
+    let wayPops = [];
+    let wayJobs = [];
 
     for(let way of selectedWays) {
+      if(way.properties.Jobs) {
+        wayJobs.push(way.properties.Jobs);
+      }
+      if(way.properties.population) {
+        wayPops.push(way.properties.population);
+      }
+
+      length += way.properties.length;
+    }
+
+    let avgWayPop = wayPops.length ? wayPops.reduce((a,b) => a+b) / wayPops.length : null;
+    let avgWayJobs = wayPops.length ? wayJobs.reduce((a,b) => a+b) / wayJobs.length : null;
+
+    // console.log(`Avg pop ${avgWayPop}`);
+    // console.log(`Avg jobs ${avgWayJobs}`);
+
+    for(let way of selectedWays) {
+
+      console.log(way.properties);
 
       let current = {
         'miles': {},
@@ -439,8 +462,8 @@ class BCTool extends React.Component {
       let lower = parseInt(way.properties.low_daily);
       let mean = parseInt(way.properties.Avg_daily);
       let upper = parseInt(way.properties.high_daily);
-      let population = way.properties.population;
-      let jobs = way.properties.Jobs;
+      let population = way.properties.population ? way.properties.population : avgWayPop ;
+      let jobs = way.properties.Jobs ? way.properties.Jobs : avgWayJobs;
       let wayLengthMiles = way.properties.length / 5280;
 
       current.miles.lower = lower * wayLengthMiles;
@@ -480,6 +503,8 @@ class BCTool extends React.Component {
     // number of intersections
     for(let intersection of selectedIntersections) {
 
+      console.log(intersection.properties);
+
       let lower = parseInt(intersection.properties.low_pred);
       let mean = parseInt(intersection.properties.avg_pred);
       let upper = parseInt(intersection.properties.high_pred);
@@ -503,17 +528,22 @@ class BCTool extends React.Component {
     let projectLengthMiles = length / 5280;
     let numIntersections = selectedIntersections.length;
 
-    existingTravel.miles.pedestrian.lower = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.miles.pedestrian.lower);
-    existingTravel.miles.pedestrian.mean = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.miles.pedestrian.mean);
-    existingTravel.miles.pedestrian.upper = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.miles.pedestrian.upper);
+    if(numIntersections > 0) {
 
-    existingTravel.capita.pedestrian.lower = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.capita.pedestrian.lower);
-    existingTravel.capita.pedestrian.mean = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.capita.pedestrian.mean);
-    existingTravel.capita.pedestrian.upper = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.capita.pedestrian.upper);
+      existingTravel.miles.pedestrian.lower = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.miles.pedestrian.lower);
+      existingTravel.miles.pedestrian.mean = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.miles.pedestrian.mean);
+      existingTravel.miles.pedestrian.upper = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.miles.pedestrian.upper);
 
-    existingTravel.jobs.pedestrian.lower = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.lower);
-    existingTravel.jobs.pedestrian.mean = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.mean);
-    existingTravel.jobs.pedestrian.upper = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.upper);
+      existingTravel.capita.pedestrian.lower = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.capita.pedestrian.lower);
+      existingTravel.capita.pedestrian.mean = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.capita.pedestrian.mean);
+      existingTravel.capita.pedestrian.upper = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.capita.pedestrian.upper);
+
+      existingTravel.jobs.pedestrian.lower = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.lower);
+      existingTravel.jobs.pedestrian.mean = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.mean);
+      existingTravel.jobs.pedestrian.upper = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.upper);
+    }
+
+    console.log(existingTravel);
 
     this.setState({
       'existingTravel': existingTravel,
