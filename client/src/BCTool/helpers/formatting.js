@@ -9,7 +9,7 @@ export function readableNumber(number, places = 0, suffix = '') {
   }
 
   if(number === null) {
-    return "-";
+    return "N/A";
   }
   // else if(number === 0) {
   //   return "No change";

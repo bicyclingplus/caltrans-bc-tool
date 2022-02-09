@@ -36,56 +36,12 @@ function _calc(infrastructure, travel, length, intersections, subtype) {
     for(let item of category.items) {
 
       // if selected and has benefits
-      if( ) {
-        
-      }
-    }
-  }
+      if(item.selected && item.shortname in quantitative) {
 
-  
-
-  // get share
-
-  // for each effect
-
-  // bike append to bike and combined percent + share
-  // ped append to ped and combined percent + share
-  // all append to combined percent + share
-
-
-  // go through benefits
-
-  // if length
-
-  // multiply all effects (percent * share) together for lower/mean/upper
-  // multiply by appropriate distance
-  // bike: travel.bike.projected
-  // ped: travel.pedestrian.projected
-  // all: travel.totalProjected
-  // multiply by time frame (1yr -> 365 days, miles are per day)
-
-
-
-
-
-
-  let miles = {};
-  let percents = {};
-
-  // for each category
-  for(let category of infrastructure.categories) {
-
-    // for each item
-    for(let item of category.items) {
-
-      // check if item has an entry in benefits
-      if(item.shortname in quantitative) {
-
-        // console.log(`Found quantitative safety benefits for ${item.label}`);
-
-        // calc fraction of counts for this item compared to project counts
+        let benefit = quantitative[item.shortname];
         let share = 0;
 
+        // get share
         if(item.calc_units === 'length') {
 
           if(item.units === 'count') {
@@ -106,85 +62,131 @@ function _calc(infrastructure, travel, length, intersections, subtype) {
           share = item.value / intersections;
         }
 
-        let benefit = quantitative[item.shortname];
-
+        // for each effect
+        // bike append to bike and combined percent + share
+        // ped append to ped and combined percent + share
+        // all append to combined percent + share
         for(let effect of benefit) {
 
-          // console.log(`Calculating benefit for ${effect.mode} ${effect.parameter}`);
+          if(effect.mode === 'bike') {
+            benefits.bike[effect.parameter].push({
+              'lower': effect.lower,
+              'mean': effect.mean,
+              'upper': effect.upper,
+              'share': share,
+            });
 
-          let modeProjectedTravel;
-
-          switch(effect.mode) {
-            case 'bike':
-              if(subtype !== 'pedestrian-only') {
-                modeProjectedTravel = travel.bike.projected;
-              }
-            break;
-            case 'pedestrian':
-              if(subtype !== 'bike-only') {
-                modeProjectedTravel = travel.pedestrian.projected;
-              }
-            break;
-            case 'all':
-              modeProjectedTravel = travel.totalProjected;
-            break;
-            case 'vehicle':
-              // WHAT TO USE HERE?
-              // skip for now...
-              // console.log(`Skipping because of vehicle`);
-              continue;
-            default:
-              console.log(`Unknown effect mode: ${effect.mode}!`);
-              continue;
+            benefits.combined[effect.parameter].push({
+              'lower': effect.lower,
+              'mean': effect.mean,
+              'upper': effect.upper,
+              'share': share,
+            });
           }
+          else if(effect.mode === 'pedestrian') {
+            benefits.pedestrian[effect.parameter].push({
+              'lower': effect.lower,
+              'mean': effect.mean,
+              'upper': effect.upper,
+              'share': share,
+            });
 
-          if(!modeProjectedTravel) {
-            continue;
+            benefits.combined[effect.parameter].push({
+              'lower': effect.lower,
+              'mean': effect.mean,
+              'upper': effect.upper,
+              'share': share,
+            });
           }
-
-          if(effect.units === 'percent') {
-
-            if(!(effect.parameter in miles)) {
-              miles[effect.parameter] = {
-                'lower': 0,
-                'mean': 0,
-                'upper': 0,
-              };
-            }
-
-            if(!(effect.parameter in percents)) {
-              percents[effect.parameter] = {
-                'lower': 0,
-                'mean': 0,
-                'upper': 0,
-              };
-            }
-
-
-              if(effect.lower) {
-                miles[effect.parameter].lower += modeProjectedTravel.lower * share * (1 + (effect.lower / 100)) * 365;
-                percents[effect.parameter].lower += effect.lower * share;
-              }
-              if(effect.mean) {
-                miles[effect.parameter].mean += modeProjectedTravel.mean * share * (1 + (effect.mean / 100)) * 365;
-                percents[effect.parameter].mean += effect.mean * share;
-              }
-              if(effect.upper) {
-                miles[effect.parameter].upper += modeProjectedTravel.upper * share * (1 + (effect.upper / 100)) * 365;
-                percents[effect.parameter].upper += effect.upper * share;
-              }
-          }
-          else if(effect.units === 'mph') {
-            // WHAT TO DO HERE?
-            // skip for now...
-            // console.log(`Skipping because of mph`);
-            continue;
+          else if(effect.mode === 'all') {
+            benefits.combined[effect.parameter].push({
+              'lower': effect.lower,
+              'mean': effect.mean,
+              'upper': effect.upper,
+              'share': share,
+            });
           }
           else {
-            console.log(`Unknown effect units: ${effect.units}!`);
-            continue;
+            console.log(`Unknown effect mode: ${effect.mode}!`);
           }
+        }
+      }
+    }
+  }
 
+  // console.log(benefits);
+
+  let calculatedBenefits = {};
+
+  // go through benefits
+  for(let category of ['bike', 'pedestrian', 'combined']) {
+
+    calculatedBenefits[category] = {};
+
+    for(let parameter in benefits[category]) {
+
+      // if length
+      if(benefits[category][parameter].length) {
+
+        // console.log(`${category} ${parameter} has some!`);
+
+        calculatedBenefits[category][parameter] = {
+          'lower': 1,
+          'mean': 1,
+          'upper': 1,
+        };
+
+        // multiply all effects (percent * share) together for lower/mean/upper
+        for(let benefit of benefits[category][parameter]) {
+
+          // console.log(benefit);
+
+          // calculatedBenefits[category]
+          calculatedBenefits[category][parameter].lower *= 1 + ((benefit.lower / 100) * benefit.share);
+          calculatedBenefits[category][parameter].mean *= 1 + ((benefit.mean / 100) * benefit.share);
+          calculatedBenefits[category][parameter].upper *= 1 + ((benefit.upper / 100) * benefit.share);
+        }
+
+      }
+      else {
+
+        calculatedBenefits[category][parameter] = {};
+
+        calculatedBenefits[category][parameter].lower = null;
+        calculatedBenefits[category][parameter].mean = null;
+        calculatedBenefits[category][parameter].upper = null;
+      }
+    }
+  }
+
+  // console.log('-------------------------------')
+  // console.log(calculatedBenefits);
+
+  for(let category of ['bike', 'pedestrian', 'combined']) {
+
+    let modeProjectedTravel;
+
+    // multiply by appropriate distance
+    // bike: travel.bike.projected
+    // ped: travel.pedestrian.projected
+    // combined: travel.totalProjected
+    if(category === 'bike') {
+      modeProjectedTravel = travel.bike.projected;
+    }
+    else if(category === 'pedestrian') {
+      modeProjectedTravel = travel.pedestrian.projected;
+    }
+    else if(category === 'combined') {
+      modeProjectedTravel = travel.totalProjected;
+    }
+
+    for(let parameter in calculatedBenefits[category]) {
+
+      for(let range of ['lower', 'mean', 'upper']) {
+
+        // multiply by time frame (1yr -> 365 days, miles are per day)
+        if(calculatedBenefits[category][parameter][range] !== null) {
+          calculatedBenefits[category][parameter][range] *= modeProjectedTravel[range] * 365;
         }
 
       }
@@ -193,38 +195,10 @@ function _calc(infrastructure, travel, length, intersections, subtype) {
 
   }
 
-  let parameters = [
-    "crashes",
-    "crime",
-    "deaths",
-    "injuries",
-    "speed",
-    "yielding",
-  ];
+  console.log('RESULT');
+  console.log(calculatedBenefits);
 
-  for(let parameter of parameters) {
-
-    if(!(parameter in miles)) {
-      miles[parameter] = {
-        'lower': NaN,
-        'mean': NaN,
-        'upper': NaN,
-      };
-    }
-
-    if(!(parameter in percents)) {
-      percents[parameter] = {
-        'lower': NaN,
-        'mean': NaN,
-        'upper': NaN,
-      };
-    }
-  }
-
-  return {
-    'miles': miles,
-    'percents': percents,
-  };
+  return calculatedBenefits;
 }
 
 function calcSafetyQuantitative(infrastructure, travel, length, intersections, subtype) {
@@ -238,3 +212,4 @@ function calcSafetyQuantitative(infrastructure, travel, length, intersections, s
 }
 
 export default calcSafetyQuantitative;
+
