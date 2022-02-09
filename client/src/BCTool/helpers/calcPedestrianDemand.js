@@ -7,9 +7,6 @@ const pedestrianDemand = require('../data/pedestrian_demand.json');
 
 const calcPedestrianDemand = (proj_distance, proj_intersections, proj_volume) => {
 
-	// Original function expects project distance in miles, tool stores it in feet
-	proj_distance /= 5280;
-
 	// Get data from the lookup table in config.json
 	let miles_distribution = pedestrianDemand.miles_walked;
 

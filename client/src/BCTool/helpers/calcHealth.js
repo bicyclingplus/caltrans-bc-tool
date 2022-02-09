@@ -22,7 +22,7 @@ const BIKE_MMET = {
   'upper': 9.0,
 };
 
-function calcHealth(subtype, travel) {
+function _calc(travel) {
 
   let benefits = {
     'total': {
@@ -36,33 +36,39 @@ function calcHealth(subtype, travel) {
   // (travel increase in miles / speed in mph)
   //    * Marginal Metabolic Equivalent of Task (MMET) per hour
   // yields MMET
-  if(subtype !== "bike-only") {
 
-    benefits.pedestrian = {};
+  benefits.pedestrian = {};
 
-    benefits.pedestrian.lower = ((travel.pedestrian.inducedTravel.lower * 365) / WALK_SPEED.lower) * WALK_MMET.lower;
-    benefits.pedestrian.mean = ((travel.pedestrian.inducedTravel.mean * 365) / WALK_SPEED.mean) * WALK_MMET.mean;
-    benefits.pedestrian.upper = ((travel.pedestrian.inducedTravel.upper * 365) / WALK_SPEED.upper) * WALK_MMET.upper;
+  benefits.pedestrian.lower = ((travel.pedestrian.inducedTravel.lower * 365) / WALK_SPEED.lower) * WALK_MMET.lower;
+  benefits.pedestrian.mean = ((travel.pedestrian.inducedTravel.mean * 365) / WALK_SPEED.mean) * WALK_MMET.mean;
+  benefits.pedestrian.upper = ((travel.pedestrian.inducedTravel.upper * 365) / WALK_SPEED.upper) * WALK_MMET.upper;
 
-    benefits.total.lower += benefits.pedestrian.lower;
-    benefits.total.mean += benefits.pedestrian.mean;
-    benefits.total.upper += benefits.pedestrian.upper;
-  }
+  benefits.total.lower += benefits.pedestrian.lower;
+  benefits.total.mean += benefits.pedestrian.mean;
+  benefits.total.upper += benefits.pedestrian.upper;
 
-  if(subtype !== "pedestrian-only") {
 
-    benefits.bike = {};
+  benefits.bike = {};
 
-    benefits.bike.lower = ((travel.bike.inducedTravel.lower * 365) / BIKE_SPEED.lower) * BIKE_MMET.lower;
-    benefits.bike.mean = ((travel.bike.inducedTravel.mean * 365) / BIKE_SPEED.mean) * BIKE_MMET.mean;
-    benefits.bike.upper = ((travel.bike.inducedTravel.upper * 365) / BIKE_SPEED.upper) * BIKE_MMET.upper;
+  benefits.bike.lower = ((travel.bike.inducedTravel.lower * 365) / BIKE_SPEED.lower) * BIKE_MMET.lower;
+  benefits.bike.mean = ((travel.bike.inducedTravel.mean * 365) / BIKE_SPEED.mean) * BIKE_MMET.mean;
+  benefits.bike.upper = ((travel.bike.inducedTravel.upper * 365) / BIKE_SPEED.upper) * BIKE_MMET.upper;
 
-    benefits.total.lower += benefits.bike.lower;
-    benefits.total.mean += benefits.bike.mean;
-    benefits.total.upper += benefits.bike.upper;
-  }
+  benefits.total.lower += benefits.bike.lower;
+  benefits.total.mean += benefits.bike.mean;
+  benefits.total.upper += benefits.bike.upper;
 
   return benefits;
+
+}
+
+function calcHealth(travel) {
+
+  return {
+    'miles': _calc(travel.miles),
+    'capita': _calc(travel.capita),
+    'jobs': _calc(travel.jobs),
+  }
 
 }
 

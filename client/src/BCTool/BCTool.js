@@ -47,13 +47,10 @@ class BCTool extends React.Component {
       'year': '',
       'timeframe': 1,
 
-      'intersections': 0,
       'length': 0,
-
       'selectedWays': [],
       'selectedIntersections': [],
 
-      'osm-ids': [],
       'existingTravel': {},
 
       'infrastructure': [],
@@ -147,14 +144,8 @@ class BCTool extends React.Component {
             'county': project['county'],
             'year': project['year'],
 
-            'intersections': project['intersections'] ? project['intersections'] : 0,
-            'length': project['length'] ? project['length'] : 0,
-
             'selectedWays': [],
             'selectedIntersections': [],
-
-            'existingTravel': project['existingTravel'],
-            'osm-ids': project['osm-ids'],
 
             'infrastructure': infrastructure,
             'non-infrastructure': new_non_infrastructure,
@@ -305,7 +296,6 @@ class BCTool extends React.Component {
 
     let travel = calcTravel(
       this.state.infrastructure,
-      this.state.subtype,
       this.state.existingTravel,
       this.state.length
     );
@@ -315,7 +305,7 @@ class BCTool extends React.Component {
     let emissions = calcEmissions(
       this.state.county, this.state.year, vmtReductions);
 
-    let health = calcHealth(this.state.subtype, travel);
+    let health = calcHealth(travel);
 
     let safetyQualitative = calcSafetyQualitative(this.state.infrastructure);
 
@@ -323,7 +313,7 @@ class BCTool extends React.Component {
       this.state.infrastructure,
       travel,
       this.state.length,
-      this.state.intersections,
+      this.state.selectedIntersections.length,
       this.state.subtype);
 
     let benefits = {
@@ -339,7 +329,7 @@ class BCTool extends React.Component {
       benefits.safetyQuantitative = safetyQuantitative;
     }
 
-    // console.log(benefits);
+    console.log(benefits);
 
     this.setState({
       'showBenefits': true,
@@ -396,43 +386,92 @@ class BCTool extends React.Component {
 
 
   updateMapSelections = (selectedWays, selectedIntersections, length) => {
-    let existingTravel = { ...this.state.existingTravel};
 
-    // update bike demand
-    // there is some model for demand and each way has lower/mean/upper
-    // values for bike demand.
-    // we simply total these numbers for all the selected ways
-    let bikeDemandLower = 0, bikeDemandMean = 0, bikeDemandUpper = 0;
+    let existingTravel = {
+      "miles": {
+        "bike": {
+          'lower': 0,
+          'mean': 0,
+          'upper': 0,
+        },
+        "pedestrian": {
+          'lower': 0,
+          'mean': 0,
+          'upper': 0,
+        }
+      },
+      "capita":  {
+        "bike": {
+          'lower': 0,
+          'mean': 0,
+          'upper': 0,
+        },
+        "pedestrian": {
+          'lower': 0,
+          'mean': 0,
+          'upper': 0,
+        }
+      },
+      "jobs":  {
+        "bike": {
+          'lower': 0,
+          'mean': 0,
+          'upper': 0,
+        },
+        "pedestrian": {
+          'lower': 0,
+          'mean': 0,
+          'upper': 0,
+        }
+      },
+    };
+
+    let waysTravel = [];
 
     for(let way of selectedWays) {
+
+      let current = {
+        'miles': {},
+        'capita': {},
+        'jobs': {},
+      };
 
       let lower = parseInt(way.properties.low_daily);
       let mean = parseInt(way.properties.Avg_daily);
       let upper = parseInt(way.properties.high_daily);
+      let population = way.properties.population;
+      let jobs = way.properties.Jobs;
+      let wayLengthMiles = way.properties.length / 5280;
 
-      if(lower) {
-        bikeDemandLower += lower;
-      }
+      current.miles.lower = lower * wayLengthMiles;
+      current.miles.mean = mean * wayLengthMiles;
+      current.miles.upper = upper * wayLengthMiles;
 
-      if(mean) {
-        bikeDemandMean += mean;
-      }
+      current.capita.lower = current.miles.lower / population;
+      current.capita.mean = current.miles.mean / population;
+      current.capita.upper = current.miles.upper / population;
 
-      if(upper) {
-        bikeDemandUpper += upper;
-      }
+      current.jobs.lower = current.miles.lower / jobs;
+      current.jobs.mean = current.miles.mean / jobs;
+      current.jobs.upper = current.miles.upper / jobs;
+
+      waysTravel.push(current);
     }
 
-    if(existingTravel.bike.lower !== null) {
-      existingTravel.bike.lower = bikeDemandLower;
-    }
+    console.log(waysTravel);
 
-    if(existingTravel.bike.mean !== null) {
-      existingTravel.bike.mean = bikeDemandMean;
-    }
+    for(let travel of waysTravel) {
+      existingTravel.miles.bike.lower += travel.miles.lower;
+      existingTravel.miles.bike.mean += travel.miles.mean;
+      existingTravel.miles.bike.upper += travel.miles.upper;
 
-    if(existingTravel.bike.upper !== null) {
-      existingTravel.bike.upper = bikeDemandUpper;
+      existingTravel.capita.bike.lower += travel.capita.lower;
+      existingTravel.capita.bike.mean += travel.capita.mean;
+      existingTravel.capita.bike.upper += travel.capita.upper;
+
+      existingTravel.jobs.bike.lower += travel.jobs.lower;
+      existingTravel.jobs.bike.mean += travel.jobs.mean;
+      existingTravel.jobs.bike.upper += travel.jobs.upper;
     }
 
     // update ped demand
@@ -440,49 +479,49 @@ class BCTool extends React.Component {
     // we total these up here.
     // then the demand is weighted by the project length and
     // number of intersections
-    let pedTotalLower = 0,
-        pedTotalMean = 0,
-        pedTotalUpper = 0;
-
     for(let intersection of selectedIntersections) {
+
       let lower = parseInt(intersection.properties.low_pred);
       let mean = parseInt(intersection.properties.avg_pred);
       let upper = parseInt(intersection.properties.high_pred);
+      let population = intersection.properties.population;
+      let jobs = intersection.properties.Jobs;
 
-      if(lower) {
-        pedTotalLower += lower;
-      }
+      existingTravel.miles.pedestrian.lower += lower;
+      existingTravel.miles.pedestrian.mean += mean;
+      existingTravel.miles.pedestrian.upper += upper;
 
-      if(mean) {
-        pedTotalMean += mean;
-      }
+      existingTravel.capita.pedestrian.lower += lower / population;
+      existingTravel.capita.pedestrian.mean += mean / population;
+      existingTravel.capita.pedestrian.upper += upper / population;
 
-      if(upper) {
-        pedTotalUpper += upper;
-      }
+      existingTravel.jobs.pedestrian.lower += lower / jobs;
+      existingTravel.jobs.pedestrian.mean += mean / jobs;
+      existingTravel.jobs.pedestrian.upper += upper / jobs;
+
     }
 
-    let pedDemandLower = calcPedestrianDemand(length, selectedIntersections.length, pedTotalLower);
-    let pedDemandMean = calcPedestrianDemand(length, selectedIntersections.length, pedTotalMean);
-    let pedDemandUpper = calcPedestrianDemand(length, selectedIntersections.length, pedTotalUpper);
+    let projectLengthMiles = length / 5280;
+    let numIntersections = selectedIntersections.length;
 
-    if(existingTravel.pedestrian.lower !== null) {
-      existingTravel.pedestrian.lower = pedDemandLower ? pedDemandLower : 0;
-    }
+    existingTravel.miles.pedestrian.lower = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.miles.pedestrian.lower);
+    existingTravel.miles.pedestrian.mean = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.miles.pedestrian.mean);
+    existingTravel.miles.pedestrian.upper = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.miles.pedestrian.upper);
 
-    if(existingTravel.pedestrian.mean !== null) {
-      existingTravel.pedestrian.mean = pedDemandMean ? pedDemandMean : 0;
-    }
+    existingTravel.capita.pedestrian.lower = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.capita.pedestrian.lower);
+    existingTravel.capita.pedestrian.mean = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.capita.pedestrian.mean);
+    existingTravel.capita.pedestrian.upper = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.capita.pedestrian.upper);
 
-    if(existingTravel.pedestrian.upper !== null) {
-      existingTravel.pedestrian.upper = pedDemandUpper ? pedDemandUpper : 0;
-    }
+    existingTravel.jobs.pedestrian.lower = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.lower);
+    existingTravel.jobs.pedestrian.mean = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.mean);
+    existingTravel.jobs.pedestrian.upper = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.upper);
+
+    console.log(existingTravel);
 
     this.setState({
       'existingTravel': existingTravel,
       'selectedWays': selectedWays,
       'selectedIntersections': selectedIntersections,
-      'intersections': selectedIntersections.length,
       'length': length,
       'showBenefits': false,
       'inputsChanged': true,
@@ -530,7 +569,7 @@ class BCTool extends React.Component {
         { this.state['selected-project'] ?
         <>
 
-        { this.state['osm-ids'].length || this.state['interactive-map'] ?
+        { this.state['interactive-map'] ?
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectMap
@@ -543,11 +582,11 @@ class BCTool extends React.Component {
         </div>
         : null }
 
-        { this.state['type'] === 'infrastructure' ?
+        { this.state['type'] === 'infrastructure' && this.state.selectedIntersections.length || this.state.selectedWays.length ?
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectSummary
-              intersections={this.state.intersections}
+              intersections={this.state.selectedIntersections.length}
               length={this.state.length}
               subtype={this.state['subtype']}
               travel={this.state.existingTravel} />
@@ -602,6 +641,7 @@ class BCTool extends React.Component {
               name={this.state.name}
               cost={this.state.cost}
               timeframe={this.state.timeframe}
+              subtype={this.state.subtype}
             />
           </div>
         </div>

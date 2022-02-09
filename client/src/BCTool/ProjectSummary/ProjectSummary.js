@@ -19,7 +19,7 @@ class ProjectSummary extends React.Component {
                 <h5>Project Reach</h5>
                 <ul className="list-unstyled">
                   <li>Number of Intersections: {intersections}</li>
-                  <li>Length: {readableNumber(length)} ft</li>
+                  <li>Length: {readableNumber(length/5280, 1)} miles</li>
                 </ul>
 
                 <h5>Estimated Existing Active Travel *</h5>
@@ -29,9 +29,9 @@ class ProjectSummary extends React.Component {
                   <div className="col-sm-6">
                     <u>Existing Daily Walking Miles</u>
                     <ul className="list-unstyled">
-                      <li>Low: {travel.pedestrian.lower !== null ? travel.pedestrian.lower : 'N/A'} miles</li>
-                      <li>Average: {travel.pedestrian.mean !== null ? travel.pedestrian.mean : 'N/A'} miles</li>
-                      <li>High: {travel.pedestrian.upper !== null ? travel.pedestrian.upper : 'N/A'} miles</li>
+                      <li>Low: {readableNumber(travel.miles.pedestrian.lower)} miles</li>
+                      <li>Average: {readableNumber(travel.miles.pedestrian.mean)} miles</li>
+                      <li>High: {readableNumber(travel.miles.pedestrian.upper)} miles</li>
                     </ul>
                   </div>
                   : null }
@@ -40,9 +40,9 @@ class ProjectSummary extends React.Component {
                   <div className="col-sm-6">
                     <u>Existing Daily Bicyling Miles</u>
                     <ul className="list-unstyled">
-                      <li>Low: {travel.bike.lower!== null ? travel.bike.lower : 'N/A'} miles</li>
-                      <li>Average: {travel.bike.mean !== null ? travel.bike.mean : 'N/A'} miles</li>
-                      <li>High: {travel.bike.upper !== null ? travel.bike.upper : 'N/A'} miles</li>
+                      <li>Low: {readableNumber(travel.miles.bike.lower)} miles</li>
+                      <li>Average: {readableNumber(travel.miles.bike.mean)} miles</li>
+                      <li>High: {readableNumber(travel.miles.bike.upper)} miles</li>
                     </ul>
                   </div>
                   : null }

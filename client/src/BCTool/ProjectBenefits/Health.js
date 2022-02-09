@@ -7,6 +7,7 @@ class HealthBenefits extends React.Component {
   render() {
 
     let benefits = this.props.benefits;
+    let subtype = this.props.subtype;
 
     return (
       <>
@@ -33,48 +34,52 @@ class HealthBenefits extends React.Component {
           </tr>
         </thead>
         <tbody>
-          { benefits.bike ?
+          { subtype !== 'pedestrian-only' ?
           <tr>
             <th>Bicyling</th>
-            <td className="text-end">{readableNumber(benefits.bike.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.upper)}</td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.bike.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.bike.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.upper)}</td>
           </tr>
           : null }
-          { benefits.pedestrian ?
+          { subtype !== 'bike-only' ?
           <tr>
             <th>Walking</th>
-            <td className="text-end">{readableNumber(benefits.pedestrian.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.upper)}</td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.upper)}</td>
           </tr>
           : null }
-          { benefits.bike && benefits.pedestrian ?
           <tr>
             <th>TOTAL</th>
-            <td className="text-end">{readableNumber(benefits.total.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.total.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.total.upper)}</td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
-            <td className="text-end"></td>
+            <td className="text-end">{readableNumber(benefits.miles.total.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.total.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.total.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.total.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.total.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.total.upper)}</td>
           </tr>
-          : null }
         </tbody>
       </table>
       </>

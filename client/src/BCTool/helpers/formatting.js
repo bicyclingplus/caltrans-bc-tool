@@ -2,7 +2,11 @@ export function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-export function readableNumber(number) {
+export function readableNumber(number, places = 0, suffix = '') {
+
+  if(Number.isNaN(number)) {
+    return "N/A";
+  }
 
   if(number === null) {
     return "-";
@@ -21,6 +25,8 @@ export function readableNumber(number) {
   //   );
   // }
 
-  return numberWithCommas(Math.round(number + Number.EPSILON));
+  let factor = Math.pow(10, places);
+
+  return numberWithCommas(Math.round((number + Number.EPSILON) * factor) / factor) + suffix;
 
 }

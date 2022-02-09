@@ -25,7 +25,7 @@ class infrastructureItem extends React.Component {
                 <td>{label}</td>
 
                 <td>
-                    <select className="form-select" value={type} onChange={this.onTypeChange}>
+                    <select className="form-select" value={type} onChange={this.onTypeChange} required>
                         <option value="" disabled>-- Select a Type --</option>
                         <option value="new">New Construction</option>
                         <option value="upgrade">Significant Upgrade</option>
@@ -35,9 +35,9 @@ class infrastructureItem extends React.Component {
 
                 <td>
                 { units === 'length' ?
-                <LengthInput shortname={shortname} value={value} onChange={this.onValueChange} />
+                <LengthInput shortname={shortname} value={value} onChange={this.onValueChange} required/>
                 :
-                <CountInput shortname={shortname} value={value} onChange={this.onValueChange} />
+                <CountInput shortname={shortname} value={value} onChange={this.onValueChange} required />
                 }
                 </td>
             </tr>

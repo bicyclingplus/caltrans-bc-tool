@@ -7,21 +7,22 @@ class Travel extends React.Component {
   render() {
 
     let benefits = this.props.benefits;
+    let subtype = this.props.subtype;
 
     return (
       <>
       <h4 className="mt-4">Project-Level Active Travel</h4>
 
-      { 'bike' in benefits ?
+      { subtype !== 'pedestrian-only' ?
       <>
       <h5 className="mt-4">Estimated Average Daily Bike Miles Traveled (BMT)</h5>
       <table className="table table-bordered">
         <tbody>
           <tr>
             <th colSpan="2"></th>
-            <th colSpan="3" className="text-center">Bike Miles Travelled (BMT)</th>
-            <th colSpan="3" className="text-center">BMT / Capita</th>
-            <th colSpan="3" className="text-center">BMT / Jobs</th>
+            <th colSpan="3" className="text-center">Daily Bike Miles Travelled (BMT)</th>
+            <th colSpan="3" className="text-center">Daily BMT / Capita</th>
+            <th colSpan="3" className="text-center">Daily BMT / Jobs</th>
           </tr>
           <tr>
             <th colSpan="2"></th>
@@ -37,104 +38,118 @@ class Travel extends React.Component {
           </tr>
           <tr>
             <th colSpan="2">Existing</th>
-            <td className="text-end">{readableNumber(benefits.bike.existing.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.existing.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.existing.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.existing.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.existing.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.existing.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.bike.existing.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.existing.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.existing.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.bike.existing.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.existing.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.existing.upper)}</td>
           </tr>
           <tr>
             <th rowSpan="5" className="align-middle">Increase in Active Travel</th>
             <td>Car Shift</td>
-            <td className="text-end">{readableNumber(benefits.bike.carShift.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.carShift.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.carShift.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.carShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.carShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.carShift.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.bike.carShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.carShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.carShift.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.bike.carShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.carShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.carShift.upper)}</td>
           </tr>
           <tr>
             <td>Route Shift</td>
-            <td className="text-end">{readableNumber(benefits.bike.routeShift.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.routeShift.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.routeShift.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.routeShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.routeShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.routeShift.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.bike.routeShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.routeShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.routeShift.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.bike.routeShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.routeShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.routeShift.upper)}</td>
           </tr>
           <tr>
             <td>Induced Travel</td>
-            <td className="text-end">{readableNumber(benefits.bike.inducedTravel.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.inducedTravel.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.inducedTravel.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.inducedTravel.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.inducedTravel.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.inducedTravel.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.bike.inducedTravel.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.inducedTravel.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.inducedTravel.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.bike.inducedTravel.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.inducedTravel.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.inducedTravel.upper)}</td>
           </tr>
           <tr>
             <td>Shift from Other Modes</td>
-            <td className="text-end">{readableNumber(benefits.bike.otherShift.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.otherShift.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.otherShift.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.otherShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.otherShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.otherShift.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.bike.otherShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.otherShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.otherShift.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.bike.otherShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.otherShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.otherShift.upper)}</td>
           </tr>
           <tr>
             <td><b>Total</b></td>
-            <td className="text-end">{readableNumber(benefits.bike.total.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.total.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.total.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.total.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.total.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.bike.total.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.total.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.bike.total.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.total.upper)}</td>
           </tr>
           <tr>
             <th colSpan="2">Projected (Existing + Increase)</th>
-            <td className="text-end">{readableNumber(benefits.bike.projected.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.projected.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.bike.projected.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.projected.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.projected.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.projected.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.bike.projected.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.projected.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.projected.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.bike.projected.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.projected.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.projected.upper)}</td>
           </tr>
         </tbody>
       </table>
       </>
       : null }
 
-      { 'pedestrian' in benefits ?
+      { subtype !== 'bike-only' ?
       <>
       <h5 className="mt-4">Estimated Average Daily Walk Miles Traveled (WMT)</h5>
       <table className="table table-bordered">
         <tbody>
           <tr>
             <th colSpan="2"></th>
-            <th colSpan="3" className="text-center">Walk Miles Traveled (WMT)</th>
-            <th colSpan="3" className="text-center">WMT / Capita</th>
-            <th colSpan="3" className="text-center">WMT / Jobs</th>
+            <th colSpan="3" className="text-center">Daily Walk Miles Traveled (WMT)</th>
+            <th colSpan="3" className="text-center">Daily WMT / Capita</th>
+            <th colSpan="3" className="text-center">Daily WMT / Jobs</th>
           </tr>
           <tr>
             <th colSpan="2"></th>
@@ -150,88 +165,102 @@ class Travel extends React.Component {
           </tr>
           <tr>
             <th colSpan="2">Existing</th>
-            <td className="text-end">{readableNumber(benefits.pedestrian.existing.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.existing.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.existing.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.existing.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.existing.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.existing.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.existing.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.existing.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.existing.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.existing.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.existing.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.existing.upper)}</td>
           </tr>
           <tr>
             <th rowSpan="5" className="align-middle">Increase in Active Travel</th>
             <td>Car Shift</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.carShift.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.carShift.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.carShift.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.carShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.carShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.carShift.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.carShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.carShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.carShift.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.carShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.carShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.carShift.upper)}</td>
           </tr>
           <tr>
             <td>Route Shift</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.routeShift.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.routeShift.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.routeShift.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.routeShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.routeShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.routeShift.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.routeShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.routeShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.routeShift.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.routeShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.routeShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.routeShift.upper)}</td>
           </tr>
           <tr>
             <td>Induced Travel</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.inducedTravel.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.inducedTravel.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.inducedTravel.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.inducedTravel.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.inducedTravel.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.inducedTravel.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.inducedTravel.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.inducedTravel.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.inducedTravel.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.inducedTravel.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.inducedTravel.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.inducedTravel.upper)}</td>
           </tr>
           <tr>
             <td>Shift from Other Modes</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.otherShift.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.otherShift.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.otherShift.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.otherShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.otherShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.otherShift.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.otherShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.otherShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.otherShift.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.otherShift.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.otherShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.otherShift.upper)}</td>
           </tr>
           <tr>
             <td><b>Total</b></td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.total.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.total.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.total.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.total.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.total.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.total.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.total.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.total.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.total.upper)}</td>
           </tr>
           <tr>
             <th colSpan="2">Projected (Existing + Increase)</th>
-            <td className="text-end">{readableNumber(benefits.pedestrian.projected.lower)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.projected.mean)}</td>
-            <td className="text-end">{readableNumber(benefits.pedestrian.projected.upper)}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.projected.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.projected.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.projected.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.projected.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.projected.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.projected.upper)}</td>
+
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.projected.lower)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.projected.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.projected.upper)}</td>
           </tr>
         </tbody>
       </table>

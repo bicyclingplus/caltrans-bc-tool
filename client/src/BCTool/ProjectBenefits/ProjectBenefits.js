@@ -13,7 +13,7 @@ class ProjectBenefits extends React.Component {
 
   render() {
 
-    let { benefits, name, cost, timeframe } = this.props;
+    let { benefits, name, cost, timeframe, subtype } = this.props;
 
     return (
       <div className="card">
@@ -23,7 +23,7 @@ class ProjectBenefits extends React.Component {
             <h4 className="mt-4">Project Cost: ${readableNumber(cost)}</h4>
 
             { benefits.travel ?
-            <Travel benefits={benefits.travel} />
+            <Travel benefits={benefits.travel} subtype={subtype} />
             : null }
 
             { benefits.safetyQuantitative || benefits.emissions || benefits.health ?
@@ -39,7 +39,7 @@ class ProjectBenefits extends React.Component {
             : null }
 
             { benefits.health ?
-            <Health benefits={benefits.health} />
+            <Health benefits={benefits.health} subtype={subtype} />
             : null }
 
             { benefits.projectQualitative ?

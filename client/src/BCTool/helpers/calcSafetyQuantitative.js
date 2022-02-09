@@ -1,31 +1,9 @@
 const quantitative = require('../data/quantitative.json');
 
-function calcSafetyQuantitative(infrastructure, travel, length, intersections, subtype) {
-
-  // for each parameter
-  // create a dict init count  for lower mean and upper;
-  let parameters = [
-    "crashes",
-    "crime",
-    "deaths",
-    "injuries",
-    "speed",
-    "yielding",
-  ];
+function _calc(infrastructure, travel, length, intersections, subtype) {
 
   let miles = {};
   let percents = {};
-
-  for(let parameter of parameters) {
-    let zerod = {
-      'lower': 0,
-      'mean': 0,
-      'upper': 0,
-    };
-
-    miles[parameter] = {...zerod};
-    percents[parameter] = {...zerod};
-  }
 
   // for each category
   for(let category of infrastructure.categories) {
@@ -99,6 +77,23 @@ function calcSafetyQuantitative(infrastructure, travel, length, intersections, s
 
           if(effect.units === 'percent') {
 
+            if(!(effect.parameter in miles)) {
+              miles[effect.parameter] = {
+                'lower': 0,
+                'mean': 0,
+                'upper': 0,
+              };
+            }
+
+            if(!(effect.parameter in percents)) {
+              percents[effect.parameter] = {
+                'lower': 0,
+                'mean': 0,
+                'upper': 0,
+              };
+            }
+
+
               if(effect.lower) {
                 miles[effect.parameter].lower += modeProjectedTravel.lower * share * (1 + (effect.lower / 100)) * 365;
                 percents[effect.parameter].lower += effect.lower * share;
@@ -131,10 +126,48 @@ function calcSafetyQuantitative(infrastructure, travel, length, intersections, s
 
   }
 
+  let parameters = [
+    "crashes",
+    "crime",
+    "deaths",
+    "injuries",
+    "speed",
+    "yielding",
+  ];
+
+  for(let parameter of parameters) {
+
+    if(!(parameter in miles)) {
+      miles[parameter] = {
+        'lower': NaN,
+        'mean': NaN,
+        'upper': NaN,
+      };
+    }
+
+    if(!(parameter in percents)) {
+      percents[parameter] = {
+        'lower': NaN,
+        'mean': NaN,
+        'upper': NaN,
+      };
+    }
+  }
+
   return {
     'miles': miles,
     'percents': percents,
   };
+}
+
+function calcSafetyQuantitative(infrastructure, travel, length, intersections, subtype) {
+
+  return {
+    "miles": _calc(infrastructure, travel.miles, length, intersections, subtype),
+    "capita": _calc(infrastructure, travel.capita, length, intersections, subtype),
+    "jobs": _calc(infrastructure, travel.jobs, length, intersections, subtype),
+  }
+
 }
 
 export default calcSafetyQuantitative;

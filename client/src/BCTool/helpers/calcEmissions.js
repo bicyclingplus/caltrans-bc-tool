@@ -9,7 +9,7 @@ const GWPS = {
   'N2O': 265,
 }
 
-function calcEmissions(county, year, vmtReductions) {
+function _calc(county, year, vmtReductions) {
 
   // const futureYear = year + LIFE_OF_PROJECT;
 
@@ -108,6 +108,16 @@ function calcEmissions(county, year, vmtReductions) {
     'reductions': vehEmissionsReductions,
     'equivalent': equivalentReductions,
   };
+
+}
+
+function calcEmissions(county, year, vmtReductions) {
+
+  return {
+    'miles': _calc(county, year, vmtReductions.miles),
+    'capita': _calc(county, year, vmtReductions.capita),
+    'jobs': _calc(county, year, vmtReductions.jobs),
+  }
 
 }
 

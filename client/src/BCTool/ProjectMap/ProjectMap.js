@@ -62,6 +62,7 @@ class ProjectMap extends React.Component {
 
       if(this.selectedWayIds.includes(feature.properties.edgeUID)) {
         color = "#00FFFF";
+        // color = "#022851";
       }
 
       return {
@@ -165,6 +166,7 @@ class ProjectMap extends React.Component {
         }
       }
       else {
+        feature.properties.length = length;
         this.selectedWayIds.push(featureId);
         this.selectedWays.push(feature);
         this.length += length;
@@ -244,7 +246,8 @@ class ProjectMap extends React.Component {
       let color = "grey";
 
       if(this.selectedIntersectionIds.includes(feature.properties.nodeID)) {
-        color = "#00FFFF";
+        // color = "#00FFFF";
+        color = "#FFBF00";
       }
 
       return Leaflet.circleMarker(latlng, {

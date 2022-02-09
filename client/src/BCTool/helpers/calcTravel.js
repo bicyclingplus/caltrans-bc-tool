@@ -22,14 +22,14 @@ const OTHER_SHIFT = {
 
 const SCALING_FACTOR = 0.1;
 
-function calcTravelMode(mode, infrastructure, subtype, existingTravel, length) {
+function calcTravelMode(mode, infrastructure, existingTravel, length) {
 
     let travel = {};
 
     travel.existing = {
-        'lower': existingTravel[mode].lower,
-        'mean': existingTravel[mode].mean,
-        'upper': existingTravel[mode].upper,
+        'lower': existingTravel.lower,
+        'mean': existingTravel.mean,
+        'upper': existingTravel.upper,
     }
 
     let increases = [];
@@ -65,9 +65,9 @@ function calcTravelMode(mode, infrastructure, subtype, existingTravel, length) {
                             // console.log(`Share is ${share}`);
 
                             increases.push({
-                                'lower': ((travel_volume[element][mode].lower / 100) * existingTravel[mode].lower) * share * multiplier,
-                                'mean': ((travel_volume[element][mode].mean / 100) * existingTravel[mode].mean) * share * multiplier,
-                                'upper': ((travel_volume[element][mode].upper / 100) * existingTravel[mode].upper) * share * multiplier,
+                                'lower': ((travel_volume[element][mode].lower / 100) * travel.existing.lower) * share * multiplier,
+                                'mean': ((travel_volume[element][mode].mean / 100) * travel.existing.mean) * share * multiplier,
+                                'upper': ((travel_volume[element][mode].upper / 100) * travel.existing.upper) * share * multiplier,
                             });
 
                         }
@@ -92,11 +92,11 @@ function calcTravelMode(mode, infrastructure, subtype, existingTravel, length) {
         weighted.upper += increases[i].upper;
     }
 
-    if(increases.length) {
-        weighted.lower /= increases.length;
-        weighted.mean /= increases.length;
-        weighted.upper /= increases.length;
-    }
+    // if(increases.length) {
+    //     weighted.lower /= increases.length;
+    //     weighted.mean /= increases.length;
+    //     weighted.upper /= increases.length;
+    // }
 
     // console.log(weighted);
 
@@ -135,34 +135,70 @@ function calcTravelMode(mode, infrastructure, subtype, existingTravel, length) {
     return travel;
 }
 
-function calcTravel(infrastructure, subtype, existingTravel, length) {
+function calcTravel(infrastructure, existingTravel, length) {
 
     let travel = {
-        "totalProjected": {
-            "lower": 0,
-            "mean": 0,
-            "upper": 0,
-        }
+        "miles": {
+            "bike": {},
+            "pedestrian": {},
+            "totalProjected": {
+                "lower": 0,
+                "mean": 0,
+                "upper": 0,
+            },
+        },
+        "capita": {
+            "bike": {},
+            "pedestrian": {},
+            "totalProjected": {
+                "lower": 0,
+                "mean": 0,
+                "upper": 0,
+            },
+        },
+        "jobs": {
+            "bike": {},
+            "pedestrian": {},
+            "totalProjected": {
+                "lower": 0,
+                "mean": 0,
+                "upper": 0,
+            },
+        },
     };
 
+    travel.miles.bike = calcTravelMode('bike', infrastructure, existingTravel.miles.bike, length);
+    travel.miles.pedestrian = calcTravelMode('pedestrian', infrastructure, existingTravel.miles.pedestrian, length);
 
-    if(subtype !== 'pedestrian-only') {
+    travel.miles.totalProjected.lower += travel.miles.bike.projected.lower;
+    travel.miles.totalProjected.mean += travel.miles.bike.projected.mean;
+    travel.miles.totalProjected.upper += travel.miles.bike.projected.upper;
 
-        travel.bike = calcTravelMode('bike', infrastructure, subtype, existingTravel, length);
+    travel.miles.totalProjected.lower += travel.miles.pedestrian.projected.lower;
+    travel.miles.totalProjected.mean += travel.miles.pedestrian.projected.mean;
+    travel.miles.totalProjected.upper += travel.miles.pedestrian.projected.upper;
 
-        travel.totalProjected.lower += travel.bike.projected.lower;
-        travel.totalProjected.mean += travel.bike.projected.mean;
-        travel.totalProjected.upper += travel.bike.projected.upper;
-    }
+    travel.capita.bike = calcTravelMode('bike', infrastructure, existingTravel.capita.bike, length);
+    travel.capita.pedestrian = calcTravelMode('pedestrian', infrastructure, existingTravel.capita.pedestrian, length);
 
-    if(subtype !== 'bike-only') {
+    travel.capita.totalProjected.lower += travel.capita.bike.projected.lower;
+    travel.capita.totalProjected.mean += travel.capita.bike.projected.mean;
+    travel.capita.totalProjected.upper += travel.capita.bike.projected.upper;
 
-        travel.pedestrian = calcTravelMode('pedestrian', infrastructure, subtype, existingTravel, length);
+    travel.capita.totalProjected.lower += travel.capita.pedestrian.projected.lower;
+    travel.capita.totalProjected.mean += travel.capita.pedestrian.projected.mean;
+    travel.capita.totalProjected.upper += travel.capita.pedestrian.projected.upper;
 
-        travel.totalProjected.lower += travel.pedestrian.projected.lower;
-        travel.totalProjected.mean += travel.pedestrian.projected.mean;
-        travel.totalProjected.upper += travel.pedestrian.projected.upper;
-    }
+    travel.jobs.bike = calcTravelMode('bike', infrastructure, existingTravel.jobs.bike, length);
+    travel.jobs.pedestrian = calcTravelMode('pedestrian', infrastructure, existingTravel.jobs.pedestrian, length);
+
+    travel.jobs.totalProjected.lower += travel.jobs.bike.projected.lower;
+    travel.jobs.totalProjected.mean += travel.jobs.bike.projected.mean;
+    travel.jobs.totalProjected.upper += travel.jobs.bike.projected.upper;
+
+    travel.jobs.totalProjected.lower += travel.jobs.pedestrian.projected.lower;
+    travel.jobs.totalProjected.mean += travel.jobs.pedestrian.projected.mean;
+    travel.jobs.totalProjected.upper += travel.jobs.pedestrian.projected.upper;
 
     return travel;
 

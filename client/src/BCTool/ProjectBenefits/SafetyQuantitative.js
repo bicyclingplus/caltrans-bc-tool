@@ -81,75 +81,88 @@ class SafetyQuantitative extends React.Component {
 				<tbody>
 					<tr>
 						<td className="text-center">Crashes</td>
-						<td className="text-end">{readableNumber(benefits.miles.crashes.lower)}</td>
-						<td className="text-end">{readableNumber(benefits.miles.crashes.mean)}</td>
-						<td className="text-end">{readableNumber(benefits.miles.crashes.upper)}</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.crashes.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.crashes.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.crashes.upper)}</td>
+
+						<td className="text-end">{readableNumber(benefits.capita.miles.crashes.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.capita.miles.crashes.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.capita.miles.crashes.upper)}</td>
+
+						<td className="text-end">{readableNumber(benefits.jobs.miles.crashes.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.miles.crashes.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.miles.crashes.upper)}</td>
+
 					</tr>
 					<tr>
 						<td className="text-center">Injuries</td>
-						<td className="text-end">{readableNumber(benefits.miles.injuries.lower)}</td>
-						<td className="text-end">{readableNumber(benefits.miles.injuries.mean)}</td>
-						<td className="text-end">{readableNumber(benefits.miles.injuries.upper)}</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.injuries.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.injuries.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.injuries.upper)}</td>
+
+						<td className="text-end">{readableNumber(benefits.capita.miles.injuries.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.capita.miles.injuries.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.capita.miles.injuries.upper)}</td>
+
+						<td className="text-end">{readableNumber(benefits.jobs.miles.injuries.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.miles.injuries.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.miles.injuries.upper)}</td>
 					</tr>
 					<tr style={{"borderBottomWidth": "thick", "borderBottomColor": "grey"}}>
 						<td className="text-center">Deaths</td>
-						<td className="text-end">{readableNumber(benefits.miles.deaths.lower)}</td>
-						<td className="text-end">{readableNumber(benefits.miles.deaths.mean)}</td>
-						<td className="text-end">{readableNumber(benefits.miles.deaths.upper)}</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.deaths.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.deaths.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.deaths.upper)}</td>
+
+						<td className="text-end">{readableNumber(benefits.capita.miles.deaths.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.capita.miles.deaths.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.capita.miles.deaths.upper)}</td>
+
+						<td className="text-end">{readableNumber(benefits.jobs.miles.deaths.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.miles.deaths.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.miles.deaths.upper)}</td>
 					</tr>
 					<tr>
 						<td className="text-center">Speed</td>
-						<td className="text-end">{readableNumber(benefits.miles.speed.lower)}</td>
-						<td className="text-end">{readableNumber(benefits.miles.speed.mean)}</td>
-						<td className="text-end">{readableNumber(benefits.miles.speed.upper)}</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.speed.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.speed.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.speed.upper)}</td>
+
+						<td className="text-end">{readableNumber(benefits.capita.miles.speed.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.capita.miles.speed.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.capita.miles.speed.upper)}</td>
+
+						<td className="text-end">{readableNumber(benefits.jobs.miles.speed.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.miles.speed.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.miles.speed.upper)}</td>
 					</tr>
 					<tr>
 						<td className="text-center">Yielding</td>
-						<td className="text-end">{readableNumber(benefits.miles.yielding.lower)}</td>
-						<td className="text-end">{readableNumber(benefits.miles.yielding.mean)}</td>
-						<td className="text-end">{readableNumber(benefits.miles.yielding.upper)}</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.yielding.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.yielding.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.yielding.upper)}</td>
+
+						<td className="text-end">{readableNumber(benefits.capita.miles.yielding.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.capita.miles.yielding.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.capita.miles.yielding.upper)}</td>
+
+						<td className="text-end">{readableNumber(benefits.jobs.miles.yielding.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.miles.yielding.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.miles.yielding.upper)}</td>
 					</tr>
 					<tr>
 						<td className="text-center">Crime</td>
-						<td className="text-end">{readableNumber(benefits.miles.crime.lower)}</td>
-						<td className="text-end">{readableNumber(benefits.miles.crime.mean)}</td>
-						<td className="text-end">{readableNumber(benefits.miles.crime.upper)}</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.crime.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.crime.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.miles.miles.crime.upper)}</td>
+
+						<td className="text-end">{readableNumber(benefits.capita.miles.crime.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.capita.miles.crime.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.capita.miles.crime.upper)}</td>
+
+						<td className="text-end">{readableNumber(benefits.jobs.miles.crime.lower)}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.miles.crime.mean)}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.miles.crime.upper)}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -178,75 +191,87 @@ class SafetyQuantitative extends React.Component {
 				<tbody>
 					<tr>
 						<td className="text-center">Crashes</td>
-						<td className="text-end">{readableNumber(benefits.percents.crashes.lower)}%</td>
-						<td className="text-end">{readableNumber(benefits.percents.crashes.mean)}%</td>
-						<td className="text-end">{readableNumber(benefits.percents.crashes.upper)}%</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.crashes.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.crashes.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.crashes.upper, 0, '%')}</td>
+
+						<td className="text-end">{readableNumber(benefits.capita.percents.crashes.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.capita.percents.crashes.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.capita.percents.crashes.upper, 0, '%')}</td>
+
+						<td className="text-end">{readableNumber(benefits.jobs.percents.crashes.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.percents.crashes.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.percents.crashes.upper, 0, '%')}</td>
 					</tr>
 					<tr>
 						<td className="text-center">Injuries</td>
-						<td className="text-end">{readableNumber(benefits.percents.injuries.lower)}%</td>
-						<td className="text-end">{readableNumber(benefits.percents.injuries.mean)}%</td>
-						<td className="text-end">{readableNumber(benefits.percents.injuries.upper)}%</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.injuries.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.injuries.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.injuries.upper, 0, '%')}</td>
+
+						<td className="text-end">{readableNumber(benefits.capita.percents.injuries.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.capita.percents.injuries.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.capita.percents.injuries.upper, 0, '%')}</td>
+
+						<td className="text-end">{readableNumber(benefits.jobs.percents.injuries.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.percents.injuries.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.percents.injuries.upper, 0, '%')}</td>
 					</tr>
 					<tr style={{"borderBottomWidth": "thick", "borderBottomColor": "grey"}}>
 						<td className="text-center">Deaths</td>
-						<td className="text-end">{readableNumber(benefits.percents.deaths.lower)}%</td>
-						<td className="text-end">{readableNumber(benefits.percents.deaths.mean)}%</td>
-						<td className="text-end">{readableNumber(benefits.percents.deaths.upper)}%</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.deaths.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.deaths.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.deaths.upper, 0, '%')}</td>
+
+						<td className="text-end">{readableNumber(benefits.capita.percents.deaths.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.capita.percents.deaths.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.capita.percents.deaths.upper, 0, '%')}</td>
+
+						<td className="text-end">{readableNumber(benefits.jobs.percents.deaths.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.percents.deaths.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.percents.deaths.upper, 0, '%')}</td>
 					</tr>
 					<tr>
 						<td className="text-center">Speed</td>
-						<td className="text-end">{readableNumber(benefits.percents.speed.lower)}%</td>
-						<td className="text-end">{readableNumber(benefits.percents.speed.mean)}%</td>
-						<td className="text-end">{readableNumber(benefits.percents.speed.upper)}%</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.speed.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.speed.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.speed.upper, 0, '%')}</td>
+
+						<td className="text-end">{readableNumber(benefits.capita.percents.speed.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.capita.percents.speed.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.capita.percents.speed.upper, 0, '%')}</td>
+
+						<td className="text-end">{readableNumber(benefits.jobs.percents.speed.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.percents.speed.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.percents.speed.upper, 0, '%')}</td>
 					</tr>
 					<tr>
 						<td className="text-center">Yielding</td>
-						<td className="text-end">{readableNumber(benefits.percents.yielding.lower)}%</td>
-						<td className="text-end">{readableNumber(benefits.percents.yielding.mean)}%</td>
-						<td className="text-end">{readableNumber(benefits.percents.yielding.upper)}%</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.yielding.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.yielding.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.yielding.upper, 0, '%')}</td>
+
+						<td className="text-end">{readableNumber(benefits.capita.percents.yielding.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.capita.percents.yielding.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.capita.percents.yielding.upper, 0, '%')}</td>
+
+						<td className="text-end">{readableNumber(benefits.jobs.percents.yielding.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.percents.yielding.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.percents.yielding.upper, 0, '%')}</td>
 					</tr>
 					<tr>
 						<td className="text-center">Crime</td>
-						<td className="text-end">{readableNumber(benefits.percents.crime.lower)}%</td>
-						<td className="text-end">{readableNumber(benefits.percents.crime.mean)}%</td>
-						<td className="text-end">{readableNumber(benefits.percents.crime.upper)}%</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.crime.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.crime.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.miles.percents.crime.upper, 0, '%')}</td>
+
+						<td className="text-end">{readableNumber(benefits.capita.percents.crime.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.capita.percents.crime.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.capita.percents.crime.upper, 0, '%')}</td>
+
+						<td className="text-end">{readableNumber(benefits.jobs.percents.crime.lower, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.percents.crime.mean, 0, '%')}</td>
+						<td className="text-end">{readableNumber(benefits.jobs.percents.crime.upper, 0, '%')}</td>
 					</tr>
 				</tbody>
 			</table>

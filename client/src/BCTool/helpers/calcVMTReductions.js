@@ -1,20 +1,20 @@
 const BIKE_FACTOR = 0.506;
 
+function _calc(travel) {
+  return {
+    'lower': travel.carShift.lower * BIKE_FACTOR * 365,
+    'mean': travel.carShift.mean * BIKE_FACTOR * 365,
+    'upper': travel.carShift.upper * BIKE_FACTOR * 365,
+  }
+}
+
 function calcVMTReductions(travel) {
 
-  if('bike' in travel) {
-    return {
-      'lower': travel.bike.carShift.lower * BIKE_FACTOR * 365,
-      'mean': travel.bike.carShift.mean * BIKE_FACTOR * 365,
-      'upper': travel.bike.carShift.upper * BIKE_FACTOR * 365,
-    }
-  }
-
   return {
-    'lower': 0,
-    'mean': 0,
-    'upper': 0,
-  };
+    'miles': _calc(travel.miles.bike),
+    'capita': _calc(travel.capita.bike),
+    'jobs': _calc(travel.jobs.bike),
+  }
 }
 
 export default calcVMTReductions;
