@@ -506,7 +506,6 @@ class ProjectMap extends React.Component {
         // stack order
         if(this.state.mapMode === "existing") {
           if(this.state.selectionType === "way") {
-            console.log("Existing ways");
             this.userIntersectionFeatures.addTo(this.map);
             this.userWayFeatures.addTo(this.map);
 
@@ -514,7 +513,6 @@ class ProjectMap extends React.Component {
             this.wayFeatures.addTo(this.map);
           }
           else {
-            console.log("Existing intersections");
             this.userWayFeatures.addTo(this.map);
             this.userIntersectionFeatures.addTo(this.map);
 
@@ -524,7 +522,6 @@ class ProjectMap extends React.Component {
         }
         else {
           if(this.state.selectionType === "way") {
-            console.log("New ways");
             this.intersectionFeatures.addTo(this.map);
             this.wayFeatures.addTo(this.map);
 
@@ -536,7 +533,6 @@ class ProjectMap extends React.Component {
             }
           }
           else {
-            console.log("New intersections");
             this.wayFeatures.addTo(this.map);
             this.intersectionFeatures.addTo(this.map);
 
