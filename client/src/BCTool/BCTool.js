@@ -12,6 +12,7 @@ import ProjectElements from './ProjectElements/ProjectElements';
 import SelectedInfrastructure from './SelectedInfrastructure/SelectedInfrastructure';
 import ProjectBenefits from './ProjectBenefits/ProjectBenefits';
 import BenefitsButton from './benefits-button';
+import ExportButton from './export-button';
 
 import calcTravel from './helpers/calcTravel';
 import calcVMTReductions from './helpers/calcVMTReductions';
@@ -21,6 +22,7 @@ import calcSafetyQualitative from './helpers/calcSafetyQualitative';
 import calcSafetyQuantitative from './helpers/calcSafetyQuantitative';
 import calcProjectQualitative from './helpers/calcProjectQualitative';
 import calcPedestrianDemand from './helpers/calcPedestrianDemand';
+import ExportPDF from './helpers/export';
 
 const infrastructure = require('./data/infrastructure.json');
 const non_infrastructure = require('./data/non_infrastructure.json');
@@ -285,6 +287,10 @@ class BCTool extends React.Component {
       'infrastructure': updated,
       'inputsChanged': true,
     });
+  }
+
+  exportBenefits = () => {
+    ExportPDF(this.state);
   }
 
   updateBenefits = () => {
@@ -656,6 +662,12 @@ class BCTool extends React.Component {
             <BenefitsButton
               showBenefits={this.state.showBenefits}
               updateBenefits={this.updateBenefits}
+              inputsChanged={this.state.inputsChanged}
+            />
+
+            <ExportButton
+              showBenefits={this.state.showBenefits}
+              exportBenefits={this.exportBenefits}
               inputsChanged={this.state.inputsChanged}
             />
           </div>
