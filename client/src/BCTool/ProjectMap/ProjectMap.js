@@ -125,6 +125,9 @@ class ProjectMap extends React.Component {
       // stop propagation to map
       Leaflet.DomEvent.stopPropagation(e);
 
+      // let the tool know about updated ways
+      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.userWays, this.userIntersections);
+
       // re render features
       this.renderFeatures();
     }
@@ -290,6 +293,9 @@ class ProjectMap extends React.Component {
             }
           });
 
+          // let the tool know about updated intersections
+          this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.userWays, this.userIntersections);
+
           // re render features
           this.renderFeatures();
         }
@@ -368,6 +374,9 @@ class ProjectMap extends React.Component {
 
       // stop propagation to map
       Leaflet.DomEvent.stopPropagation(e);
+
+      // let the tool know about updated intersections
+      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.userWays, this.userIntersections);
 
       // re render features
       this.renderFeatures();
@@ -656,7 +665,15 @@ class ProjectMap extends React.Component {
       }, this.renderFeatures);
     }
 
-    finish = () => {
+    finish = (oneway) => {
+
+      let length = this.calcLength(Leaflet.GeoJSON.coordsToLatLngs(this.state.userWayPoints));
+
+      if(!oneway) {
+        length *= 2;
+      }
+
+      // create the geojson and add to list of user defined ways
       this.userWays.push({
         "type": "Feature",
         "geometry": {
@@ -665,9 +682,15 @@ class ProjectMap extends React.Component {
         },
         "properties": {
           "id": uuidv4(),
+          "length": length,
+          "ONE_WAY_CA": oneway,
         }
       });
 
+      // let the tool know about updated ways
+      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.userWays, this.userIntersections);
+
+      // get ready to add another new way
       this.cancel();
     }
 
@@ -707,8 +730,9 @@ class ProjectMap extends React.Component {
 
             { mapMode === "add" && selectionType === "way" && userWayPoints.length ?
               <>
-              <button type="button" className="btn btn-primary ms-4" onClick={this.finish}>Finish Way</button>
-              <button type="button" className="btn btn-warning ms-4" onClick={this.cancel}>Cancel Way</button>
+              <button type="button" className="btn btn-primary ms-4" onClick={() => this.finish(false)}>Add as two way segment</button>
+              <button type="button" className="btn btn-primary ms-4" onClick={() => this.finish(true)}>Add as one way segment</button>
+              <button type="button" className="btn btn-warning ms-4" onClick={this.cancel}>Cancel Adding Segment</button>
               </>
             : null }
           </div>
