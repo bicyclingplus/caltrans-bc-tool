@@ -714,9 +714,11 @@ class ProjectMap extends React.Component {
           <div className="mb-4">
             <strong>Mode:</strong>
             <div className="btn-group ms-4" role="group" aria-label="Basic example">
-              <button type="button" className={existingClasses} onClick={this.selectExisting}>Select Existing</button>
-              <button type="button" className={addClasses} onClick={this.addNew}>Add New</button>
+              <button type="button" className={existingClasses} onClick={this.selectExisting}>Selecting Existing</button>
+              <button type="button" className={addClasses} onClick={this.addNew}>Add User Defined</button>
             </div>
+
+            <button type="button" className="btn btn-secondary ms-4" onClick={this.reset}>Reset Map</button>
           </div>
 
           <div className="mb-4">
@@ -725,8 +727,6 @@ class ProjectMap extends React.Component {
               <button type="button" className={wayClasses} onClick={this.selectWays}>Segments</button>
               <button type="button" className={intersectionClasses} onClick={this.selectIntersections}>Intersections</button>
             </div>
-
-            <button type="button" className="btn btn-secondary ms-4" onClick={this.reset}>Reset Map</button>
 
             { mapMode === "add" && selectionType === "way" && userWayPoints.length ?
               <>
