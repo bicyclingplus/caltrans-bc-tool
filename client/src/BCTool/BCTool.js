@@ -52,6 +52,8 @@ class BCTool extends React.Component {
       'length': 0,
       'selectedWays': [],
       'selectedIntersections': [],
+      'userWays': [],
+      'userIntersections': [],
 
       'existingTravel': {},
 
@@ -148,6 +150,8 @@ class BCTool extends React.Component {
 
             'selectedWays': [],
             'selectedIntersections': [],
+            'userWays': [],
+            'userIntersections': [],
 
             'infrastructure': infrastructure,
             'non-infrastructure': new_non_infrastructure,
@@ -321,7 +325,7 @@ class BCTool extends React.Component {
       this.state.infrastructure,
       travel,
       this.state.length,
-      this.state.selectedIntersections.length,
+      this.state.selectedIntersections.length+this.state.userIntersections.length,
       this.state.subtype);
 
     let benefits = {
@@ -393,8 +397,16 @@ class BCTool extends React.Component {
   };
 
 
-  updateMapSelections = (selectedWays, selectedIntersections) => {
+  updateMapSelections = (selectedWays, selectedIntersections, userWays, userIntersections) => {
 
+    console.log(`BEGIN PROJECT LENGTH CALCULATION!~~~~~~~~~~`);
+
+    // RECALCULATE PROJECT BIKE/PEDESTRIAN DEMAND AND PROJECT LENGTH
+
+    // keep track of the total project length in feet (user selected + user defined)
+    let projectLength = 0;
+
+    // new travel demand object
     let existingTravel = {
       "miles": {
         "bike": {
@@ -434,32 +446,47 @@ class BCTool extends React.Component {
       },
     };
 
-    let waysTravel = [];
-    let length = 0;
+    // CALCULATE BIKE DEMAND
 
+    // AVERAGE NEEDED PROPERTIES FOR USER SELECTED WAYS
+    // Avg lower/mean/upper used for user defined ways
+    // Avg pops/jobs used for user selected ways that are missing
+    // these properties as well as user defined ways
+    let wayLower = [];
+    let wayAvg = [];
+    let wayUpper = [];
     let wayPops = [];
     let wayJobs = [];
 
     for(let way of selectedWays) {
+      if(way.properties.low_daily) {
+        wayLower.push(parseInt(way.properties.low_daily));
+      }
+      if(way.properties.Avg_daily) {
+        wayAvg.push(parseInt(way.properties.Avg_daily));
+      }
+      if(way.properties.high_daily) {
+        wayUpper.push(parseInt(way.properties.high_daily));
+      }
       if(way.properties.Jobs) {
         wayJobs.push(way.properties.Jobs);
       }
       if(way.properties.population) {
         wayPops.push(way.properties.population);
       }
-
-      length += way.properties.length;
     }
 
+    let avgWayLower = wayLower.length ? wayLower.reduce((a,b) => a+b) / wayLower.length : null;
+    let avgWayAvg = wayAvg.length ? wayAvg.reduce((a,b) => a+b) / wayAvg.length : null;
+    let avgWayUpper = wayUpper.length ? wayUpper.reduce((a,b) => a+b) / wayUpper.length : null;
     let avgWayPop = wayPops.length ? wayPops.reduce((a,b) => a+b) / wayPops.length : null;
     let avgWayJobs = wayPops.length ? wayJobs.reduce((a,b) => a+b) / wayJobs.length : null;
 
-    // console.log(`Avg pop ${avgWayPop}`);
-    // console.log(`Avg jobs ${avgWayJobs}`);
+    // Array of demand objects per user selected or user defined way
+    let waysTravel = [];
 
+    // CALCULATE BIKE DEMAND PER USER SELECTED WAY
     for(let way of selectedWays) {
-
-      console.log(way.properties);
 
       let current = {
         'miles': {},
@@ -470,26 +497,65 @@ class BCTool extends React.Component {
       let lower = parseInt(way.properties.low_daily);
       let mean = parseInt(way.properties.Avg_daily);
       let upper = parseInt(way.properties.high_daily);
-      let population = way.properties.population ? way.properties.population : avgWayPop ;
+
+      // use properties for this way or the average of all selected ways if missing
+      let population = way.properties.population ? way.properties.population : avgWayPop;
       let jobs = way.properties.Jobs ? way.properties.Jobs : avgWayJobs;
+
+      // demand calcs all based on miles so convert feet -> miles here
       let wayLengthMiles = way.properties.length / 5280;
 
       current.miles.lower = lower * wayLengthMiles;
       current.miles.mean = mean * wayLengthMiles;
       current.miles.upper = upper * wayLengthMiles;
 
+      // divide by population for per capita
       current.capita.lower = current.miles.lower / population;
       current.capita.mean = current.miles.mean / population;
       current.capita.upper = current.miles.upper / population;
 
+      // divide by jobs for per jobs
       current.jobs.lower = current.miles.lower / jobs;
       current.jobs.mean = current.miles.mean / jobs;
       current.jobs.upper = current.miles.upper / jobs;
 
       waysTravel.push(current);
+      projectLength += way.properties.length;
+      console.log(`Adding selected way with length of ${way.properties.length}, total project length: ${projectLength}`);
     }
 
+    // CALCULATE BIKE DEMAND PER USER DEFINED WAY
+    for(let way of userWays) {
 
+      let current = {
+        'miles': {},
+        'capita': {},
+        'jobs': {},
+      };
+
+      // demand calcs all based on miles so convert feet -> miles here
+      let wayLengthMiles = way.properties.length / 5280;
+
+      // use averages for everything here because user defined ways
+      // won't have any of these properties
+      current.miles.lower = avgWayLower * wayLengthMiles;
+      current.miles.mean = avgWayAvg * wayLengthMiles;
+      current.miles.upper = avgWayUpper * wayLengthMiles;
+
+      current.capita.lower = current.miles.lower / avgWayPop;
+      current.capita.mean = current.miles.mean / avgWayPop;
+      current.capita.upper = current.miles.upper / avgWayPop;
+
+      current.jobs.lower = current.miles.lower / avgWayJobs;
+      current.jobs.mean = current.miles.mean / avgWayJobs;
+      current.jobs.upper = current.miles.upper / avgWayJobs;
+
+      waysTravel.push(current);
+      projectLength += way.properties.length;
+      console.log(`Adding defined way with length of ${way.properties.length}, total project length: ${projectLength}`);
+    }
+
+    // grab total bike demand by summing all ways
     for(let travel of waysTravel) {
       existingTravel.miles.bike.lower += travel.miles.lower;
       existingTravel.miles.bike.mean += travel.miles.mean;
@@ -504,14 +570,46 @@ class BCTool extends React.Component {
       existingTravel.jobs.bike.upper += travel.jobs.upper;
     }
 
-    // update ped demand
-    // each selected intersection has some prediction of pedestrian demand,
-    // we total these up here.
-    // then the demand is weighted by the project length and
-    // number of intersections
-    for(let intersection of selectedIntersections) {
+    // CALCULATED PEDESTRIAN DEMAND
 
-      console.log(intersection.properties);
+
+    // Grab the averages
+    // Avg lower/mean/upper/pops/jobs used for user defined intersections
+    let intersectionLower = [];
+    let intersectionAvg = [];
+    let intersectionUpper = [];
+    let intersectionPops = [];
+    let intersectionJobs = [];
+
+    for(let intersection of selectedIntersections) {
+      if(intersection.properties.low_pred) {
+        intersectionLower.push(parseInt(intersection.properties.low_pred));
+      }
+      if(intersection.properties.avg_pred) {
+        intersectionAvg.push(parseInt(intersection.properties.avg_pred));
+      }
+      if(intersection.properties.high_pred) {
+        intersectionUpper.push(parseInt(intersection.properties.high_pred));
+      }
+      if(intersection.properties.population) {
+        intersectionPops.push(parseInt(intersection.properties.population));
+      }
+      if(intersection.properties.Jobs) {
+        intersectionJobs.push(parseInt(intersection.properties.Jobs));
+      }
+    }
+
+    let avgIntersectionLower = intersectionLower.length ? intersectionLower.reduce((a,b) => a+b) / intersectionLower.length : null;
+    let avgIntersectionAvg = intersectionAvg.length ? intersectionAvg.reduce((a,b) => a+b) / intersectionAvg.length : null;
+    let avgIntersectionUpper = intersectionUpper.length ? intersectionUpper.reduce((a,b) => a+b) / intersectionUpper.length : null;
+    let avgIntersectionPops = intersectionPops.length ? intersectionPops.reduce((a,b) => a+b) / intersectionPops.length : null;
+    let avgIntersectionJobs = intersectionJobs.length ? intersectionJobs.reduce((a,b) => a+b) / intersectionJobs.length : null;
+
+
+    // CALCULATE PEDESTRIAN DEMAND FOR USER SELECTED INTERSECTIONS
+    // each selected intersection has some prediction of pedestrian demand,
+    // we add these to the total here
+    for(let intersection of selectedIntersections) {
 
       let lower = parseInt(intersection.properties.low_pred);
       let mean = parseInt(intersection.properties.avg_pred);
@@ -533,8 +631,26 @@ class BCTool extends React.Component {
 
     }
 
-    let projectLengthMiles = length / 5280;
-    let numIntersections = selectedIntersections.length;
+    // CALCULATE PEDESTRIAN DEMAND FOR USER DEFINED INTERSECTIONS
+    // user defined intersections won't have the necessary properties, so we use averages
+    // since they're all the same no need to loop through, just multiply by the
+    // number of user defined intersections
+    existingTravel.miles.pedestrian.lower += avgIntersectionLower * userIntersections.length;
+    existingTravel.miles.pedestrian.mean += avgIntersectionAvg * userIntersections.length;
+    existingTravel.miles.pedestrian.upper += avgIntersectionUpper * userIntersections.length;
+
+    existingTravel.capita.pedestrian.lower += (avgIntersectionLower * userIntersections.length) / avgIntersectionPops;
+    existingTravel.capita.pedestrian.mean += (avgIntersectionAvg * userIntersections.length) / avgIntersectionPops;
+    existingTravel.capita.pedestrian.upper += (avgIntersectionUpper * userIntersections.length) / avgIntersectionPops;
+
+    existingTravel.jobs.pedestrian.lower += (avgIntersectionLower * userIntersections.length) / avgIntersectionJobs;
+    existingTravel.jobs.pedestrian.mean += (avgIntersectionAvg * userIntersections.length) / avgIntersectionJobs;
+    existingTravel.jobs.pedestrian.upper += (avgIntersectionUpper * userIntersections.length) / avgIntersectionJobs;
+
+    // then the pedestrian demand is weighted by the project length and
+    // number of intersections
+    let projectLengthMiles = projectLength / 5280;
+    let numIntersections = selectedIntersections.length + userIntersections.length;
 
     if(numIntersections > 0) {
 
@@ -551,13 +667,15 @@ class BCTool extends React.Component {
       existingTravel.jobs.pedestrian.upper = calcPedestrianDemand(projectLengthMiles, numIntersections, existingTravel.jobs.pedestrian.upper);
     }
 
-    console.log(existingTravel);
+    // console.log(existingTravel);
 
     this.setState({
       'existingTravel': existingTravel,
       'selectedWays': selectedWays,
       'selectedIntersections': selectedIntersections,
-      'length': length,
+      'userWays': userWays,
+      'userIntersections': userIntersections,
+      'length': projectLength,
       'showBenefits': false,
       'inputsChanged': true,
     });
@@ -617,11 +735,11 @@ class BCTool extends React.Component {
         </div>
         : null }
 
-        { this.state['type'] === 'infrastructure' && (this.state.selectedIntersections.length || this.state.selectedWays.length) ?
+        { this.state['type'] === 'infrastructure' && (this.state.selectedIntersections.length || this.state.selectedWays.length || this.state.userWays.length || this.state.userIntersections.length) ?
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectSummary
-              intersections={this.state.selectedIntersections.length}
+              intersections={this.state.selectedIntersections.length+this.state.userIntersections.length}
               length={this.state.length}
               subtype={this.state['subtype']}
               travel={this.state.existingTravel} />
