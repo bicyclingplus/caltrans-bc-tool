@@ -25,7 +25,7 @@ export function readableNumber(number, places = 0, suffix = '') {
   //   );
   // }
 
-  let factor = Math.pow(10, 3);
+  let factor = Math.pow(10, places);
 
   if(number < 1) {
     return numberWithCommas(Math.round((number + Number.EPSILON) * factor) / factor) + suffix;
