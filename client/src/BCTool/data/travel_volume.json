@@ -52,5 +52,26 @@
 			"mean": 23,
 			"upper": 33
 		}
+	},
+	"off-street-bike-path": {
+		"bike": {
+			"lower": 21,
+			"mean": 96,
+			"upper": 171
+		}
+	},
+	"bike-boulevard": {
+		"bike": {
+			"lower": 77,
+			"mean": 174,
+			"upper": 271
+		}
+	},
+	"multi-use-path": {
+		"bike": {
+			"lower": 21,
+			"mean": 96,
+			"upper": 171
+		}
 	}
 }
