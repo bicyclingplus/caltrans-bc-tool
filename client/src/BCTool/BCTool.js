@@ -399,7 +399,7 @@ class BCTool extends React.Component {
 
   updateMapSelections = (selectedWays, selectedIntersections, userWays, userIntersections) => {
 
-    console.log(`BEGIN PROJECT LENGTH CALCULATION!~~~~~~~~~~`);
+    // console.log(`BEGIN PROJECT LENGTH CALCULATION!~~~~~~~~~~`);
 
     // RECALCULATE PROJECT BIKE/PEDESTRIAN DEMAND AND PROJECT LENGTH
 
@@ -521,7 +521,7 @@ class BCTool extends React.Component {
 
       waysTravel.push(current);
       projectLength += way.properties.length;
-      console.log(`Adding selected way with length of ${way.properties.length}, total project length: ${projectLength}`);
+      // console.log(`Adding selected way with length of ${way.properties.length}, total project length: ${projectLength}`);
     }
 
     // CALCULATE BIKE DEMAND PER USER DEFINED WAY
@@ -552,7 +552,7 @@ class BCTool extends React.Component {
 
       waysTravel.push(current);
       projectLength += way.properties.length;
-      console.log(`Adding defined way with length of ${way.properties.length}, total project length: ${projectLength}`);
+      // console.log(`Adding defined way with length of ${way.properties.length}, total project length: ${projectLength}`);
     }
 
     // grab total bike demand by summing all ways
