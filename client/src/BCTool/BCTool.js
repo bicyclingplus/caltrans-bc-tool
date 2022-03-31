@@ -365,7 +365,7 @@ class BCTool extends React.Component {
 
   updateCost = (e) => {
     this.setState({
-      'cost': e.target.value,
+      'cost': parseFloat(e.target.value),
     });
   };
 
