@@ -16,7 +16,7 @@ class Travel extends React.Component {
       { subtype !== 'pedestrian-only' ?
       <>
       <h5 className="mt-4">Estimated Average Daily Bike Miles Traveled (BMT)</h5>
-      <table className="table table-bordered">
+      <table className="table table-bordered" id="travel-bike">
         <tbody>
           <tr>
             <th colSpan="2"></th>
@@ -143,7 +143,7 @@ class Travel extends React.Component {
       { subtype !== 'bike-only' ?
       <>
       <h5 className="mt-4">Estimated Average Daily Walk Miles Traveled (WMT)</h5>
-      <table className="table table-bordered">
+      <table className="table table-bordered" id="travel-pedestrian">
         <tbody>
           <tr>
             <th colSpan="2"></th>

@@ -22,7 +22,7 @@ class SafetyQualitative extends React.Component {
 		return (
 			<>
 			<h4 className="mt-4">Element Specific Benefits</h4>
-			<table className="table">
+			<table className="table" id="element-specific">
 				<thead>
 					<tr>
 						<th>Infrastructure Element</th>
