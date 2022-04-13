@@ -2,7 +2,7 @@ export function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-export function readableNumber(number, places = 0, suffix = '') {
+export function readableNumber(number, places = 3, suffix = '') {
 
   if(Number.isNaN(number)) {
     return "N/A";
