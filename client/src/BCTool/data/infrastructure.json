@@ -132,15 +132,8 @@
 					"calc_units": "length"
 				},
 				{
-					"label": "Multi-Use Path",
-					"shortname": "multi-use-path",
-					"description": "",
-					"units": "length",
-					"calc_units": "length"
-				},
-				{
-					"label": "Off-Street Bike Path (Sidepaths included)",
-					"shortname": "off-street-bike-path",
+					"label": "Off-street multiuse or bike path (sidepaths included)",
+					"shortname": "off-street-multi-use-or-bike-path",
 					"description": "",
 					"units": "length",
 					"calc_units": "length"

@@ -53,7 +53,7 @@
 			"upper": 33
 		}
 	},
-	"off-street-bike-path": {
+	"off-street-multi-use-or-bike-path": {
 		"bike": {
 			"lower": 21,
 			"mean": 96,
@@ -65,13 +65,6 @@
 			"lower": 77,
 			"mean": 174,
 			"upper": 271
-		}
-	},
-	"multi-use-path": {
-		"bike": {
-			"lower": 21,
-			"mean": 96,
-			"upper": 171
 		}
 	}
 }

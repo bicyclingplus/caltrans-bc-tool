@@ -107,7 +107,7 @@
 			"sources": "Beyer & Ker 2009, Welsh & Farrington 2008"
 		}
 	],
-	"multi-use-path": [
+	"off-street-multi-use-or-bike-path": [
 		{
 			"description": "Multi-use paths are associated with a 25% reduction in crashes and increased physical activity among those living near them. Physical activity increased more among women, children, and seniors.",
 			"sources": "Kaczynski et. al. (2009)"
