@@ -1,3 +1,5 @@
+import { SCALING_FACTORS } from './constants';
+
 const quantitative = require('../data/quantitative.json');
 
 function _calc(infrastructure, travel, length, intersections, subtype) {
@@ -38,76 +40,85 @@ function _calc(infrastructure, travel, length, intersections, subtype) {
       // if selected and has benefits
       if(item.selected && item.shortname in quantitative) {
 
-        let benefit = quantitative[item.shortname];
-        let share = 0;
+        for(let type in SCALING_FACTORS) {
 
-        // get share
-        if(item.calc_units === 'length') {
-
-          if(item.units === 'count') {
-            // In this case we ask them for a count and
-            // then apply a preset length per item
-            // i.e. lights every 100 feet
-            // and then apply that as a portion of the
-            // total project length
-            // all are assumed to be per 100 feet right now
-            // this will probably change at some point.
-            share = (item.value * 100) / length;
+          if(item[type] === 0) {
+            continue;
           }
-          else if(item.units === 'length') {
-            share = item.value / length;
-          }
-        }
-        else if(item.calc_units === 'count') {
-          share = item.value / intersections;
-        }
 
-        // for each effect
-        // bike append to bike and combined percent + share
-        // ped append to ped and combined percent + share
-        // all append to combined percent + share
-        for(let effect of benefit) {
+          let benefit = quantitative[item.shortname];
+          let share = 0;
 
-          if(effect.mode === 'bike') {
-            benefits.bike[effect.parameter].push({
-              'lower': effect.lower,
-              'mean': effect.mean,
-              'upper': effect.upper,
-              'share': share,
-            });
+          // get share
+          if(item.calc_units === 'length') {
 
-            benefits.combined[effect.parameter].push({
-              'lower': effect.lower,
-              'mean': effect.mean,
-              'upper': effect.upper,
-              'share': share,
-            });
+            if(item.units === 'count') {
+              // In this case we ask them for a count and
+              // then apply a preset length per item
+              // i.e. lights every 100 feet
+              // and then apply that as a portion of the
+              // total project length
+              // all are assumed to be per 100 feet right now
+              // this will probably change at some point.
+              share = (item[type] * 100) / length;
+            }
+            else if(item.units === 'length') {
+              share = item[type] / length;
+            }
           }
-          else if(effect.mode === 'pedestrian') {
-            benefits.pedestrian[effect.parameter].push({
-              'lower': effect.lower,
-              'mean': effect.mean,
-              'upper': effect.upper,
-              'share': share,
-            });
+          else if(item.calc_units === 'count') {
+            share = item[type] / intersections;
+          }
 
-            benefits.combined[effect.parameter].push({
-              'lower': effect.lower,
-              'mean': effect.mean,
-              'upper': effect.upper,
-              'share': share,
-            });
-          }
-          else if(effect.mode === 'all') {
-            benefits.combined[effect.parameter].push({
-              'lower': effect.lower,
-              'mean': effect.mean,
-              'upper': effect.upper,
-              'share': share,
-            });
-          }
-          else {
-            console.log(`Unknown effect mode: ${effect.mode}!`);
+          share *= SCALING_FACTORS[type];
+
+          // for each effect
+          // bike append to bike and combined percent + share
+          // ped append to ped and combined percent + share
+          // all append to combined percent + share
+          for(let effect of benefit) {
+
+            if(effect.mode === 'bike') {
+              benefits.bike[effect.parameter].push({
+                'lower': effect.lower,
+                'mean': effect.mean,
+                'upper': effect.upper,
+                'share': share,
+              });
+
+              benefits.combined[effect.parameter].push({
+                'lower': effect.lower,
+                'mean': effect.mean,
+                'upper': effect.upper,
+                'share': share,
+              });
+            }
+            else if(effect.mode === 'pedestrian') {
+              benefits.pedestrian[effect.parameter].push({
+                'lower': effect.lower,
+                'mean': effect.mean,
+                'upper': effect.upper,
+                'share': share,
+              });
+
+              benefits.combined[effect.parameter].push({
+                'lower': effect.lower,
+                'mean': effect.mean,
+                'upper': effect.upper,
+                'share': share,
+              });
+            }
+            else if(effect.mode === 'all') {
+              benefits.combined[effect.parameter].push({
+                'lower': effect.lower,
+                'mean': effect.mean,
+                'upper': effect.upper,
+                'share': share,
+              });
+            }
+            else {
+              console.log(`Unknown effect mode: ${effect.mode}!`);
+            }
           }
         }
       }
@@ -195,8 +206,8 @@ function _calc(infrastructure, travel, length, intersections, subtype) {
 
   }
 
-  console.log('RESULT');
-  console.log(calculatedBenefits);
+  // console.log('RESULT');
+  // console.log(calculatedBenefits);
 
   return calculatedBenefits;
 }

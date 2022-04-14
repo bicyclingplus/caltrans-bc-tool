@@ -5,7 +5,7 @@ import InfrastructureItem from './InfrastructureItem';
 class InfrastructureCategory extends React.Component {
 
     render() {
-        let { category, onValueChange, onTypeChange } = this.props;
+        let { category, onValueChange } = this.props;
 
         return (
             <>
@@ -28,11 +28,11 @@ class InfrastructureCategory extends React.Component {
                                     key={item.shortname}
                                     shortname={item.shortname}
                                     label={item.label}
-                                    value={item.value}
+                                    newValue={item.new}
+                                    upgradeValue={item.upgrade}
+                                    retrofitValue={item.retrofit}
                                     units={item.units}
                                     onValueChange={onValueChange}
-                                    onTypeChange={onTypeChange}
-                                    type={item.type}
                                 />
                             ))
                     }

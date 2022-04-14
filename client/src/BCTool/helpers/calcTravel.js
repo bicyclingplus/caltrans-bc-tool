@@ -1,3 +1,5 @@
+import { SCALING_FACTORS } from './constants';
+
 const travel_volume = require('../data/travel_volume.json');
 
 const INDUCED_TRAVEL = {
@@ -19,8 +21,6 @@ const OTHER_SHIFT = {
     'bike': 11.75,
     'pedestrian': 47.99,
 };
-
-const SCALING_FACTOR = 0.1;
 
 function calcTravelMode(mode, infrastructure, existingTravel, length) {
 
@@ -51,24 +51,28 @@ function calcTravelMode(mode, infrastructure, existingTravel, length) {
 
                         if(mode in travel_volume[element]) {
 
+                            for(let type in SCALING_FACTORS) {
+
+                                if(item[type] === 0) {
+                                    continue;
+                                  }
+
+                                let share = item[type] / length;
+                                let multiplier = SCALING_FACTORS[type];
+
+                                increases.push({
+                                    'lower': ((travel_volume[element][mode].lower / 100) * travel.existing.lower) * share * multiplier,
+                                    'mean': ((travel_volume[element][mode].mean / 100) * travel.existing.mean) * share * multiplier,
+                                    'upper': ((travel_volume[element][mode].upper / 100) * travel.existing.upper) * share * multiplier,
+                                });
+                            }
+
                             // console.log(`Adding travel increase for ${mode} for ${element}`);
 
                             // TODO: HOW TO HANDLE THE CASE WHERE THIS IS A COUNT INSTEAD OF A LENGTH?
                             // e.g. CROSSING ISLAND, we ask for count, but how to calculate the share?
                             // it belongs to intersections, so use that?
                             // BUT WHAT ABOUT THE BLOCK FACE STUFF THAT IS IN COUNTS?
-                            let share = item.value / length;
-                            let multiplier = item.type === "retrofit" ? SCALING_FACTOR : 1;
-
-                            // console.log(`Multiplier for ${element} is ${multiplier}`)
-
-                            // console.log(`Share is ${share}`);
-
-                            increases.push({
-                                'lower': ((travel_volume[element][mode].lower / 100) * travel.existing.lower) * share * multiplier,
-                                'mean': ((travel_volume[element][mode].mean / 100) * travel.existing.mean) * share * multiplier,
-                                'upper': ((travel_volume[element][mode].upper / 100) * travel.existing.upper) * share * multiplier,
-                            });
 
                         }
                     }

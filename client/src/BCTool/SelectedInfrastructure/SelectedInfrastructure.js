@@ -9,7 +9,6 @@ class SelectedInfrastructure extends React.Component {
         let {
           categories,
           onValueChange,
-          onTypeChange,
           multi
         } = this.props;
 
@@ -32,7 +31,6 @@ class SelectedInfrastructure extends React.Component {
                     key={category.shortname}
                     category={category}
                     onValueChange={onValueChange}
-                    onTypeChange={onTypeChange}
                 />
             )
           }

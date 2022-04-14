@@ -110,12 +110,16 @@ class BCTool extends React.Component {
 
       for(let item of infrastructure.categories[category].items) {
 
-        let type = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].type : '';
-        let value = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].value : 0;
+        // let type = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].type : '';
+        // let value = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].value : 0;
 
         item.selected = preselected.includes(item.shortname);
-        item.value = value;
-        item.type = type;
+        // item.value = value;
+        // item.type = type;
+
+        item.new = 0;
+        item.upgrade = 0;
+        item.retrofit = 0;
       }
     }
 
@@ -246,9 +250,9 @@ class BCTool extends React.Component {
     });
   }
 
-  onValueChange = (shortname, value) => {
+  onValueChange = (shortname, type, value) => {
 
-    // console.log(`Item ${shortname} changed to ${value}`);
+    // console.log(`Item ${shortname} changed ${type} to ${value}`);
 
     let updated = this.state.infrastructure;
 
@@ -258,7 +262,7 @@ class BCTool extends React.Component {
       for(let item of category.items) {
 
         if(item.shortname === shortname) {
-          item.value = value;
+          item[type] = value;
           break outer;
         }
       }
@@ -271,35 +275,13 @@ class BCTool extends React.Component {
 
   };
 
-  onTypeChange = (shortname, value) => {
-
-    let updated = this.state.infrastructure;
-
-    outer:
-    for(let category of updated.categories) {
-
-      for(let item of category.items) {
-
-        if(item.shortname === shortname) {
-          item.type = value;
-          break outer;
-        }
-      }
-    }
-
-    this.setState({
-      'infrastructure': updated,
-      'inputsChanged': true,
-    });
-  }
-
   exportBenefits = () => {
     ExportPDF(this.state);
   }
 
   updateBenefits = () => {
 
-    console.log(this.state.infrastructure);
+    // console.log(this.state.infrastructure);
 
     let projectQualitative = calcProjectQualitative(
       this.state.infrastructure,
@@ -341,7 +323,7 @@ class BCTool extends React.Component {
       benefits.safetyQuantitative = safetyQuantitative;
     }
 
-    console.log(benefits);
+    // console.log(benefits);
 
     this.setState({
       'showBenefits': true,
@@ -767,7 +749,6 @@ class BCTool extends React.Component {
             <SelectedInfrastructure
               categories={this.state.infrastructure.categories}
               onValueChange={this.onValueChange}
-              onTypeChange={this.onTypeChange}
               multi={this.state['multi-selected']}
             />
           </div>
