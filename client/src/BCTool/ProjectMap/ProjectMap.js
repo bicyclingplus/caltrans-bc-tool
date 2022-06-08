@@ -2,6 +2,8 @@ import React from 'react';
 import Leaflet from 'leaflet';
 import { v4 as uuidv4 } from 'uuid';
 
+import symbology from './symbology';
+
 import 'leaflet/dist/leaflet.css';
 import './ProjectMap.css';
 
@@ -60,24 +62,23 @@ class ProjectMap extends React.Component {
 
     styleWay = (feature) => {
 
-      let color = "gray"
+      let color = symbology.pre_existing.link.color;
 
       if(this.selectedWayIds.includes(feature.properties.edgeUID)) {
-        color = "#00FFFF";
-        // color = "#022851";
+        color = symbology.pre_existing.link.color_selected;
       }
 
       return {
         color: color,
-        weight: 8,
+        weight: symbology.pre_existing.link.weight,
 
       };
     }
 
     styleUserWay = () => {
       return {
-        color: "purple",
-        weight: 8,
+        color: symbology.user_defined.link.color,
+        weight: symbology.user_defined.link.weight,
 
       };
     }
@@ -312,44 +313,43 @@ class ProjectMap extends React.Component {
     userPointToLayer = (feature, latlng) => {
 
       return Leaflet.circleMarker(latlng, {
-        radius: 10,
-        fillColor: "black",
-        color: "#000",
-        weight: 0,
-        opacity: 1,
-        fillOpacity: 0.8
+        radius: symbology.user_defined.intersection.radius,
+        fillColor: symbology.user_defined.intersection.color_fill,
+        color: symbology.user_defined.intersection.color_border,
+        weight: symbology.user_defined.intersection.weight,
+        opacity: symbology.user_defined.intersection.opacity,
+        fillOpacity: symbology.user_defined.intersection.fillOpacity,
       });
     }
 
     userWayPointToLayer = (feature, latlng) => {
 
       return Leaflet.circleMarker(latlng, {
-        radius: 10,
-        fillColor: "purple",
-        color: "#000",
-        weight: 0,
-        opacity: 1,
-        fillOpacity: 0.8
+        radius: symbology.user_defined.waypoint.radius,
+        fillColor: symbology.user_defined.waypoint.color_fill,
+        color: symbology.user_defined.waypoint.color_border,
+        weight: symbology.user_defined.waypoint.weight,
+        opacity: symbology.user_defined.waypoint.opacity,
+        fillOpacity: symbology.user_defined.waypoint.fillOpacity,
       });
     }
 
     pointToLayer = (feature, latlng) => {
 
       // Selected feature styling
-      let color = "grey";
+      let color = symbology.pre_existing.intersection.color_fill;
 
       if(this.selectedIntersectionIds.includes(feature.properties.nodeID)) {
-        // color = "#00FFFF";
-        color = "#FFBF00";
+        color = symbology.pre_existing.intersection.color_fill_selected;
       }
 
       return Leaflet.circleMarker(latlng, {
-        radius: 10,
+        radius: symbology.pre_existing.intersection.radius,
         fillColor: color,
-        color: "#000",
-        weight: 0,
-        opacity: 1,
-        fillOpacity: 0.8
+        color: symbology.pre_existing.intersection.color_border,
+        weight: symbology.pre_existing.intersection.weight,
+        opacity: symbology.pre_existing.intersection.opacity,
+        fillOpacity: symbology.pre_existing.intersection.fillOpacity,
       })
     }
 
