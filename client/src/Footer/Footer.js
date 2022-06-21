@@ -2,9 +2,11 @@ import './Footer.css';
 
 function Footer() {
   return (
-    <footer className="footer bg-light mt-3">
-      <div className="container text-center">
-        <span className="text-muted">Footer</span>
+    <footer className="container-fluid">
+      <div className="row">
+        <div className="col clearfix">
+          <h1 className="float-end">Caltrans Logo</h1>
+        </div>
       </div>
     </footer>
   );

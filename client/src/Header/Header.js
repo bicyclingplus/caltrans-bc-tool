@@ -1,12 +1,44 @@
 import './Header.css';
+import resourcesIcon from './resources.png';
+import helpIcon from './help.png';
 
 function Header() {
   return (
-    <header className="header bg-light pt-2 pb-2">
-      <div className="container text-center">
-        Caltrans Active Transportation Benefit-Cost Tool
+    <>
+    <div className="container-fluid top-header">
+      <div className="row">
+        <div className="col clearfix">
+          <h1 className="float-start">ITS Logo</h1>
+          <h1 className="float-end">ATRC Logo</h1>
+        </div>
       </div>
-    </header>
+    </div>
+    <nav className="navbar navbar-expand">
+      <div className="container-fluid">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex-wrap">
+         <li className="nav-item dropdown">
+          <a className="nav-link dropdown-toggle" href="#" id="resourcesDropdow" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src={resourcesIcon} alt="book icon" /> Resources
+          </a>
+          <ul className="dropdown-menu" aria-labelledby="resourcesDropdow">
+            <li><a className="dropdown-item" href="#">Technical Documentation</a></li>
+            <li><a className="dropdown-item" href="#">Literature Review</a></li>
+          </ul>
+          </li>
+          <li className="nav-item dropdown">
+          <a className="nav-link dropdown-toggle" href="#" id="helpDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src={helpIcon} alt="pencil icon" /> Help
+          </a>
+          <ul className="dropdown-menu" aria-labelledby="helpDropdown">
+            <li><a className="dropdown-item" href="#">About</a></li>
+            <li><a className="dropdown-item" href="#">User Guide</a></li>
+            <li><a className="dropdown-item" href="#">Training</a></li>
+          </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    </>
 
   );
 }
