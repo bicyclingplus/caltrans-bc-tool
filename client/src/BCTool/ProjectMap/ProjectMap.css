@@ -2,3 +2,42 @@
 	height: 800px;
 	width: 100%;
 }
+
+.btn-existing {
+	background-color: #FFBF00;
+	color: #022851;
+}
+
+.btn-existing:hover {
+	background-color: #FFBF00;
+	color: #022851;
+}
+
+.btn-outline-existing {
+	color: #6c757d;
+	border-color: #FFBF00;
+}
+
+.btn-outline-existing:hover {
+	color: #022851;
+	background-color: #FFBF00;
+}
+
+.btn-user-defined {
+	background-color: #C6007E;
+	color: white;
+}
+
+.btn-user-defined:hover {
+	color: white;
+}
+
+.btn-outline-user-defined {
+	color: #6c757d;
+	border-color: #C6007E;
+}
+
+.btn-outline-user-defined:hover {
+	color: white;
+	background-color: #C6007E;
+}

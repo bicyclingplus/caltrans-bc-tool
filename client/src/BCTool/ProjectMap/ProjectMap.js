@@ -62,31 +62,18 @@ class ProjectMap extends React.Component {
 
     styleWay = (feature) => {
 
-      let color = symbology.pre_existing.link.color;
-      let opacity = symbology.pre_existing.link.opacity;
-
       if(this.selectedWayIds.includes(feature.properties.edgeUID)) {
-        color = symbology.pre_existing.link.color_selected;
-        opacity = symbology.pre_existing.link.opacity_selected;
+
+        return symbology.pre_existing.selected.link;
       }
 
-      return {
-        color: color,
-        weight: symbology.pre_existing.link.weight,
-        opacity: opacity,
-
-      };
+      return symbology.pre_existing.default.link;
     }
 
     styleUserWay = () => {
-      return {
-        color: symbology.user_defined.link.color,
-        weight: symbology.user_defined.link.weight,
-        opacity: symbology.user_defined.link.opacity,
 
-      };
+      return symbology.user_defined.link;
     }
-
 
     calcLengthArray = (latlngs) => {
       let total = latlngs[0].distanceTo(latlngs[1]);
@@ -316,47 +303,23 @@ class ProjectMap extends React.Component {
 
     userPointToLayer = (feature, latlng) => {
 
-      return Leaflet.circleMarker(latlng, {
-        radius: symbology.user_defined.intersection.radius,
-        fillColor: symbology.user_defined.intersection.color_fill,
-        color: symbology.user_defined.intersection.color_border,
-        weight: symbology.user_defined.intersection.weight,
-        opacity: symbology.user_defined.intersection.opacity,
-        fillOpacity: symbology.user_defined.intersection.fillOpacity,
-      });
+      return Leaflet.circleMarker(latlng, symbology.user_defined.intersection);
     }
 
     userWayPointToLayer = (feature, latlng) => {
 
-      return Leaflet.circleMarker(latlng, {
-        radius: symbology.user_defined.waypoint.radius,
-        fillColor: symbology.user_defined.waypoint.color_fill,
-        color: symbology.user_defined.waypoint.color_border,
-        weight: symbology.user_defined.waypoint.weight,
-        opacity: symbology.user_defined.waypoint.opacity,
-        fillOpacity: symbology.user_defined.waypoint.fillOpacity,
-      });
+      return Leaflet.circleMarker(latlng, symbology.user_defined.waypoint);
     }
 
     pointToLayer = (feature, latlng) => {
 
-      // Selected feature styling
-      let color = symbology.pre_existing.intersection.color_fill;
-      let fillOpacity = symbology.pre_existing.intersection.fillOpacity;
+      let opts = symbology.pre_existing.default.intersection;
 
       if(this.selectedIntersectionIds.includes(feature.properties.nodeID)) {
-        color = symbology.pre_existing.intersection.color_fill_selected;
-        fillOpacity = symbology.pre_existing.intersection.fillOpacity_selected;
+        opts = symbology.pre_existing.selected.intersection;
       }
 
-      return Leaflet.circleMarker(latlng, {
-        radius: symbology.pre_existing.intersection.radius,
-        fillColor: color,
-        color: symbology.pre_existing.intersection.color_border,
-        weight: symbology.pre_existing.intersection.weight,
-        opacity: symbology.pre_existing.intersection.opacity,
-        fillOpacity: fillOpacity,
-      })
+      return Leaflet.circleMarker(latlng, opts);
     }
 
     onEachIntersection = (feature, mapLayer) => {
@@ -709,11 +672,11 @@ class ProjectMap extends React.Component {
       let { interactive } = this.props;
       let { mapMode, selectionType, userWayPoints } = this.state;
 
-      let existingClasses = mapMode === 'existing' ? `btn btn-secondary active` : `btn btn-outline-secondary`;
-      let addClasses = mapMode === 'add' ? `btn btn-secondary active` : `btn btn-outline-secondary`;
+      let existingClasses = mapMode === 'existing' ? `btn btn-existing` : `btn btn-outline-existing`;
+      let addClasses = mapMode === 'add' ? `btn btn-user-defined active` : `btn btn-outline-user-defined`;
 
-      let wayClasses = selectionType === 'way' ? `btn btn-primary active` : `btn btn-outline-primary`;
-      let intersectionClasses = selectionType === 'intersection' ? `btn btn-primary active` : `btn btn-outline-primary`;
+      let wayClasses = selectionType === 'way' ? `btn btn-secondary active` : `btn btn-outline-secondary`;
+      let intersectionClasses = selectionType === 'intersection' ? `btn btn-secondary active` : `btn btn-outline-secondary`;
 
       // TODO refactor selector to separate component?
 
@@ -728,7 +691,7 @@ class ProjectMap extends React.Component {
               <button type="button" className={addClasses} onClick={this.addNew}>Add User Defined</button>
             </div>
 
-            <button type="button" className="btn btn-secondary ms-4" onClick={this.reset}>Reset Map</button>
+            <button type="button" className="btn btn-outline-secondary ms-4" onClick={this.reset}>Reset Map</button>
           </div>
 
           <div className="mb-4">
@@ -740,9 +703,9 @@ class ProjectMap extends React.Component {
 
             { mapMode === "add" && selectionType === "way" && userWayPoints.length ?
               <>
-              <button type="button" className="btn btn-primary ms-4" onClick={() => this.finish(false)}>Add as two way segment</button>
-              <button type="button" className="btn btn-primary ms-4" onClick={() => this.finish(true)}>Add as one way segment</button>
-              <button type="button" className="btn btn-light ms-4" onClick={this.cancel}>Cancel Adding Segment</button>
+              <button type="button" className="btn btn-user-defined ms-4" onClick={() => this.finish(false)}>Add as two way segment</button>
+              <button type="button" className="btn btn-user-defined ms-4" onClick={() => this.finish(true)}>Add as one way segment</button>
+              <button type="button" className="btn btn-outline-user-defined ms-4" onClick={this.cancel}>Cancel Adding Segment</button>
               </>
             : null }
           </div>
