@@ -63,14 +63,17 @@ class ProjectMap extends React.Component {
     styleWay = (feature) => {
 
       let color = symbology.pre_existing.link.color;
+      let opacity = symbology.pre_existing.link.opacity;
 
       if(this.selectedWayIds.includes(feature.properties.edgeUID)) {
         color = symbology.pre_existing.link.color_selected;
+        opacity = symbology.pre_existing.link.opacity_selected;
       }
 
       return {
         color: color,
         weight: symbology.pre_existing.link.weight,
+        opacity: opacity,
 
       };
     }
@@ -79,6 +82,7 @@ class ProjectMap extends React.Component {
       return {
         color: symbology.user_defined.link.color,
         weight: symbology.user_defined.link.weight,
+        opacity: symbology.user_defined.link.opacity,
 
       };
     }
@@ -338,9 +342,11 @@ class ProjectMap extends React.Component {
 
       // Selected feature styling
       let color = symbology.pre_existing.intersection.color_fill;
+      let fillOpacity = symbology.pre_existing.intersection.fillOpacity;
 
       if(this.selectedIntersectionIds.includes(feature.properties.nodeID)) {
         color = symbology.pre_existing.intersection.color_fill_selected;
+        fillOpacity = symbology.pre_existing.intersection.fillOpacity_selected;
       }
 
       return Leaflet.circleMarker(latlng, {
@@ -349,7 +355,7 @@ class ProjectMap extends React.Component {
         color: symbology.pre_existing.intersection.color_border,
         weight: symbology.pre_existing.intersection.weight,
         opacity: symbology.pre_existing.intersection.opacity,
-        fillOpacity: symbology.pre_existing.intersection.fillOpacity,
+        fillOpacity: fillOpacity,
       })
     }
 
@@ -594,6 +600,10 @@ class ProjectMap extends React.Component {
           this.onMapMove();
         });
 
+        this.map.on('zoomlevelschange', () => {
+          console.log(this.map.getZoom());
+        });
+
         this.map.on('click', (e) => {
           this.onMapClick(e);
         });
@@ -732,7 +742,7 @@ class ProjectMap extends React.Component {
               <>
               <button type="button" className="btn btn-primary ms-4" onClick={() => this.finish(false)}>Add as two way segment</button>
               <button type="button" className="btn btn-primary ms-4" onClick={() => this.finish(true)}>Add as one way segment</button>
-              <button type="button" className="btn btn-warning ms-4" onClick={this.cancel}>Cancel Adding Segment</button>
+              <button type="button" className="btn btn-light ms-4" onClick={this.cancel}>Cancel Adding Segment</button>
               </>
             : null }
           </div>
