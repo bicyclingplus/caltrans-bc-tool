@@ -32,7 +32,7 @@ class ProjectSummary extends React.Component {
         return (
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title text-center">Project Summary (existing roads and paths only)</h4>
+                <h4 className="card-title text-center">Project Summary</h4>
 
                 <h5>Project Reach</h5>
                 <ul className="list-unstyled">
