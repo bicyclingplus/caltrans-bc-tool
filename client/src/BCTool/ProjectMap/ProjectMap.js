@@ -685,20 +685,21 @@ class ProjectMap extends React.Component {
           { interactive ?
           <>
           <div className="mb-4">
-            <strong>Mode:</strong>
+            <strong>Selecting on map:</strong>
             <div className="btn-group ms-4" role="group" aria-label="Basic example">
-              <button type="button" className={existingClasses} onClick={this.selectExisting}>Selecting Existing</button>
-              <button type="button" className={addClasses} onClick={this.addNew}>Add User Defined</button>
+              <button type="button" className={wayClasses} onClick={this.selectWays}>Segments</button>
+              <button type="button" className={intersectionClasses} onClick={this.selectIntersections}>Intersections</button>
             </div>
 
             <button type="button" className="btn btn-outline-secondary ms-4" onClick={this.reset}>Reset Map</button>
           </div>
 
           <div className="mb-4">
-            <strong>Selecting on map:</strong>
+
+            <strong>Mode:</strong>
             <div className="btn-group ms-4" role="group" aria-label="Basic example">
-              <button type="button" className={wayClasses} onClick={this.selectWays}>Segments</button>
-              <button type="button" className={intersectionClasses} onClick={this.selectIntersections}>Intersections</button>
+              <button type="button" className={existingClasses} onClick={this.selectExisting}>Selecting Existing</button>
+              <button type="button" className={addClasses} onClick={this.addNew}>Add User Defined</button>
             </div>
 
             { mapMode === "add" && selectionType === "way" && userWayPoints.length ?
