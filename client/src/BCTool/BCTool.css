@@ -11,3 +11,18 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
+.section-header {
+  background-color: #022851;
+  color: white;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.section-sub-header {
+  background-color: #FFBF00;
+  color: #022851;
+  padding-left:  0.3em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}

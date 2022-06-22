@@ -39,7 +39,7 @@ class SelectedInfrastructure extends React.Component {
         return (
             <div className="card">
               <div className="card-body">
-                  <h4 className="card-title text-center">Selected Infrastructure Elements</h4>
+                  <h4 className="card-title text-center section-header">Selected Infrastructure Elements</h4>
 
                   { multi ?
                   <p className="mt-5 mb-5 text-primary">

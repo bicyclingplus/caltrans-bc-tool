@@ -32,15 +32,14 @@ class ProjectBenefits extends React.Component {
       <div className="card">
         <div className="card-body">
 
-            <h4>Project Name: {name}</h4>
-            <h4 className="mt-4">Project Cost: ${readableNumber(cost)}</h4>
+            <h4 className="card-title text-center section-header">Project Benefits</h4>
 
             { benefits.travel ?
             <Travel benefits={benefits.travel} subtype={subtype} />
             : null }
 
             { benefits.safetyQuantitative || benefits.emissions || benefits.health ?
-            <h4 className="mt-4">
+            <h4 className="mt-4  section-sub-header">
               Project-Level Quantitative Benefits
               <i id={`project-timeframe-tooltip`}
                 className="bi bi-info-circle ms-2"

@@ -17,7 +17,7 @@ class ProjectElements extends React.Component {
     return (
       <div className="card">
         <div className="card-body">
-          <h4 className="card-title text-center">Define Project Elements</h4>
+          <h4 className="card-title text-center section-header">Define Project Elements</h4>
 
           { type !== 'non-infrastructure' ?
           <div className="row mb-3 mt-4">
