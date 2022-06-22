@@ -15,7 +15,7 @@ function Header() {
     </div>
     <nav className="navbar navbar-expand">
       <div className="container-fluid">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex-wrap">
+        <ul className="navbar-nav me-auto mb-2 mb-lg-0 flex-wrap">
          <li className="nav-item dropdown">
           <a className="nav-link dropdown-toggle" href="#" id="resourcesDropdow" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img src={resourcesIcon} alt="book icon" /> Resources
