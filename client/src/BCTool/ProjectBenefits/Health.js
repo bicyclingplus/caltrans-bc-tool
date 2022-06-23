@@ -35,7 +35,7 @@ class HealthBenefits extends React.Component {
         </thead>
         <tbody>
           { subtype !== 'pedestrian-only' ?
-          <tr>
+          <tr className="striped-row">
             <th>Bicyling</th>
             <td className="text-end">{readableNumber(benefits.miles.bike.lower)}</td>
             <td className="text-end">{readableNumber(benefits.miles.bike.mean)}</td>
@@ -66,7 +66,7 @@ class HealthBenefits extends React.Component {
             <td className="text-end">{readableNumber(benefits.jobs.pedestrian.upper)}</td>
           </tr>
           : null }
-          <tr>
+          <tr className="striped-row">
             <th>TOTAL</th>
             <td className="text-end">{readableNumber(benefits.miles.total.lower)}</td>
             <td className="text-end">{readableNumber(benefits.miles.total.mean)}</td>

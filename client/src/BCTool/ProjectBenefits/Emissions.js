@@ -29,7 +29,7 @@ class Emissions extends React.Component {
             <th className="text-center">Mean</th>
             <th className="text-center">Upper</th>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <td className="text-end">{readableNumber(vmtReductions.miles.lower)}</td>
             <td className="text-end">{readableNumber(vmtReductions.miles.mean)}</td>
             <td className="text-end">{readableNumber(vmtReductions.miles.upper)}</td>
@@ -55,7 +55,7 @@ class Emissions extends React.Component {
           <tr>
             <th colSpan="7">Greenhouse Gasses</th>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <td>CO2</td>
             <td className="text-end">{readableNumber(emissions.miles.reductions['CO2'].lower)}</td>
             <td className="text-end">{readableNumber(emissions.miles.reductions['CO2'].mean)}</td>
@@ -83,7 +83,7 @@ class Emissions extends React.Component {
             <td className="text-end">{readableNumber(emissions.jobs.reductions['CH4'].mean)}</td>
             <td className="text-end">{readableNumber(emissions.jobs.reductions['CH4'].upper)}</td>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <td>N2O</td>
             <td className="text-end">{readableNumber(emissions.miles.reductions['N2O'].lower)}</td>
             <td className="text-end">{readableNumber(emissions.miles.reductions['N2O'].mean)}</td>
@@ -114,7 +114,7 @@ class Emissions extends React.Component {
           <tr>
             <th colSpan="7">Air Toxins</th>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <td>NOx</td>
             <td className="text-end">{readableNumber(emissions.miles.reductions['NOx'].lower)}</td>
             <td className="text-end">{readableNumber(emissions.miles.reductions['NOx'].mean)}</td>
@@ -142,7 +142,7 @@ class Emissions extends React.Component {
             <td className="text-end">{readableNumber(emissions.jobs.reductions['PM2.5'].mean)}</td>
             <td className="text-end">{readableNumber(emissions.jobs.reductions['PM2.5'].upper)}</td>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <td>PM 10</td>
             <td className="text-end">{readableNumber(emissions.miles.reductions['PM10'].lower)}</td>
             <td className="text-end">{readableNumber(emissions.miles.reductions['PM10'].mean)}</td>
@@ -170,7 +170,7 @@ class Emissions extends React.Component {
             <td className="text-end">{readableNumber(emissions.jobs.reductions['NH3'].mean)}</td>
             <td className="text-end">{readableNumber(emissions.jobs.reductions['NH3'].upper)}</td>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <td>CO</td>
             <td className="text-end">{readableNumber(emissions.miles.reductions['CO'].lower)}</td>
             <td className="text-end">{readableNumber(emissions.miles.reductions['CO'].mean)}</td>

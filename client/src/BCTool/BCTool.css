@@ -46,3 +46,8 @@
   border: 0;
   border-radius: 0;
 }
+
+.striped-row {
+  --bs-table-accent-bg: var(--bs-table-striped-bg);
+  color: var(--bs-table-striped-color);
+}

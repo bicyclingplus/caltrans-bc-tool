@@ -35,7 +35,7 @@ class SafetyQuantitative extends React.Component {
 		return (
 			<>
 			<h5 className="mt-4">Safety</h5>
-			<table className="table table-bordered" id="safety">
+			<table className="table table-bordered table-striped" id="safety">
 				<thead>
 					<tr>
 						<th></th>

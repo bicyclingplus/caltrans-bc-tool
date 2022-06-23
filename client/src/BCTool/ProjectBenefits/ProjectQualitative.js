@@ -9,7 +9,7 @@ class ProjectQualitative extends React.Component {
 		return (
 			<>
 			<h4 className="mt-4 section-sub-header">Qualitative Benefits</h4>
-            <table className="table" id="project-qualitative">
+            <table className="table table-striped" id="project-qualitative">
             	<thead>
             		<tr>
             			<th>Theme</th>

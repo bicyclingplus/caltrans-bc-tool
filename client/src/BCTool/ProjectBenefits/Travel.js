@@ -36,7 +36,7 @@ class Travel extends React.Component {
             <th className="text-center">Mean</th>
             <th className="text-center">Upper</th>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <th colSpan="2">Existing</th>
             <td className="text-end">{readableNumber(benefits.miles.bike.existing.lower)}</td>
             <td className="text-end">{readableNumber(benefits.miles.bike.existing.mean)}</td>
@@ -65,7 +65,7 @@ class Travel extends React.Component {
             <td className="text-end">{readableNumber(benefits.jobs.bike.carShift.mean)}</td>
             <td className="text-end">{readableNumber(benefits.jobs.bike.carShift.upper)}</td>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <td>Route Shift</td>
             <td className="text-end">{readableNumber(benefits.miles.bike.routeShift.lower)}</td>
             <td className="text-end">{readableNumber(benefits.miles.bike.routeShift.mean)}</td>
@@ -93,7 +93,7 @@ class Travel extends React.Component {
             <td className="text-end">{readableNumber(benefits.jobs.bike.inducedTravel.mean)}</td>
             <td className="text-end">{readableNumber(benefits.jobs.bike.inducedTravel.upper)}</td>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <td>Shift from Other Modes</td>
             <td className="text-end">{readableNumber(benefits.miles.bike.otherShift.lower)}</td>
             <td className="text-end">{readableNumber(benefits.miles.bike.otherShift.mean)}</td>
@@ -121,7 +121,7 @@ class Travel extends React.Component {
             <td className="text-end">{readableNumber(benefits.jobs.bike.total.mean)}</td>
             <td className="text-end">{readableNumber(benefits.jobs.bike.total.upper)}</td>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <th colSpan="2">Projected (Existing + Increase)</th>
             <td className="text-end">{readableNumber(benefits.miles.bike.projected.lower)}</td>
             <td className="text-end">{readableNumber(benefits.miles.bike.projected.mean)}</td>
@@ -163,7 +163,7 @@ class Travel extends React.Component {
             <th className="text-center">Mean</th>
             <th className="text-center">Upper</th>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <th colSpan="2">Existing</th>
             <td className="text-end">{readableNumber(benefits.miles.pedestrian.existing.lower)}</td>
             <td className="text-end">{readableNumber(benefits.miles.pedestrian.existing.mean)}</td>
@@ -192,7 +192,7 @@ class Travel extends React.Component {
             <td className="text-end">{readableNumber(benefits.jobs.pedestrian.carShift.mean)}</td>
             <td className="text-end">{readableNumber(benefits.jobs.pedestrian.carShift.upper)}</td>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <td>Route Shift</td>
             <td className="text-end">{readableNumber(benefits.miles.pedestrian.routeShift.lower)}</td>
             <td className="text-end">{readableNumber(benefits.miles.pedestrian.routeShift.mean)}</td>
@@ -220,7 +220,7 @@ class Travel extends React.Component {
             <td className="text-end">{readableNumber(benefits.jobs.pedestrian.inducedTravel.mean)}</td>
             <td className="text-end">{readableNumber(benefits.jobs.pedestrian.inducedTravel.upper)}</td>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <td>Shift from Other Modes</td>
             <td className="text-end">{readableNumber(benefits.miles.pedestrian.otherShift.lower)}</td>
             <td className="text-end">{readableNumber(benefits.miles.pedestrian.otherShift.mean)}</td>
@@ -248,7 +248,7 @@ class Travel extends React.Component {
             <td className="text-end">{readableNumber(benefits.jobs.pedestrian.total.mean)}</td>
             <td className="text-end">{readableNumber(benefits.jobs.pedestrian.total.upper)}</td>
           </tr>
-          <tr>
+          <tr className="striped-row">
             <th colSpan="2">Projected (Existing + Increase)</th>
             <td className="text-end">{readableNumber(benefits.miles.pedestrian.projected.lower)}</td>
             <td className="text-end">{readableNumber(benefits.miles.pedestrian.projected.mean)}</td>
