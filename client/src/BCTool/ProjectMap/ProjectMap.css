@@ -41,3 +41,10 @@
 	color: white;
 	background-color: #C6007E;
 }
+
+#map-warning {
+	z-index: 1000;
+	width:  65%;
+	background-color: #022851;
+	color: white;
+}

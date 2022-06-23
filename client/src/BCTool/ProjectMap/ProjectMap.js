@@ -25,10 +25,17 @@ class ProjectMap extends React.Component {
       this.userWays = [];
       this.userIntersections = [];
 
+      // remember larger zoom means closer
+      // smallest zoom level at which we still display
+      // features on the map
+      // any less and we display a warning instead
+      this.zoomCutoff = 17;
+
       this.state = {
         "mapMode": "existing",
         "selectionType": "way",
         "userWayPoints": [],
+        "showWarning": false,
       }
 
       this.updateMap = this.updateMap.bind(this);
@@ -236,29 +243,46 @@ class ProjectMap extends React.Component {
     }
 
     onMapMove() {
-      // query current bounds to the server
-      let bounds = this.map.getBounds();
-      let url = `${process.env.PUBLIC_URL}/api/bounds`;
 
-      url += `?x1=${bounds.getWest()}&x2=${bounds.getEast()}&y1=${bounds.getSouth()}&y2=${bounds.getNorth()}`;
+      if(this.map.getZoom() >= this.zoomCutoff) {
 
-      fetch(url)
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            if(this.props.interactive) {
-              this.ways = result.ways.features;
-              this.intersections = result.intersections.features;
-            }
-            else {
-              this.featuresRaw = result.ways;
-            }
-            this.renderFeatures()
-          },
-          (error) => {
-            console.log(error);
-          },
-        );
+        // query current bounds to the server
+        let bounds = this.map.getBounds();
+        let url = `${process.env.PUBLIC_URL}/api/bounds`;
+
+        url += `?x1=${bounds.getWest()}&x2=${bounds.getEast()}&y1=${bounds.getSouth()}&y2=${bounds.getNorth()}`;
+
+        fetch(url)
+          .then((res) => res.json())
+          .then(
+            (result) => {
+              if(this.props.interactive) {
+                this.ways = result.ways.features;
+                this.intersections = result.intersections.features;
+              }
+              else {
+                this.featuresRaw = result.ways;
+              }
+
+              this.renderFeatures()
+
+              this.setState({
+                'showWarning': false,
+              });
+            },
+            (error) => {
+              console.log(error);
+            },
+          );
+
+      }
+      else {
+        this.clearFeatures();
+
+        this.setState({
+          'showWarning': true,
+        });
+      }
     }
 
     onMapClick(e) {
@@ -378,10 +402,41 @@ class ProjectMap extends React.Component {
       this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.userWays, this.userIntersections);
     }
 
+    clearFeatures = () => {
+
+        // existing ways
+        if(this.wayFeatures) {
+          this.map.removeLayer(this.wayFeatures);
+        }
+
+        // existing intersections
+        if(this.intersectionFeatures) {
+          this.map.removeLayer(this.intersectionFeatures);
+        }
+
+        // user defined intersections
+        if(this.userIntersectionFeatures) {
+          this.map.removeLayer(this.userIntersectionFeatures);
+        }
+
+        // User defined way in progress of adding
+        if(this.userWayPointFeatures) {
+          this.map.removeLayer(this.userWayPointFeatures);
+        }
+
+        // User defined ways
+        if(this.userWayFeatures) {
+          this.map.removeLayer(this.userWayFeatures);
+        }
+    }
+
     renderFeatures() {
+
       // console.log('Render!');
 
       if(this.props.interactive) {
+
+        this.clearFeatures();
 
         // console.log(this.selectedWayIds);
         // console.log(this.selectedWays);
@@ -392,30 +447,18 @@ class ProjectMap extends React.Component {
         // abstract out just the feature set
 
         // existing ways
-        if(this.wayFeatures) {
-          this.map.removeLayer(this.wayFeatures);
-        }
-
         this.wayFeatures = Leaflet.geoJSON(this.ways, {
           onEachFeature: this.state.mapMode === "existing" && this.state.selectionType === "way" ? this.onEachWay : null,
           style: this.styleWay,
         });
 
         // existing intersections
-        if(this.intersectionFeatures) {
-          this.map.removeLayer(this.intersectionFeatures);
-        }
-
         this.intersectionFeatures = Leaflet.geoJSON(this.intersections, {
           onEachFeature: this.state.mapMode === "existing" && this.state.selectionType !== "way" ? this.onEachIntersection : null,
           pointToLayer: this.pointToLayer,
         });
 
         // user defined intersections
-        if(this.userIntersectionFeatures) {
-          this.map.removeLayer(this.userIntersectionFeatures);
-        }
-
         let userIntersectionCollection = {
           "type": "FeatureCollection",
           "features": this.userIntersections,
@@ -427,10 +470,6 @@ class ProjectMap extends React.Component {
         });
 
         // User defined way in progress of adding
-        if(this.userWayPointFeatures) {
-          this.map.removeLayer(this.userWayPointFeatures);
-        }
-
         if(this.state.userWayPoints.length) {
 
           let userWayPointsGeoJSON = {};
@@ -467,10 +506,6 @@ class ProjectMap extends React.Component {
         }
 
         // User defined ways
-        if(this.userWayFeatures) {
-          this.map.removeLayer(this.userWayFeatures);
-        }
-
         let userWaysCollection = {
           "type": "FeatureCollection",
           "features": this.userWays,
@@ -712,7 +747,13 @@ class ProjectMap extends React.Component {
           </div>
           </>
           : null }
-          <div id="map"></div>
+          <div id="map">
+            { this.state.showWarning ?
+              <div id="map-warning" className="alert position-absolute top-0 start-50 translate-middle-x mt-3 text-center" role="alert">
+                Zoom in to select segments/intersections on the map
+              </div>
+            : null }
+          </div>
         </>
       );
     }
