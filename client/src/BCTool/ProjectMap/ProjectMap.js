@@ -118,6 +118,9 @@ class ProjectMap extends React.Component {
       // remove the clicked interesection
       this.userWays = this.userWays.filter((item) => (item.properties.id !== feature.properties.id));
 
+      // remove child intersections
+      this.userIntersections = this.userIntersections.filter((item) => (item.properties.parent !== feature.properties.id));
+
       // stop propagation to map
       Leaflet.DomEvent.stopPropagation(e);
 
@@ -303,6 +306,7 @@ class ProjectMap extends React.Component {
             },
             "properties": {
               "id": uuidv4(),
+              "parent": null,
             }
           });
 
@@ -696,6 +700,7 @@ class ProjectMap extends React.Component {
 
     finish = (oneway) => {
 
+      let newId = uuidv4();
       let length = this.calcLength(Leaflet.GeoJSON.coordsToLatLngs(this.state.userWayPoints));
 
       if(!oneway) {
@@ -710,9 +715,33 @@ class ProjectMap extends React.Component {
           "coordinates": this.state.userWayPoints
         },
         "properties": {
-          "id": uuidv4(),
+          "id": newId,
           "length": length,
           "ONE_WAY_CA": oneway,
+        }
+      });
+
+      this.userIntersections.push({
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": this.state.userWayPoints[0]
+        },
+        "properties": {
+          "id": uuidv4(),
+          "parent": newId,
+        }
+      });
+
+      this.userIntersections.push({
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": this.state.userWayPoints[this.state.userWayPoints.length-1]
+        },
+        "properties": {
+          "id": uuidv4(),
+          "parent": newId,
         }
       });
 
