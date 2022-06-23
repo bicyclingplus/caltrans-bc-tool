@@ -69,12 +69,9 @@ class ProjectMap extends React.Component {
 
     styleWay = (feature) => {
 
-      if(this.selectedWayIds.includes(feature.properties.edgeUID)) {
-
-        return symbology.pre_existing.selected.link;
-      }
-
-      return symbology.pre_existing.default.link;
+      return this.selectedWayIds.includes(feature.properties.edgeUID) ?
+        symbology.pre_existing.selected.link :
+        symbology.pre_existing.default.link;
     }
 
     styleUserWay = () => {
@@ -337,13 +334,10 @@ class ProjectMap extends React.Component {
 
     pointToLayer = (feature, latlng) => {
 
-      let opts = symbology.pre_existing.default.intersection;
-
-      if(this.selectedIntersectionIds.includes(feature.properties.nodeID)) {
-        opts = symbology.pre_existing.selected.intersection;
-      }
-
-      return Leaflet.circleMarker(latlng, opts);
+      return Leaflet.circleMarker(latlng,
+        this.selectedIntersectionIds.includes(feature.properties.nodeID) ?
+        symbology.pre_existing.selected.intersection :
+        symbology.pre_existing.default.intersection);
     }
 
     onEachIntersection = (feature, mapLayer) => {
