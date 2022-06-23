@@ -417,6 +417,9 @@ class ProjectMap extends React.Component {
         if(this.userWayPointFeatures) {
           this.map.removeLayer(this.userWayPointFeatures);
         }
+        if(this.userWayPointLineFeature) {
+          this.map.removeLayer(this.userWayPointLineFeature);
+        }
 
         // User defined ways
         if(this.userWayFeatures) {
@@ -467,7 +470,9 @@ class ProjectMap extends React.Component {
         if(this.state.userWayPoints.length) {
 
           let userWayPointsGeoJSON = {};
-          let userWayPointsOpts = {};
+          let userWayPointsOpts = {
+            pointToLayer: this.userWayPointToLayer,
+          };
 
           if(this.state.userWayPoints.length === 1) {
             userWayPointsGeoJSON = {
@@ -477,13 +482,9 @@ class ProjectMap extends React.Component {
                 "coordinates": this.state.userWayPoints[0]
               }
             };
-
-            userWayPointsOpts = {
-              pointToLayer: this.userWayPointToLayer,
-            }
           }
           else {
-            userWayPointsGeoJSON = {
+            let userWayPointLineGeoJSON = {
               "type": "Feature",
               "geometry": {
                 "type": "LineString",
@@ -491,9 +492,31 @@ class ProjectMap extends React.Component {
               }
             };
 
-            userWayPointsOpts = {
+            let userWaypointLineOpts = {
               style: this.styleUserWay,
-            }
+            };
+
+            userWayPointsGeoJSON = {
+              "type": "FeatureCollection",
+              "features": [
+                {
+                  "type": "Feature",
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": this.state.userWayPoints[0]
+                  }
+                },
+                {
+                  "type": "Feature",
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": this.state.userWayPoints[this.state.userWayPoints.length-1]
+                  }
+                },
+              ]
+            };
+
+            this.userWayPointLineFeature = Leaflet.geoJSON(userWayPointLineGeoJSON, userWaypointLineOpts);
           }
 
           this.userWayPointFeatures = Leaflet.geoJSON(userWayPointsGeoJSON, userWayPointsOpts);
@@ -537,6 +560,10 @@ class ProjectMap extends React.Component {
 
             if(this.state.userWayPoints.length) {
               this.userWayPointFeatures.addTo(this.map);
+
+              if(this.state.userWayPoints.length > 1) {
+                this.userWayPointLineFeature.addTo(this.map);
+              }
             }
           }
           else {
