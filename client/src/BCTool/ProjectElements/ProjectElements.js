@@ -19,7 +19,11 @@ class ProjectElements extends React.Component {
         <div className="card-body">
           <h4 className="card-title text-center section-header">Define Project Elements</h4>
 
-          { type !== 'non-infrastructure' ?
+          { !type ?
+            <div className="mt-4">Select a project type above.</div>
+          : null}
+
+          { type === 'infrastructure' ?
           <div className="row mb-3 mt-4">
             <div className="col-sm-4"><h5 className="form-label">Infrastructure Elements</h5></div>
             <div className="col-sm-8">
@@ -36,7 +40,7 @@ class ProjectElements extends React.Component {
           </div>
           : null }
 
-          { type !== 'infrastructure' ?
+          { type === 'non-infrastructure' ?
           <div className="row mb-3">
             <div className="col-sm-4"><h5 className="form-label">Non-Infrastructure Elements</h5></div>
             <div className="col-sm-8">

@@ -26,3 +26,23 @@
   padding-top: 0.3em;
   padding-bottom: 0.3em;
 }
+
+#bc-tool-start .modal-dialog {
+  margin-top: 20rem;
+  font-size: 1.75rem;
+}
+
+#bc-tool-start .modal-header {
+  border-bottom-width: 0.5rem;
+}
+
+#bc-tool-start .modal-title {
+  font-size: 1.75rem;
+}
+
+#bc-tool-start .modal-content {
+  background-color: rgba(0, 196, 179, 0.7);
+  color: black;
+  border: 0;
+  border-radius: 0;
+}

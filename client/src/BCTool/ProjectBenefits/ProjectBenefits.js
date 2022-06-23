@@ -8,8 +8,6 @@ import Health from './Health';
 import ProjectQualitative from './ProjectQualitative';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-import { readableNumber } from '../helpers/formatting';
-
 const Tooltip = require('bootstrap/js/dist/tooltip');
 
 class ProjectBenefits extends React.Component {
@@ -26,7 +24,7 @@ class ProjectBenefits extends React.Component {
 
   render() {
 
-    let { benefits, name, cost, timeframe, subtype } = this.props;
+    let { benefits, timeframe, subtype } = this.props;
 
     return (
       <div className="card">

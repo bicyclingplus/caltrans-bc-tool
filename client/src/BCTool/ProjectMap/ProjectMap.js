@@ -13,7 +13,6 @@ class ProjectMap extends React.Component {
       super(props);
 
       this.map = null;
-      this.featuresRaw = {};
       this.features = null;
 
       this.selectedWayIds = [];
@@ -46,13 +45,14 @@ class ProjectMap extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-      if(this.props.geojson !== prevProps.geojson) {
+      if(this.props.bounds !== prevProps.bounds) {
 
-        this.map.off();
-        this.map.remove();
-        this.map = null;
+        if(this.map) {
+          this.map.off();
+          this.map.remove();
+          this.map = null;
+        }
 
-        this.featuresRaw = {};
         this.features = null;
 
         this.selectedWayIds = [];
@@ -248,6 +248,11 @@ class ProjectMap extends React.Component {
 
         // query current bounds to the server
         let bounds = this.map.getBounds();
+
+        if(!bounds.isValid()) {
+          return;
+        }
+
         let url = `${process.env.PUBLIC_URL}/api/bounds`;
 
         url += `?x1=${bounds.getWest()}&x2=${bounds.getEast()}&y1=${bounds.getSouth()}&y2=${bounds.getNorth()}`;
@@ -256,13 +261,8 @@ class ProjectMap extends React.Component {
           .then((res) => res.json())
           .then(
             (result) => {
-              if(this.props.interactive) {
-                this.ways = result.ways.features;
-                this.intersections = result.intersections.features;
-              }
-              else {
-                this.featuresRaw = result.ways;
-              }
+              this.ways = result.ways.features;
+              this.intersections = result.intersections.features;
 
               this.renderFeatures()
 
@@ -433,170 +433,155 @@ class ProjectMap extends React.Component {
 
     renderFeatures() {
 
-      // console.log('Render!');
+      this.clearFeatures();
 
-      if(this.props.interactive) {
+      // console.log(this.selectedWayIds);
+      // console.log(this.selectedWays);
+      // console.log(this.selectedIntersectionIds);
+      // console.log(this.selectedIntersections);
 
-        this.clearFeatures();
+      // TODO refactor to combine onEachFeature handlers
+      // abstract out just the feature set
 
-        // console.log(this.selectedWayIds);
-        // console.log(this.selectedWays);
-        // console.log(this.selectedIntersectionIds);
-        // console.log(this.selectedIntersections);
+      // existing ways
+      this.wayFeatures = Leaflet.geoJSON(this.ways, {
+        onEachFeature: this.state.mapMode === "existing" && this.state.selectionType === "way" ? this.onEachWay : null,
+        style: this.styleWay,
+      });
 
-        // TODO refactor to combine onEachFeature handlers
-        // abstract out just the feature set
+      // existing intersections
+      this.intersectionFeatures = Leaflet.geoJSON(this.intersections, {
+        onEachFeature: this.state.mapMode === "existing" && this.state.selectionType !== "way" ? this.onEachIntersection : null,
+        pointToLayer: this.pointToLayer,
+      });
 
-        // existing ways
-        this.wayFeatures = Leaflet.geoJSON(this.ways, {
-          onEachFeature: this.state.mapMode === "existing" && this.state.selectionType === "way" ? this.onEachWay : null,
-          style: this.styleWay,
-        });
+      // user defined intersections
+      let userIntersectionCollection = {
+        "type": "FeatureCollection",
+        "features": this.userIntersections,
+      };
 
-        // existing intersections
-        this.intersectionFeatures = Leaflet.geoJSON(this.intersections, {
-          onEachFeature: this.state.mapMode === "existing" && this.state.selectionType !== "way" ? this.onEachIntersection : null,
-          pointToLayer: this.pointToLayer,
-        });
+      this.userIntersectionFeatures = Leaflet.geoJSON(userIntersectionCollection, {
+        onEachFeature: this.state.mapMode === "add" && this.state.selectionType !== "way" ? this.onEachUserIntersection : null,
+        pointToLayer: this.userPointToLayer,
+      });
 
-        // user defined intersections
-        let userIntersectionCollection = {
-          "type": "FeatureCollection",
-          "features": this.userIntersections,
+      // User defined way in progress of adding
+      if(this.state.userWayPoints.length) {
+
+        let userWayPointsGeoJSON = {};
+        let userWayPointsOpts = {
+          pointToLayer: this.userWayPointToLayer,
         };
 
-        this.userIntersectionFeatures = Leaflet.geoJSON(userIntersectionCollection, {
-          onEachFeature: this.state.mapMode === "add" && this.state.selectionType !== "way" ? this.onEachUserIntersection : null,
-          pointToLayer: this.userPointToLayer,
-        });
-
-        // User defined way in progress of adding
-        if(this.state.userWayPoints.length) {
-
-          let userWayPointsGeoJSON = {};
-          let userWayPointsOpts = {
-            pointToLayer: this.userWayPointToLayer,
+        if(this.state.userWayPoints.length === 1) {
+          userWayPointsGeoJSON = {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": this.state.userWayPoints[0]
+            }
           };
-
-          if(this.state.userWayPoints.length === 1) {
-            userWayPointsGeoJSON = {
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": this.state.userWayPoints[0]
-              }
-            };
-          }
-          else {
-            let userWayPointLineGeoJSON = {
-              "type": "Feature",
-              "geometry": {
-                "type": "LineString",
-                "coordinates": this.state.userWayPoints
-              }
-            };
-
-            let userWaypointLineOpts = {
-              style: this.styleUserWay,
-            };
-
-            userWayPointsGeoJSON = {
-              "type": "FeatureCollection",
-              "features": [
-                {
-                  "type": "Feature",
-                  "geometry": {
-                    "type": "Point",
-                    "coordinates": this.state.userWayPoints[0]
-                  }
-                },
-                {
-                  "type": "Feature",
-                  "geometry": {
-                    "type": "Point",
-                    "coordinates": this.state.userWayPoints[this.state.userWayPoints.length-1]
-                  }
-                },
-              ]
-            };
-
-            this.userWayPointLineFeature = Leaflet.geoJSON(userWayPointLineGeoJSON, userWaypointLineOpts);
-          }
-
-          this.userWayPointFeatures = Leaflet.geoJSON(userWayPointsGeoJSON, userWayPointsOpts);
-        }
-
-        // User defined ways
-        let userWaysCollection = {
-          "type": "FeatureCollection",
-          "features": this.userWays,
-        };
-
-        this.userWayFeatures = Leaflet.geoJSON(userWaysCollection, {
-          onEachFeature: this.state.mapMode === "add" && this.state.selectionType === "way" ? this.onEachUserWay : null,
-          style: this.styleUserWay,
-        });
-
-        // stack order
-        if(this.state.mapMode === "existing") {
-          if(this.state.selectionType === "way") {
-            this.userIntersectionFeatures.addTo(this.map);
-            this.userWayFeatures.addTo(this.map);
-
-            this.intersectionFeatures.addTo(this.map);
-            this.wayFeatures.addTo(this.map);
-          }
-          else {
-            this.userWayFeatures.addTo(this.map);
-            this.userIntersectionFeatures.addTo(this.map);
-
-            this.wayFeatures.addTo(this.map);
-            this.intersectionFeatures.addTo(this.map);
-          }
         }
         else {
-          if(this.state.selectionType === "way") {
-            this.intersectionFeatures.addTo(this.map);
-            this.wayFeatures.addTo(this.map);
-
-            this.userIntersectionFeatures.addTo(this.map);
-            this.userWayFeatures.addTo(this.map);
-
-            if(this.state.userWayPoints.length) {
-              this.userWayPointFeatures.addTo(this.map);
-
-              if(this.state.userWayPoints.length > 1) {
-                this.userWayPointLineFeature.addTo(this.map);
-              }
+          let userWayPointLineGeoJSON = {
+            "type": "Feature",
+            "geometry": {
+              "type": "LineString",
+              "coordinates": this.state.userWayPoints
             }
-          }
-          else {
-            this.wayFeatures.addTo(this.map);
-            this.intersectionFeatures.addTo(this.map);
+          };
 
-            this.userWayFeatures.addTo(this.map);
-            this.userIntersectionFeatures.addTo(this.map);
-          }
+          let userWaypointLineOpts = {
+            style: this.styleUserWay,
+          };
+
+          userWayPointsGeoJSON = {
+            "type": "FeatureCollection",
+            "features": [
+              {
+                "type": "Feature",
+                "geometry": {
+                  "type": "Point",
+                  "coordinates": this.state.userWayPoints[0]
+                }
+              },
+              {
+                "type": "Feature",
+                "geometry": {
+                  "type": "Point",
+                  "coordinates": this.state.userWayPoints[this.state.userWayPoints.length-1]
+                }
+              },
+            ]
+          };
+
+          this.userWayPointLineFeature = Leaflet.geoJSON(userWayPointLineGeoJSON, userWaypointLineOpts);
+        }
+
+        this.userWayPointFeatures = Leaflet.geoJSON(userWayPointsGeoJSON, userWayPointsOpts);
+      }
+
+      // User defined ways
+      let userWaysCollection = {
+        "type": "FeatureCollection",
+        "features": this.userWays,
+      };
+
+      this.userWayFeatures = Leaflet.geoJSON(userWaysCollection, {
+        onEachFeature: this.state.mapMode === "add" && this.state.selectionType === "way" ? this.onEachUserWay : null,
+        style: this.styleUserWay,
+      });
+
+      // stack order
+      if(this.state.mapMode === "existing") {
+        if(this.state.selectionType === "way") {
+          this.userIntersectionFeatures.addTo(this.map);
+          this.userWayFeatures.addTo(this.map);
+
+          this.intersectionFeatures.addTo(this.map);
+          this.wayFeatures.addTo(this.map);
+        }
+        else {
+          this.userWayFeatures.addTo(this.map);
+          this.userIntersectionFeatures.addTo(this.map);
+
+          this.wayFeatures.addTo(this.map);
+          this.intersectionFeatures.addTo(this.map);
         }
       }
       else {
+        if(this.state.selectionType === "way") {
+          this.intersectionFeatures.addTo(this.map);
+          this.wayFeatures.addTo(this.map);
 
-        if(this.features) {
-          this.map.removeLayer(this.features);
+          this.userIntersectionFeatures.addTo(this.map);
+          this.userWayFeatures.addTo(this.map);
+
+          if(this.state.userWayPoints.length) {
+            this.userWayPointFeatures.addTo(this.map);
+
+            if(this.state.userWayPoints.length > 1) {
+              this.userWayPointLineFeature.addTo(this.map);
+            }
+          }
         }
+        else {
+          this.wayFeatures.addTo(this.map);
+          this.intersectionFeatures.addTo(this.map);
 
-        this.features = Leaflet.geoJSON(this.featuresRaw, {
-          style: this.style,
-          onEachFeature: this.onEachFeature,
-        });
-
-        this.features.addTo(this.map);
+          this.userWayFeatures.addTo(this.map);
+          this.userIntersectionFeatures.addTo(this.map);
+        }
       }
     }
 
     updateMap() {
 
-      // console.log(`interactive: ${this.props.interactive}`)
+
+      if(!this.props.bounds.length) {
+        return;
+      }
 
       // console.log('Map update!');
 
@@ -613,39 +598,17 @@ class ProjectMap extends React.Component {
         }).addTo(this.map);
       }
 
-      if(this.props.interactive) {
+      this.map.fitBounds(this.props.bounds);
 
-        this.map.setMinZoom(15);
-
-        this.map.setView(this.props.center, 16);
-
-        this.map.on('moveend', () => {
-          this.onMapMove();
-        });
-
-        this.map.on('zoomlevelschange', () => {
-          console.log(this.map.getZoom());
-        });
-
-        this.map.on('click', (e) => {
-          this.onMapClick(e);
-        });
-
+      this.map.on('moveend', () => {
         this.onMapMove();
-      }
-      else {
-        if(this.features) {
-          this.map.removeLayer(this.features);
-        }
+      });
 
-        if(this.props.geojson) {
-          this.features = Leaflet.geoJSON(this.props.geojson);
+      this.map.on('click', (e) => {
+        this.onMapClick(e);
+      });
 
-          this.features.addTo(this.map);
-          this.map.fitBounds(this.features.getBounds());
-        }
-
-      }
+      this.onMapMove();
     }
 
     selectWays = () => {
@@ -754,7 +717,6 @@ class ProjectMap extends React.Component {
 
     render() {
 
-      let { interactive } = this.props;
       let { mapMode, selectionType, userWayPoints } = this.state;
 
       let existingClasses = mapMode === 'existing' ? `btn btn-existing` : `btn btn-outline-existing`;
@@ -767,8 +729,6 @@ class ProjectMap extends React.Component {
 
       return (
         <>
-          { interactive ?
-          <>
           <div className="mb-4">
             <strong>Selecting on map:</strong>
             <div className="btn-group ms-4" role="group" aria-label="Basic example">
@@ -795,12 +755,10 @@ class ProjectMap extends React.Component {
               </>
             : null }
           </div>
-          </>
-          : null }
           <div id="map">
             { this.state.showWarning ?
               <div id="map-warning" className="alert position-absolute top-0 start-50 translate-middle-x mt-3 text-center" role="alert">
-                Zoom in to select segments/intersections on the map
+                Zoom in to select links
               </div>
             : null }
           </div>

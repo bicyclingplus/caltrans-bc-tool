@@ -24,6 +24,9 @@ import calcProjectQualitative from './helpers/calcProjectQualitative';
 import calcPedestrianDemand from './helpers/calcPedestrianDemand';
 import ExportPDF from './helpers/export';
 
+const Modal = require('bootstrap/js/dist/modal');
+
+const counties = require('./data/counties.json')['counties'];
 const infrastructure = require('./data/infrastructure.json');
 const non_infrastructure = require('./data/non_infrastructure.json');
 
@@ -35,88 +38,11 @@ class BCTool extends React.Component {
     this.map = null;
     this.features = null;
 
-    this.state = {
-      'existing-projects': [],
-      'selected-project': '',
-
-      'name': '',
-      'developer': '',
-      'cost': '',
-      'type': '',
-      'subtype': '',
-      'city': '',
-      'county': '',
-      'year': '',
-      'timeframe': 1,
-
-      'length': 0,
-      'selectedWays': [],
-      'selectedIntersections': [],
-      'userWays': [],
-      'userIntersections': [],
-
-      'existingTravel': {},
-
-      'infrastructure': [],
-      'non-infrastructure': [],
-      'infrastructure-selected': false,
-      'multi-selected': false,
-      'non-infrastructure-selected': false,
-
-      'benefits': {},
-      'showBenefits': false,
-      'inputsChanged': false,
-
-      "interactive-map": false,
-      "center": [],
-    };
-
-    this.handleProjectChange = this.handleProjectChange.bind(this);
-    this.onInfrastructureChange = this.onInfrastructureChange.bind(this);
-    this.onNonInfrastructureChange = this.onNonInfrastructureChange.bind(this);
-
-  }
-
-  componentDidMount() {
-
-    fetch(`${process.env.PUBLIC_URL}/api/existing`)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            'existing-projects': result,
-          });
-        },
-        (error) => {
-          console.log(error);
-        },
-      );
-  }
-
-  handleProjectChange(e) {
-
-    let project;
-
-    for(let i = 0; i < this.state['existing-projects'].length; i++) {
-      if(this.state['existing-projects'][i]['id'] === parseInt(e.target.value)) {
-        project = this.state['existing-projects'][i];
-      }
-    }
-
-    // Use project config to preselect some items and prefill their counts
-    let preselected = Object.keys(project.infrastructure);
-
     for(let category in infrastructure.categories) {
 
       for(let item of infrastructure.categories[category].items) {
 
-        // let type = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].type : '';
-        // let value = preselected.includes(item.shortname) ? project.infrastructure[item.shortname].value : 0;
-
-        item.selected = preselected.includes(item.shortname);
-        // item.value = value;
-        // item.type = type;
-
+        item.selected = false;
         item.new = 0;
         item.upgrade = 0;
         item.retrofit = 0;
@@ -130,50 +56,61 @@ class BCTool extends React.Component {
         "label": item.label,
         "shortname": item.shortname,
         "description": item.description,
-        "selected": project['non-infrastructure'].includes(item.shortname),
+        "selected": false,
       });
     }
 
-    fetch(`${process.env.PUBLIC_URL}/api/geojson/${e.target.value}`)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          this.geojson = result;
+    this.state = {
 
-          this.setState({
-            'selected-project': e.target.value,
+      bounds: [],
 
-            'name': project['name'],
-            'developer': project['developer'],
-            'cost': project['cost'],
-            'type': project['type'],
-            'subtype': project['subtype'],
-            'city': project['city'],
-            'county': project['county'],
-            'year': project['year'],
+      'name': '',
+      'developer': '',
+      'cost': '',
+      'type': '',
+      'subtype': '',
+      'city': '',
+      'county': '',
+      'timeframe': 1,
+      'year': new Date().getFullYear(),
 
-            'selectedWays': [],
-            'selectedIntersections': [],
-            'userWays': [],
-            'userIntersections': [],
+      'length': 0,
+      'selectedWays': [],
+      'selectedIntersections': [],
+      'userWays': [],
+      'userIntersections': [],
 
-            'infrastructure': infrastructure,
-            'non-infrastructure': new_non_infrastructure,
-            'infrastructure-selected': preselected.length ? true : false,
-            'non-infrastructure-selected': new_non_infrastructure.length ? true : false,
+      'existingTravel': {},
 
-            'benefits': {},
-            'showBenefits': false,
-            'inputsChanged': false,
+      'infrastructure': infrastructure,
+      'non-infrastructure': new_non_infrastructure,
+      'infrastructure-selected': false,
+      'multi-selected': false,
+      'non-infrastructure-selected': false,
 
-            "interactive-map": project['interactive-map'],
-            "center": project.center,
-          });
-        },
-        (error) => {
-          console.log(error);
-        },
-      );
+      'benefits': {},
+      'showBenefits': false,
+      'inputsChanged': false,
+
+      "center": [],
+    };
+
+    this.onInfrastructureChange = this.onInfrastructureChange.bind(this);
+    this.onNonInfrastructureChange = this.onNonInfrastructureChange.bind(this);
+
+  }
+
+  componentDidMount() {
+
+    this.modal = new Modal(document.getElementById('bc-tool-start'), {
+      backdrop: 'static',
+    });
+
+    this.modal.show();
+  }
+
+  componentWillUnmount() {
+    this.modal.dispose();
   }
 
   onInfrastructureChange(changedCategory, changedItem, value) {
@@ -370,11 +307,28 @@ class BCTool extends React.Component {
   };
 
   updateCounty = (e) => {
+
+    let selectedCounty;
+
+    for(let c of counties) {
+      if(c.name === e.target.value) {
+        selectedCounty = c;
+      }
+    }
+
+    let bounds = [
+      [selectedCounty.ymin, selectedCounty.xmin],
+      [selectedCounty.ymax, selectedCounty.xmax],
+    ];
+
     this.setState({
-      'county': e.target.value,
+      'county': selectedCounty.name,
+      'bounds': bounds,
       'benefits': {},
       'showBenefits': false,
       'inputsChanged': false,
+    }, () => {
+      this.modal.hide();
     });
   };
 
@@ -665,24 +619,33 @@ class BCTool extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row justify-content-center mb-3">
-          <div className="col-sm-8 mt-4">
-            <form>
-              <div className="row">
-                <label htmlFor="existing-project" className="col-sm-2 col-form-label text-end">Existing Project</label>
-                <div className="col-md-10">
-                  <select id="existing-project" className="form-select" onChange={this.handleProjectChange} defaultValue="">
-                    <option value="" disabled>-- Select a project --</option>
-                    {this.state['existing-projects'].map((project) => <option key={project['id']} value={project['id']}>{project['name']}</option>)}
-                  </select>
-                </div>
-              </div>
-            </form>
+      <>
+      <div className="modal fade" id="bc-tool-start">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header text-center">
+              <h5 className="modal-title" id="exampleModalLabel">Welcome to Caltrans' Active Transportation Benefit-Cost Tool</h5>
+            </div>
+            <div className="modal-body">
+              This tool evaluates the costs and benefits of active transportation projects as a part of Caltrans ATP project evaluation.....
+
+
+              <select id="county" className="form-select mt-4" value={this.state.county} onChange={this.updateCounty}>
+              <option value='' disabled>Select County</option>
+              {
+                counties.map((county) => (
+                  <option key={county.name} value={county.name}>{county.name}</option>
+                ))
+              }
+            </select>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className="row justify-content-center mb-3">
+      <div className="container">
+
+        <div className="row justify-content-center mb-3 mt-3">
           <div className="col-sm-8">
             <ProjectForm name={this.state['name']}
               developer={this.state['developer']}
@@ -690,27 +653,20 @@ class BCTool extends React.Component {
               timeframe={this.state.timeframe}
               type={this.state['type']}
               subtype={this.state['subtype']}
-              county={this.state['county']}
               updateName={this.updateName}
               updateDeveloper={this.updateDeveloper}
               updateCost={this.updateCost}
               updateType={this.updateType}
               updateSubtype={this.updateSubtype}
-              updateCounty={this.updateCounty}
             />
           </div>
         </div>
 
-        { this.state['selected-project'] ?
-        <>
-
-        { this.state['interactive-map'] ?
+        { this.state.county ?
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectMap
-              geojson={this.geojson}
-              interactive={this.state['interactive-map']}
-              center={this.state.center}
+              bounds={this.state.bounds}
               updateMapSelections={this.updateMapSelections}
             />
           </div>
@@ -740,8 +696,6 @@ class BCTool extends React.Component {
             />
           </div>
         </div>
-        </>
-        : null }
 
         { this.state['infrastructure-selected'] ?
         <div className="row mb-3">
@@ -787,6 +741,7 @@ class BCTool extends React.Component {
         </div>
         : null }
       </div>
+      </>
     );
   }
 }

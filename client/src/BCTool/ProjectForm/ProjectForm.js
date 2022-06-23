@@ -1,7 +1,5 @@
 import React from 'react';
 
-const counties = require('../data/counties.json')['counties'];
-
 class ProjectForm extends React.Component {
 
   render() {
@@ -13,13 +11,11 @@ class ProjectForm extends React.Component {
       timeframe,
       type,
       subtype,
-      county,
       updateName,
       updateDeveloper,
       updateCost,
       updateType,
       updateSubtype,
-      updateCounty,
     } = this.props;
 
     return (
@@ -77,20 +73,6 @@ class ProjectForm extends React.Component {
           </div>
         </div>
         : null }
-
-        <div className="row mb-2">
-          <label htmlFor="county" className="col-sm-2 col-form-label text-end">Primary County</label>
-          <div className="col-md-4">
-            <select id="county" className="form-select" value={county} onChange={updateCounty}>
-              <option value='' disabled>-- Choose a county --</option>
-              {
-                counties.map((county) => (
-                  <option key={county} value={county}>{county}</option>
-                ))
-              }
-            </select>
-          </div>
-        </div>
       </form>
     );
   }
