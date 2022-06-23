@@ -129,7 +129,7 @@ tool.get("/api/bounds", async (req, res) => {
   });
 });
 
-app.use('/caltrans-bc-tool', tool);
+app.use('/', tool);
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
