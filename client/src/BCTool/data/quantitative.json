@@ -428,7 +428,7 @@
             "upper": -85.0
         }
     ],
-    "shared-open-street":
+    "open-street":
     [
         {
             "class": "block-face",

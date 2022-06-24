@@ -19,7 +19,7 @@
 				"multi-use-path",
 				"road-diet",
 				"protected-bike-lane",
-				"shared-open-street",
+				"open-street",
 				"sidewalk",
 				"vertical-deflector",
 				"bike-box",
@@ -58,11 +58,11 @@
 				"multi-use-path",
 				"road-diet",
 				"protected-bike-lane",
-				"shared-open-street",
+				"open-street",
 				"sidewalk",
 				"bike-parking",
 				"bikeshare-infrastructure",
-				"wayfaring-signs"
+				"wayfinding-signs"
 			],
 			"parent": null,
 			"description": {

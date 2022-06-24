@@ -20,8 +20,8 @@
 					"calc_units": "length"
 				},
 				{
-					"label": "Shared/Open Street",
-					"shortname": "shared-open-street",
+					"label": "Open Street",
+					"shortname": "open-street",
 					"description": "",
 					"units": "length",
 					"calc_units": "length"
@@ -55,8 +55,8 @@
 					"calc_units": "count"
 				},
 				{
-					"label": "Wayfaring Signs",
-					"shortname": "wayfaring-signs",
+					"label": "Wayfinding Signs",
+					"shortname": "wayfinding-signs",
 					"description": "",
 					"units": "count",
 					"calc_units": "count"
@@ -76,21 +76,21 @@
 					"calc_units": "length"
 				},
 				{
-					"label": "Bike Shared Lane Markings (Sharrows)",
+					"label": "Bike Shared Lane Markings (Sharrows, Class III)",
 					"shortname": "bike-shared-lane-markings",
 					"description": "",
 					"units": "length",
 					"calc_units": "length"
 				},
 				{
-					"label": "Buffered Bike Lane",
+					"label": "Buffered Bike Lane (Class II)",
 					"shortname": "buffered-bike-lane",
 					"description": "",
 					"units": "length",
 					"calc_units": "length"
 				},
 				{
-					"label": "Conventional Bike Lane",
+					"label": "Conventional Bike Lane (Class II)",
 					"shortname": "conventional-bike-lane",
 					"description": "",
 					"units": "length",
@@ -132,14 +132,14 @@
 					"calc_units": "length"
 				},
 				{
-					"label": "Off-street multiuse or bike path (sidepaths included)",
+					"label": "Off-street multiuse or bike path (sidepaths included, Class I)",
 					"shortname": "off-street-multi-use-or-bike-path",
 					"description": "",
 					"units": "length",
 					"calc_units": "length"
 				},
 				{
-					"label": "Protected Bike Lane",
+					"label": "Protected Bike Lane (Class IV)",
 					"shortname": "protected-bike-lane",
 					"description": "",
 					"units": "length",
@@ -207,13 +207,6 @@
 					"description": "",
 					"units": "count",
 					"calc_units": "count"
-				},
-				{
-					"label": "Crossing Surface",
-					"shortname": "crossing-surface",
-					"description": "",
-					"units": "length",
-					"calc_units": "length"
 				},
 				{
 					"label": "Crosswalk",
