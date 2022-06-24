@@ -37,7 +37,7 @@ function Header() {
           </li>
         </ul>
 
-        <button class="btn btn-lg btn-restart">Start New Project</button>
+        <button className="btn btn-lg btn-restart">Start New Project</button>
       </div>
     </nav>
     </>

@@ -25,6 +25,12 @@ class CategorizedCheckboxDropdown extends React.Component {
         return buttonText;
     }
 
+    checkIsAddingUserWay = (e) => {
+        if(this.props.isAddingUserWay) {
+            this.props.showUserWayWarning();
+        }
+    }
+
     render() {
 
         const buttonText = this.buildButtonText();
@@ -44,7 +50,8 @@ class CategorizedCheckboxDropdown extends React.Component {
                 data-bs-auto-close="outside"
                 type="button" id={"dropdown-"+name}
                 data-bs-toggle="dropdown"
-                aria-expanded="false">
+                aria-expanded="false"
+                onClick={this.checkIsAddingUserWay}>
                 {buttonText}
               </button>
               <div className="dropdown-menu" aria-labelledby={"dropdown-"+name}>

@@ -23,7 +23,7 @@ class ProjectElements extends React.Component {
             <div className="mt-4">Select a project type above.</div>
           : null}
 
-          { type === 'infrastructure' ?
+          { type === 'infrastructure' || type === 'both' ?
           <div className="row mb-3 mt-4">
             <div className="col-sm-4"><h5 className="form-label">Infrastructure Elements</h5></div>
             <div className="col-sm-8">
@@ -35,12 +35,14 @@ class ProjectElements extends React.Component {
                 name="infrastructure"
                 categories={infrastructure.categories}
                 onChange={onInfrastructureChange}
+                isAddingUserWay={this.props.isAddingUserWay}
+                showUserWayWarning={this.props.showUserWayWarning}
                 />
             </div>
           </div>
           : null }
 
-          { type === 'non-infrastructure' ?
+          { type === 'non-infrastructure' || type === 'both' ?
           <div className="row mb-3">
             <div className="col-sm-4"><h5 className="form-label">Non-Infrastructure Elements</h5></div>
             <div className="col-sm-8">

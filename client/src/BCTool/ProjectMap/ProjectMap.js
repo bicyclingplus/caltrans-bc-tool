@@ -317,6 +317,11 @@ class ProjectMap extends React.Component {
           this.renderFeatures();
         }
         else if(selectionType === "way") {
+
+          if(!this.props.isAddingUserWay) {
+            this.props.updateUserWayStatus(true);
+          }
+
           userWayPoints.push([e.latlng.lng, e.latlng.lat]);
 
           this.setState({
@@ -618,6 +623,12 @@ class ProjectMap extends React.Component {
     }
 
     selectIntersections = () => {
+
+      if(this.props.isAddingUserWay) {
+        this.props.showUserWayWarning();
+        return;
+      }
+
       this.setState({
         "selectionType": "intersection",
         "userWayPoints": [],
@@ -625,6 +636,12 @@ class ProjectMap extends React.Component {
     }
 
     selectExisting = () => {
+
+      if(this.props.isAddingUserWay) {
+        this.props.showUserWayWarning();
+        return;
+      }
+
       this.setState({
         "mapMode": "existing",
       }, this.renderFeatures);
@@ -656,6 +673,9 @@ class ProjectMap extends React.Component {
     }
 
     cancel = () => {
+
+      this.props.updateUserWayStatus(false);
+
       this.setState({
         "userWayPoints": [],
       }, this.renderFeatures);

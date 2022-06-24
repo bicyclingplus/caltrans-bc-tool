@@ -13,7 +13,9 @@ const Tooltip = require('bootstrap/js/dist/tooltip');
 class ProjectBenefits extends React.Component {
 
   componentDidMount() {
+    if(this.props.benefits.safetyQuantitative || this.props.benefits.emissions || this.props.benefits.health) {
       this.tooltip = new Tooltip(document.getElementById(`project-timeframe-tooltip`));
+    }
   }
 
   componentWillUnmount() {
