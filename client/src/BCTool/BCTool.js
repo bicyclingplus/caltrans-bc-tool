@@ -643,10 +643,10 @@ class BCTool extends React.Component {
         </div>
       </div>
 
-      <div className="container">
+      <div className="container-fluid">
 
         <div className="row justify-content-center mb-3 mt-3">
-          <div className="col-sm-8">
+          <div className="col-sm-4">
             <ProjectForm name={this.state['name']}
               developer={this.state['developer']}
               cost={this.state['cost']}
@@ -660,19 +660,18 @@ class BCTool extends React.Component {
               updateSubtype={this.updateSubtype}
             />
           </div>
-        </div>
-
-        { this.state.county ?
-        <div className="row mb-3">
-          <div className="col-sm-12">
+          <div className="col-sm-8">
+            { this.state.county ?
             <ProjectMap
               bounds={this.state.bounds}
               updateMapSelections={this.updateMapSelections}
             />
+            : null }
           </div>
         </div>
-        : null }
+      </div>
 
+      <div className="container">
         { this.state['type'] === 'infrastructure' && (this.state.selectedIntersections.length || this.state.selectedWays.length || this.state.userWays.length || this.state.userIntersections.length) ?
         <div className="row mb-3">
           <div className="col-sm-12">

@@ -21,18 +21,20 @@ class ProjectForm extends React.Component {
     return (
       <form>
         <div className="row mb-2">
-          <label htmlFor="project-name" className="col-sm-2 col-form-label text-end">Project Name</label>
-          <div className="col-sm-4">
+          <label htmlFor="project-name" className="col-sm-4 col-form-label text-end">Project Name</label>
+          <div className="col-sm-8">
             <input type="text" className="form-control" id="project-name" value={name} onChange={updateName} />
           </div>
-          <label htmlFor="project-developer" className="col-sm-3 col-form-label text-end">Project Developer</label>
-          <div className="col-sm-3">
+        </div>
+        <div className="row mb-2">
+          <label htmlFor="project-developer" className="col-sm-4 col-form-label text-end">Project Developer</label>
+          <div className="col-sm-8">
             <input type="text" className="form-control" id="project-developer" value={developer} onChange={updateDeveloper} />
           </div>
         </div>
         <div className="row mb-2">
-          <label htmlFor="project-cost" className="col-sm-2 col-form-label text-end">Project Cost</label>
-          <div className="col-sm-2">
+          <label htmlFor="project-cost" className="col-sm-4 col-form-label text-end">Project Cost</label>
+          <div className="col-sm-8">
             <div className="input-group">
               <span className="input-group-text">$</span>
               <input type="text" className="form-control" id="project-cost" value={cost} onChange={updateCost} />
@@ -40,8 +42,8 @@ class ProjectForm extends React.Component {
           </div>
         </div>
         <div className="row mb-2">
-          <label htmlFor="project-type" className="col-sm-2 col-form-label text-end">Project Time Frame</label>
-          <div className="col-md-4">
+          <label htmlFor="project-type" className="col-sm-4 col-form-label text-end">Project Time Frame</label>
+          <div className="col-md-8">
             <select id="project-time-frame" className="form-select" defaultValue={timeframe}>
               <option value="" disabled>-- Choose a time frame --</option>
               <option value="1">1 year</option>
@@ -49,8 +51,8 @@ class ProjectForm extends React.Component {
           </div>
         </div>
         <div className="row mb-2">
-          <label htmlFor="project-type" className="col-sm-2 col-form-label text-end">Project Type</label>
-          <div className="col-md-4">
+          <label htmlFor="project-type" className="col-sm-4 col-form-label text-end">Project Type</label>
+          <div className="col-md-8">
             <select id="project-type" className="form-select" value={type} onChange={updateType}>
               <option value="" disabled>-- Choose a type --</option>
               <option value="infrastructure">Infrastructure</option>
@@ -62,8 +64,8 @@ class ProjectForm extends React.Component {
 
         { type === 'infrastructure' ?
         <div className="row mb-2">
-          <label htmlFor="project-subtype" className="col-sm-2 col-form-label text-end">Active Travel Type</label>
-          <div className="col-md-4">
+          <label htmlFor="project-subtype" className="col-sm-4 col-form-label text-end">Active Travel Type</label>
+          <div className="col-md-8">
             <select id="project-subtype" className="form-select" value={subtype} onChange={updateSubtype}>
               <option value="" disabled>-- Choose a type --</option>
               <option value="pedestrian-only">Pedestrian Only</option>
