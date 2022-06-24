@@ -769,8 +769,12 @@ class ProjectMap extends React.Component {
 
             { mapMode === "add" && selectionType === "way" && userWayPoints.length ?
               <>
+              { userWayPoints.length > 1 ?
+              <>
               <button type="button" className="btn btn-user-defined ms-4" onClick={() => this.finish(false)}>Add as two way segment</button>
               <button type="button" className="btn btn-user-defined ms-4" onClick={() => this.finish(true)}>Add as one way segment</button>
+              </>
+              : null }
               <button type="button" className="btn btn-outline-user-defined ms-4" onClick={this.cancel}>Cancel Adding Segment</button>
               </>
             : null }

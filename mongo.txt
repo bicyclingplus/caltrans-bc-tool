@@ -1,0 +1,6 @@
+docker-compose exec -T db sh -c 'mongorestore --archive --username bctool --password phev' < 2022_02_04_bctool.dump
+
+docker-compose exec db mongo --username bctool --password phev
+use bctool;
+db.intersections.createIndex({"geometry": "2dsphere"});
+db.ways.createIndex({"geometry": "2dsphere"});
