@@ -184,8 +184,6 @@ class BCTool extends React.Component {
 
   onValueChange = (shortname, type, value) => {
 
-    // console.log(`Item ${shortname} changed ${type} to ${value}`);
-
     let updated = this.state.infrastructure;
 
     outer:
@@ -203,8 +201,7 @@ class BCTool extends React.Component {
     this.setState({
       'infrastructure': updated,
       'inputsChanged': true,
-    })
-
+    });
   };
 
   exportBenefits = () => {
@@ -212,7 +209,6 @@ class BCTool extends React.Component {
   }
 
   updateBenefits = () => {
-
     this.setState({
       'showBenefits': true,
       'inputsChanged': false,
@@ -228,7 +224,6 @@ class BCTool extends React.Component {
         this.state.existingTravel
       ),
     });
-
   }
 
   updateName = (e) => {
@@ -319,7 +314,6 @@ class BCTool extends React.Component {
   }
 
   updateUserWayStatus = (status) => {
-
     this.setState({
       'isAddingUserWay': status,
     });
