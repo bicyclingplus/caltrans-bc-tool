@@ -320,8 +320,6 @@ class BCTool extends React.Component {
 
   updateUserWayStatus = (status) => {
 
-    console.log(`Adding user way: ${status}`);
-
     this.setState({
       'isAddingUserWay': status,
     });
