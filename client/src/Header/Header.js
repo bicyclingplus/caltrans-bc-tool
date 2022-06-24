@@ -36,6 +36,8 @@ function Header() {
           </ul>
           </li>
         </ul>
+
+        <button class="btn btn-lg btn-restart">Start New Project</button>
       </div>
     </nav>
     </>

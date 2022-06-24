@@ -36,3 +36,13 @@
 .navbar .dropdown-toggle::after {
 	border:  0;
 }
+
+.btn-restart {
+	border-color: #003a5d;
+	color: #003a5d;
+}
+
+.btn-restart:hover {
+	background-color: #003a5d;
+	color: white;
+}
