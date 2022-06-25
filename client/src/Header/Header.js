@@ -1,10 +1,53 @@
+import React, { useState, useEffect } from 'react';
+
 import './Header.css';
 import resourcesIcon from './resources.png';
 import helpIcon from './help.png';
 
-function Header() {
+const Modal = require('bootstrap/js/dist/modal');
+
+
+function Header(props) {
+
+  let [ confirmModal, setConfirmModal ] = useState(null);
+
+  useEffect(() =>  {
+
+    setConfirmModal(new Modal(document.getElementById('bc-tool-confirm'), {
+      backdrop: 'static',
+    }));
+
+    return () => {
+      if(confirmModal) {
+        confirmModal.dispose();
+      }
+    }
+  }, []);
+
+  const openModal = () => {
+    confirmModal.show();
+  }
+
   return (
-    <div class="sticky-top">
+    <>
+    <div className="modal" tabIndex="-1" id="bc-tool-confirm">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Start New Project</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <p>Are you sure you want to start a new project?</p>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">No</button>
+              <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={props.startNewProject}>Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div className="sticky-top">
       <div className="container-fluid top-header">
         <div className="row">
           <div className="col clearfix">
@@ -37,11 +80,11 @@ function Header() {
             </li>
           </ul>
 
-          <button className="btn btn-lg btn-restart">Start New Project</button>
+          <button className="btn btn-lg btn-restart" onClick={openModal}>Start New Project</button>
         </div>
       </nav>
     </div>
-
+  </>
   );
 }
 

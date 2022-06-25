@@ -30,33 +30,7 @@ class BCTool extends React.Component {
   constructor(props) {
     super(props);
 
-    this.map = null;
-    this.features = null;
-
-    for(let category in infrastructure.categories) {
-
-      for(let item of infrastructure.categories[category].items) {
-
-        item.selected = false;
-        item.new = 0;
-        item.upgrade = 0;
-        item.retrofit = 0;
-      }
-    }
-
-    let new_non_infrastructure = [];
-
-    for(let item of non_infrastructure.items) {
-      new_non_infrastructure.push({
-        "label": item.label,
-        "shortname": item.shortname,
-        "description": item.description,
-        "selected": false,
-      });
-    }
-
-    this.state = {
-
+    this.defaultState = {
       bounds: [],
 
       name: '',
@@ -76,8 +50,8 @@ class BCTool extends React.Component {
       userIntersections: [],
       existingTravel: {},
 
-      infrastructure: infrastructure,
-      non_infrastructure: new_non_infrastructure,
+      infrastructure: [],
+      non_infrastructure: [],
       infrastructure_selected: false,
       multi_selected: false,
       non_infrastructure_selected: false,
@@ -88,10 +62,11 @@ class BCTool extends React.Component {
 
       isAddingUserWay: false,
     };
+
+    this.state = this.defaultState;
   }
 
   componentDidMount() {
-
     this.startModal = new Modal(document.getElementById('bc-tool-start'), {
       backdrop: 'static',
     });
@@ -100,7 +75,50 @@ class BCTool extends React.Component {
       backdrop: 'static',
     });
 
-    this.startModal.show();
+    this.initProject();
+  }
+
+  componentDidUpdate(prevProps) {
+    if(this.props.newProject !== prevProps.newProject) {
+      this.initProject();
+    }
+  }
+
+  initProject = () => {
+    if(this.props.newProject) {
+
+      for(let category in infrastructure.categories) {
+
+        for(let item of infrastructure.categories[category].items) {
+
+          item.selected = false;
+          item.new = 0;
+          item.upgrade = 0;
+          item.retrofit = 0;
+        }
+      }
+
+      let new_non_infrastructure = [];
+
+      for(let item of non_infrastructure.items) {
+        new_non_infrastructure.push({
+          "label": item.label,
+          "shortname": item.shortname,
+          "description": item.description,
+          "selected": false,
+        });
+      }
+
+      let newState = this.defaultState;
+
+      newState.infrastructure = infrastructure;
+      newState.non_infrastructure = new_non_infrastructure;
+
+      this.setState(newState, () => {
+        this.startModal.show();
+        this.props.projectStarted();
+      });
+    }
   }
 
   componentWillUnmount() {
