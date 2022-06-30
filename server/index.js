@@ -5,38 +5,18 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const tool = express();
 const morgan = require('morgan');
+const bodyParser = require('body-parser')
 require('dotenv').config();
 
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const client = new MongoClient(process.env.MONGO_URI);
 
-const geojson = {
-  '1': require('./data/bishop.json'),
-  '2': require('./data/kern.json'),
-  '3': require('./data/la.json'),
-  '4': require('./data/sf.json'),
-};
-
-const existing = require('./data/existing.json');
-
 app.use(morgan('combined'));
+app.use(bodyParser.json())
 
 tool.use(express.static(path.resolve(__dirname, '../client/build')));
 
 // Handle GET requests to /api route
-tool.get("/api/existing", (req, res) => {
-  res.json(existing['projects']);
-});
-
-tool.get("/api/geojson/:project", (req, res) => {
-
-  if(req.params.project in geojson) {
-    res.json(geojson[req.params.project]);
-  }
-  else {
-    res.json({});
-  }
-});
 
 
 // this endpoint takes in the corners of a latlng bounding box
@@ -106,27 +86,82 @@ tool.get("/api/bounds", async (req, res) => {
     }
   };
 
-  // Connect the client to the server
-  await client.connect();
+    try {
+    // Connect the client to the server
+    await client.connect();
 
-  const database = client.db('bctool');
+    const database = client.db('bctool');
 
-  let collection = database.collection('ways');
-  const ways = await collection.find(query).toArray();
+    let collection = database.collection('ways');
+    const ways = await collection.find(query).toArray();
 
-  collection = database.collection('intersections');
-  const intersections = await collection.find(query).toArray();
+    collection = database.collection('intersections');
+    const intersections = await collection.find(query).toArray();
 
-  res.json({
-    "ways": {
-      "type": "FeatureCollection",
-      "features": ways,
-    },
-    "intersections": {
-      "type": "FeatureCollection",
-      "features": intersections,
+    res.json({
+      "ways": {
+        "type": "FeatureCollection",
+        "features": ways,
+      },
+      "intersections": {
+        "type": "FeatureCollection",
+        "features": intersections,
+      }
+    });
+  }
+  finally {
+    await client.close();
+  }
+
+});
+
+tool.get('/api/projects/:projectId', async (req, res) => {
+
+  try {
+
+    await client.connect();
+
+    const database = client.db('bctool');
+    const collection = database.collection('projects');
+
+    let project = await collection.findOne({
+      '_id': new ObjectId(req.params.projectId),
+    });
+
+    if(project) {
+      return res.json(project);
     }
-  });
+
+    return res.status(404).json({
+      'message': 'Project not found',
+    });
+  }
+  finally {
+    await client.close();
+  }
+
+});
+
+tool.post('/api/projects', async (req, res) => {
+
+  try {
+
+    await client.connect();
+
+    const database = client.db('bctool');
+    const collection = database.collection('projects');
+
+    let project = await collection.insertOne(req.body);
+
+    return res.json({
+      'message': 'Project added successfully',
+      'id': project.insertedId,
+    });
+  }
+  finally {
+    await client.close();
+  }
+
 });
 
 app.use('/', tool);
