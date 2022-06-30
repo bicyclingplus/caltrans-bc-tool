@@ -40,7 +40,7 @@ class BCTool extends React.Component {
       subtype: '',
       city: '',
       county: '',
-      timeframe: 1,
+      timeframe: 20,
       year: new Date().getFullYear(),
 
       length: 0,
@@ -274,6 +274,7 @@ class BCTool extends React.Component {
         this.state.subtype,
         this.state.county,
         this.state.year,
+        this.state.timeframe,
         this.state.length,
         this.state.selectedIntersections.length + this.state.userIntersections.length,
         this.state.infrastructure,
@@ -380,6 +381,15 @@ class BCTool extends React.Component {
     this.warningModal.show();
   }
 
+  updateTimeFrame = (e) => {
+
+    // console.log(`Project time frame changed to ${e.target.value}`);
+
+    this.setState({
+      'timeframe': parseInt(e.target.value),
+    });
+  }
+
   render() {
     return (
       <>
@@ -438,6 +448,7 @@ class BCTool extends React.Component {
               updateCost={this.updateCost}
               updateType={this.updateType}
               updateSubtype={this.updateSubtype}
+              updateTimeFrame={this.updateTimeFrame}
             />
           </div>
           <div className="col-sm-8">

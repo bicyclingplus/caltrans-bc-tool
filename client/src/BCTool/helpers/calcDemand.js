@@ -1,4 +1,4 @@
-// Code below taken from https://github.com/gautama-bharadwaj/volume_to_miles
+// Code below taken from https://github.com/gautama-bharadwaj/volume_to_miles/blob/master/miles.py#L4
 // and ported to JS by me
 // JSON file required below also taken from the same repo
 // Input of 1.8, 10, 1234 should yield output of 258.42, verified

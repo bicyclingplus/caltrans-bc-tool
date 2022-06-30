@@ -1,3 +1,5 @@
+import calcDiscount from './calcDiscount';
+
 const WALK_SPEED = {
   'lower': 1.5,
   'mean': 3.0,
@@ -22,7 +24,7 @@ const BIKE_MMET = {
   'upper': 9.0,
 };
 
-function _calc(travel) {
+function _calc(travel, time_frame) {
 
   let benefits = {
     'total': {
@@ -39,9 +41,13 @@ function _calc(travel) {
 
   benefits.pedestrian = {};
 
-  benefits.pedestrian.lower = ((travel.pedestrian.inducedTravel.lower * 365) / WALK_SPEED.lower) * WALK_MMET.lower;
-  benefits.pedestrian.mean = ((travel.pedestrian.inducedTravel.mean * 365) / WALK_SPEED.mean) * WALK_MMET.mean;
-  benefits.pedestrian.upper = ((travel.pedestrian.inducedTravel.upper * 365) / WALK_SPEED.upper) * WALK_MMET.upper;
+  let ped_lower = ((travel.pedestrian.inducedTravel.lower * 365) / WALK_SPEED.lower) * WALK_MMET.lower;
+  let ped_mean = ((travel.pedestrian.inducedTravel.mean * 365) / WALK_SPEED.mean) * WALK_MMET.mean;
+  let ped_upper = ((travel.pedestrian.inducedTravel.upper * 365) / WALK_SPEED.upper) * WALK_MMET.upper;
+
+  benefits.pedestrian.lower = calcDiscount(ped_lower, time_frame);
+  benefits.pedestrian.mean = calcDiscount(ped_mean, time_frame);
+  benefits.pedestrian.upper = calcDiscount(ped_upper, time_frame);
 
   benefits.total.lower += benefits.pedestrian.lower;
   benefits.total.mean += benefits.pedestrian.mean;
@@ -50,9 +56,13 @@ function _calc(travel) {
 
   benefits.bike = {};
 
-  benefits.bike.lower = ((travel.bike.inducedTravel.lower * 365) / BIKE_SPEED.lower) * BIKE_MMET.lower;
-  benefits.bike.mean = ((travel.bike.inducedTravel.mean * 365) / BIKE_SPEED.mean) * BIKE_MMET.mean;
-  benefits.bike.upper = ((travel.bike.inducedTravel.upper * 365) / BIKE_SPEED.upper) * BIKE_MMET.upper;
+  let bike_lower = ((travel.bike.inducedTravel.lower * 365) / BIKE_SPEED.lower) * BIKE_MMET.lower;
+  let bike_mean = ((travel.bike.inducedTravel.mean * 365) / BIKE_SPEED.mean) * BIKE_MMET.mean;
+  let bike_uppper = ((travel.bike.inducedTravel.upper * 365) / BIKE_SPEED.upper) * BIKE_MMET.upper;
+
+  benefits.bike.lower = calcDiscount(bike_lower, time_frame);
+  benefits.bike.mean = calcDiscount(bike_mean, time_frame);
+  benefits.bike.upper = calcDiscount(bike_uppper, time_frame);
 
   benefits.total.lower += benefits.bike.lower;
   benefits.total.mean += benefits.bike.mean;
@@ -62,12 +72,12 @@ function _calc(travel) {
 
 }
 
-function calcHealth(travel) {
+function calcHealth(travel, time_frame) {
 
   return {
-    'miles': _calc(travel.miles),
-    'capita': _calc(travel.capita),
-    'jobs': _calc(travel.jobs),
+    'miles': _calc(travel.miles, time_frame),
+    'capita': _calc(travel.capita, time_frame),
+    'jobs': _calc(travel.jobs, time_frame),
   }
 
 }

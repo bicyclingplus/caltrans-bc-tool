@@ -16,6 +16,7 @@ class ProjectForm extends React.Component {
       updateCost,
       updateType,
       updateSubtype,
+      updateTimeFrame,
     } = this.props;
 
     return (
@@ -44,9 +45,10 @@ class ProjectForm extends React.Component {
         <div className="row mb-2">
           <label htmlFor="project-type" className="col-sm-4 col-form-label text-end">Project Time Frame</label>
           <div className="col-md-8">
-            <select id="project-time-frame" className="form-select" defaultValue={timeframe}>
+            <select id="project-time-frame" className="form-select" value={timeframe} onChange={updateTimeFrame}>
               <option value="" disabled>-- Choose a time frame --</option>
               <option value="1">1 year</option>
+              <option value="20">20 years</option>
             </select>
           </div>
         </div>

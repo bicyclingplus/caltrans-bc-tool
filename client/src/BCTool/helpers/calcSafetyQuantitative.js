@@ -1,8 +1,9 @@
+import calcDiscount from './calcDiscount';
 import { SCALING_FACTORS } from './constants';
 
 const quantitative = require('../data/quantitative.json');
 
-function _calc(infrastructure, travel, length, intersections, subtype) {
+function _calc(infrastructure, travel, length, intersections, subtype, time_frame) {
 
   let benefits = {
     "bike": {
@@ -30,6 +31,21 @@ function _calc(infrastructure, travel, length, intersections, subtype) {
       "yielding": [],
     },
   };
+
+  // Generate a list of benefits based
+  // on which infrastructure elements are selected
+  //
+  // Element benefits can apply to different categories:
+  // benefit applies to bike, adds to bike and combined categories
+  // benefit applies to ped, adds to ped and combined categories
+  // benefit applies to all, adds to combined category only
+  //
+  // Elements can have benefits for one/several parameters
+  // e.g. crashes, crime, deaths, etc.
+  //
+  // For each selected element add a benefit for each type of
+  // improvement (new/upgrade/retrofit) and scale the benefit accordingly
+  // Also scale each benefit based on the element's share of the project
 
   // go through each category
   for(let category of infrastructure.categories) {
@@ -129,7 +145,8 @@ function _calc(infrastructure, travel, length, intersections, subtype) {
 
   let calculatedBenefits = {};
 
-  // go through benefits
+  // Combine lsit of benefits for all elements to a total
+  // benefit for each category and parameter
   for(let category of ['bike', 'pedestrian', 'combined']) {
 
     calculatedBenefits[category] = {};
@@ -173,6 +190,8 @@ function _calc(infrastructure, travel, length, intersections, subtype) {
   // console.log('-------------------------------')
   // console.log(calculatedBenefits);
 
+  // Calculate the yearly benefit by multiplying the appropriate daily demand
+  // in miles by the benefit and then by 365
   for(let category of ['bike', 'pedestrian', 'combined']) {
 
     let modeProjectedTravel;
@@ -199,25 +218,41 @@ function _calc(infrastructure, travel, length, intersections, subtype) {
         if(calculatedBenefits[category][parameter][range] !== null) {
           calculatedBenefits[category][parameter][range] *= modeProjectedTravel[range] * 365;
         }
-
       }
-
     }
-
   }
 
   // console.log('RESULT');
   // console.log(calculatedBenefits);
 
-  return calculatedBenefits;
+  // Calculate benefits over project time frame
+  let adjustedBenefits = {};
+
+  for(let category of ['bike', 'pedestrian', 'combined']) {
+
+    adjustedBenefits[category] = {};
+
+    for(let parameter in benefits[category]) {
+
+      adjustedBenefits[category][parameter] = {};
+
+      for(let range of ['lower', 'mean', 'upper']) {
+
+        adjustedBenefits[category][parameter][range] = calculatedBenefits[category][parameter][range] !== null ?
+          calcDiscount(calculatedBenefits[category][parameter][range], time_frame) : null;
+      }
+    }
+  }
+
+  return adjustedBenefits;
 }
 
-function calcSafetyQuantitative(infrastructure, travel, length, intersections, subtype) {
+function calcSafetyQuantitative(infrastructure, travel, length, intersections, subtype, time_frame) {
 
   return {
-    "miles": _calc(infrastructure, travel.miles, length, intersections, subtype),
-    "capita": _calc(infrastructure, travel.capita, length, intersections, subtype),
-    "jobs": _calc(infrastructure, travel.jobs, length, intersections, subtype),
+    "miles": _calc(infrastructure, travel.miles, length, intersections, subtype, time_frame),
+    "capita": _calc(infrastructure, travel.capita, length, intersections, subtype, time_frame),
+    "jobs": _calc(infrastructure, travel.jobs, length, intersections, subtype, time_frame),
   }
 
 }
