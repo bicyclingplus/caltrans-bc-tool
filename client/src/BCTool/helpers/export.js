@@ -2,7 +2,7 @@ import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { readableNumber } from '../helpers/formatting';
 
-const ExportPDF = (state) => {
+const ExportPDF = (state, project_id) => {
 
 	let {
 		name,
@@ -13,8 +13,9 @@ const ExportPDF = (state) => {
 
 	// project info
 	doc.text([
+		`Project ID: ${project_id}`,
 		`Project Name: ${name}`,
-		`Project Cost: $${readableNumber(cost)}`
+		`Project Cost: $${readableNumber(cost)}`,
 	], 10, 10);
 
 	// travel benefits

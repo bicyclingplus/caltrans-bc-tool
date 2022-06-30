@@ -223,7 +223,46 @@ class BCTool extends React.Component {
   };
 
   exportBenefits = () => {
-    ExportPDF(this.state);
+
+    let url = `${process.env.PUBLIC_URL}/api/projects`;
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "details": {
+            "name": this.state.name,
+            "developer": this.state.developer,
+            "county": this.state.county,
+            "cost": this.state.cost,
+            "time_frame": this.state.timeframe,
+            "type": this.state.type,
+            "sub_type": this.state.subtype,
+            "year": this.state.year,
+        },
+        "scope": {
+            "intersections": this.state.selectedIntersections,
+            "segments": this.state.selectedWays,
+            "user_intersections": this.state.userIntersections,
+            "user_segments": this.state.userWays,
+        },
+        "selected_elements": {
+            "infrastructure": this.state.infrastructure,
+            "non_infrastructure": this.state.non_infrastructure,
+        }
+      })
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+            ExportPDF(this.state, result.id);
+        },
+        (error) => {
+          console.log(error);
+        },
+      );
   }
 
   updateBenefits = () => {
