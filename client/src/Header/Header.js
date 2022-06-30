@@ -17,11 +17,6 @@ function Header(props) {
       backdrop: 'static',
     }));
 
-    return () => {
-      if(confirmModal) {
-        confirmModal.dispose();
-      }
-    }
   }, []);
 
   const openModal = () => {
