@@ -61,6 +61,7 @@ class BCTool extends React.Component {
       inputsChanged: false,
 
       isAddingUserWay: false,
+      projectID: '',
     };
 
     this.state = this.defaultState;
@@ -385,7 +386,18 @@ class BCTool extends React.Component {
     this.setState({
       'timeframe': parseInt(e.target.value),
     });
-  }
+  };
+
+  updateProjectID = (e) => {
+    this.setState({
+      'projectID': e.target.value,
+    });
+  };
+
+  loadProject = () => {
+    console.log(`Loading project: ${this.state.projectID}`);
+    this.startModal.hide();
+  };
 
   render() {
     return (
@@ -401,13 +413,24 @@ class BCTool extends React.Component {
 
 
               <select id="county" className="form-select mt-4" value={this.state.county} onChange={this.updateCounty}>
-              <option value='' disabled>Select County</option>
-              {
-                counties.counties.map((county) => (
-                  <option key={county.name} value={county.name}>{county.name}</option>
-                ))
-              }
-            </select>
+                <option value='' disabled>Select County</option>
+                {
+                  counties.counties.map((county) => (
+                    <option key={county.name} value={county.name}>{county.name}</option>
+                  ))
+                }
+              </select>
+              <hr />
+
+              <form>
+                <div>
+                  <label htmlFor="project-id" className="form-label">Project ID</label>
+                  <input type="text" className="form-control" id="project-id" value={this.state.projectID} onChange={this.updateProjectID} />
+                </div>
+                <div>
+                  <button type="button" className="btn btn-secondary" onClick={this.loadProject}>Load Project</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
