@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, Link, NavLink } from "react-router-dom";
 
 import './Header.css';
 import resourcesIcon from './resources.png';
@@ -8,6 +9,10 @@ const Modal = require('bootstrap/js/dist/modal');
 
 
 function Header(props) {
+
+  const location = useLocation();
+
+  console.log(`location is ${location.pathname}`)
 
   let [ confirmModal, setConfirmModal ] = useState(null);
 
@@ -46,7 +51,7 @@ function Header(props) {
       <div className="container-fluid top-header">
         <div className="row">
           <div className="col clearfix">
-            <h1 className="float-start">ITS Logo</h1>
+            <h1 className="float-start"><Link to="/">ITS Logo</Link></h1>
             <h1 className="float-end">ATRC Logo</h1>
           </div>
         </div>
@@ -59,8 +64,8 @@ function Header(props) {
               <img src={resourcesIcon} alt="book icon" /> Resources
             </a>
             <ul className="dropdown-menu" aria-labelledby="resourcesDropdow">
-              <li><a className="dropdown-item" href="#">Technical Documentation</a></li>
-              <li><a className="dropdown-item" href="#">Literature Review</a></li>
+              <li><NavLink className="dropdown-item" to="technicaldocs">Technical Documentation</NavLink></li>
+              <li><NavLink className="dropdown-item" to="litreview">Literature Review</NavLink></li>
             </ul>
             </li>
             <li className="nav-item dropdown">
@@ -68,14 +73,18 @@ function Header(props) {
               <img src={helpIcon} alt="pencil icon" /> Help
             </a>
             <ul className="dropdown-menu" aria-labelledby="helpDropdown">
-              <li><a className="dropdown-item" href="#">About</a></li>
-              <li><a className="dropdown-item" href="#">User Guide</a></li>
-              <li><a className="dropdown-item" href="#">Training</a></li>
+              <li><NavLink className="dropdown-item" to="about">About</NavLink></li>
+              <li><NavLink className="dropdown-item" to="userguide">User Guide</NavLink></li>
+              <li><NavLink className="dropdown-item" to="training">Training</NavLink></li>
             </ul>
             </li>
           </ul>
 
-          <button className="btn btn-lg btn-restart" onClick={openModal}>Start New Project</button>
+          <>
+          { location.pathname === '/' ?
+            <button className="btn btn-lg btn-restart" onClick={openModal}>Start New Project</button>
+          : null }
+          </>
         </div>
       </nav>
     </div>

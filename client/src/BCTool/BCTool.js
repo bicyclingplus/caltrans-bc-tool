@@ -79,46 +79,43 @@ class BCTool extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.newProject !== prevProps.newProject) {
+    if(this.props.newProject) {
       this.initProject();
     }
   }
 
   initProject = () => {
-    if(this.props.newProject) {
+    for(let category in infrastructure.categories) {
 
-      for(let category in infrastructure.categories) {
+      for(let item of infrastructure.categories[category].items) {
 
-        for(let item of infrastructure.categories[category].items) {
-
-          item.selected = false;
-          item.new = 0;
-          item.upgrade = 0;
-          item.retrofit = 0;
-        }
+        item.selected = false;
+        item.new = 0;
+        item.upgrade = 0;
+        item.retrofit = 0;
       }
+    }
 
-      let new_non_infrastructure = [];
+    let new_non_infrastructure = [];
 
-      for(let item of non_infrastructure.items) {
-        new_non_infrastructure.push({
-          "label": item.label,
-          "shortname": item.shortname,
-          "description": item.description,
-          "selected": false,
-        });
-      }
-
-      let newState = this.defaultState;
-
-      newState.infrastructure = infrastructure;
-      newState.non_infrastructure = new_non_infrastructure;
-
-      this.setState(newState, () => {
-        this.startModal.show();
-        this.props.projectStarted();
+    for(let item of non_infrastructure.items) {
+      new_non_infrastructure.push({
+        "label": item.label,
+        "shortname": item.shortname,
+        "description": item.description,
+        "selected": false,
       });
     }
+
+    let newState = this.defaultState;
+
+    newState.infrastructure = infrastructure;
+    newState.non_infrastructure = new_non_infrastructure;
+
+    this.setState(newState, () => {
+      this.startModal.show();
+      this.props.projectStarted();
+    });
   }
 
   componentWillUnmount() {
