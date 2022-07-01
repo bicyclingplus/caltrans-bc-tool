@@ -46,3 +46,7 @@
 	background-color: #003a5d;
 	color: white;
 }
+
+.btn-link.btn-borderless {
+  border: 0;
+}

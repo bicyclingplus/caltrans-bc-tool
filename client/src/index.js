@@ -11,8 +11,6 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 import App from './App';
-import BCTool from './BCTool/BCTool';
-import Test from './Test/Test';
 
 ReactDOM.render(
   <React.StrictMode>

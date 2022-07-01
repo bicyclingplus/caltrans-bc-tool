@@ -12,8 +12,6 @@ function Header(props) {
 
   const location = useLocation();
 
-  console.log(`location is ${location.pathname}`)
-
   let [ confirmModal, setConfirmModal ] = useState(null);
 
   useEffect(() =>  {
@@ -60,18 +58,18 @@ function Header(props) {
         <div className="container-fluid">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 flex-wrap">
            <li className="nav-item dropdown">
-            <a className="nav-link dropdown-toggle" href="#" id="resourcesDropdow" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button className="btn dropdown-toggle btn-link nav-link btn-borderless" id="resourcesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <img src={resourcesIcon} alt="book icon" /> Resources
-            </a>
-            <ul className="dropdown-menu" aria-labelledby="resourcesDropdow">
+            </button>
+            <ul className="dropdown-menu" aria-labelledby="resourcesDropdown">
               <li><NavLink className="dropdown-item" to="technicaldocs">Technical Documentation</NavLink></li>
               <li><NavLink className="dropdown-item" to="litreview">Literature Review</NavLink></li>
             </ul>
             </li>
             <li className="nav-item dropdown">
-            <a className="nav-link dropdown-toggle" href="#" id="helpDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button className="btn dropdown-toggle btn-link nav-link btn-borderless" id="helpDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <img src={helpIcon} alt="pencil icon" /> Help
-            </a>
+            </button>
             <ul className="dropdown-menu" aria-labelledby="helpDropdown">
               <li><NavLink className="dropdown-item" to="about">About</NavLink></li>
               <li><NavLink className="dropdown-item" to="userguide">User Guide</NavLink></li>
