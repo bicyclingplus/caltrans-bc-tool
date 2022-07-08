@@ -18,55 +18,55 @@ class infrastructureItem extends React.Component {
     }
 
     onNewValueChange = (e) => {
-        let { shortname, onValueChange } = this.props;
+        let { shortname, onChange } = this.props;
 
-        onValueChange(shortname, 'new', parseInt(e.target.value));
+        onChange(shortname, 'new', parseInt(e.target.value));
     }
 
     onUpgradeValueChange = (e) => {
-        let { shortname, onValueChange } = this.props;
+        let { shortname, onChange } = this.props;
 
-        onValueChange(shortname, 'upgrade', parseInt(e.target.value));
+        onChange(shortname, 'upgrade', parseInt(e.target.value));
     }
 
     onRetrofitValueChange = (e) => {
-        let { shortname, onValueChange } = this.props;
+        let { shortname, onChange } = this.props;
 
-        onValueChange(shortname, 'retrofit', parseInt(e.target.value));
+        onChange(shortname, 'retrofit', parseInt(e.target.value));
     }
 
     updateNew = (e) => {
-        let { shortname, onValueChange } = this.props;
+        let { shortname, onChange } = this.props;
 
         this.setState({
             'new': e.target.checked,
         }, () => {
             if(!e.target.checked) {
-                onValueChange(shortname, 'new', 0);
+                onChange(shortname, 'new', 0);
             }
         })
     }
 
     updateUpgrade = (e) => {
-        let { shortname, onValueChange } = this.props;
+        let { shortname, onChange } = this.props;
 
         this.setState({
             'upgrade': e.target.checked,
         }, () => {
             if(!e.target.checked) {
-                onValueChange(shortname, 'upgrade', 0);
+                onChange(shortname, 'upgrade', 0);
             }
         })
     }
 
     updateRetrofit = (e) => {
-        let { shortname, onValueChange } = this.props;
+        let { shortname, onChange } = this.props;
 
         this.setState({
             'retrofit': e.target.checked,
         }, () => {
             if(!e.target.checked) {
-                onValueChange(shortname, 'retrofit', 0);
+                onChange(shortname, 'retrofit', 0);
             }
         })
     }

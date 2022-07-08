@@ -12,11 +12,13 @@ class CheckboxDropdown extends React.Component {
 
     buildButtonText() {
 
+        let { buttonText, items, selected } = this.props;
+
         let selectedText = [];
 
-        for(let i = 0; i < this.props.items.length; i++) {
-            if(this.props.items[i]['selected']) {
-                selectedText.push(this.props.items[i]['label']);
+        for(let item of items) {
+            if(selected.includes(item.shortname)) {
+                selectedText.push(item.label);
             }
         }
 
@@ -24,14 +26,12 @@ class CheckboxDropdown extends React.Component {
             return selectedText.join(", ");
         }
 
-        return this.props.buttonText;
+        return buttonText;
     }
 
     render() {
 
-        const items = this.props.items;
-        const onChange = this.props.onChange;
-        const name = this.props.name;
+        let { items, onChange, name, selected } = this.props;
 
         return (
             <div className="dropdown d-grid gap-2">
@@ -48,6 +48,7 @@ class CheckboxDropdown extends React.Component {
                     <CheckboxList
                         items={items}
                         onChange={onChange}
+                        selected={selected}
                     />
                 </form>
               </div>

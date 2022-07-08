@@ -8,12 +8,11 @@ class CategorizedCheckboxDropdown extends React.Component {
 
         let selectedText = [];
         let { categories, buttonText, selected } = this.props;
-        let shortnames = Object.keys(selected);
 
         for(let category of categories) {
 
             for(let item of category.items) {
-                if(shortnames.includes(item.shortname)) {
+                if(selected.includes(item.shortname)) {
                     selectedText.push(item['label']);
                 }
             }

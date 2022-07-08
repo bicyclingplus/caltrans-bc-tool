@@ -5,7 +5,7 @@ import InfrastructureItem from './InfrastructureItem';
 class InfrastructureCategory extends React.Component {
 
     render() {
-        let { category, onValueChange, selections } = this.props;
+        let { category, onChange, selections } = this.props;
 
         let shortnames = Object.keys(selections);
 
@@ -34,7 +34,7 @@ class InfrastructureCategory extends React.Component {
                                     upgradeValue={selections[item.shortname].upgrade}
                                     retrofitValue={selections[item.shortname].retrofit}
                                     units={item.units}
-                                    onValueChange={onValueChange}
+                                    onChange={onChange}
                                 />
                             ))
                     }

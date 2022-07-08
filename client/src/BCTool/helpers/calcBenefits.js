@@ -20,17 +20,17 @@ const calcBenefits = (
 	num_intersections,
 
 	infrastructure,
-	non_infrastructure,
 
 	existingTravel,
 
-	selectedInfrastructure
+	selectedInfrastructure,
+	selectedNonInfrastructure
 	) => {
 
 	let benefits = {};
 
 	benefits.projectQualitative = calcProjectQualitative(
-		infrastructure, non_infrastructure, selectedInfrastructure);
+		selectedInfrastructure, selectedNonInfrastructure);
 
 	if(project_type === 'infrastructure' || project_type === 'both') {
 
@@ -55,7 +55,7 @@ const calcBenefits = (
         selectedInfrastructure);
     }
 
-    console.log(benefits);
+    // console.log(benefits);
 
     return benefits;
 }

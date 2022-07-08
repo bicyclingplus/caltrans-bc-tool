@@ -8,13 +8,7 @@ class ProjectElements extends React.Component {
   render() {
 
     let type = this.props.type;
-    // let infrastructure = this.props.infrastructure;
-    let nonInfrastructure = this.props['non-infrastructure'];
-
-    // let onInfrastructureChange = this.props.onInfrastructureChange;
-    let onNonInfrastructureChange = this.props.onNonInfrastructureChange;
-
-    // let selectedInfrastructure = this.props.selectedInfrastructure;
+    let selectedInfrastructure = Object.keys(this.props.selectedInfrastructure);
 
     return (
       <div className="card">
@@ -39,14 +33,14 @@ class ProjectElements extends React.Component {
                 onChange={this.props.onInfrastructureChange}
                 isAddingUserWay={this.props.isAddingUserWay}
                 showUserWayWarning={this.props.showUserWayWarning}
-                selected={this.props.selectedInfrastructure}
+                selected={selectedInfrastructure}
                 />
             </div>
           </div>
           : null }
 
           { type === 'non-infrastructure' || type === 'both' ?
-          <div className="row mb-3">
+          <div className="row mb-3 mt-4">
             <div className="col-sm-4"><h5 className="form-label">Non-Infrastructure Elements</h5></div>
             <div className="col-sm-8">
               <CheckboxDropdown
@@ -55,8 +49,9 @@ class ProjectElements extends React.Component {
                 buttonText="Click to select"
                 maxLength="75"
                 name="non-infrastructure"
-                items={nonInfrastructure}
-                onChange={onNonInfrastructureChange}
+                items={this.props.nonInfrastructure.items}
+                onChange={this.props.onNonInfrastructureChange}
+                selected={this.props.selectedNonInfrastructure}
                 />
             </div>
           </div>
