@@ -5,7 +5,9 @@ import InfrastructureItem from './InfrastructureItem';
 class InfrastructureCategory extends React.Component {
 
     render() {
-        let { category, onValueChange } = this.props;
+        let { category, onValueChange, selections } = this.props;
+
+        let shortnames = Object.keys(selections);
 
         return (
             <>
@@ -22,15 +24,15 @@ class InfrastructureCategory extends React.Component {
                 <tbody>
                     {
                         category.items
-                            .filter((item) => (item.selected))
+                            .filter((item) => (shortnames.includes(item.shortname)))
                             .map((item) => (
                                 <InfrastructureItem
                                     key={item.shortname}
                                     shortname={item.shortname}
                                     label={item.label}
-                                    newValue={item.new}
-                                    upgradeValue={item.upgrade}
-                                    retrofitValue={item.retrofit}
+                                    newValue={selections[item.shortname].new}
+                                    upgradeValue={selections[item.shortname].upgrade}
+                                    retrofitValue={selections[item.shortname].retrofit}
                                     units={item.units}
                                     onValueChange={onValueChange}
                                 />

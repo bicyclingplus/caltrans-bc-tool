@@ -22,7 +22,7 @@ const OTHER_SHIFT = {
     'pedestrian': 47.99,
 };
 
-function calcTravelMode(mode, infrastructure, existingTravel, length) {
+function calcTravelMode(mode, selectedInfrastructure, existingTravel, length) {
 
     let travel = {};
 
@@ -34,50 +34,36 @@ function calcTravelMode(mode, infrastructure, existingTravel, length) {
 
     let increases = [];
 
-    // Go through each infrastructure category
-    for(let category of infrastructure.categories) {
+    for(let element in selectedInfrastructure) {
 
-        // Go through each infrastructure element in this category
-        for(const item of category.items) {
+        // Check the current infrastructure element has a travel
+        // increase to calculate
+        if(element in travel_volume &&
+            mode in travel_volume[element]) {
 
-            // Check if this element is selected
-            if(item['selected']) {
+            for(let type in SCALING_FACTORS) {
 
-                // Check the current infrastructure element has a travel
-                // increase to calculate
-                for(let element in travel_volume) {
+                let value = selectedInfrastructure[element][type];
 
-                    if(element === item['shortname']) {
-
-                        if(mode in travel_volume[element]) {
-
-                            for(let type in SCALING_FACTORS) {
-
-                                if(item[type] === 0) {
-                                    continue;
-                                  }
-
-                                let share = item[type] / length;
-                                let multiplier = SCALING_FACTORS[type];
-
-                                increases.push({
-                                    'lower': ((travel_volume[element][mode].lower / 100) * travel.existing.lower) * share * multiplier,
-                                    'mean': ((travel_volume[element][mode].mean / 100) * travel.existing.mean) * share * multiplier,
-                                    'upper': ((travel_volume[element][mode].upper / 100) * travel.existing.upper) * share * multiplier,
-                                });
-                            }
-
-                            // console.log(`Adding travel increase for ${mode} for ${element}`);
-
-                            // TODO: HOW TO HANDLE THE CASE WHERE THIS IS A COUNT INSTEAD OF A LENGTH?
-                            // e.g. CROSSING ISLAND, we ask for count, but how to calculate the share?
-                            // it belongs to intersections, so use that?
-                            // BUT WHAT ABOUT THE BLOCK FACE STUFF THAT IS IN COUNTS?
-
-                        }
-                    }
+                if(value === 0) {
+                    continue;
                 }
 
+                let share = value / length;
+                let multiplier = SCALING_FACTORS[type];
+
+                // console.log(`Adding travel increase for ${mode} for ${element}`);
+
+                // TODO: HOW TO HANDLE THE CASE WHERE THIS IS A COUNT INSTEAD OF A LENGTH?
+                // e.g. CROSSING ISLAND, we ask for count, but how to calculate the share?
+                // it belongs to intersections, so use that?
+                // BUT WHAT ABOUT THE BLOCK FACE STUFF THAT IS IN COUNTS?
+
+                increases.push({
+                    'lower': ((travel_volume[element][mode].lower / 100) * travel.existing.lower) * share * multiplier,
+                    'mean': ((travel_volume[element][mode].mean / 100) * travel.existing.mean) * share * multiplier,
+                    'upper': ((travel_volume[element][mode].upper / 100) * travel.existing.upper) * share * multiplier,
+                });
             }
         }
     }
@@ -139,7 +125,7 @@ function calcTravelMode(mode, infrastructure, existingTravel, length) {
     return travel;
 }
 
-function calcTravel(infrastructure, existingTravel, length) {
+function calcTravel(selectedInfrastructure, existingTravel, length) {
 
     let travel = {
         "miles": {
@@ -171,8 +157,8 @@ function calcTravel(infrastructure, existingTravel, length) {
         },
     };
 
-    travel.miles.bike = calcTravelMode('bike', infrastructure, existingTravel.miles.bike, length);
-    travel.miles.pedestrian = calcTravelMode('pedestrian', infrastructure, existingTravel.miles.pedestrian, length);
+    travel.miles.bike = calcTravelMode('bike', selectedInfrastructure, existingTravel.miles.bike, length);
+    travel.miles.pedestrian = calcTravelMode('pedestrian', selectedInfrastructure, existingTravel.miles.pedestrian, length);
 
     travel.miles.totalProjected.lower += travel.miles.bike.projected.lower;
     travel.miles.totalProjected.mean += travel.miles.bike.projected.mean;
@@ -182,8 +168,8 @@ function calcTravel(infrastructure, existingTravel, length) {
     travel.miles.totalProjected.mean += travel.miles.pedestrian.projected.mean;
     travel.miles.totalProjected.upper += travel.miles.pedestrian.projected.upper;
 
-    travel.capita.bike = calcTravelMode('bike', infrastructure, existingTravel.capita.bike, length);
-    travel.capita.pedestrian = calcTravelMode('pedestrian', infrastructure, existingTravel.capita.pedestrian, length);
+    travel.capita.bike = calcTravelMode('bike', selectedInfrastructure, existingTravel.capita.bike, length);
+    travel.capita.pedestrian = calcTravelMode('pedestrian', selectedInfrastructure, existingTravel.capita.pedestrian, length);
 
     travel.capita.totalProjected.lower += travel.capita.bike.projected.lower;
     travel.capita.totalProjected.mean += travel.capita.bike.projected.mean;
@@ -193,8 +179,8 @@ function calcTravel(infrastructure, existingTravel, length) {
     travel.capita.totalProjected.mean += travel.capita.pedestrian.projected.mean;
     travel.capita.totalProjected.upper += travel.capita.pedestrian.projected.upper;
 
-    travel.jobs.bike = calcTravelMode('bike', infrastructure, existingTravel.jobs.bike, length);
-    travel.jobs.pedestrian = calcTravelMode('pedestrian', infrastructure, existingTravel.jobs.pedestrian, length);
+    travel.jobs.bike = calcTravelMode('bike', selectedInfrastructure, existingTravel.jobs.bike, length);
+    travel.jobs.pedestrian = calcTravelMode('pedestrian', selectedInfrastructure, existingTravel.jobs.pedestrian, length);
 
     travel.jobs.totalProjected.lower += travel.jobs.bike.projected.lower;
     travel.jobs.totalProjected.mean += travel.jobs.bike.projected.mean;

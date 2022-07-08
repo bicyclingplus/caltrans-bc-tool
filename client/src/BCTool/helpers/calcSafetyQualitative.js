@@ -1,6 +1,6 @@
 const qualitative = require('../data/qualitative.json');
 
-function calcSafetyQualitative(infrastructure) {
+function calcSafetyQualitative(infrastructure, selectedInfrastructure) {
 
   let benefits = [];
 
@@ -11,7 +11,7 @@ function calcSafetyQualitative(infrastructure) {
       for(const item of category.items) {
 
           // Check if this element is selected
-          if(item.selected && item.shortname in qualitative) {
+          if(item.shortname in selectedInfrastructure) {
 
             let shortname = item.shortname;
 
@@ -22,17 +22,19 @@ function calcSafetyQualitative(infrastructure) {
               shortname = 'lighting';
             }
 
-            benefits.push({
-              element: item.label,
-              benefits: qualitative[shortname].map((benefit, idx) => (
-                {
-                  'key': `${shortname}-${idx}`,
-                  'element': item.label,
-                  'description': benefit.description,
-                  'sources': benefit.sources,
-                }
-              )),
-            });
+            if(shortname in qualitative) {
+
+              benefits.push({
+                element: item.label,
+                benefits: qualitative[shortname].map((benefit, idx) => (
+                  {
+                    'key': `${shortname}-${idx}`,
+                    'description': benefit.description,
+                    'sources': benefit.sources,
+                  }
+                )),
+              });
+            }
 
           }
       }

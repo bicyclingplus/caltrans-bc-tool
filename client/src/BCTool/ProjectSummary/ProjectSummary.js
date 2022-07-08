@@ -61,7 +61,7 @@ class ProjectSummary extends React.Component {
                 </h5>
                 <div className="row">
 
-                  { subtype !== "bike-only" ?
+                  { subtype === "pedestrian-only" || subtype === "both" ?
                   <div className="col-sm-6">
                     <u>Existing Daily Walking Miles</u>
                     <ul className="list-unstyled">
@@ -72,7 +72,7 @@ class ProjectSummary extends React.Component {
                   </div>
                   : null }
 
-                  { subtype !== "pedestrian-only" ?
+                  { subtype === "bike-only" || subtype === "both" ?
                   <div className="col-sm-6">
                     <u>Existing Daily Bicyling Miles</u>
                     <ul className="list-unstyled">

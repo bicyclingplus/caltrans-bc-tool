@@ -20,19 +20,19 @@ class infrastructureItem extends React.Component {
     onNewValueChange = (e) => {
         let { shortname, onValueChange } = this.props;
 
-        onValueChange(shortname, 'new', e.target.value);
+        onValueChange(shortname, 'new', parseInt(e.target.value));
     }
 
     onUpgradeValueChange = (e) => {
         let { shortname, onValueChange } = this.props;
 
-        onValueChange(shortname, 'upgrade', e.target.value);
+        onValueChange(shortname, 'upgrade', parseInt(e.target.value));
     }
 
     onRetrofitValueChange = (e) => {
         let { shortname, onValueChange } = this.props;
 
-        onValueChange(shortname, 'retrofit', e.target.value);
+        onValueChange(shortname, 'retrofit', parseInt(e.target.value));
     }
 
     updateNew = (e) => {

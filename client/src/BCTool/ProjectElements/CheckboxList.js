@@ -5,7 +5,8 @@ import Checkbox from './Checkbox';
 class CheckboxList extends React.Component {
     render() {
 
-        let { items, onChange } = this.props;
+        let { items, onChange, selected } = this.props;
+        let shortnames = Object.keys(selected);
 
         return (
             <>
@@ -15,7 +16,7 @@ class CheckboxList extends React.Component {
                         key={item.shortname}
                         label={item.label}
                         shortname={item.shortname}
-                        checked={item.selected}
+                        checked={shortnames.includes(item.shortname)}
                         onChange={onChange}
                     />
                 )

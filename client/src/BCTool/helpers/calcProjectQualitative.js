@@ -1,6 +1,6 @@
 const projectQualitative = require('../data/project_qualitative.json');
 
-function calcProjectQualitative(infrastructure, nonInfrastructure) {
+function calcProjectQualitative(infrastructure, nonInfrastructure, selectedInfrastructure) {
 
 	// console.log(infrastructure);
 	// console.log(nonInfrastructure);
@@ -11,9 +11,9 @@ function calcProjectQualitative(infrastructure, nonInfrastructure) {
 	for(let category of infrastructure.categories) {
 
 		// Go through each infrastructure element in this category
-		for(const item of category.items) {
+		for(let item of category.items) {
 
-			if(item.selected) {
+			if(item.shortname in selectedInfrastructure) {
 				combinedElements.push(item.shortname);
 			}
 		}

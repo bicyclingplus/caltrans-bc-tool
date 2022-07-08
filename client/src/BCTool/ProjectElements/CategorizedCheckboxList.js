@@ -21,16 +21,16 @@ class CategorizedCheckboxList extends React.Component {
         }
     }
 
-    onChange = (shortname, value) => {
+    // onChange = (shortname, value) => {
 
-        let { onChange, category } = this.props;
+    //     let { onChange, category } = this.props;
 
-        onChange(category.shortname, shortname, value);
-    }
+    //     onChange(category.shortname, shortname, value);
+    // }
 
     render() {
 
-        let { category } = this.props;
+        let { category, selected, onChange } = this.props;
 
         return (
             <>
@@ -48,7 +48,8 @@ class CategorizedCheckboxList extends React.Component {
                 </h6>
                 <CheckboxList
                     items={category.items}
-                    onChange={this.onChange}
+                    onChange={onChange}
+                    selected={selected}
                 />
             </div>
             </>

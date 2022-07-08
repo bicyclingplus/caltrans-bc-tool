@@ -8,11 +8,13 @@ class ProjectElements extends React.Component {
   render() {
 
     let type = this.props.type;
-    let infrastructure = this.props.infrastructure;
+    // let infrastructure = this.props.infrastructure;
     let nonInfrastructure = this.props['non-infrastructure'];
 
-    let onInfrastructureChange = this.props.onInfrastructureChange;
+    // let onInfrastructureChange = this.props.onInfrastructureChange;
     let onNonInfrastructureChange = this.props.onNonInfrastructureChange;
+
+    // let selectedInfrastructure = this.props.selectedInfrastructure;
 
     return (
       <div className="card">
@@ -33,10 +35,11 @@ class ProjectElements extends React.Component {
                 buttonText="Click to select"
                 maxLength="75"
                 name="infrastructure"
-                categories={infrastructure.categories}
-                onChange={onInfrastructureChange}
+                categories={this.props.infrastructure.categories}
+                onChange={this.props.onInfrastructureChange}
                 isAddingUserWay={this.props.isAddingUserWay}
                 showUserWayWarning={this.props.showUserWayWarning}
+                selected={this.props.selectedInfrastructure}
                 />
             </div>
           </div>

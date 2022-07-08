@@ -7,12 +7,13 @@ class CategorizedCheckboxDropdown extends React.Component {
     buildButtonText = () => {
 
         let selectedText = [];
-        let { categories, buttonText } = this.props;
+        let { categories, buttonText, selected } = this.props;
+        let shortnames = Object.keys(selected);
 
         for(let category of categories) {
 
             for(let item of category.items) {
-                if(item.selected) {
+                if(shortnames.includes(item.shortname)) {
                     selectedText.push(item['label']);
                 }
             }
@@ -34,13 +35,14 @@ class CategorizedCheckboxDropdown extends React.Component {
     render() {
 
         const buttonText = this.buildButtonText();
-        let { categories, onChange, name } = this.props;
+        let { categories, onChange, name, selected } = this.props;
 
         let categorizedCheckboxLists = categories.map((category) => (
             <CategorizedCheckboxList
                 key={category.shortname}
                 category={category}
                 onChange={onChange}
+                selected={selected}
             />
         ));
 

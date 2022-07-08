@@ -9,17 +9,19 @@ class SelectedInfrastructure extends React.Component {
         let {
           categories,
           onValueChange,
-          multi
+          multi,
+          selections
         } = this.props;
 
         let infrastructureCategories = [];
+        let shortnames = Object.keys(selections);
 
         for(let category of categories) {
 
           let hasSelectedItems = false;
 
           for(let item of category.items) {
-            if(item.selected) {
+            if(shortnames.includes(item.shortname)) {
               hasSelectedItems = true;
               break;
             }
@@ -31,6 +33,7 @@ class SelectedInfrastructure extends React.Component {
                     key={category.shortname}
                     category={category}
                     onValueChange={onValueChange}
+                    selections={selections}
                 />
             )
           }

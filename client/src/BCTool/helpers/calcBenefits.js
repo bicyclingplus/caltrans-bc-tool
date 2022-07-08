@@ -22,17 +22,19 @@ const calcBenefits = (
 	infrastructure,
 	non_infrastructure,
 
-	existingTravel
+	existingTravel,
+
+	selectedInfrastructure
 	) => {
 
 	let benefits = {};
 
 	benefits.projectQualitative = calcProjectQualitative(
-		infrastructure, non_infrastructure);
+		infrastructure, non_infrastructure, selectedInfrastructure);
 
 	if(project_type === 'infrastructure' || project_type === 'both') {
 
-      benefits.travel = calcTravel(infrastructure, existingTravel, project_length);
+      benefits.travel = calcTravel(selectedInfrastructure, existingTravel, project_length);
 
       benefits.vmtReductions = calcVMTReductions(benefits.travel, project_time_frame);
 
@@ -41,7 +43,7 @@ const calcBenefits = (
 
       benefits.health = calcHealth(benefits.travel, project_time_frame);
 
-      benefits.safetyQualitative = calcSafetyQualitative(infrastructure);
+      benefits.safetyQualitative = calcSafetyQualitative(infrastructure, selectedInfrastructure);
 
       benefits.safetyQuantitative = calcSafetyQuantitative(
         infrastructure,
@@ -49,8 +51,11 @@ const calcBenefits = (
         project_length,
         num_intersections,
         project_subtype,
-        project_time_frame);
+        project_time_frame,
+        selectedInfrastructure);
     }
+
+    console.log(benefits);
 
     return benefits;
 }

@@ -3,7 +3,7 @@ import { SCALING_FACTORS } from './constants';
 
 const quantitative = require('../data/quantitative.json');
 
-function _calc(infrastructure, travel, length, intersections, subtype, time_frame) {
+function _calc(infrastructure, travel, length, intersections, subtype, time_frame, selectedInfrastructure) {
 
   let benefits = {
     "bike": {
@@ -54,11 +54,13 @@ function _calc(infrastructure, travel, length, intersections, subtype, time_fram
     for(let item of category.items) {
 
       // if selected and has benefits
-      if(item.selected && item.shortname in quantitative) {
+      if(item.shortname in selectedInfrastructure && item.shortname in quantitative) {
 
         for(let type in SCALING_FACTORS) {
 
-          if(item[type] === 0) {
+          let value = selectedInfrastructure[item.shortname][type];
+
+          if(value === 0) {
             continue;
           }
 
@@ -76,14 +78,14 @@ function _calc(infrastructure, travel, length, intersections, subtype, time_fram
               // total project length
               // all are assumed to be per 100 feet right now
               // this will probably change at some point.
-              share = (item[type] * 100) / length;
+              share = (value * 100) / length;
             }
             else if(item.units === 'length') {
-              share = item[type] / length;
+              share = value / length;
             }
           }
           else if(item.calc_units === 'count') {
-            share = item[type] / intersections;
+            share = value / intersections;
           }
 
           share *= SCALING_FACTORS[type];
@@ -247,12 +249,12 @@ function _calc(infrastructure, travel, length, intersections, subtype, time_fram
   return adjustedBenefits;
 }
 
-function calcSafetyQuantitative(infrastructure, travel, length, intersections, subtype, time_frame) {
+function calcSafetyQuantitative(infrastructure, travel, length, intersections, subtype, time_frame, selectedInfrastructure) {
 
   return {
-    "miles": _calc(infrastructure, travel.miles, length, intersections, subtype, time_frame),
-    "capita": _calc(infrastructure, travel.capita, length, intersections, subtype, time_frame),
-    "jobs": _calc(infrastructure, travel.jobs, length, intersections, subtype, time_frame),
+    "miles": _calc(infrastructure, travel.miles, length, intersections, subtype, time_frame, selectedInfrastructure),
+    "capita": _calc(infrastructure, travel.capita, length, intersections, subtype, time_frame, selectedInfrastructure),
+    "jobs": _calc(infrastructure, travel.jobs, length, intersections, subtype, time_frame, selectedInfrastructure),
   }
 
 }

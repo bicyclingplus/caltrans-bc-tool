@@ -30,41 +30,7 @@ class BCTool extends React.Component {
   constructor(props) {
     super(props);
 
-    this.defaultState = {
-      bounds: [],
-
-      name: '',
-      developer: '',
-      cost: '',
-      type: '',
-      subtype: '',
-      city: '',
-      county: '',
-      timeframe: 20,
-      year: new Date().getFullYear(),
-
-      length: 0,
-      selectedWays: [],
-      selectedIntersections: [],
-      userWays: [],
-      userIntersections: [],
-      existingTravel: {},
-
-      infrastructure: [],
-      non_infrastructure: [],
-      infrastructure_selected: false,
-      multi_selected: false,
-      non_infrastructure_selected: false,
-
-      benefits: {},
-      showBenefits: false,
-      inputsChanged: false,
-
-      isAddingUserWay: false,
-      projectID: '',
-    };
-
-    this.state = this.defaultState;
+    this.state = this.createDefaultState();
   }
 
   componentDidMount() {
@@ -85,32 +51,58 @@ class BCTool extends React.Component {
     }
   }
 
+  createDefaultState = () => {
+    return {
+      bounds: [],
+
+      name: '',
+      developer: '',
+      cost: '',
+      type: '',
+      subtype: '',
+      county: '',
+      timeframe: 20,
+      year: new Date().getFullYear(),
+
+      length: 0,
+      selectedWays: [],
+      selectedIntersections: [],
+      userWays: [],
+      userIntersections: [],
+      existingTravel: {},
+
+      non_infrastructure: [],
+      non_infrastructure_selected: false,
+
+      selectedInfrastructure: [],
+      hasSelectedInfrastructure: false,
+      hasMultiSelected: false,
+
+      benefits: {},
+      showBenefits: false,
+      inputsChanged: false,
+
+      isAddingUserWay: false,
+      projectID: '',
+
+    };
+  }
+
   initProject = () => {
-    for(let category in infrastructure.categories) {
-
-      for(let item of infrastructure.categories[category].items) {
-
-        item.selected = false;
-        item.new = 0;
-        item.upgrade = 0;
-        item.retrofit = 0;
-      }
-    }
 
     let new_non_infrastructure = [];
 
     for(let item of non_infrastructure.items) {
       new_non_infrastructure.push({
-        "label": item.label,
-        "shortname": item.shortname,
-        "description": item.description,
-        "selected": false,
+        label: item.label,
+        shortname: item.shortname,
+        description: item.description,
+        selected: false,
       });
     }
 
-    let newState = this.defaultState;
+    let newState = this.createDefaultState();
 
-    newState.infrastructure = infrastructure;
     newState.non_infrastructure = new_non_infrastructure;
 
     this.setState(newState, () => {
@@ -124,49 +116,40 @@ class BCTool extends React.Component {
     this.warningModal.dispose();
   }
 
-  onInfrastructureChange = (changedCategory, changedItem, value) => {
+  onInfrastructureChange = (shortname, value) => {
 
-    let updated = this.state.infrastructure;
-    let selected = false;
-    let multi = false;
+    let newSelections = structuredClone(this.state.selectedInfrastructure);
 
-    // Update the changed one
-    outer:
-    for(let category of updated.categories) {
-
-      if(category.shortname === changedCategory) {
-
-        for(let item of category.items) {
-
-          if(item.shortname === changedItem) {
-
-            item.selected = value;
-            break outer;
-          }
+    if(value) {
+      if(!(shortname in newSelections)) {
+        newSelections[shortname] = {
+          new: 0,
+          upgrade: 0,
+          retrofit: 0,
         }
       }
     }
+    else {
+      delete newSelections[shortname];
+    }
 
-    // Check if any are selected
-    for(let category of updated.categories) {
+    let multi = false;
 
+    outer:
+    for(let category of infrastructure.categories) {
       for(let item of category.items) {
-
-        if(item.selected) {
-          selected = true;
-
-          if(category.shortname === 'multi') {
-            multi = true;
-          }
+        if(item.shortname in newSelections && category.shortname === 'multi') {
+          multi = true;
+          break outer;
         }
       }
     }
 
     this.setState({
-      'infrastructure': updated,
-      'infrastructure_selected': selected,
-      'multi_selected': multi,
-      'inputsChanged': true,
+      selectedInfrastructure: newSelections,
+      hasSelectedInfrastructure: Object.keys(newSelections).length > 0,
+      hasMultiSelected: multi,
+      inputsChanged: true,
     });
   }
 
@@ -192,31 +175,21 @@ class BCTool extends React.Component {
     }
 
     this.setState({
-      'non_infrastructure': updated,
-      'non_infrastructure_selected': selected,
-      'inputsChanged': true,
+      non_infrastructure: updated,
+      non_infrastructure_selected: selected,
+      inputsChanged: true,
     });
   }
 
   onValueChange = (shortname, type, value) => {
 
-    let updated = this.state.infrastructure;
+    let newSelections = structuredClone(this.state.selectedInfrastructure);
 
-    outer:
-    for(let category of updated.categories) {
-
-      for(let item of category.items) {
-
-        if(item.shortname === shortname) {
-          item[type] = value;
-          break outer;
-        }
-      }
-    }
+    newSelections[shortname][type] = value;
 
     this.setState({
-      'infrastructure': updated,
-      'inputsChanged': true,
+      selectedInfrastructure: newSelections,
+      inputsChanged: true,
     });
   };
 
@@ -247,7 +220,7 @@ class BCTool extends React.Component {
             "user_segments": this.state.userWays,
         },
         "selected_elements": {
-            "infrastructure": this.state.infrastructure,
+            "infrastructure": this.state.selectedInfrastructure,
             "non_infrastructure": this.state.non_infrastructure,
         }
       })
@@ -265,9 +238,9 @@ class BCTool extends React.Component {
 
   updateBenefits = () => {
     this.setState({
-      'showBenefits': true,
-      'inputsChanged': false,
-      'benefits': calcBenefits(
+      showBenefits: true,
+      inputsChanged: false,
+      benefits: calcBenefits(
         this.state.type,
         this.state.subtype,
         this.state.county,
@@ -275,46 +248,47 @@ class BCTool extends React.Component {
         this.state.timeframe,
         this.state.length,
         this.state.selectedIntersections.length + this.state.userIntersections.length,
-        this.state.infrastructure,
+        infrastructure,
         this.state.non_infrastructure,
-        this.state.existingTravel
+        this.state.existingTravel,
+        this.state.selectedInfrastructure
       ),
     });
   }
 
   updateName = (e) => {
     this.setState({
-      'name': e.target.value,
+      name: e.target.value,
     });
   };
 
   updateDeveloper = (e) => {
     this.setState({
-      'developer': e.target.value,
+      developer: e.target.value,
     });
   };
 
   updateCost = (e) => {
     this.setState({
-      'cost': parseFloat(e.target.value),
+      cost: parseFloat(e.target.value),
     });
   };
 
   updateType = (e) => {
     this.setState({
-      'type': e.target.value,
-      'benefits': {},
-      'showBenefits': false,
-      'inputsChanged': false,
+      type: e.target.value,
+      benefits: {},
+      showBenefits: false,
+      inputsChanged: false,
     });
   };
 
   updateSubtype = (e) => {
     this.setState({
-      'subtype': e.target.value,
-      'benefits': {},
-      'showBenefits': false,
-      'inputsChanged': false,
+      subtype: e.target.value,
+      benefits: {},
+      showBenefits: false,
+      inputsChanged: false,
     });
   };
 
@@ -334,11 +308,8 @@ class BCTool extends React.Component {
     ];
 
     this.setState({
-      'county': selectedCounty.name,
-      'bounds': bounds,
-      'benefits': {},
-      'showBenefits': false,
-      'inputsChanged': false,
+      county: selectedCounty.name,
+      bounds: bounds,
     }, () => {
       this.startModal.hide();
     });
@@ -358,20 +329,20 @@ class BCTool extends React.Component {
     );
 
     this.setState({
-      'selectedWays': selectedWays,
-      'selectedIntersections': selectedIntersections,
-      'userWays': userWays,
-      'userIntersections': userIntersections,
-      'length': projectLength,
-      'existingTravel': existingTravel,
-      'showBenefits': false,
-      'inputsChanged': true,
+      selectedWays: selectedWays,
+      selectedIntersections: selectedIntersections,
+      userWays: userWays,
+      userIntersections: userIntersections,
+      length: projectLength,
+      existingTravel: existingTravel,
+      showBenefits: false,
+      inputsChanged: true,
     });
   }
 
   updateUserWayStatus = (status) => {
     this.setState({
-      'isAddingUserWay': status,
+      isAddingUserWay: status,
     });
   }
 
@@ -380,17 +351,14 @@ class BCTool extends React.Component {
   }
 
   updateTimeFrame = (e) => {
-
-    // console.log(`Project time frame changed to ${e.target.value}`);
-
     this.setState({
-      'timeframe': parseInt(e.target.value),
+      timeframe: parseInt(e.target.value),
     });
   };
 
   updateProjectID = (e) => {
     this.setState({
-      'projectID': e.target.value,
+      projectID: e.target.value,
     });
   };
 
@@ -502,29 +470,31 @@ class BCTool extends React.Component {
           <div className="col-sm-12">
             <ProjectElements
               type={this.state.type}
-              infrastructure={this.state.infrastructure}
+              infrastructure={infrastructure}
               non-infrastructure={this.state.non_infrastructure}
               onInfrastructureChange={this.onInfrastructureChange}
               onNonInfrastructureChange={this.onNonInfrastructureChange}
               isAddingUserWay={this.state.isAddingUserWay}
               showUserWayWarning={this.showUserWayWarning}
+              selectedInfrastructure={this.state.selectedInfrastructure}
             />
           </div>
         </div>
 
-        { this.state.infrastructure_selected ?
+        { this.state.hasSelectedInfrastructure ?
         <div className="row mb-3">
           <div className="col-sm-12">
             <SelectedInfrastructure
-              categories={this.state.infrastructure.categories}
+              categories={infrastructure.categories}
               onValueChange={this.onValueChange}
-              multi={this.state.multi_selected}
+              multi={this.state.hasMultiSelected}
+              selections={this.state.selectedInfrastructure}
             />
           </div>
         </div>
         : null }
 
-        { this.state.infrastructure_selected || this.state.non_infrastructure_selected ?
+        { this.state.hasSelectedInfrastructure || this.state.non_infrastructure_selected ?
         <div className="row mb-3">
           <div className="col-sm-12 text-center">
             <BenefitsButton
@@ -542,7 +512,7 @@ class BCTool extends React.Component {
         </div>
         : null }
 
-        { (this.state.infrastructure_selected || this.state.non_infrastructure_selected) && this.state.showBenefits ?
+        { (this.state.hasSelectedInfrastructure || this.state.non_infrastructure_selected) && this.state.showBenefits ?
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectBenefits
