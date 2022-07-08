@@ -118,11 +118,11 @@ class BCTool extends React.Component {
 
   onInfrastructureChange = (shortname, value) => {
 
-    let newSelections = structuredClone(this.state.selectedInfrastructure);
+    let selectedInfrastructure = structuredClone(this.state.selectedInfrastructure);
 
     if(value) {
-      if(!(shortname in newSelections)) {
-        newSelections[shortname] = {
+      if(!(shortname in selectedInfrastructure)) {
+        selectedInfrastructure[shortname] = {
           new: 0,
           upgrade: 0,
           retrofit: 0,
@@ -130,25 +130,25 @@ class BCTool extends React.Component {
       }
     }
     else {
-      delete newSelections[shortname];
+      delete selectedInfrastructure[shortname];
     }
 
-    let multi = false;
+    let hasMultiSelected = false;
 
     outer:
     for(let category of infrastructure.categories) {
       for(let item of category.items) {
-        if(item.shortname in newSelections && category.shortname === 'multi') {
-          multi = true;
+        if(item.shortname in selectedInfrastructure && category.shortname === 'multi') {
+          hasMultiSelected = true;
           break outer;
         }
       }
     }
 
     this.setState({
-      selectedInfrastructure: newSelections,
-      hasSelectedInfrastructure: Object.keys(newSelections).length > 0,
-      hasMultiSelected: multi,
+      selectedInfrastructure: selectedInfrastructure,
+      hasSelectedInfrastructure: Object.keys(selectedInfrastructure).length > 0,
+      hasMultiSelected: hasMultiSelected,
       inputsChanged: true,
     });
   }
@@ -183,12 +183,12 @@ class BCTool extends React.Component {
 
   onValueChange = (shortname, type, value) => {
 
-    let newSelections = structuredClone(this.state.selectedInfrastructure);
+    let selectedInfrastructure = structuredClone(this.state.selectedInfrastructure);
 
-    newSelections[shortname][type] = value;
+    selectedInfrastructure[shortname][type] = value;
 
     this.setState({
-      selectedInfrastructure: newSelections,
+      selectedInfrastructure: selectedInfrastructure,
       inputsChanged: true,
     });
   };
