@@ -117,23 +117,11 @@ class BCTool extends React.Component {
       delete selectedInfrastructure[shortname];
     }
 
-    let hasMultiSelected = false;
-
-    outer:
-    for(let category of infrastructure.categories) {
-      for(let item of category.items) {
-        if(item.shortname in selectedInfrastructure && category.shortname === 'multi') {
-          hasMultiSelected = true;
-          break outer;
-        }
-      }
-    }
-
     this.setState({
       selectedInfrastructure: selectedInfrastructure,
-      hasSelectedInfrastructure: Object.keys(selectedInfrastructure).length > 0,
-      hasMultiSelected: hasMultiSelected,
       inputsChanged: true,
+    }, () => {
+      this.updateElementStatuses();
     });
   }
 
@@ -152,8 +140,29 @@ class BCTool extends React.Component {
 
     this.setState({
       selectedNonInfrastructure: selectedNonInfrastructure,
-      hasSelectedNonInfrastructure: selectedNonInfrastructure.length > 0,
       inputsChanged: true,
+    }, () => {
+      this.updateElementStatuses();
+    });
+  }
+
+  updateElementStatuses = () => {
+    let hasMultiSelected = false;
+
+    outer:
+    for(let category of infrastructure.categories) {
+      for(let item of category.items) {
+        if(item.shortname in this.state.selectedInfrastructure && category.shortname === 'multi') {
+          hasMultiSelected = true;
+          break outer;
+        }
+      }
+    }
+
+    this.setState({
+      hasSelectedInfrastructure: Object.keys(this.state.selectedInfrastructure).length > 0,
+      hasSelectedNonInfrastructure: this.state.selectedNonInfrastructure.length > 0,
+      hasMultiSelected: hasMultiSelected,
     });
   }
 
@@ -356,7 +365,38 @@ class BCTool extends React.Component {
 
   loadProject = () => {
     console.log(`Loading project: ${this.state.projectID}`);
-    this.startModal.hide();
+
+    let url = `${process.env.PUBLIC_URL}/api/projects/${this.state.projectID}`;
+
+    fetch(url)
+      .then((response) => {
+        if(!response.ok) {
+          throw new Error();
+        }
+        return response.json();
+      })
+      .then(result => {
+          this.setState({
+            name: result.details.name,
+            developer: result.details.developer,
+            cost: result.details.cost,
+            type: result.details.type,
+            subtype: result.details.subtype,
+            county: result.details.county,
+            timeframe: result.details.timeframe,
+            year: result.details.year,
+
+            selectedNonInfrastructure: result.elements.nonInfrastructure,
+            selectedInfrastructure: result.elements.infrastructure,
+          }, () => {
+            this.updateElementStatuses();
+            this.startModal.hide();
+          });
+        }
+      )
+      .catch(error => {
+        console.log('Bad project id');
+      });
   };
 
   render() {

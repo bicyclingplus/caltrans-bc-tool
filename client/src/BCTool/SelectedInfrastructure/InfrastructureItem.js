@@ -10,10 +10,16 @@ class infrastructureItem extends React.Component {
     constructor(props) {
         super(props);
 
+        let {
+            newValue,
+            upgradeValue,
+            retrofitValue,
+        } = this.props;
+
         this.state = {
-            'new': false,
-            'upgrade': false,
-            'retrofit': false,
+            'new': newValue > 0 ? true : false,
+            'upgrade': upgradeValue > 0 ? true : false,
+            'retrofit': retrofitValue > 0 ? true : false,
         };
     }
 
@@ -89,7 +95,7 @@ class infrastructureItem extends React.Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="form-check">
-                              <input className="form-check-input form-check-input-margin" type="checkbox" id={`${shortname}-new`} onChange={this.updateNew} />
+                              <input className="form-check-input form-check-input-margin" type="checkbox" id={`${shortname}-new`} checked={this.state.new} onChange={this.updateNew} />
                               <label className="form-check-label col-form-label" htmlFor={`${shortname}-new`}>
                                 New Construction
                               </label>
@@ -99,7 +105,7 @@ class infrastructureItem extends React.Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="form-check">
-                              <input className="form-check-input form-check-input-margin" type="checkbox" id={`${shortname}-upgrade`} onChange={this.updateUpgrade} />
+                              <input className="form-check-input form-check-input-margin" type="checkbox" id={`${shortname}-upgrade`} checked={this.state.upgrade} onChange={this.updateUpgrade} />
                               <label className="form-check-label col-form-label" htmlFor={`${shortname}-upgrade`}>
                                 Significant Upgrade
                               </label>
@@ -109,7 +115,7 @@ class infrastructureItem extends React.Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="form-check">
-                              <input className="form-check-input form-check-input-margin" type="checkbox" id={`${shortname}-retrofit`} onChange={this.updateRetrofit} />
+                              <input className="form-check-input form-check-input-margin" type="checkbox" id={`${shortname}-retrofit`} checked={this.state.retrofit} onChange={this.updateRetrofit} />
                               <label className="form-check-label col-form-label" htmlFor={`${shortname}-retrofit`}>
                                 Retrofit/Maintenance
                               </label>

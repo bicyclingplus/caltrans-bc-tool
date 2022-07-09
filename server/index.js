@@ -121,20 +121,29 @@ tool.get('/api/projects/:projectId', async (req, res) => {
 
     await client.connect();
 
-    const database = client.db('bctool');
-    const collection = database.collection('projects');
+    try {
+      let projectId = new ObjectId(req.params.projectId);
 
-    let project = await collection.findOne({
-      '_id': new ObjectId(req.params.projectId),
-    });
+      const database = client.db('bctool');
+      const collection = database.collection('projects');
 
-    if(project) {
-      return res.json(project);
+      let project = await collection.findOne({
+        '_id': new ObjectId(req.params.projectId),
+      });
+
+      if(project) {
+        return res.json(project);
+      }
+
+      return res.status(404).json({
+        'message': 'Project not found',
+      });
     }
-
-    return res.status(404).json({
-      'message': 'Project not found',
-    });
+    catch {
+      return res.status(400).json({
+        'message': 'Invalid project id',
+      });
+    }
   }
   finally {
     await client.close();
