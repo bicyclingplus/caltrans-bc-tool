@@ -121,7 +121,7 @@ class BCTool extends React.Component {
       selectedInfrastructure: selectedInfrastructure,
       inputsChanged: true,
     }, () => {
-      this.updateElementStatuses();
+      this.updateStatuses();
     });
   }
 
@@ -142,11 +142,11 @@ class BCTool extends React.Component {
       selectedNonInfrastructure: selectedNonInfrastructure,
       inputsChanged: true,
     }, () => {
-      this.updateElementStatuses();
+      this.updateStatuses();
     });
   }
 
-  updateElementStatuses = () => {
+  updateStatuses = () => {
     let hasMultiSelected = false;
 
     outer:
@@ -163,6 +163,8 @@ class BCTool extends React.Component {
       hasSelectedInfrastructure: Object.keys(this.state.selectedInfrastructure).length > 0,
       hasSelectedNonInfrastructure: this.state.selectedNonInfrastructure.length > 0,
       hasMultiSelected: hasMultiSelected,
+      showBenefits: Object.keys(this.state.benefits).length > 0,
+      hasMapSelections: this.state.selectedIntersections.length || this.state.selectedWays.length || this.state.userWays.length || this.state.userIntersections.length,
     });
   }
 
@@ -203,11 +205,15 @@ class BCTool extends React.Component {
             segments: this.state.selectedWays,
             userIntersections: this.state.userIntersections,
             userSegments: this.state.userWays,
+            totalLength: this.state.totalLength,
+            totalIntersections: this.state.totalIntersections,
         },
         elements: {
             infrastructure: this.state.selectedInfrastructure,
             nonInfrastructure: this.state.selectedNonInfrastructure,
-        }
+        },
+        existingTravel: this.state.existingTravel,
+        benefits: this.state.benefits,
       })
     })
       .then((res) => res.json())
@@ -223,7 +229,6 @@ class BCTool extends React.Component {
 
   updateBenefits = () => {
     this.setState({
-      showBenefits: true,
       inputsChanged: false,
       benefits: calcBenefits(
         this.state.type,
@@ -238,7 +243,7 @@ class BCTool extends React.Component {
         this.state.selectedInfrastructure,
         this.state.selectedNonInfrastructure
       ),
-    });
+    }, this.updateStatuses);
   }
 
   updateName = (e) => {
@@ -265,7 +270,6 @@ class BCTool extends React.Component {
     let stateUpdate = {
       type: type,
       benefits: {},
-      showBenefits: false,
       inputsChanged: false,
     };
 
@@ -279,16 +283,15 @@ class BCTool extends React.Component {
       stateUpdate.selectedInfrastructure = {};
     }
 
-    this.setState(stateUpdate);
+    this.setState(stateUpdate, this.updateStatuses);
   };
 
   updateSubtype = (e) => {
     this.setState({
       subtype: e.target.value,
       benefits: {},
-      showBenefits: false,
       inputsChanged: false,
-    });
+    }, this.updateStatuses);
   };
 
   updateCounty = (e) => {
@@ -334,11 +337,9 @@ class BCTool extends React.Component {
       userIntersections: userIntersections,
       totalLength: projectLength,
       totalIntersections: selectedIntersections.length + userIntersections.length,
-      hasMapSelections: selectedIntersections.length || selectedWays.length || userWays.length || userIntersections.length,
       existingTravel: existingTravel,
-      showBenefits: false,
       inputsChanged: true,
-    });
+    }, this.updateStatuses);
   }
 
   updateUserWayStatus = (status) => {
@@ -364,7 +365,7 @@ class BCTool extends React.Component {
   };
 
   loadProject = () => {
-    console.log(`Loading project: ${this.state.projectID}`);
+    // console.log(`Loading project: ${this.state.projectID}`);
 
     let url = `${process.env.PUBLIC_URL}/api/projects/${this.state.projectID}`;
 
@@ -388,8 +389,18 @@ class BCTool extends React.Component {
 
             selectedNonInfrastructure: result.elements.nonInfrastructure,
             selectedInfrastructure: result.elements.infrastructure,
+
+            selectedWays: result.scope.segments,
+            selectedIntersections: result.scope.intersections,
+            userWays: result.scope.userSegments,
+            userIntersections: result.scope.userIntersections,
+            totalLength: result.scope.totalLength,
+            totalIntersections: result.scope.totalIntersections,
+
+            existingTravel: result.existingTravel,
+            benefits: result.benefits,
           }, () => {
-            this.updateElementStatuses();
+            this.updateStatuses();
             this.startModal.hide();
           });
         }
