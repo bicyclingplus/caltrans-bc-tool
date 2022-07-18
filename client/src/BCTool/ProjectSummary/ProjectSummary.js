@@ -65,9 +65,7 @@ class ProjectSummary extends React.Component {
                   <div className="col-sm-6">
                     <u>Existing Daily Walking Miles</u>
                     <ul className="list-unstyled">
-                      <li>Low: {readableNumber(travel.miles.pedestrian.lower)} miles</li>
                       <li>Average: {readableNumber(travel.miles.pedestrian.mean)} miles</li>
-                      <li>High: {readableNumber(travel.miles.pedestrian.upper)} miles</li>
                     </ul>
                   </div>
                   : null }
@@ -76,9 +74,7 @@ class ProjectSummary extends React.Component {
                   <div className="col-sm-6">
                     <u>Existing Daily Bicyling Miles</u>
                     <ul className="list-unstyled">
-                      <li>Low: {readableNumber(travel.miles.bike.lower)} miles</li>
                       <li>Average: {readableNumber(travel.miles.bike.mean)} miles</li>
-                      <li>High: {readableNumber(travel.miles.bike.upper)} miles</li>
                     </ul>
                   </div>
                   : null }

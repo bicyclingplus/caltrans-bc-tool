@@ -27,9 +27,9 @@ function calcTravelMode(mode, selectedInfrastructure, existingTravel, length) {
     let travel = {};
 
     travel.existing = {
-        'lower': existingTravel.lower,
+        'lower': existingTravel.mean,
         'mean': existingTravel.mean,
-        'upper': existingTravel.upper,
+        'upper': existingTravel.mean,
     }
 
     let increases = [];

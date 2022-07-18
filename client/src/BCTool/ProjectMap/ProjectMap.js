@@ -69,7 +69,7 @@ class ProjectMap extends React.Component {
 
     styleWay = (feature) => {
 
-      return this.selectedWayIds.includes(feature.properties.edgeUID) ?
+      return this.selectedWayIds.includes(feature.properties.edge_uid) ?
         symbology.pre_existing.selected.link :
         symbology.pre_existing.default.link;
     }
@@ -135,7 +135,7 @@ class ProjectMap extends React.Component {
 
       // console.log('Fire!');
       let feature = e.target.feature;
-      let featureId = feature.properties.edgeUID;
+      let featureId = feature.properties.edge_uid;
 
       // console.log(feature);
 
@@ -148,10 +148,12 @@ class ProjectMap extends React.Component {
 
         // Remove the clicked way from selection and length count
         this.selectedWayIds = this.selectedWayIds.filter((item) => (item !== featureId));
-        this.selectedWays = this.selectedWays.filter((item) => (item.properties.edgeUID !== featureId));
+        this.selectedWays = this.selectedWays.filter((item) => (item.properties.edge_uid !== featureId));
 
         // Grab the intersection ids attached to the way we're removing
-        let [ intA, intB ] = this.splitSourceTarget(feature.properties['source_target']);
+        // let [ intA, intB ] = this.splitSourceTarget(feature.properties['source_target']);
+        let intA = feature.properties.source;
+        let intB = feature.properties.target;
 
         let intAFound = false;
         let intBFound = false;
@@ -160,11 +162,13 @@ class ProjectMap extends React.Component {
         for(let way of this.selectedWays) {
 
           // Skip this one
-          if(way.properties.edgeUID === featureId) {
+          if(way.properties.edge_uid === featureId) {
             continue;
           }
 
-          let [ source, target ] = this.splitSourceTarget(way.properties['source_target']);
+          // let [ source, target ] = this.splitSourceTarget(way.properties['source_target']);
+          let source = way.properties.source;
+          let target = way.properties.target;
 
           if(intA === source || intA === target) {
             intAFound = true;
@@ -178,18 +182,18 @@ class ProjectMap extends React.Component {
         // If no other selected ways use these intersections, remove them from selection
         if(!intAFound) {
           this.selectedIntersectionIds = this.selectedIntersectionIds.filter((item) => (item !== intA));
-          this.selectedIntersections = this.selectedIntersections.filter((item) => (item.properties.nodeID !== intA));
+          this.selectedIntersections = this.selectedIntersections.filter((item) => (item.properties.node_id !== intA));
         }
 
         if(!intBFound) {
           this.selectedIntersectionIds = this.selectedIntersectionIds.filter((item) => (item !== intB));
-          this.selectedIntersections = this.selectedIntersections.filter((item) => (item.properties.nodeID !== intB));
+          this.selectedIntersections = this.selectedIntersections.filter((item) => (item.properties.node_id !== intB));
         }
       }
       else {
 
         let length = this.calcLength(e.target.getLatLngs());
-        if(!feature.properties.ONE_WAY_CA) {
+        if(!feature.properties.one_way_ca) {
           length *= 2;
         }
 
@@ -197,14 +201,16 @@ class ProjectMap extends React.Component {
         this.selectedWayIds.push(featureId);
         this.selectedWays.push(feature);
 
-        let [ intA, intB ] = this.splitSourceTarget(feature.properties['source_target']);
+        // let [ intA, intB ] = this.splitSourceTarget(feature.properties['source_target']);
+        let intA = feature.properties.source;
+        let intB = feature.properties.target;
 
         if(!this.selectedIntersectionIds.includes(intA)) {
           this.selectedIntersectionIds.push(intA);
 
           // find the feature for this intersection
           for(let intersection of this.intersections) {
-            if(intersection.properties.nodeID === intA) {
+            if(intersection.properties.node_id === intA) {
               this.selectedIntersections.push(intersection);
               break;
             }
@@ -216,7 +222,7 @@ class ProjectMap extends React.Component {
 
           // find the feature for this intersection
           for(let intersection of this.intersections) {
-            if(intersection.properties.nodeID === intB) {
+            if(intersection.properties.node_id === intB) {
               this.selectedIntersections.push(intersection);
               break;
             }
@@ -344,7 +350,7 @@ class ProjectMap extends React.Component {
     pointToLayer = (feature, latlng) => {
 
       return Leaflet.circleMarker(latlng,
-        this.selectedIntersectionIds.includes(feature.properties.nodeID) ?
+        this.selectedIntersectionIds.includes(feature.properties.node_id) ?
         symbology.pre_existing.selected.intersection :
         symbology.pre_existing.default.intersection);
     }
@@ -382,14 +388,14 @@ class ProjectMap extends React.Component {
 
 
       let feature = e.target.feature;
-      let featureId = feature.properties.nodeID;
+      let featureId = feature.properties.node_id;
 
       // Check if this intersection is already selected or not
       if(this.selectedIntersectionIds.includes(featureId)) {
 
         // Remove from selection
         this.selectedIntersectionIds = this.selectedIntersectionIds.filter((item) => (item !== featureId));
-        this.selectedIntersections = this.selectedIntersections.filter((item) => (item.properties.nodeID !== featureId));
+        this.selectedIntersections = this.selectedIntersections.filter((item) => (item.properties.node_id !== featureId));
       }
       else {
 
