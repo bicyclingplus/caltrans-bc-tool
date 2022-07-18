@@ -22,7 +22,8 @@ const OTHER_SHIFT = {
     'pedestrian': 47.99,
 };
 
-function calcTravelMode(mode, selectedInfrastructure, existingTravel, length) {
+function calcTravelMode(mode, infrastructure, selectedInfrastructure,
+    existingTravel, project_length, num_intersections) {
 
     let travel = {};
 
@@ -34,41 +35,59 @@ function calcTravelMode(mode, selectedInfrastructure, existingTravel, length) {
 
     let increases = [];
 
-    for(let element in selectedInfrastructure) {
+    for(let category of infrastructure.categories) {
 
-        // Check the current infrastructure element has a travel
-        // increase to calculate
-        if(element in travel_volume &&
-            mode in travel_volume[element]) {
+        for(let item of category.items) {
 
-            for(let type in SCALING_FACTORS) {
 
-                let value = selectedInfrastructure[element][type];
+            if(item.shortname in selectedInfrastructure &&
+                item.shortname in travel_volume &&
+                mode in travel_volume[item.shortname]) {
 
-                if(value === 0) {
-                    continue;
+                for(let type in SCALING_FACTORS) {
+
+                    let value = selectedInfrastructure[item.shortname][type];
+
+                    if(value === 0) {
+                        continue;
+                    }
+
+                    let share = 0;
+                    let multiplier = SCALING_FACTORS[type];
+
+                    if(item.calc_units === 'length') {
+
+                        if(item.units === 'count') {
+                            // In this case we ask them for a count and
+                            // then apply a preset length per item
+                            // i.e. lights every 100 feet
+                            // and then apply that as a portion of the
+                            // total project length
+                            // all are assumed to be per 100 feet right now
+                            // this will probably change at some point.
+                            share = (value * 100) / project_length;
+                        }
+                        else if(item.units === 'length') {
+                            share = value / project_length;
+                        }
+                    }
+                    else if(item.calc_units === 'count') {
+                        share = value / num_intersections;
+                    }
+
+                    increases.push({
+                        'lower': ((travel_volume[item.shortname][mode].lower / 100) * travel.existing.lower) * share * multiplier,
+                        'mean': ((travel_volume[item.shortname][mode].mean / 100) * travel.existing.mean) * share * multiplier,
+                        'upper': ((travel_volume[item.shortname][mode].upper / 100) * travel.existing.upper) * share * multiplier,
+                    });
+
                 }
 
-                let share = value / length;
-                let multiplier = SCALING_FACTORS[type];
-
-                // console.log(`Adding travel increase for ${mode} for ${element}`);
-
-                // TODO: HOW TO HANDLE THE CASE WHERE THIS IS A COUNT INSTEAD OF A LENGTH?
-                // e.g. CROSSING ISLAND, we ask for count, but how to calculate the share?
-                // it belongs to intersections, so use that?
-                // BUT WHAT ABOUT THE BLOCK FACE STUFF THAT IS IN COUNTS?
-
-                increases.push({
-                    'lower': ((travel_volume[element][mode].lower / 100) * travel.existing.lower) * share * multiplier,
-                    'mean': ((travel_volume[element][mode].mean / 100) * travel.existing.mean) * share * multiplier,
-                    'upper': ((travel_volume[element][mode].upper / 100) * travel.existing.upper) * share * multiplier,
-                });
             }
         }
     }
 
-    // console.log(increases);
+    console.log(increases);
 
     let weighted = {
         'lower': 0,
@@ -125,7 +144,8 @@ function calcTravelMode(mode, selectedInfrastructure, existingTravel, length) {
     return travel;
 }
 
-function calcTravel(selectedInfrastructure, existingTravel, length) {
+function calcTravel(infrastructure, selectedInfrastructure, existingTravel,
+    project_length, num_intersections) {
 
     let travel = {
         "miles": {
@@ -157,8 +177,21 @@ function calcTravel(selectedInfrastructure, existingTravel, length) {
         },
     };
 
-    travel.miles.bike = calcTravelMode('bike', selectedInfrastructure, existingTravel.miles.bike, length);
-    travel.miles.pedestrian = calcTravelMode('pedestrian', selectedInfrastructure, existingTravel.miles.pedestrian, length);
+    travel.miles.bike = calcTravelMode(
+        'bike',
+        infrastructure,
+        selectedInfrastructure,
+        existingTravel.miles.bike,
+        project_length,
+        num_intersections);
+
+    travel.miles.pedestrian = calcTravelMode(
+        'pedestrian',
+        infrastructure,
+        selectedInfrastructure,
+        existingTravel.miles.pedestrian,
+        project_length,
+        num_intersections);
 
     travel.miles.totalProjected.lower += travel.miles.bike.projected.lower;
     travel.miles.totalProjected.mean += travel.miles.bike.projected.mean;
@@ -168,8 +201,21 @@ function calcTravel(selectedInfrastructure, existingTravel, length) {
     travel.miles.totalProjected.mean += travel.miles.pedestrian.projected.mean;
     travel.miles.totalProjected.upper += travel.miles.pedestrian.projected.upper;
 
-    travel.capita.bike = calcTravelMode('bike', selectedInfrastructure, existingTravel.capita.bike, length);
-    travel.capita.pedestrian = calcTravelMode('pedestrian', selectedInfrastructure, existingTravel.capita.pedestrian, length);
+    travel.capita.bike = calcTravelMode(
+        'bike',
+        infrastructure,
+        selectedInfrastructure,
+        existingTravel.capita.bike,
+        project_length,
+        num_intersections);
+
+    travel.capita.pedestrian = calcTravelMode(
+        'pedestrian',
+        infrastructure,
+        selectedInfrastructure,
+        existingTravel.capita.pedestrian,
+        project_length,
+        num_intersections);
 
     travel.capita.totalProjected.lower += travel.capita.bike.projected.lower;
     travel.capita.totalProjected.mean += travel.capita.bike.projected.mean;
@@ -179,8 +225,21 @@ function calcTravel(selectedInfrastructure, existingTravel, length) {
     travel.capita.totalProjected.mean += travel.capita.pedestrian.projected.mean;
     travel.capita.totalProjected.upper += travel.capita.pedestrian.projected.upper;
 
-    travel.jobs.bike = calcTravelMode('bike', selectedInfrastructure, existingTravel.jobs.bike, length);
-    travel.jobs.pedestrian = calcTravelMode('pedestrian', selectedInfrastructure, existingTravel.jobs.pedestrian, length);
+    travel.jobs.bike = calcTravelMode(
+        'bike',
+        infrastructure,
+        selectedInfrastructure,
+        existingTravel.jobs.bike,
+        project_length,
+        num_intersections);
+
+    travel.jobs.pedestrian = calcTravelMode(
+        'pedestrian',
+        infrastructure,
+        selectedInfrastructure,
+        existingTravel.jobs.pedestrian,
+        project_length,
+        num_intersections);
 
     travel.jobs.totalProjected.lower += travel.jobs.bike.projected.lower;
     travel.jobs.totalProjected.mean += travel.jobs.bike.projected.mean;

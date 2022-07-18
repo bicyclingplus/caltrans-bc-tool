@@ -3,7 +3,8 @@ import { SCALING_FACTORS } from './constants';
 
 const quantitative = require('../data/quantitative.json');
 
-function _calc(infrastructure, travel, length, intersections, subtype, time_frame, selectedInfrastructure) {
+function _calc(infrastructure, travel, length, intersections, subtype,
+  time_frame, selectedInfrastructure) {
 
   let benefits = {
     "bike": {

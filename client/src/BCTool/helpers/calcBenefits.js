@@ -34,7 +34,12 @@ const calcBenefits = (
 
 	if(project_type === 'infrastructure' || project_type === 'both') {
 
-      benefits.travel = calcTravel(selectedInfrastructure, existingTravel, project_length);
+      benefits.travel = calcTravel(
+      	infrastructure,
+      	selectedInfrastructure,
+      	existingTravel,
+      	project_length,
+      	num_intersections);
 
       benefits.vmtReductions = calcVMTReductions(benefits.travel, project_time_frame);
 
@@ -56,6 +61,7 @@ const calcBenefits = (
     }
 
     // console.log(benefits);
+    console.log(project_length);
 
     return benefits;
 }
