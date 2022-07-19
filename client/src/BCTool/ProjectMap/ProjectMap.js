@@ -767,7 +767,7 @@ class ProjectMap extends React.Component {
 
           <div className="mb-4">
 
-            <strong>Editing Mode:</strong>
+            <strong>Editing mode:</strong>
             <div className="btn-group ms-4" role="group" aria-label="Basic example">
               <button type="button" className={existingClasses} onClick={this.selectExisting}>Selecting Existing</button>
               <button type="button" className={addClasses} onClick={this.addNew}>Add User Defined</button>
