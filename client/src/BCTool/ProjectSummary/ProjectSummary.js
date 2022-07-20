@@ -38,7 +38,7 @@ class ProjectSummary extends React.Component {
                 <ul className="list-unstyled">
                   <li>Number of Intersections: {intersections}</li>
                   <li>
-                    Length: {readableNumber(length/5280, 1)} miles
+                    Length: {readableNumber(length)} ft ({readableNumber(length/5280, 1)} mi)
                     <i id={`project-length-tooltip`}
                       className="bi bi-info-circle ms-2"
                       data-bs-toggle="tooltip"
