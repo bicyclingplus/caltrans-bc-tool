@@ -28,7 +28,8 @@ collection_name.delete_many({})
 
 intersection_files = [
     # "Sacramento_Ped_Network.geojson",
-    'Final_network_nodes.geojson',
+    # 'Final_network_nodes.geojson',
+    'Final_network_nodes1.geojson',
 ]
 
 for file in intersection_files:

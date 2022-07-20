@@ -1,11 +1,13 @@
 import json
 import os
 
-foldername = 'output'
+foldername = 'input'
+# foldername = 'output'
 
 # filename = 'Final_network_nodes.geojson'
+filename = 'Final_network_nodes1.geojson'
 # filename = 'Final_network_links.geojson'
-filename = 'Final_network_links_merged.geojson'
+# filename = 'Final_network_links_merged.geojson'
 #
 
 geojson = json.load(open(os.path.join(foldername, filename)))
