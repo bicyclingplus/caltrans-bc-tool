@@ -41,9 +41,21 @@ function _calc(travel, time_frame) {
 
   benefits.pedestrian = {};
 
-  let ped_lower = ((travel.pedestrian.inducedTravel.lower * 365) / WALK_SPEED.lower) * WALK_MMET.lower;
-  let ped_mean = ((travel.pedestrian.inducedTravel.mean * 365) / WALK_SPEED.mean) * WALK_MMET.mean;
-  let ped_upper = ((travel.pedestrian.inducedTravel.upper * 365) / WALK_SPEED.upper) * WALK_MMET.upper;
+  let ped_lower_val = (travel.pedestrian.inducedTravel.lower +
+                        travel.pedestrian.carShift.lower +
+                        travel.pedestrian.otherShift.lower);
+
+  let ped_mean_val = (travel.pedestrian.inducedTravel.mean +
+                        travel.pedestrian.carShift.mean +
+                        travel.pedestrian.otherShift.mean);
+
+  let ped_upper_val = (travel.pedestrian.inducedTravel.upper +
+                        travel.pedestrian.carShift.upper +
+                        travel.pedestrian.otherShift.upper);
+
+  let ped_lower = ((ped_lower_val * 365) / WALK_SPEED.lower) * WALK_MMET.lower;
+  let ped_mean = ((ped_mean_val * 365) / WALK_SPEED.mean) * WALK_MMET.mean;
+  let ped_upper = ((ped_upper_val * 365) / WALK_SPEED.upper) * WALK_MMET.upper;
 
   benefits.pedestrian.lower = calcDiscount(ped_lower, time_frame);
   benefits.pedestrian.mean = calcDiscount(ped_mean, time_frame);
@@ -53,12 +65,23 @@ function _calc(travel, time_frame) {
   benefits.total.mean += benefits.pedestrian.mean;
   benefits.total.upper += benefits.pedestrian.upper;
 
-
   benefits.bike = {};
 
-  let bike_lower = ((travel.bike.inducedTravel.lower * 365) / BIKE_SPEED.lower) * BIKE_MMET.lower;
-  let bike_mean = ((travel.bike.inducedTravel.mean * 365) / BIKE_SPEED.mean) * BIKE_MMET.mean;
-  let bike_uppper = ((travel.bike.inducedTravel.upper * 365) / BIKE_SPEED.upper) * BIKE_MMET.upper;
+  let bike_lower_val = (travel.bike.inducedTravel.lower +
+                        travel.bike.carShift.lower +
+                        travel.bike.otherShift.lower);
+
+  let bike_mean_val = (travel.bike.inducedTravel.mean +
+                        travel.bike.carShift.mean +
+                        travel.bike.otherShift.mean);
+
+  let bike_upper_val = (travel.bike.inducedTravel.upper +
+                        travel.bike.carShift.upper +
+                        travel.bike.otherShift.upper);
+
+  let bike_lower = ((bike_lower_val * 365) / BIKE_SPEED.lower) * BIKE_MMET.lower;
+  let bike_mean = ((bike_mean_val * 365) / BIKE_SPEED.mean) * BIKE_MMET.mean;
+  let bike_uppper = ((bike_upper_val * 365) / BIKE_SPEED.upper) * BIKE_MMET.upper;
 
   benefits.bike.lower = calcDiscount(bike_lower, time_frame);
   benefits.bike.mean = calcDiscount(bike_mean, time_frame);
