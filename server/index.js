@@ -95,8 +95,24 @@ tool.get("/api/bounds", async (req, res) => {
     let collection = database.collection('ways');
     const ways = await collection.find(query).toArray();
 
+    let node_ids = [];
+    for(let way of ways) {
+      if(!node_ids.includes(way.properties.source)) {
+        node_ids.push(way.properties.source);
+      }
+      if(!node_ids.includes(way.properties.target)) {
+        node_ids.push(way.properties.target);
+      }
+    }
+
+    $query2 = {
+      'properties.node_id': {
+        '$in': node_ids,
+      }
+    };
+
     collection = database.collection('intersections');
-    const intersections = await collection.find(query).toArray();
+    const intersections = await collection.find($query2).toArray();
 
     res.json({
       "ways": {
