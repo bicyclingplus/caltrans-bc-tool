@@ -7,6 +7,12 @@ import symbology from './symbology';
 import 'leaflet/dist/leaflet.css';
 import './ProjectMap.css';
 
+// remember larger zoom means closer
+// smallest zoom level at which we still display
+// features on the map
+// any less and we display a warning instead
+const ZOOM_CUTOFF = 17;
+
 class ProjectMap extends React.Component {
 
     constructor(props) {
@@ -24,20 +30,10 @@ class ProjectMap extends React.Component {
       this.userWays = [];
       this.userIntersections = [];
 
-      // remember larger zoom means closer
-      // smallest zoom level at which we still display
-      // features on the map
-      // any less and we display a warning instead
-      this.zoomCutoff = 17;
-
       this.state = {
-        "mapMode": "existing",
-        "selectionType": "way",
         "userWayPoints": [],
         "showWarning": false,
       }
-
-      this.updateMap = this.updateMap.bind(this);
     }
 
     componentDidMount() {
@@ -64,6 +60,24 @@ class ProjectMap extends React.Component {
         this.props.updateMapSelections([], [], [], []);
 
         this.updateMap();
+      }
+
+      if(this.props.mode !== prevProps.mode ||
+              this.props.selection !== prevProps.selection) {
+
+        this.renderFeatures();
+      }
+
+      if(this.props.shouldResetMap) {
+        this.reset();
+      }
+
+      if(this.props.shouldCancelWay) {
+        this.cancel();
+      }
+
+      if(this.props.shouldFinishWay > 0) {
+        this.finish();
       }
     }
 
@@ -107,10 +121,6 @@ class ProjectMap extends React.Component {
       return this.calcLengthArray(latlngs);
     }
 
-    splitSourceTarget(str) {
-      return str.split(',').map((el) => parseInt(el));
-    }
-
     userWayClicked = (e) => {
 
       let feature = e.target.feature;
@@ -132,16 +142,8 @@ class ProjectMap extends React.Component {
     }
 
     wayClicked = (e) => {
-
-      // console.log('Fire!');
       let feature = e.target.feature;
       let featureId = feature.properties.edge_uid;
-
-      // console.log(feature);
-
-      // else {
-      //   console.log('ONE WAY STREET SELECTED');
-      // }
 
       // If this way is already selected, remove it otherwise select it
       if(this.selectedWayIds.includes(featureId)) {
@@ -151,7 +153,6 @@ class ProjectMap extends React.Component {
         this.selectedWays = this.selectedWays.filter((item) => (item.properties.edge_uid !== featureId));
 
         // Grab the intersection ids attached to the way we're removing
-        // let [ intA, intB ] = this.splitSourceTarget(feature.properties['source_target']);
         let intA = feature.properties.source;
         let intB = feature.properties.target;
 
@@ -166,7 +167,6 @@ class ProjectMap extends React.Component {
             continue;
           }
 
-          // let [ source, target ] = this.splitSourceTarget(way.properties['source_target']);
           let source = way.properties.source;
           let target = way.properties.target;
 
@@ -193,6 +193,8 @@ class ProjectMap extends React.Component {
       else {
 
         let length = this.calcLength(e.target.getLatLngs());
+
+        // double the length for two way streets
         if(!feature.properties.one_way_ca) {
           length *= 2;
         }
@@ -201,7 +203,6 @@ class ProjectMap extends React.Component {
         this.selectedWayIds.push(featureId);
         this.selectedWays.push(feature);
 
-        // let [ intA, intB ] = this.splitSourceTarget(feature.properties['source_target']);
         let intA = feature.properties.source;
         let intB = feature.properties.target;
 
@@ -228,7 +229,6 @@ class ProjectMap extends React.Component {
             }
           }
         }
-
       }
 
       this.renderFeatures();
@@ -248,9 +248,9 @@ class ProjectMap extends React.Component {
       });
     }
 
-    onMapMove() {
+    onMapMove = () => {
 
-      if(this.map.getZoom() >= this.zoomCutoff) {
+      if(this.map.getZoom() >= ZOOM_CUTOFF) {
 
         // query current bounds to the server
         let bounds = this.map.getBounds();
@@ -270,11 +270,9 @@ class ProjectMap extends React.Component {
               this.ways = result.ways.features;
               this.intersections = result.intersections.features;
 
-              this.renderFeatures()
-
               this.setState({
                 'showWarning': false,
-              });
+              }, this.renderFeatures);
             },
             (error) => {
               console.log(error);
@@ -291,17 +289,18 @@ class ProjectMap extends React.Component {
       }
     }
 
-    onMapClick(e) {
+    onMapClick = (e) => {
 
-      let {
-        mapMode,
-        selectionType,
-        userWayPoints,
-      } = this.state;
+      let { userWayPoints, showWarning } = this.state;
+      let { mode, selection } = this.props;
 
-      if(mapMode === 'add') {
+      if(showWarning) {
+        return;
+      }
 
-        if(selectionType === 'intersection') {
+      if(mode === 'add') {
+
+        if(selection === 'intersection') {
 
           // add an intersection to the list at the point of the click
           this.userIntersections.push({
@@ -322,13 +321,15 @@ class ProjectMap extends React.Component {
           // re render features
           this.renderFeatures();
         }
-        else if(selectionType === "way") {
+        else if(selection === "way") {
 
           if(!this.props.isAddingUserWay) {
             this.props.updateUserWayStatus(true);
           }
 
           userWayPoints.push([e.latlng.lng, e.latlng.lat]);
+
+          this.props.updateNumWaypoints(userWayPoints.length);
 
           this.setState({
             "userWayPoints": userWayPoints,
@@ -386,7 +387,6 @@ class ProjectMap extends React.Component {
 
     intersectionClicked = (e) => {
 
-
       let feature = e.target.feature;
       let featureId = feature.properties.node_id;
 
@@ -442,27 +442,29 @@ class ProjectMap extends React.Component {
         }
     }
 
-    renderFeatures() {
+    renderFeatures = () => {
+
+      let { showWarning } = this.state;
+      let { mode, selection } = this.props;
 
       this.clearFeatures();
 
-      // console.log(this.selectedWayIds);
-      // console.log(this.selectedWays);
-      // console.log(this.selectedIntersectionIds);
-      // console.log(this.selectedIntersections);
+      if(showWarning) {
+        return;
+      }
 
       // TODO refactor to combine onEachFeature handlers
       // abstract out just the feature set
 
       // existing ways
       this.wayFeatures = Leaflet.geoJSON(this.ways, {
-        onEachFeature: this.state.mapMode === "existing" && this.state.selectionType === "way" ? this.onEachWay : null,
+        onEachFeature: mode === "existing" && selection === "way" ? this.onEachWay : null,
         style: this.styleWay,
       });
 
       // existing intersections
       this.intersectionFeatures = Leaflet.geoJSON(this.intersections, {
-        onEachFeature: this.state.mapMode === "existing" && this.state.selectionType !== "way" ? this.onEachIntersection : null,
+        onEachFeature: mode === "existing" && selection !== "way" ? this.onEachIntersection : null,
         pointToLayer: this.pointToLayer,
       });
 
@@ -473,7 +475,7 @@ class ProjectMap extends React.Component {
       };
 
       this.userIntersectionFeatures = Leaflet.geoJSON(userIntersectionCollection, {
-        onEachFeature: this.state.mapMode === "add" && this.state.selectionType !== "way" ? this.onEachUserIntersection : null,
+        onEachFeature: mode === "add" && selection !== "way" ? this.onEachUserIntersection : null,
         pointToLayer: this.userPointToLayer,
       });
 
@@ -540,13 +542,13 @@ class ProjectMap extends React.Component {
       };
 
       this.userWayFeatures = Leaflet.geoJSON(userWaysCollection, {
-        onEachFeature: this.state.mapMode === "add" && this.state.selectionType === "way" ? this.onEachUserWay : null,
+        onEachFeature: mode === "add" && selection === "way" ? this.onEachUserWay : null,
         style: this.styleUserWay,
       });
 
       // stack order
-      if(this.state.mapMode === "existing") {
-        if(this.state.selectionType === "way") {
+      if(mode === "existing") {
+        if(selection === "way") {
           this.userIntersectionFeatures.addTo(this.map);
           this.userWayFeatures.addTo(this.map);
 
@@ -562,7 +564,7 @@ class ProjectMap extends React.Component {
         }
       }
       else {
-        if(this.state.selectionType === "way") {
+        if(selection === "way") {
           this.intersectionFeatures.addTo(this.map);
           this.wayFeatures.addTo(this.map);
 
@@ -587,14 +589,11 @@ class ProjectMap extends React.Component {
       }
     }
 
-    updateMap() {
-
+    updateMap = () => {
 
       if(!this.props.bounds.length) {
         return;
       }
-
-      // console.log('Map update!');
 
       if(!this.map) {
         this.map = Leaflet.map('map');
@@ -622,43 +621,6 @@ class ProjectMap extends React.Component {
       this.onMapMove();
     }
 
-    selectWays = () => {
-      this.setState({
-        "selectionType": "way",
-      }, this.renderFeatures);
-    }
-
-    selectIntersections = () => {
-
-      if(this.props.isAddingUserWay) {
-        this.props.showUserWayWarning();
-        return;
-      }
-
-      this.setState({
-        "selectionType": "intersection",
-        "userWayPoints": [],
-      }, this.renderFeatures);
-    }
-
-    selectExisting = () => {
-
-      if(this.props.isAddingUserWay) {
-        this.props.showUserWayWarning();
-        return;
-      }
-
-      this.setState({
-        "mapMode": "existing",
-      }, this.renderFeatures);
-    }
-
-    addNew = () => {
-      this.setState({
-        "mapMode": "add",
-      }, this.renderFeatures);
-    }
-
     reset = () => {
       this.selectedWayIds = [];
       this.selectedWays = [];
@@ -670,24 +632,31 @@ class ProjectMap extends React.Component {
       this.userWays = [];
 
       this.props.updateMapSelections([], [], [], []);
+      this.props.mapResetFinished();
+      this.props.wayFinished();
 
-      this.setState({
-        "mapMode": "existing",
-        "selectionType": "way",
-        "userWayPoints": [],
-      }, this.renderFeatures)
+      this.cancel();
     }
 
     cancel = () => {
 
       this.props.updateUserWayStatus(false);
+      this.props.updateNumWaypoints(0);
+      this.props.cancelWayFinished();
 
       this.setState({
         "userWayPoints": [],
       }, this.renderFeatures);
     }
 
-    finish = (oneway) => {
+    finish = () => {
+
+      let { shouldFinishWay } = this.props;
+
+      // 0 == don't call this function
+      // 1 == oneway
+      // 2 == twoway
+      let oneway = shouldFinishWay === 1 ? true : false;
 
       let newId = uuidv4();
       let length = this.calcLength(Leaflet.GeoJSON.coordsToLatLngs(this.state.userWayPoints));
@@ -736,6 +705,7 @@ class ProjectMap extends React.Component {
 
       // let the tool know about updated ways
       this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.userWays, this.userIntersections);
+      this.props.wayFinished();
 
       // get ready to add another new way
       this.cancel();
@@ -743,56 +713,16 @@ class ProjectMap extends React.Component {
 
     render() {
 
-      let { mapMode, selectionType, userWayPoints } = this.state;
-
-      let existingClasses = mapMode === 'existing' ? `btn btn-existing` : `btn btn-outline-existing`;
-      let addClasses = mapMode === 'add' ? `btn btn-user-defined active` : `btn btn-outline-user-defined`;
-
-      let wayClasses = selectionType === 'way' ? `btn btn-secondary active` : `btn btn-outline-secondary`;
-      let intersectionClasses = selectionType === 'intersection' ? `btn btn-secondary active` : `btn btn-outline-secondary`;
-
-      // TODO refactor selector to separate component?
+      let { showWarning } = this.state;
 
       return (
-        <>
-          <div className="mb-4">
-            <strong>Selecting on map:</strong>
-            <div className="btn-group ms-4" role="group" aria-label="Basic example">
-              <button type="button" className={wayClasses} onClick={this.selectWays}>Segments</button>
-              <button type="button" className={intersectionClasses} onClick={this.selectIntersections}>Intersections</button>
+        <div id="map">
+          { showWarning ?
+            <div id="map-warning" className="alert position-absolute top-0 start-50 translate-middle-x mt-3 text-center" role="alert">
+              Zoom in to select links
             </div>
-
-            <button type="button" className="btn btn-outline-secondary ms-4" onClick={this.reset}>Reset Map</button>
-          </div>
-
-          <div className="mb-4">
-
-            <strong>Editing mode:</strong>
-            <div className="btn-group ms-4" role="group" aria-label="Basic example">
-              <button type="button" className={existingClasses} onClick={this.selectExisting}>Selecting Existing</button>
-              <button type="button" className={addClasses} onClick={this.addNew}>Add User Defined</button>
-            </div>
-
-            { mapMode === "add" && selectionType === "way" && userWayPoints.length ?
-              <>
-              { userWayPoints.length > 1 ?
-              <>
-              <button type="button" className="btn btn-user-defined ms-4" onClick={() => this.finish(false)}>Add as two way segment</button>
-              <button type="button" className="btn btn-user-defined ms-4" onClick={() => this.finish(true)}>Add as one way segment</button>
-              </>
-              : null }
-              <button type="button" className="btn btn-outline-user-defined ms-4" onClick={this.cancel}>Cancel Adding Segment</button>
-              </>
-            : null }
-          </div>
-          <div id="map">
-            { this.state.showWarning ?
-              <div id="map-warning" className="alert position-absolute top-0 start-50 translate-middle-x mt-3 text-center" role="alert">
-                Zoom in to select links
-              </div>
-            : null }
-          </div>
-        </>
+          : null }
+        </div>
       );
     }
 

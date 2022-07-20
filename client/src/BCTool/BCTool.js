@@ -8,6 +8,7 @@ import './BCTool.css';
 import ProjectForm from './ProjectForm/ProjectForm';
 import ProjectSummary from './ProjectSummary/ProjectSummary';
 import ProjectMap from './ProjectMap/ProjectMap';
+import ProjectMapForm from './ProjectMap/ProjectMapForm';
 import ProjectElements from './ProjectElements/ProjectElements';
 import SelectedInfrastructure from './SelectedInfrastructure/SelectedInfrastructure';
 import ProjectBenefits from './ProjectBenefits/ProjectBenefits';
@@ -73,6 +74,12 @@ class BCTool extends React.Component {
       totalIntersections: 0,
       hasMapSelections: false,
       isAddingUserWay: false,
+      selection: "way",
+      mode: "existing",
+      numWaypoints: 0,
+      shouldResetMap: false,
+      shouldCancelWay: false,
+      shouldFinishWay: 0,
       existingTravel: {},
 
       selectedNonInfrastructure: [],
@@ -410,6 +417,82 @@ class BCTool extends React.Component {
       });
   };
 
+  updateMapSelectionMode = () => {
+    let { selection, isAddingUserWay } = this.state;
+
+    if(selection === 'way' && isAddingUserWay) {
+      this.showUserWayWarning();
+      return;
+    }
+
+    this.setState({
+      selection: selection === 'way' ? 'intersection' : 'way',
+    });
+  };
+
+  updateMapEditingMode = () => {
+    let { mode, isAddingUserWay } = this.state;
+
+    if(mode === "add" && isAddingUserWay) {
+      this.showUserWayWarning();
+      return;
+    }
+
+    this.setState({
+      mode: mode === 'existing' ? 'add' : 'existing',
+    });
+  };
+
+  updateNumWaypoints = (num) => {
+    this.setState({
+      numWaypoints: num,
+    })
+  };
+
+  resetMap = () => {
+    this.setState({
+      shouldResetMap: true,
+      mode: 'existing',
+      selection: 'way',
+    })
+  }
+
+  mapResetFinished = () => {
+    this.setState({
+      shouldResetMap: false,
+    })
+  }
+
+  cancelWay = () => {
+    this.setState({
+      shouldCancelWay: true,
+    })
+  }
+
+  cancelWayFinished = () => {
+    this.setState({
+      shouldCancelWay: false,
+    })
+  }
+
+  finishOneWay = () => {
+    this.setState({
+      shouldFinishWay: 1,
+    });
+  }
+
+  finishTwoWay = () => {
+    this.setState({
+      shouldFinishWay: 2,
+    });
+  }
+
+  wayFinished = () => {
+    this.setState({
+      shouldFinishWay: 0,
+    });
+  }
+
   render() {
     return (
       <>
@@ -481,6 +564,17 @@ class BCTool extends React.Component {
               updateSubtype={this.updateSubtype}
               updateTimeFrame={this.updateTimeFrame}
             />
+            <ProjectMapForm
+              selection={this.state.selection}
+              changeSelection={this.updateMapSelectionMode}
+              mode={this.state.mode}
+              changeMode={this.updateMapEditingMode}
+              finishOneWay={this.finishOneWay}
+              finishTwoWay={this.finishTwoWay}
+              cancel={this.cancelWay}
+              reset={this.resetMap}
+              numWayPoints={this.state.numWaypoints}
+            />
           </div>
           <div className="col-sm-8">
             { this.state.county ?
@@ -490,6 +584,15 @@ class BCTool extends React.Component {
               isAddingUserWay={this.state.isAddingUserWay}
               updateUserWayStatus={this.updateUserWayStatus}
               showUserWayWarning={this.showUserWayWarning}
+              selection={this.state.selection}
+              mode={this.state.mode}
+              updateNumWaypoints={this.updateNumWaypoints}
+              shouldResetMap={this.state.shouldResetMap}
+              mapResetFinished={this.mapResetFinished}
+              shouldCancelWay={this.state.shouldCancelWay}
+              cancelWayFinished={this.cancelWayFinished}
+              shouldFinishWay={this.state.shouldFinishWay}
+              wayFinished={this.wayFinished}
             />
             : null }
           </div>
