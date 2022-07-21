@@ -277,7 +277,7 @@ class BCTool extends React.Component {
     let stateUpdate = {
       type: type,
       benefits: {},
-      inputsChanged: false,
+      inputsChanged: true,
     };
 
     if(type === 'infrastructure') {
@@ -297,7 +297,7 @@ class BCTool extends React.Component {
     this.setState({
       subtype: e.target.value,
       benefits: {},
-      inputsChanged: false,
+      inputsChanged: true,
     }, this.updateStatuses);
   };
 
@@ -346,6 +346,7 @@ class BCTool extends React.Component {
       totalIntersections: selectedIntersections.length + userIntersections.length,
       existingTravel: existingTravel,
       inputsChanged: true,
+      benefits: {},
     }, this.updateStatuses);
   }
 
@@ -362,6 +363,8 @@ class BCTool extends React.Component {
   updateTimeFrame = (e) => {
     this.setState({
       timeframe: parseInt(e.target.value),
+      benefits: {},
+      inputsChanged: true,
     });
   };
 
