@@ -65,7 +65,8 @@ class BCTool extends React.Component {
       timeframe: 20,
       year: new Date().getFullYear(),
 
-      bounds: [],
+      initialBounds: [],
+      projectBounds: null,
       selectedWays: [],
       selectedIntersections: [],
       userWays: [],
@@ -214,6 +215,7 @@ class BCTool extends React.Component {
             userSegments: this.state.userWays,
             totalLength: this.state.totalLength,
             totalIntersections: this.state.totalIntersections,
+            bounds: this.state.projectBounds,
         },
         elements: {
             infrastructure: this.state.selectedInfrastructure,
@@ -276,7 +278,6 @@ class BCTool extends React.Component {
     let type = e.target.value;
     let stateUpdate = {
       type: type,
-      benefits: {},
       inputsChanged: true,
     };
 
@@ -296,7 +297,6 @@ class BCTool extends React.Component {
   updateSubtype = (e) => {
     this.setState({
       subtype: e.target.value,
-      benefits: {},
       inputsChanged: true,
     }, this.updateStatuses);
   };
@@ -318,14 +318,43 @@ class BCTool extends React.Component {
 
     this.setState({
       county: selectedCounty.name,
-      bounds: bounds,
+      initialBounds: bounds,
     }, () => {
       this.startModal.hide();
     });
   };
 
+  updateSelectedWaysAndIntersections = (selectedWays, selectedIntersections) => {
+    this.setState({
+      selectedWays: selectedWays,
+      selectedIntersections: selectedIntersections,
+    }, this.updateMapSelections);
+  }
 
-  updateMapSelections = (selectedWays, selectedIntersections, userWays, userIntersections) => {
+  updateUserWaysAndIntersections = (userWays, userIntersections) => {
+    this.setState({
+      userWays: userWays,
+      userIntersections: userIntersections,
+    }, this.updateMapSelections);
+  }
+
+  updateAllWaysAndIntersections = (selectedWays, selectedIntersections, userWays, userIntersections) => {
+    this.setState({
+      selectedWays: selectedWays,
+      selectedIntersections: selectedIntersections,
+      userWays: userWays,
+      userIntersections: userIntersections,
+    }, this.updateMapSelections);
+  }
+
+  updateMapSelections = () => {
+
+    let {
+      selectedWays,
+      selectedIntersections,
+      userWays,
+      userIntersections,
+    } = this.state;
 
     let projectLength = calcProjectLength(selectedWays, userWays);
 
@@ -338,15 +367,10 @@ class BCTool extends React.Component {
     );
 
     this.setState({
-      selectedWays: selectedWays,
-      selectedIntersections: selectedIntersections,
-      userWays: userWays,
-      userIntersections: userIntersections,
       totalLength: projectLength,
       totalIntersections: selectedIntersections.length + userIntersections.length,
       existingTravel: existingTravel,
       inputsChanged: true,
-      benefits: {},
     }, this.updateStatuses);
   }
 
@@ -363,7 +387,6 @@ class BCTool extends React.Component {
   updateTimeFrame = (e) => {
     this.setState({
       timeframe: parseInt(e.target.value),
-      benefits: {},
       inputsChanged: true,
     });
   };
@@ -406,6 +429,8 @@ class BCTool extends React.Component {
             userIntersections: result.scope.userIntersections,
             totalLength: result.scope.totalLength,
             totalIntersections: result.scope.totalIntersections,
+            initialBounds: result.scope.bounds,
+            projectBounds: result.scope.bounds,
 
             existingTravel: result.existingTravel,
             benefits: result.benefits,
@@ -496,6 +521,19 @@ class BCTool extends React.Component {
     });
   }
 
+  updateProjectBounds = (bounds) => {
+
+    if(bounds.isValid()) {
+
+      this.setState({
+        projectBounds: [
+          [bounds.getSouth(), bounds.getWest()],
+          [bounds.getNorth(), bounds.getEast()],
+        ],
+      });
+    }
+  };
+
   render() {
     return (
       <>
@@ -582,7 +620,7 @@ class BCTool extends React.Component {
           <div className="col-sm-8">
             { this.state.county ?
             <ProjectMap
-              bounds={this.state.bounds}
+              bounds={this.state.initialBounds}
               updateMapSelections={this.updateMapSelections}
               isAddingUserWay={this.state.isAddingUserWay}
               updateUserWayStatus={this.updateUserWayStatus}
@@ -596,6 +634,16 @@ class BCTool extends React.Component {
               cancelWayFinished={this.cancelWayFinished}
               shouldFinishWay={this.state.shouldFinishWay}
               wayFinished={this.wayFinished}
+              updateProjectBounds={this.updateProjectBounds}
+
+              selectedWays={this.state.selectedWays}
+              selectedIntersections={this.state.selectedIntersections}
+              userWays={this.state.userWays}
+              userIntersections={this.state.userIntersections}
+
+              updateUserWaysAndIntersections={this.updateUserWaysAndIntersections}
+              updateSelectedWaysAndIntersections={this.updateSelectedWaysAndIntersections}
+              updateAllWaysAndIntersections={this.updateAllWaysAndIntersections}
             />
             : null }
           </div>

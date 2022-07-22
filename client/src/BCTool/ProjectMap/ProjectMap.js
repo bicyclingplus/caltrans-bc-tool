@@ -20,15 +20,14 @@ class ProjectMap extends React.Component {
 
       this.map = null;
       this.features = null;
-
-      this.selectedWayIds = [];
-      this.selectedWays = [];
-
-      this.selectedIntersectionIds = [];
-      this.selectedIntersections = [];
-
-      this.userWays = [];
-      this.userIntersections = [];
+      this.wayFeatures = null;
+      this.intersectionFeatures = null;
+      this.userIntersectionFeatures = null;
+      this.userWayPointFeatures = null;
+      this.userWayPointLineFeature = null;
+      this.userWayFeatures = null;
+      this.ways = null;
+      this.intersections = null;
 
       this.state = {
         "userWayPoints": [],
@@ -41,49 +40,56 @@ class ProjectMap extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+      // Fit the map to bounds if needed
       if(this.props.bounds !== prevProps.bounds) {
-
-        if(this.map) {
-          this.map.off();
-          this.map.remove();
-          this.map = null;
-        }
-
-        this.features = null;
-
-        this.selectedWayIds = [];
-        this.selectedWays = [];
-
-        this.selectedIntersectionIds = [];
-        this.selectedIntersections = [];
-
-        this.props.updateMapSelections([], [], [], []);
-
         this.updateMap();
       }
 
+      // If the editing mode or selection mode changes
+      // render again to change the stack order of
+      // the elements
       if(this.props.mode !== prevProps.mode ||
-              this.props.selection !== prevProps.selection) {
+        this.props.selection !== prevProps.selection) {
 
         this.renderFeatures();
       }
 
+      // Reset map if needed
+      // TODO move this up to parent
       if(this.props.shouldResetMap) {
         this.reset();
       }
 
+      // Cancel the current user way being added
       if(this.props.shouldCancelWay) {
         this.cancel();
       }
 
+      // Finish the current user way being added
       if(this.props.shouldFinishWay > 0) {
         this.finish();
       }
+
+      // re render when selections change
+      // TODO re create selectedway/selectedintersection ids arrays here
+      // rather than in some cases created for each feature on rendering
+      // TODO move bounds calculation up to bctool, not really needed/used
+      // here except for leaflet dependency
+      if(this.props.selectedWays !== prevProps.selectedWays ||
+        this.props.selectedIntersections !== prevProps.selectedIntersections ||
+        this.props.userWays !== prevProps.userWays ||
+        this.props.userIntersections !== prevProps.userIntersections) {
+          this.updateProjectBounds();
+          this.renderFeatures();
+        }
     }
 
     styleWay = (feature) => {
 
-      return this.selectedWayIds.includes(feature.properties.edge_uid) ?
+      let { selectedWays } = this.props;
+      let selectedWayIds = selectedWays.map((w) =>  w.properties.edge_uid);
+
+      return selectedWayIds.includes(feature.properties.edge_uid) ?
         symbology.pre_existing.selected.link :
         symbology.pre_existing.default.link;
     }
@@ -123,34 +129,41 @@ class ProjectMap extends React.Component {
 
     userWayClicked = (e) => {
 
+      let userWays = structuredClone(this.props.userWays);
+      let userIntersections = structuredClone(this.props.userIntersections);
+      let { updateUserWaysAndIntersections } = this.props;
       let feature = e.target.feature;
 
       // remove the clicked interesection
-      this.userWays = this.userWays.filter((item) => (item.properties.id !== feature.properties.id));
+      userWays = userWays.filter((item) => (item.properties.id !== feature.properties.id));
 
       // remove child intersections
-      this.userIntersections = this.userIntersections.filter((item) => (item.properties.parent !== feature.properties.id));
+      userIntersections = userIntersections.filter((item) => (item.properties.parent !== feature.properties.id));
 
       // stop propagation to map
       Leaflet.DomEvent.stopPropagation(e);
 
       // let the tool know about updated ways
-      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.userWays, this.userIntersections);
-
-      // re render features
-      this.renderFeatures();
+      updateUserWaysAndIntersections(userWays, userIntersections);
     }
 
     wayClicked = (e) => {
+
+      let selectedWays = structuredClone(this.props.selectedWays);
+      let selectedIntersections = structuredClone(this.props.selectedIntersections);
+      let { updateSelectedWaysAndIntersections } = this.props;
+
+      let selectedWayIds = selectedWays.map((w) =>  w.properties.edge_uid);
+      let selectedIntersectionIds = selectedIntersections.map((i) => i.properties.node_id);
+
       let feature = e.target.feature;
       let featureId = feature.properties.edge_uid;
 
       // If this way is already selected, remove it otherwise select it
-      if(this.selectedWayIds.includes(featureId)) {
+      if(selectedWayIds.includes(featureId)) {
 
         // Remove the clicked way from selection and length count
-        this.selectedWayIds = this.selectedWayIds.filter((item) => (item !== featureId));
-        this.selectedWays = this.selectedWays.filter((item) => (item.properties.edge_uid !== featureId));
+        selectedWays = selectedWays.filter((item) => (item.properties.edge_uid !== featureId));
 
         // Grab the intersection ids attached to the way we're removing
         let intA = feature.properties.source;
@@ -160,7 +173,7 @@ class ProjectMap extends React.Component {
         let intBFound = false;
 
         // Check all the other selected ways to see if they include this intersection
-        for(let way of this.selectedWays) {
+        for(let way of selectedWays) {
 
           // Skip this one
           if(way.properties.edge_uid === featureId) {
@@ -181,13 +194,11 @@ class ProjectMap extends React.Component {
 
         // If no other selected ways use these intersections, remove them from selection
         if(!intAFound) {
-          this.selectedIntersectionIds = this.selectedIntersectionIds.filter((item) => (item !== intA));
-          this.selectedIntersections = this.selectedIntersections.filter((item) => (item.properties.node_id !== intA));
+          selectedIntersections = selectedIntersections.filter((item) => (item.properties.node_id !== intA));
         }
 
         if(!intBFound) {
-          this.selectedIntersectionIds = this.selectedIntersectionIds.filter((item) => (item !== intB));
-          this.selectedIntersections = this.selectedIntersections.filter((item) => (item.properties.node_id !== intB));
+          selectedIntersections = selectedIntersections.filter((item) => (item.properties.node_id !== intB));
         }
       }
       else {
@@ -200,40 +211,35 @@ class ProjectMap extends React.Component {
         }
 
         feature.properties.length = length;
-        this.selectedWayIds.push(featureId);
-        this.selectedWays.push(feature);
+        selectedWays.push(feature);
 
         let intA = feature.properties.source;
         let intB = feature.properties.target;
 
-        if(!this.selectedIntersectionIds.includes(intA)) {
-          this.selectedIntersectionIds.push(intA);
+        if(!selectedIntersectionIds.includes(intA)) {
 
           // find the feature for this intersection
           for(let intersection of this.intersections) {
             if(intersection.properties.node_id === intA) {
-              this.selectedIntersections.push(intersection);
+              selectedIntersections.push(intersection);
               break;
             }
           }
         }
 
-        if(!this.selectedIntersectionIds.includes(intB)) {
-          this.selectedIntersectionIds.push(intB);
+        if(!selectedIntersectionIds.includes(intB)) {
 
           // find the feature for this intersection
           for(let intersection of this.intersections) {
             if(intersection.properties.node_id === intB) {
-              this.selectedIntersections.push(intersection);
+              selectedIntersections.push(intersection);
               break;
             }
           }
         }
       }
 
-      this.renderFeatures();
-
-      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.userWays, this.userIntersections);
+      updateSelectedWaysAndIntersections(selectedWays, selectedIntersections);
     }
 
     onEachWay = (feature, mapLayer) => {
@@ -264,7 +270,12 @@ class ProjectMap extends React.Component {
         url += `?x1=${bounds.getWest()}&x2=${bounds.getEast()}&y1=${bounds.getSouth()}&y2=${bounds.getNorth()}`;
 
         fetch(url)
-          .then((res) => res.json())
+          .then((response) => {
+            if(!response.ok) {
+              throw new Error();
+            }
+            return response.json();
+          })
           .then(
             (result) => {
               this.ways = result.ways.features;
@@ -277,7 +288,10 @@ class ProjectMap extends React.Component {
             (error) => {
               console.log(error);
             },
-          );
+          )
+          .catch(error => {
+            console.log(`Server says: ${error}`);
+          });
 
       }
       else {
@@ -292,7 +306,11 @@ class ProjectMap extends React.Component {
     onMapClick = (e) => {
 
       let { userWayPoints, showWarning } = this.state;
-      let { mode, selection } = this.props;
+
+      let {
+        mode,
+        selection,
+      } = this.props;
 
       if(showWarning) {
         return;
@@ -302,8 +320,11 @@ class ProjectMap extends React.Component {
 
         if(selection === 'intersection') {
 
+          let userIntersections = structuredClone(this.props.userIntersections);
+          let { userWays, updateUserWaysAndIntersections } = this.props;
+
           // add an intersection to the list at the point of the click
-          this.userIntersections.push({
+          userIntersections.push({
             "type": "Feature",
             "geometry": {
               "type": "Point",
@@ -315,11 +336,7 @@ class ProjectMap extends React.Component {
             }
           });
 
-          // let the tool know about updated intersections
-          this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.userWays, this.userIntersections);
-
-          // re render features
-          this.renderFeatures();
+          updateUserWaysAndIntersections(userWays, userIntersections);
         }
         else if(selection === "way") {
 
@@ -350,8 +367,11 @@ class ProjectMap extends React.Component {
 
     pointToLayer = (feature, latlng) => {
 
+      let { selectedIntersections } = this.props;
+      let selectedIntersectionIds = selectedIntersections.map((i) => i.properties.node_id);
+
       return Leaflet.circleMarker(latlng,
-        this.selectedIntersectionIds.includes(feature.properties.node_id) ?
+        selectedIntersectionIds.includes(feature.properties.node_id) ?
         symbology.pre_existing.selected.intersection :
         symbology.pre_existing.default.intersection);
     }
@@ -370,45 +390,40 @@ class ProjectMap extends React.Component {
 
     userIntersectionClicked = (e) => {
 
+      let userIntersections = structuredClone(this.props.userIntersections);
+      let { userWays, updateUserWaysAndIntersections } = this.props;
       let feature = e.target.feature;
 
       // remove the clicked interesection
-      this.userIntersections = this.userIntersections.filter((item) => (item.properties.id !== feature.properties.id));
+      userIntersections = userIntersections.filter((item) => (item.properties.id !== feature.properties.id));
 
       // stop propagation to map
       Leaflet.DomEvent.stopPropagation(e);
 
-      // let the tool know about updated intersections
-      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.userWays, this.userIntersections);
-
-      // re render features
-      this.renderFeatures();
+      updateUserWaysAndIntersections(userWays, userIntersections);
     }
 
     intersectionClicked = (e) => {
 
+      let selectedIntersections = structuredClone(this.props.selectedIntersections);
+      let { selectedWays, updateSelectedWaysAndIntersections } = this.props;
+      let selectedIntersectionIds = selectedIntersections.map((i) => i.properties.node_id);
       let feature = e.target.feature;
       let featureId = feature.properties.node_id;
 
       // Check if this intersection is already selected or not
-      if(this.selectedIntersectionIds.includes(featureId)) {
+      if(selectedIntersectionIds.includes(featureId)) {
 
         // Remove from selection
-        this.selectedIntersectionIds = this.selectedIntersectionIds.filter((item) => (item !== featureId));
-        this.selectedIntersections = this.selectedIntersections.filter((item) => (item.properties.node_id !== featureId));
+        selectedIntersections = selectedIntersections.filter((item) => (item.properties.node_id !== featureId));
       }
       else {
 
         // Add to selection
-        this.selectedIntersectionIds.push(featureId);
-        this.selectedIntersections.push(feature);
+        selectedIntersections.push(feature);
       }
 
-      // Update features on map
-      this.renderFeatures();
-
-      // Let tool know about change in number of intersections
-      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.userWays, this.userIntersections);
+      updateSelectedWaysAndIntersections(selectedWays, selectedIntersections);
     }
 
     clearFeatures = () => {
@@ -445,7 +460,12 @@ class ProjectMap extends React.Component {
     renderFeatures = () => {
 
       let { showWarning } = this.state;
-      let { mode, selection } = this.props;
+      let {
+        mode,
+        selection,
+        userWays,
+        userIntersections,
+      } = this.props;
 
       this.clearFeatures();
 
@@ -471,7 +491,7 @@ class ProjectMap extends React.Component {
       // user defined intersections
       let userIntersectionCollection = {
         "type": "FeatureCollection",
-        "features": this.userIntersections,
+        "features": userIntersections,
       };
 
       this.userIntersectionFeatures = Leaflet.geoJSON(userIntersectionCollection, {
@@ -538,7 +558,7 @@ class ProjectMap extends React.Component {
       // User defined ways
       let userWaysCollection = {
         "type": "FeatureCollection",
-        "features": this.userWays,
+        "features": userWays,
       };
 
       this.userWayFeatures = Leaflet.geoJSON(userWaysCollection, {
@@ -591,10 +611,6 @@ class ProjectMap extends React.Component {
 
     updateMap = () => {
 
-      if(!this.props.bounds.length) {
-        return;
-      }
-
       if(!this.map) {
         this.map = Leaflet.map('map');
 
@@ -606,32 +622,27 @@ class ProjectMap extends React.Component {
             zoomOffset: -1,
             accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
         }).addTo(this.map);
+
+        this.map.on('moveend', () => {
+          this.onMapMove();
+        });
+
+        this.map.on('click', (e) => {
+          this.onMapClick(e);
+        });
       }
 
       this.map.fitBounds(this.props.bounds);
-
-      this.map.on('moveend', () => {
-        this.onMapMove();
-      });
-
-      this.map.on('click', (e) => {
-        this.onMapClick(e);
-      });
-
       this.onMapMove();
     }
 
     reset = () => {
-      this.selectedWayIds = [];
-      this.selectedWays = [];
 
-      this.selectedIntersectionIds = [];
-      this.selectedIntersections = [];
+      let { updateAllWaysAndIntersections } = this.props;
 
-      this.userIntersections = [];
-      this.userWays = [];
+      updateAllWaysAndIntersections([], [], [], []);
+      this.updateProjectBounds([], [], [], []);
 
-      this.props.updateMapSelections([], [], [], []);
       this.props.mapResetFinished();
       this.props.wayFinished();
 
@@ -651,7 +662,13 @@ class ProjectMap extends React.Component {
 
     finish = () => {
 
-      let { shouldFinishWay } = this.props;
+      let {
+        shouldFinishWay,
+        updateUserWaysAndIntersections,
+      } = this.props;
+
+      let userWays = structuredClone(this.props.userWays);
+      let userIntersections = structuredClone(this.props.userIntersections);
 
       // 0 == don't call this function
       // 1 == oneway
@@ -666,7 +683,7 @@ class ProjectMap extends React.Component {
       }
 
       // create the geojson and add to list of user defined ways
-      this.userWays.push({
+      userWays.push({
         "type": "Feature",
         "geometry": {
           "type": "LineString",
@@ -675,11 +692,11 @@ class ProjectMap extends React.Component {
         "properties": {
           "id": newId,
           "length": length,
-          "ONE_WAY_CA": oneway,
+          "one_way_ca": oneway,
         }
       });
 
-      this.userIntersections.push({
+      userIntersections.push({
         "type": "Feature",
         "geometry": {
           "type": "Point",
@@ -691,7 +708,7 @@ class ProjectMap extends React.Component {
         }
       });
 
-      this.userIntersections.push({
+      userIntersections.push({
         "type": "Feature",
         "geometry": {
           "type": "Point",
@@ -704,11 +721,46 @@ class ProjectMap extends React.Component {
       });
 
       // let the tool know about updated ways
-      this.props.updateMapSelections(this.selectedWays, this.selectedIntersections, this.userWays, this.userIntersections);
-      this.props.wayFinished();
+      updateUserWaysAndIntersections(userWays, userIntersections);
 
       // get ready to add another new way
       this.cancel();
+
+      // let the tool know we're no longer adding a way
+      this.props.wayFinished();
+    }
+
+    updateProjectBounds = () => {
+
+      let {
+        selectedWays,
+        selectedIntersections,
+        userWays,
+        userIntersections,
+        updateProjectBounds,
+      } = this.props;
+
+      let bounds = new Leaflet.latLngBounds();
+
+      for(let w of selectedWays) {
+        bounds.extend(Leaflet.geoJSON(w).getBounds());
+      }
+
+      // technically shouldn't need this because the intersections are the
+      // first/last point of a way
+      for(let i of selectedIntersections) {
+        bounds.extend(Leaflet.geoJSON(i).getBounds());
+      }
+
+      for(let w of userWays) {
+        bounds.extend(Leaflet.geoJSON(w).getBounds());
+      }
+
+      for(let i of userIntersections) {
+        bounds.extend(Leaflet.geoJSON(i).getBounds());
+      }
+
+      updateProjectBounds(bounds);
     }
 
     render() {
