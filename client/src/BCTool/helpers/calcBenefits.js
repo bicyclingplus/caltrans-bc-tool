@@ -16,6 +16,8 @@ const calcBenefits = (
 
 	project_time_frame,
 
+	project_transit,
+
 	project_length,
 	num_intersections,
 
@@ -41,14 +43,16 @@ const calcBenefits = (
       	project_length,
       	num_intersections);
 
-      benefits.vmtReductions = calcVMTReductions(benefits.travel, project_time_frame);
+      benefits.vmtReductions = calcVMTReductions(
+      	benefits.travel, project_time_frame, project_transit);
 
       benefits.emissions = calcEmissions(
         project_county, project_year, benefits.vmtReductions);
 
       benefits.health = calcHealth(benefits.travel, project_time_frame);
 
-      benefits.safetyQualitative = calcSafetyQualitative(infrastructure, selectedInfrastructure);
+      benefits.safetyQualitative = calcSafetyQualitative(
+      	infrastructure, selectedInfrastructure);
 
       benefits.safetyQuantitative = calcSafetyQuantitative(
         infrastructure,

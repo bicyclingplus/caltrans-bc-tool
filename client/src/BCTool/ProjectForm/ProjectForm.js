@@ -11,12 +11,14 @@ class ProjectForm extends React.Component {
       timeframe,
       type,
       subtype,
+      transit,
       updateName,
       updateDeveloper,
       updateCost,
       updateType,
       updateSubtype,
       updateTimeFrame,
+      updateTransit,
     } = this.props;
 
     return (
@@ -74,6 +76,20 @@ class ProjectForm extends React.Component {
                 <option value="pedestrian-only">Pedestrian Only</option>
                 <option value="bike-only">Bicyclist Only</option>
                 <option value="both">Pedestrian and Bicyclist</option>
+              </select>
+            </div>
+          </div>
+          : null }
+
+          { type === 'infrastructure' || type === 'both' ?
+          <div className="row mb-2">
+            <label htmlFor="project-transit" className="col-sm-4 col-form-label text-end">Transit Type</label>
+            <div className="col-md-8">
+              <select id="project-subtype" className="form-select" value={transit} onChange={updateTransit}>
+                <option value="" disabled>-- Choose a type --</option>
+                <option value="hubs">Connections to major transit hub(s)</option>
+                <option value="stops">Connections to transit stops</option>
+                <option value="none">no transit connections</option>
               </select>
             </div>
           </div>

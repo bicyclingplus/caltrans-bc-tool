@@ -64,6 +64,7 @@ class BCTool extends React.Component {
       county: '',
       timeframe: 20,
       year: new Date().getFullYear(),
+      transit: '',
 
       initialBounds: [],
       projectBounds: null,
@@ -207,6 +208,7 @@ class BCTool extends React.Component {
             type: this.state.type,
             subtype: this.state.subtype,
             year: this.state.year,
+            transit: this.state.transit,
         },
         scope: {
             intersections: this.state.selectedIntersections,
@@ -245,6 +247,7 @@ class BCTool extends React.Component {
         this.state.county,
         this.state.year,
         this.state.timeframe,
+        this.state.transit,
         this.state.totalLength,
         this.state.totalIntersections,
         infrastructure,
@@ -281,6 +284,8 @@ class BCTool extends React.Component {
       inputsChanged: true,
     };
 
+    // clear selections that are no longer applicable
+    // so they aren't included in benefits calculations
     if(type === 'infrastructure') {
       stateUpdate.hasSelectedNonInfrastructure = false;
       stateUpdate.selectedNonInfrastructure = [];
@@ -300,6 +305,13 @@ class BCTool extends React.Component {
       inputsChanged: true,
     }, this.updateStatuses);
   };
+
+  updateTransit = (e) => {
+    this.setState({
+      transit: e.target.value,
+      inputsChanged: true,
+    });
+  }
 
   updateCounty = (e) => {
 
@@ -419,6 +431,7 @@ class BCTool extends React.Component {
             county: result.details.county,
             timeframe: result.details.timeframe,
             year: result.details.year,
+            transit: result.details.transit,
 
             selectedNonInfrastructure: result.elements.nonInfrastructure,
             selectedInfrastructure: result.elements.infrastructure,
@@ -598,12 +611,14 @@ class BCTool extends React.Component {
               timeframe={this.state.timeframe}
               type={this.state.type}
               subtype={this.state.subtype}
+              transit={this.state.transit}
               updateName={this.updateName}
               updateDeveloper={this.updateDeveloper}
               updateCost={this.updateCost}
               updateType={this.updateType}
               updateSubtype={this.updateSubtype}
               updateTimeFrame={this.updateTimeFrame}
+              updateTransit={this.updateTransit}
             />
             <ProjectMapForm
               selection={this.state.selection}
