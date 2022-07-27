@@ -25,8 +25,6 @@ class ProjectSummary extends React.Component {
 
         const intersections = this.props.intersections;
         const length = this.props.length;
-        const subtype = this.props.subtype;
-        const travel = this.props.travel;
 
         return (
             <div className="card">

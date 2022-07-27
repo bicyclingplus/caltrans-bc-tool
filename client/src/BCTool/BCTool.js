@@ -675,9 +675,7 @@ class BCTool extends React.Component {
           <div className="col-sm-12">
             <ProjectSummary
               intersections={this.state.totalIntersections}
-              length={this.state.totalLength}
-              subtype={this.state.subtype}
-              travel={this.state.existingTravel} />
+              length={this.state.totalLength} />
           </div>
         </div>
         : null }
