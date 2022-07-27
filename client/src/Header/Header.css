@@ -33,10 +33,6 @@
 	line-height: 1.2;
 }
 
-.navbar .dropdown-toggle::after {
-	border:  0;
-}
-
 .btn-restart {
 	border-color: #003a5d;
 	color: #003a5d;
