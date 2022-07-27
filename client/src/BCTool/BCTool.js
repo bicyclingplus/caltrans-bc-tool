@@ -669,7 +669,7 @@ class BCTool extends React.Component {
         </div>
       </div>
 
-      <div className="container">
+      <div className="container-fluid">
         { (this.state.type === 'infrastructure' || this.state.type === 'both') && this.state.hasMapSelections ?
         <div className="row mb-3">
           <div className="col-sm-12">
