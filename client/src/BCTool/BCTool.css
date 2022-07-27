@@ -27,8 +27,13 @@
   padding-bottom: 0.3em;
 }
 
-#bc-tool-start .modal-dialog {
-  font-size: 1.75rem;
+/*#bc-tool-start .modal-dialog {
+  font-size: 1.1rem;
+}*/
+#bc-tool-start {
+  background-image:  url('./images/splashpage.jpg');
+  background-position:  center;
+  background-size: 100% auto;
 }
 
 #bc-tool-start .modal-header {
