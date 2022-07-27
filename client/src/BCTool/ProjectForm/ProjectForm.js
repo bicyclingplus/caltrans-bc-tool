@@ -51,7 +51,7 @@ class ProjectForm extends React.Component {
               <select id="project-time-frame" className="form-select" value={timeframe} onChange={updateTimeFrame}>
                 <option value="" disabled>-- Choose a time frame --</option>
                 <option value="1">1 year</option>
-                <option value="20">20 years</option>
+                <option value="20">20 years (default)</option>
               </select>
             </div>
           </div>
