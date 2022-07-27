@@ -42,7 +42,62 @@ class Travel extends React.Component {
       { subtype !== 'pedestrian-only' ?
       <>
       <h5 className="mt-4">Estimated Average Daily Bike Miles Traveled (BMT)</h5>
-      <table className="table table-bordered" id="travel-bike">
+
+      <table className="table table-bordered" id="travel-bike-simple">
+        <tbody>
+          <tr>
+            <th colSpan="2"></th>
+            <th className="text-center">Daily Bike Miles Travelled (BMT)</th>
+            <th className="text-center">Daily BMT / Capita</th>
+            <th className="text-center">Daily BMT / Jobs</th>
+          </tr>
+          <tr className="striped-row">
+            <th colSpan="2">Existing</th>
+            <td className="text-end">{readableNumber(benefits.miles.bike.existing.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.existing.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.existing.mean)}</td>
+          </tr>
+          <tr>
+            <th rowSpan="5" className="align-middle">Increase in Active Travel</th>
+            <td>Car Shift</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.carShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.carShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.carShift.mean)}</td>
+          </tr>
+          <tr className="striped-row">
+            <td>Route Shift</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.routeShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.routeShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.routeShift.mean)}</td>
+          </tr>
+          <tr>
+            <td>Induced Travel</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.inducedTravel.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.inducedTravel.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.inducedTravel.mean)}</td>
+          </tr>
+          <tr className="striped-row">
+            <td>Shift from Other Modes</td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.otherShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.otherShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.otherShift.mean)}</td>
+          </tr>
+          <tr>
+            <td><b>Total</b></td>
+            <td className="text-end">{readableNumber(benefits.miles.bike.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.total.mean)}</td>
+          </tr>
+          <tr className="striped-row">
+            <th colSpan="2">Projected (Existing + Increase)</th>
+            <td className="text-end">{readableNumber(benefits.miles.bike.projected.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.projected.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.projected.mean)}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table className="table table-bordered d-none" id="travel-bike">
         <tbody>
           <tr>
             <th colSpan="2"></th>
@@ -169,7 +224,62 @@ class Travel extends React.Component {
       { subtype !== 'bike-only' ?
       <>
       <h5 className="mt-4">Estimated Average Daily Walk Miles Traveled (WMT)</h5>
-      <table className="table table-bordered" id="travel-pedestrian">
+
+      <table className="table table-bordered" id="travel-pedestrian-simple">
+        <tbody>
+          <tr>
+            <th colSpan="2"></th>
+            <th className="text-center">Daily Walk Miles Traveled (WMT)</th>
+            <th className="text-center">Daily WMT / Capita</th>
+            <th className="text-center">Daily WMT / Jobs</th>
+          </tr>
+          <tr className="striped-row">
+            <th colSpan="2">Existing</th>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.existing.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.existing.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.existing.mean)}</td>
+          </tr>
+          <tr>
+            <th rowSpan="5" className="align-middle">Increase in Active Travel</th>
+            <td>Car Shift</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.carShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.carShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.carShift.mean)}</td>
+          </tr>
+          <tr className="striped-row">
+            <td>Route Shift</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.routeShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.routeShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.routeShift.mean)}</td>
+          </tr>
+          <tr>
+            <td>Induced Travel</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.inducedTravel.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.inducedTravel.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.inducedTravel.mean)}</td>
+          </tr>
+          <tr className="striped-row">
+            <td>Shift from Other Modes</td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.otherShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.otherShift.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.otherShift.mean)}</td>
+          </tr>
+          <tr>
+            <td><b>Total</b></td>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.total.mean)}</td>
+          </tr>
+          <tr className="striped-row">
+            <th colSpan="2">Projected (Existing + Increase)</th>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.projected.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.projected.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.projected.mean)}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table className="table table-bordered d-none" id="travel-pedestrian">
         <tbody>
           <tr>
             <th colSpan="2"></th>

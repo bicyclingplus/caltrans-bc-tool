@@ -12,7 +12,43 @@ class HealthBenefits extends React.Component {
     return (
       <>
       <h5 className="mt-4">Physical Activity</h5>
-      <table className="table table-bordered" id="health">
+
+      <table className="table table-bordered" id="health-simple">
+        <thead>
+          <tr>
+            <th></th>
+            <th className="text-center">Marginal Metabolic Equivalent of Task (MMET) Increase</th>
+            <th className="text-center">MMET Increase / Capita</th>
+            <th className="text-center">MMET Increase / Jobs</th>
+          </tr>
+        </thead>
+        <tbody>
+          { subtype !== 'pedestrian-only' ?
+          <tr className="striped-row">
+            <th>Bicyling</th>
+            <td className="text-end">{readableNumber(benefits.miles.bike.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.bike.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.bike.mean)}</td>
+          </tr>
+          : null }
+          { subtype !== 'bike-only' ?
+          <tr>
+            <th>Walking</th>
+            <td className="text-end">{readableNumber(benefits.miles.pedestrian.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.pedestrian.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.pedestrian.mean)}</td>
+          </tr>
+          : null }
+          <tr className="striped-row">
+            <th>TOTAL</th>
+            <td className="text-end">{readableNumber(benefits.miles.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.capita.total.mean)}</td>
+            <td className="text-end">{readableNumber(benefits.jobs.total.mean)}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table className="table table-bordered d-none" id="health">
         <thead>
           <tr>
             <th></th>
