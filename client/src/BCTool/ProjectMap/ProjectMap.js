@@ -12,6 +12,7 @@ import './ProjectMap.css';
 // features on the map
 // any less and we display a warning instead
 const ZOOM_CUTOFF = 17;
+const MAX_ZOOM = 20;
 
 class ProjectMap extends React.Component {
 
@@ -616,7 +617,7 @@ class ProjectMap extends React.Component {
 
         Leaflet.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 19,
+            maxZoom: MAX_ZOOM,
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1,
