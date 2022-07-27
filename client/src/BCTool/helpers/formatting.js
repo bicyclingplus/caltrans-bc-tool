@@ -11,23 +11,10 @@ export function readableNumber(number, places = 3, suffix = '') {
   if(number === null) {
     return "N/A";
   }
-  // else if(number === 0) {
-  //   return "No change";
-  // }
-  // else if(number > 0) {
-  //   return (
-  //     <span className="positive-change">{"+" + numberWithCommas(Math.round(number))}</span>
-  //   );
-  // }
-  // else {
-  //   return (
-  //     <span className="negative-change">{numberWithCommas(Math.round(number))}</span>
-  //   );
-  // }
-
-  let factor = Math.pow(10, places);
 
   if(number < 1) {
+    let factor = Math.pow(10, places);
+
     return numberWithCommas(Math.round((number + Number.EPSILON) * factor) / factor) + suffix;
   }
 
