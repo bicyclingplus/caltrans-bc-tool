@@ -554,10 +554,11 @@ class BCTool extends React.Component {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header text-center">
-              <h5 className="modal-title" id="startModalTitle">Welcome to Caltrans' Active Transportation Benefit-Cost Tool</h5>
+              <h5 className="modal-title" id="startModalTitle">California Active Transportation Benefit-Cost Tool</h5>
             </div>
             <div className="modal-body">
-              This tool evaluates the costs and benefits of active transportation projects as a part of Caltrans ATP project evaluation.....
+              <p>This tool has been developed by the UC Davis <a href="https://bicyclingplus.ucdavis.edu/" target="_blank">Bicycling<span className="fst-italic">Plus</span> Research Collaborative</a> to estimate expected benefits of proposed active transportation projects. It can help government agencies, practitioners, and community members understand project-specific cost effectiveness and explore options for improving project design.</p>
+              <p>Choose a county below to begin.</p>
 
 
               <select id="county" className="form-select mt-4" value={this.state.county} onChange={this.updateCounty}>
@@ -568,10 +569,13 @@ class BCTool extends React.Component {
                   ))
                 }
               </select>
+
+              <p className="mt-4">Last updated July 5, 2022</p>
+
               <hr />
 
               <form>
-                <div>
+                <div className="mb-3">
                   <label htmlFor="project-id" className="form-label">Project ID</label>
                   <input type="text" className="form-control" id="project-id" value={this.state.projectID} onChange={this.updateProjectID} />
                 </div>
