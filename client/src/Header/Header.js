@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link, NavLink } from "react-router-dom";
 
 import './Header.css';
-import resourcesIcon from './resources.png';
-import helpIcon from './help.png';
 
 const Modal = require('bootstrap/js/dist/modal');
 
@@ -59,16 +57,16 @@ function Header(props) {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 flex-wrap">
            <li className="nav-item dropdown">
             <button className="btn dropdown-toggle btn-link nav-link btn-borderless" id="resourcesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src={resourcesIcon} alt="book icon" /> Resources
+              Resources
             </button>
             <ul className="dropdown-menu" aria-labelledby="resourcesDropdown">
               <li><NavLink className="dropdown-item" to="technicaldocs">Technical Documentation</NavLink></li>
               <li><NavLink className="dropdown-item" to="litreview">Literature Review</NavLink></li>
             </ul>
             </li>
-            <li className="nav-item dropdown">
+            <li className="nav-item dropdown ms-5">
             <button className="btn dropdown-toggle btn-link nav-link btn-borderless" id="helpDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src={helpIcon} alt="pencil icon" /> Help
+             Help
             </button>
             <ul className="dropdown-menu" aria-labelledby="helpDropdown">
               <li><NavLink className="dropdown-item" to="about">About</NavLink></li>

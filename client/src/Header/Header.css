@@ -1,48 +1,47 @@
 .top-header {
-	background-color: #003a5d;
-	color: white;
+	background-color: white;
+	color: black;
 }
 
 .navbar {
-	background-color: #00c4b3;
+	background-color: #003a5d;
 	/*padding-left:  6rem;*/
 }
 
 .navbar .nav-link {
-	color:  black;
+	color:  white;
 	font-size: 2rem;
-	font-weight:  500;
+	font-weight:  700;
 	line-height: 1.2;
-}
-
-.navbar-expand .navbar-nav .nav-link {
-/*	padding-right: 1rem;
-	padding-left: 1rem;*/
-}
-
-.nav-link img {
-	vertical-align: text-bottom;
-	height:  2rem;
 }
 
 .navbar .dropdown-menu {
-	background-color: #00c4b3;
-	border:  0;
-	font-size: 2rem;
-	font-weight:  500;
-	line-height: 1.2;
-}
-
-.btn-restart {
-	border-color: #003a5d;
-	color: #003a5d;
-}
-
-.btn-restart:hover {
 	background-color: #003a5d;
+}
+
+.dropdown-item {
+	color: white;
+	font-size: 1.5rem;
+	font-weight:  500;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+	background-color: #00c4b3;
 	color: white;
 }
 
-.btn-link.btn-borderless {
-  border: 0;
+.btn-restart {
+	border-color: white;
+	border-width: 3px;
+	color: white;
+	font-weight: bolder;
+	border-radius: 0;
+	padding: 0rem 1.5rem 0.2rem 1.5rem;
+	font-size:  1.8rem;
+	line-height: 2.4rem;
+}
+
+.btn-restart:hover {
+	color: #00c4b3;
+	border-color: #00c4b3;
 }
