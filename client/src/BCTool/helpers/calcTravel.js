@@ -1,49 +1,63 @@
-import { SCALING_FACTORS } from './constants';
+import {
+    SCALING_FACTORS,
+    ESTIMATES,
+    INDUCED_TRAVEL,
+    ROUTE_SHIFT,
+    CAR_SHIFT,
+    OTHER_SHIFT,
+} from './constants';
 
 const travel_volume = require('../data/travel_volume.json');
 
-const INDUCED_TRAVEL = {
-    'bike': 11.8,
-    'pedestrian': 10.98,
+const _calcPartial = (total, percent) => {
+
+    let increase = {};
+
+    for(let estimate of ESTIMATES) {
+        increase[estimate] = (
+            total[estimate] *
+            (percent / 100)
+        );
+    }
+
+    return increase;
 };
 
-const ROUTE_SHIFT = {
-    'bike': 58.81,
-    'pedestrian': 7.73,
-};
-
-const CAR_SHIFT = {
-    'bike': 17.64,
-    'pedestrian': 33.3,
-};
-
-const OTHER_SHIFT = {
-    'bike': 11.75,
-    'pedestrian': 47.99,
-};
-
-function calcTravelMode(mode, infrastructure, selectedInfrastructure,
-    existingTravel, project_length, num_intersections) {
+const _calcTravelMode = (mode, infrastructure, selectedInfrastructure,
+    existingTravel, project_length, num_intersections) => {
 
     let travel = {};
 
-    travel.existing = {
-        'lower': existingTravel.mean,
-        'mean': existingTravel.mean,
-        'upper': existingTravel.mean,
+    // the travel model was supposed to provide
+    // lower, mean, and upper estimates, but it
+    // doesn't yet, so take the mean value as
+    // the starting point for all three for now
+    travel.existing = {};
+
+    for(let estimate of ESTIMATES) {
+        travel.existing[estimate] = existingTravel.mean;
     }
 
+    // build a list of all increases for the selected
+    // elements in the project
     let increases = [];
 
+    // go through each category and its elements
     for(let category of infrastructure.categories) {
 
         for(let item of category.items) {
 
-
+            // the element is selected
+            // the element has benefits
+            // the element has benefits for this mode
             if(item.shortname in selectedInfrastructure &&
                 item.shortname in travel_volume &&
                 mode in travel_volume[item.shortname]) {
 
+                let benefit = travel_volume[item.shortname][mode];
+
+                // calculate the increase for each improvement
+                // type for this element
                 for(let type in SCALING_FACTORS) {
 
                     let value = selectedInfrastructure[item.shortname][type];
@@ -53,8 +67,8 @@ function calcTravelMode(mode, infrastructure, selectedInfrastructure,
                     }
 
                     let share = 0;
-                    let multiplier = SCALING_FACTORS[type];
 
+                    // calculate the project share for this element
                     if(item.calc_units === 'length') {
 
                         if(item.units === 'count') {
@@ -75,182 +89,112 @@ function calcTravelMode(mode, infrastructure, selectedInfrastructure,
                         share = value / num_intersections;
                     }
 
-                    increases.push({
-                        'lower': ((travel_volume[item.shortname][mode].lower / 100) * travel.existing.lower) * share * multiplier,
-                        'mean': ((travel_volume[item.shortname][mode].mean / 100) * travel.existing.mean) * share * multiplier,
-                        'upper': ((travel_volume[item.shortname][mode].upper / 100) * travel.existing.upper) * share * multiplier,
-                    });
+                    // calculate the increase in travel for this benefit
+                    // using the benefit percentage, the existing travel,
+                    // the project share, and the type of improvement
+                    let increase = {};
 
+                    for(let estimate of ESTIMATES) {
+                        increase[estimate] = (
+                            (benefit[estimate] / 100) *
+                            travel.existing[estimate] *
+                            share *
+                            SCALING_FACTORS[type]
+                        );
+                    }
+
+                    increases.push(increase);
                 }
-
             }
         }
     }
 
-    console.log(increases);
+    // total up the increases in travel
+    travel.total = {};
 
-    let weighted = {
-        'lower': 0,
-        'mean': 0,
-        'upper': 0,
-    };
-
-    for(let i = 0; i < increases.length; i++) {
-        weighted.lower += increases[i].lower;
-        weighted.mean += increases[i].mean;
-        weighted.upper += increases[i].upper;
+    for(let estimate of ESTIMATES) {
+        travel.total[estimate] = 0;
     }
 
-    // if(increases.length) {
-    //     weighted.lower /= increases.length;
-    //     weighted.mean /= increases.length;
-    //     weighted.upper /= increases.length;
-    // }
+    for(let increase of increases) {
+        for(let estimate of ESTIMATES) {
+            travel.total[estimate] += increase[estimate];
+        }
+    }
 
-    // console.log(weighted);
+    // calculate specific increases as a fraction
+    // of the total travel increase
+    travel.inducedTravel = _calcPartial(travel.total, INDUCED_TRAVEL[mode]);
+    travel.routeShift = _calcPartial(travel.total, ROUTE_SHIFT[mode]);
+    travel.carShift = _calcPartial(travel.total, CAR_SHIFT[mode]);
+    travel.otherShift = _calcPartial(travel.total, OTHER_SHIFT[mode]);
 
-    travel.inducedTravel =  {
-        'lower': weighted.lower * INDUCED_TRAVEL[mode] / 100,
-        'mean': weighted.mean * INDUCED_TRAVEL[mode] / 100,
-        'upper': weighted.upper * INDUCED_TRAVEL[mode] / 100,
-    };
+    // calculate the total projected travel for the project
+    // with the selected benefits as the sum of the
+    // estimated existing travel in the project and the
+    // total increase in travel for the benefits
+    travel.projected = {};
 
-    travel.routeShift =  {
-        'lower': weighted.lower * ROUTE_SHIFT[mode] / 100,
-        'mean': weighted.mean * ROUTE_SHIFT[mode] / 100,
-        'upper': weighted.upper * ROUTE_SHIFT[mode] / 100,
-    };
-
-    travel.carShift =  {
-        'lower': weighted.lower * CAR_SHIFT[mode] / 100,
-        'mean': weighted.mean * CAR_SHIFT[mode] / 100,
-        'upper': weighted.upper * CAR_SHIFT[mode] / 100,
-    };
-
-    travel.otherShift =  {
-        'lower': weighted.lower * OTHER_SHIFT[mode] / 100,
-        'mean': weighted.mean * OTHER_SHIFT[mode] / 100,
-        'upper': weighted.upper * OTHER_SHIFT[mode] / 100,
-    };
-
-    travel.total = weighted;
-
-    travel.projected = {
-        'lower': travel.existing.lower + travel.total.lower,
-        'mean': travel.existing.mean + travel.total.mean,
-        'upper': travel.existing.upper + travel.total.upper,
+    for(let estimate of ESTIMATES) {
+        travel.projected[estimate] = (
+            travel.existing[estimate] +
+            travel.total[estimate]
+        );
     }
 
     return travel;
-}
+};
 
-function calcTravel(infrastructure, selectedInfrastructure, existingTravel,
-    project_length, num_intersections) {
+const _calc = (infrastructure, selectedInfrastructure, existingTravel,
+    project_length, num_intersections) => {
 
-    let travel = {
-        "miles": {
-            "bike": {},
-            "pedestrian": {},
-            "totalProjected": {
-                "lower": 0,
-                "mean": 0,
-                "upper": 0,
-            },
-        },
-        "capita": {
-            "bike": {},
-            "pedestrian": {},
-            "totalProjected": {
-                "lower": 0,
-                "mean": 0,
-                "upper": 0,
-            },
-        },
-        "jobs": {
-            "bike": {},
-            "pedestrian": {},
-            "totalProjected": {
-                "lower": 0,
-                "mean": 0,
-                "upper": 0,
-            },
-        },
-    };
+    let travel = {};
 
-    travel.miles.bike = calcTravelMode(
+    travel.bike = _calcTravelMode(
         'bike',
         infrastructure,
         selectedInfrastructure,
-        existingTravel.miles.bike,
+        existingTravel.bike,
         project_length,
         num_intersections);
 
-    travel.miles.pedestrian = calcTravelMode(
+    travel.pedestrian = _calcTravelMode(
         'pedestrian',
         infrastructure,
         selectedInfrastructure,
-        existingTravel.miles.pedestrian,
+        existingTravel.pedestrian,
         project_length,
         num_intersections);
 
-    travel.miles.totalProjected.lower += travel.miles.bike.projected.lower;
-    travel.miles.totalProjected.mean += travel.miles.bike.projected.mean;
-    travel.miles.totalProjected.upper += travel.miles.bike.projected.upper;
+    // combine the projected bike and ped travel
+    // for the total projected travel in the project
+    // this is not displayed, but it's used in the
+    // safety benefits calculations
+    travel.totalProjected = {};
 
-    travel.miles.totalProjected.lower += travel.miles.pedestrian.projected.lower;
-    travel.miles.totalProjected.mean += travel.miles.pedestrian.projected.mean;
-    travel.miles.totalProjected.upper += travel.miles.pedestrian.projected.upper;
-
-    travel.capita.bike = calcTravelMode(
-        'bike',
-        infrastructure,
-        selectedInfrastructure,
-        existingTravel.capita.bike,
-        project_length,
-        num_intersections);
-
-    travel.capita.pedestrian = calcTravelMode(
-        'pedestrian',
-        infrastructure,
-        selectedInfrastructure,
-        existingTravel.capita.pedestrian,
-        project_length,
-        num_intersections);
-
-    travel.capita.totalProjected.lower += travel.capita.bike.projected.lower;
-    travel.capita.totalProjected.mean += travel.capita.bike.projected.mean;
-    travel.capita.totalProjected.upper += travel.capita.bike.projected.upper;
-
-    travel.capita.totalProjected.lower += travel.capita.pedestrian.projected.lower;
-    travel.capita.totalProjected.mean += travel.capita.pedestrian.projected.mean;
-    travel.capita.totalProjected.upper += travel.capita.pedestrian.projected.upper;
-
-    travel.jobs.bike = calcTravelMode(
-        'bike',
-        infrastructure,
-        selectedInfrastructure,
-        existingTravel.jobs.bike,
-        project_length,
-        num_intersections);
-
-    travel.jobs.pedestrian = calcTravelMode(
-        'pedestrian',
-        infrastructure,
-        selectedInfrastructure,
-        existingTravel.jobs.pedestrian,
-        project_length,
-        num_intersections);
-
-    travel.jobs.totalProjected.lower += travel.jobs.bike.projected.lower;
-    travel.jobs.totalProjected.mean += travel.jobs.bike.projected.mean;
-    travel.jobs.totalProjected.upper += travel.jobs.bike.projected.upper;
-
-    travel.jobs.totalProjected.lower += travel.jobs.pedestrian.projected.lower;
-    travel.jobs.totalProjected.mean += travel.jobs.pedestrian.projected.mean;
-    travel.jobs.totalProjected.upper += travel.jobs.pedestrian.projected.upper;
+    for(let estimate of ESTIMATES) {
+        travel.totalProjected[estimate] = (
+            travel.bike.projected[estimate] +
+            travel.pedestrian.projected[estimate]
+        );
+    }
 
     return travel;
+};
 
-}
+const calcTravel = (infrastructure, selectedInfrastructure, travel,
+    project_length, num_intersections) => {
+
+    return {
+        miles: _calc(infrastructure, selectedInfrastructure, travel.miles,
+                        project_length, num_intersections),
+
+        capita: _calc(infrastructure, selectedInfrastructure, travel.capita,
+                        project_length, num_intersections),
+
+        jobs: _calc(infrastructure, selectedInfrastructure, travel.jobs,
+                        project_length, num_intersections),
+    };
+};
 
 export default calcTravel;

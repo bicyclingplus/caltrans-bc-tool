@@ -1,5 +1,5 @@
-import calcDiscount from './calcDiscount';
 import { SCALING_FACTORS } from './constants';
+import calcDiscount from './calcDiscount';
 
 const quantitative = require('../data/quantitative.json');
 
@@ -135,9 +135,9 @@ function _calc(infrastructure, travel, length, intersections, subtype,
                 'share': share,
               });
             }
-            else {
-              console.log(`Unknown effect mode: ${effect.mode}!`);
-            }
+            // else {
+            //   console.log(`Unknown effect mode: ${effect.mode}!`);
+            // }
           }
         }
       }

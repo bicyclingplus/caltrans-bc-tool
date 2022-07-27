@@ -1,4 +1,3 @@
-
 const calcProjectLength = (selectedWays, userWays) => {
 
 	let projectLength = 0;

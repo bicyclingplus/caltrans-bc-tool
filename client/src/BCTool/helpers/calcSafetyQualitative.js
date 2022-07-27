@@ -1,6 +1,6 @@
 const qualitative = require('../data/qualitative.json');
 
-function calcSafetyQualitative(infrastructure, selectedInfrastructure) {
+const calcSafetyQualitative = (infrastructure, selectedInfrastructure) => {
 
   let benefits = [];
 
@@ -28,9 +28,9 @@ function calcSafetyQualitative(infrastructure, selectedInfrastructure) {
                 element: item.label,
                 benefits: qualitative[shortname].map((benefit, idx) => (
                   {
-                    'key': `${shortname}-${idx}`,
-                    'description': benefit.description,
-                    'sources': benefit.sources,
+                    key: `${shortname}-${idx}`,
+                    description: benefit.description,
+                    sources: benefit.sources,
                   }
                 )),
               });
@@ -41,7 +41,6 @@ function calcSafetyQualitative(infrastructure, selectedInfrastructure) {
   }
 
   return benefits;
-
-}
+};
 
 export default calcSafetyQualitative;

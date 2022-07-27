@@ -1,6 +1,6 @@
 const projectQualitative = require('../data/project_qualitative.json');
 
-function calcProjectQualitative(selectedInfrastructure, selectedNonInfrastructure) {
+const calcProjectQualitative = (selectedInfrastructure, selectedNonInfrastructure) => {
 
 	let combinedElements = [
 		...Object.keys(selectedInfrastructure),
@@ -12,14 +12,17 @@ function calcProjectQualitative(selectedInfrastructure, selectedNonInfrastructur
 
 	for(let benefit of projectQualitative.benefits) {
 
+		// these benefits are always shown
 		if(benefit.type === "always") {
 			benefits.push({
-				"name": benefit.name,
-				"description": benefit.description,
+				name: benefit.name,
+				description: benefit.description,
 			});
 
 			benefitNames.push(benefit.name);
 		}
+		// these benefits are based on if any of a list of
+		// elements are included in the project or not
 		else if(benefit.type === "element") {
 
 			let present = false;
@@ -33,36 +36,38 @@ function calcProjectQualitative(selectedInfrastructure, selectedNonInfrastructur
 
 			if(present) {
 				benefits.push({
-					"name": benefit.name,
-					"description": benefit.description.present,
+					name: benefit.name,
+					description: benefit.description.present,
 				});
 
 				benefitNames.push(benefit.name);
 			}
 			else {
 				benefits.push({
-					"name": benefit.name,
-					"description": benefit.description['not-present'],
+					name: benefit.name,
+					description: benefit.description['not-present'],
 				});
 			}
 		}
 	}
 
+	// add benefits that are based on another benefit
+	// being relevant to the project or not
 	for(let benefit of projectQualitative.benefits) {
 		if(benefit.type === "dependent") {
 
 			if(benefitNames.includes(benefit.parent)) {
 				benefits.push({
-					"name": benefit.name,
-					"description": benefit.description.present,
+					name: benefit.name,
+					description: benefit.description.present,
 				});
 
 				benefitNames.push(benefit.name);
 			}
 			else {
 				benefits.push({
-					"name": benefit.name,
-					"description": benefit.description['not-present'],
+					name: benefit.name,
+					description: benefit.description['not-present'],
 				});
 			}
 
@@ -70,7 +75,6 @@ function calcProjectQualitative(selectedInfrastructure, selectedNonInfrastructur
 	}
 
 	return benefits;
-
-}
+};
 
 export default calcProjectQualitative;

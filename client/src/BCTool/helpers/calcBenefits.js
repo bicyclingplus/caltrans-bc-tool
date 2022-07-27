@@ -1,9 +1,8 @@
-
 import calcProjectQualitative from './calcProjectQualitative';
 import calcTravel from './calcTravel';
 import calcVMTReductions from './calcVMTReductions';
-import calcHealth from './calcHealth';
 import calcEmissions from './calcEmissions';
+import calcHealth from './calcHealth';
 import calcSafetyQualitative from './calcSafetyQualitative';
 import calcSafetyQuantitative from './calcSafetyQuantitative';
 
@@ -63,9 +62,6 @@ const calcBenefits = (
         project_time_frame,
         selectedInfrastructure);
     }
-
-    // console.log(benefits);
-    console.log(project_length);
 
     return benefits;
 }
