@@ -27,25 +27,22 @@ class ProjectSummary extends React.Component {
         const length = this.props.length;
 
         return (
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title text-center section-header">Project Reach</h4>
+            <div>
+              <h4 className="text-center section-header">Project Reach</h4>
 
-                <ul className="list-unstyled">
-                  <li>Number of Intersections: {intersections}</li>
-                  <li>
-                    Length: {readableNumber(length)} ft ({readableNumber(length/5280, 2)} mi)
-                    <i id={`project-length-tooltip`}
-                      className="bi bi-info-circle ms-2"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="right"
-                      data-bs-html="true"
-                      title='Project length is calculated based on unidirectional travel. Both directions of two-way streets and one direction on one-way streets are counted.'>
-                    </i>
-                  </li>
-                </ul>
-
-              </div>
+              <ul className="list-unstyled">
+                <li>Number of Intersections: {intersections}</li>
+                <li>
+                  Length: {readableNumber(length)} ft ({readableNumber(length/5280, 2)} mi)
+                  <i id={`project-length-tooltip`}
+                    className="bi bi-info-circle ms-2"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="right"
+                    data-bs-html="true"
+                    title='Project length is calculated based on unidirectional travel. Both directions of two-way streets and one direction on one-way streets are counted.'>
+                  </i>
+                </li>
+              </ul>
             </div>
         );
     }

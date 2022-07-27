@@ -29,50 +29,45 @@ class ProjectBenefits extends React.Component {
     let { benefits, timeframe, subtype } = this.props;
 
     return (
-      <div className="card">
-        <div className="card-body">
+      <div>
+        <h4 className="text-center section-header">Project Benefits</h4>
 
-            <h4 className="card-title text-center section-header">Project Benefits</h4>
+        { benefits.travel ?
+        <Travel benefits={benefits.travel} subtype={subtype} />
+        : null }
 
-            { benefits.travel ?
-            <Travel benefits={benefits.travel} subtype={subtype} />
-            : null }
+        { benefits.safetyQuantitative || benefits.emissions || benefits.health ?
+        <h4 className="mt-4  section-sub-header">
+          Project-Level Quantitative Benefits
+          <i id={`project-timeframe-tooltip`}
+            className="bi bi-info-circle ms-2"
+            data-bs-toggle="tooltip"
+            data-bs-placement="right"
+            data-bs-html="true"
+            title={`All benefits calculated at the ${timeframe} year level.`}>
+          </i>
+        </h4>
+        : null }
 
-            { benefits.safetyQuantitative || benefits.emissions || benefits.health ?
-            <h4 className="mt-4  section-sub-header">
-              Project-Level Quantitative Benefits
-              <i id={`project-timeframe-tooltip`}
-                className="bi bi-info-circle ms-2"
-                data-bs-toggle="tooltip"
-                data-bs-placement="right"
-                data-bs-html="true"
-                title={`All benefits calculated at the ${timeframe} year level.`}>
-              </i>
-            </h4>
-            : null }
+        { benefits.safetyQuantitative ?
+        <SafetyQuantitative benefits={benefits.safetyQuantitative} />
+        : null }
 
-            { benefits.safetyQuantitative ?
-            <SafetyQuantitative benefits={benefits.safetyQuantitative} />
-            : null }
+        { benefits.emissions ?
+        <Emissions emissions={benefits.emissions} vmtReductions={benefits.vmtReductions} timeframe={timeframe} />
+        : null }
 
-            { benefits.emissions ?
-            <Emissions emissions={benefits.emissions} vmtReductions={benefits.vmtReductions} timeframe={timeframe} />
-            : null }
+        { benefits.health ?
+        <Health benefits={benefits.health} subtype={subtype} />
+        : null }
 
-            { benefits.health ?
-            <Health benefits={benefits.health} subtype={subtype} />
-            : null }
+        { benefits.projectQualitative ?
+        <ProjectQualitative benefits={benefits.projectQualitative} />
+        : null }
 
-            { benefits.projectQualitative ?
-            <ProjectQualitative benefits={benefits.projectQualitative} />
-            : null }
-
-            { benefits.safetyQualitative ?
-            <SafetyQualitative benefits={benefits.safetyQualitative} />
-            : null }
-
-
-        </div>
+        { benefits.safetyQualitative ?
+        <SafetyQualitative benefits={benefits.safetyQualitative} />
+        : null }
       </div>
     );
   }

@@ -11,9 +11,8 @@ class ProjectElements extends React.Component {
     let selectedInfrastructure = Object.keys(this.props.selectedInfrastructure);
 
     return (
-      <div className="card">
-        <div className="card-body">
-          <h4 className="card-title text-center section-header">Define Project Elements</h4>
+      <div>
+          <h4 className="text-center section-header">Define Project Elements</h4>
 
           { !type ?
             <div className="mt-4">Select a project type above.</div>
@@ -56,8 +55,6 @@ class ProjectElements extends React.Component {
             </div>
           </div>
           : null }
-
-        </div>
       </div>
     );
   }
