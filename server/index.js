@@ -9,7 +9,6 @@ const bodyParser = require('body-parser')
 require('dotenv').config();
 
 const { MongoClient, ObjectId } = require("mongodb");
-const client = new MongoClient(process.env.MONGO_URI);
 
 app.use(morgan('combined'));
 app.use(bodyParser.json())
@@ -86,9 +85,12 @@ tool.get("/api/bounds", async (req, res) => {
     }
   };
 
-    try {
+  const client = new MongoClient(process.env.MONGO_URI);
+
+  try {
+
     // Connect the client to the server
-    await client.connect();
+    // await client.connect();
 
     const database = client.db('bctool');
 
@@ -133,9 +135,11 @@ tool.get("/api/bounds", async (req, res) => {
 
 tool.get('/api/projects/:projectId', async (req, res) => {
 
+  const client = new MongoClient(process.env.MONGO_URI);
+
   try {
 
-    await client.connect();
+    // await client.connect();
 
     try {
       let projectId = new ObjectId(req.params.projectId);
@@ -169,9 +173,11 @@ tool.get('/api/projects/:projectId', async (req, res) => {
 
 tool.post('/api/projects', async (req, res) => {
 
+  const client = new MongoClient(process.env.MONGO_URI);
+
   try {
 
-    await client.connect();
+    // await client.connect();
 
     const database = client.db('bctool');
     const collection = database.collection('projects');
