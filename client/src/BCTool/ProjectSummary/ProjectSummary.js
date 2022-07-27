@@ -10,7 +10,6 @@ class ProjectSummary extends React.Component {
     componentDidMount() {
       this.tooltips = [
         new Tooltip(document.getElementById(`project-length-tooltip`)),
-        new Tooltip(document.getElementById(`project-travel-tooltip`)),
       ];
     }
 
@@ -32,13 +31,12 @@ class ProjectSummary extends React.Component {
         return (
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title text-center section-header">Project Summary</h4>
+                <h4 className="card-title text-center section-header">Project Reach</h4>
 
-                <h5>Project Reach</h5>
                 <ul className="list-unstyled">
                   <li>Number of Intersections: {intersections}</li>
                   <li>
-                    Length: {readableNumber(length)} ft ({readableNumber(length/5280, 1)} mi)
+                    Length: {readableNumber(length)} ft ({readableNumber(length/5280, 2)} mi)
                     <i id={`project-length-tooltip`}
                       className="bi bi-info-circle ms-2"
                       data-bs-toggle="tooltip"
@@ -49,37 +47,6 @@ class ProjectSummary extends React.Component {
                   </li>
                 </ul>
 
-                <h5>
-                  Estimated Existing Active Travel
-                  <i id={`project-travel-tooltip`}
-                      className="bi bi-info-circle ms-2"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="right"
-                      data-bs-html="true"
-                      title='This tool provides estimates of existing active travel from regression models of permanent and temporary count data based on accessibility metrics, infrastructure, demographics, and crowd sourced data. For details about the models see the Technical Guide.'>
-                    </i>
-                </h5>
-                <div className="row">
-
-                  { subtype === "pedestrian-only" || subtype === "both" ?
-                  <div className="col-sm-6">
-                    <u>Existing Daily Walking Miles</u>
-                    <ul className="list-unstyled">
-                      <li>Average: {readableNumber(travel.miles.pedestrian.mean)} miles</li>
-                    </ul>
-                  </div>
-                  : null }
-
-                  { subtype === "bike-only" || subtype === "both" ?
-                  <div className="col-sm-6">
-                    <u>Existing Daily Bicyling Miles</u>
-                    <ul className="list-unstyled">
-                      <li>Average: {readableNumber(travel.miles.bike.mean)} miles</li>
-                    </ul>
-                  </div>
-                  : null }
-
-                </div>
               </div>
             </div>
         );

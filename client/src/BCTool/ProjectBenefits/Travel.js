@@ -1,8 +1,25 @@
 import React from 'react';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import { readableNumber } from '../helpers/formatting';
 
+const Tooltip = require('bootstrap/js/dist/tooltip');
+
 class Travel extends React.Component {
+
+    componentDidMount() {
+      this.tooltips = [
+        new Tooltip(document.getElementById(`project-travel-tooltip`)),
+      ];
+    }
+
+    componentWillUnmount() {
+      if(this.tooltips && this.tooltips.length) {
+        for(let tooltip of this.tooltips) {
+          tooltip.dispose();
+        }
+      }
+    }
 
   render() {
 
@@ -11,7 +28,16 @@ class Travel extends React.Component {
 
     return (
       <>
-      <h4 className="mt-4 section-sub-header">Project-Level Active Travel</h4>
+      <h4 className="mt-4 section-sub-header">
+        Project-Level Active Travel
+        <i id={`project-travel-tooltip`}
+          className="bi bi-info-circle ms-2"
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          data-bs-html="true"
+          title='This tool provides estimates of existing active travel from regression models of permanent and temporary count data based on accessibility metrics, infrastructure, demographics, and crowd sourced data. For details about the models see the Technical Guide.'>
+        </i>
+      </h4>
 
       { subtype !== 'pedestrian-only' ?
       <>
