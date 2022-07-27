@@ -771,7 +771,7 @@ class ProjectMap extends React.Component {
       return (
         <div id="map">
           { showWarning ?
-            <div id="map-warning" className="alert position-absolute top-0 start-50 translate-middle-x mt-3 text-center" role="alert">
+            <div id="map-warning" className="alert position-absolute top-0 start-50 translate-middle-x mt-3 text-center p-1" role="alert">
               Zoom in to select links
             </div>
           : null }
