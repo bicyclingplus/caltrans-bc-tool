@@ -551,7 +551,7 @@ class BCTool extends React.Component {
     return (
       <>
       <div className="modal fade" id="bc-tool-start">
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header text-center">
               <h5 className="modal-title" id="startModalTitle">Welcome to Caltrans' Active Transportation Benefit-Cost Tool</h5>
