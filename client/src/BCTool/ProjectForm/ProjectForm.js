@@ -68,6 +68,7 @@ class ProjectForm extends React.Component {
           </div>
 
           { type === 'infrastructure' || type === 'both' ?
+          <>
           <div className="row mb-2">
             <label htmlFor="project-subtype" className="col-sm-4 col-form-label text-end">Active Travel Type</label>
             <div className="col-md-8">
@@ -79,9 +80,7 @@ class ProjectForm extends React.Component {
               </select>
             </div>
           </div>
-          : null }
 
-          { type === 'infrastructure' || type === 'both' ?
           <div className="row mb-2">
             <label htmlFor="project-transit" className="col-sm-4 col-form-label text-end">Transit Type</label>
             <div className="col-md-8">
@@ -93,6 +92,56 @@ class ProjectForm extends React.Component {
               </select>
             </div>
           </div>
+
+          <div className="row mb-2">
+            <div className="col-sm-3 offset-sm-3 col-form-label text-center">Bike</div>
+            <div className="col-sm-3 offset-sm-3 col-form-label text-center">Pedestrian</div>
+          </div>
+
+          <div className="row mb-2">
+            <label htmlFor="project-risk-bike-crashes" className="col-sm-3 col-form-label text-end">Crashes</label>
+            <div className="col-md-3">
+              <input className="form-control" type="text" id="project-risk-bike-crashes" />
+            </div>
+            <label htmlFor="project-risk-ped-crashes" className="col-sm-3 col-form-label text-end">Crashes</label>
+            <div className="col-md-3">
+              <input className="form-control" type="text" id="project-risk-ped-crashes" />
+            </div>
+          </div>
+
+          <div className="row mb-2">
+            <label htmlFor="project-risk-bike-injuries" className="col-sm-3 col-form-label text-end">Injuries</label>
+            <div className="col-md-3">
+              <input className="form-control" type="text" id="project-risk-bike-injuries" />
+            </div>
+            <label htmlFor="project-risk-ped-injuries" className="col-sm-3 col-form-label text-end">Injuries</label>
+            <div className="col-md-3">
+              <input className="form-control" type="text" id="project-risk-ped-injuries" />
+            </div>
+          </div>
+
+          <div className="row mb-2">
+            <label htmlFor="project-risk-bike-deaths" className="col-sm-3 col-form-label text-end">Deaths</label>
+            <div className="col-md-3">
+              <input className="form-control" type="text" id="project-risk-bike-deaths" />
+            </div>
+            <label htmlFor="project-risk-ped-deaths" className="col-sm-3 col-form-label text-end">Deaths</label>
+            <div className="col-md-3">
+              <input className="form-control" type="text" id="project-risk-ped-deaths" />
+            </div>
+          </div>
+
+          <div className="row mb-2">
+            <label htmlFor="project-risk-bike-years" className="col-sm-3 col-form-label text-end">Years</label>
+            <div className="col-md-3">
+              <input className="form-control" type="text" id="project-risk-bike-years" />
+            </div>
+            <label htmlFor="project-risk-ped-years" className="col-sm-3 col-form-label text-end">Years</label>
+            <div className="col-md-3">
+              <input className="form-control" type="text" id="project-risk-ped-years" />
+            </div>
+          </div>
+          </>
           : null }
         </form>
       </div>
