@@ -4,8 +4,7 @@
 }
 
 .navbar {
-	background-color: #003a5d;
-	/*padding-left:  6rem;*/
+	background-color: #022851;
 }
 
 .navbar .nav-link {
@@ -16,7 +15,7 @@
 }
 
 .navbar .dropdown-menu {
-	background-color: #003a5d;
+	background-color: #022851;
 }
 
 .dropdown-item {
