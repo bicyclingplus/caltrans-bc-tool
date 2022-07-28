@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  PROJECT_TYPES,
+  PROJECT_SUBTYPES,
+  TRANSIT_TYPES,
+} from '../helpers/constants';
 
 class ProjectForm extends React.Component {
 
@@ -20,6 +25,30 @@ class ProjectForm extends React.Component {
       updateTimeFrame,
       updateTransit,
     } = this.props;
+
+    let projectTypeOptions = [];
+
+    for(let project_type in PROJECT_TYPES) {
+      projectTypeOptions.push(
+        <option value={project_type}>{PROJECT_TYPES[project_type]}</option>
+      )
+    }
+
+    let projectSubtypeOptions = [];
+
+    for(let project_subtype in PROJECT_SUBTYPES) {
+      projectSubtypeOptions.push(
+        <option value={project_subtype}>{PROJECT_SUBTYPES[project_subtype]}</option>
+      )
+    }
+
+    let transitTypeOptions = [];
+
+    for(let transit_type in TRANSIT_TYPES) {
+      transitTypeOptions.push(
+        <option value={transit_type}>{TRANSIT_TYPES[transit_type]}</option>
+      )
+    }
 
     return (
       <div className="row mb-4">
@@ -60,9 +89,7 @@ class ProjectForm extends React.Component {
             <div className="col-md-8">
               <select id="project-type" className="form-select" value={type} onChange={updateType}>
                 <option value="" disabled>-- Choose a type --</option>
-                <option value="infrastructure">Infrastructure</option>
-                <option value="non-infrastructure">Non-Infrastructure</option>
-                <option value="both">Infrastructure and Non-Infrastructure</option>
+                {projectTypeOptions}
               </select>
             </div>
           </div>
@@ -74,9 +101,7 @@ class ProjectForm extends React.Component {
             <div className="col-md-8">
               <select id="project-subtype" className="form-select" value={subtype} onChange={updateSubtype}>
                 <option value="" disabled>-- Choose a type --</option>
-                <option value="pedestrian-only">Pedestrian Only</option>
-                <option value="bike-only">Bicyclist Only</option>
-                <option value="both">Pedestrian and Bicyclist</option>
+                {projectSubtypeOptions}
               </select>
             </div>
           </div>
@@ -86,9 +111,7 @@ class ProjectForm extends React.Component {
             <div className="col-md-8">
               <select id="project-subtype" className="form-select" value={transit} onChange={updateTransit}>
                 <option value="" disabled>-- Choose a type --</option>
-                <option value="hubs">Connections to major transit hub(s)</option>
-                <option value="stops">Connections to transit stops</option>
-                <option value="none">no transit connections</option>
+                {transitTypeOptions}
               </select>
             </div>
           </div>

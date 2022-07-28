@@ -1,21 +1,43 @@
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { readableNumber } from '../helpers/formatting';
+import {
+  PROJECT_TYPES,
+  PROJECT_SUBTYPES,
+  TRANSIT_TYPES,
+} from '../helpers/constants';
 
 const ExportPDF = (state, project_id) => {
 
 	let {
+		date,
 		name,
+		developer,
 		cost,
+		timeframe,
+		type,
+		subtype,
+		transit,
 	} = state;
 
 	const doc = new jsPDF();
 
+	let name_text = name || 'Not Provided';
+	let developer_text = developer || 'Not Provided';
+	let cost_text = cost > 0 ? `$${readableNumber(cost)}` : 'Not Provided';
+	let timeframe_years = timeframe > 1 ? 'years' : 'year';
+
 	// project info
 	doc.text([
 		`Project ID: ${project_id}`,
-		`Project Name: ${name}`,
-		`Project Cost: $${readableNumber(cost)}`,
+		`Project Created: ${date}`,
+		`Project Name: ${name_text}`,
+		`Project Developer: ${developer_text}`,
+		`Project Cost: ${cost_text}`,
+		`Project Time Frame: ${timeframe} ${timeframe_years}`,
+		`Project Type: ${PROJECT_TYPES[type]}`,
+		`Active Travel Type: ${PROJECT_SUBTYPES[subtype]}`,
+		`Transit Type: ${TRANSIT_TYPES[transit]}`,
 	], 10, 10);
 
 	// travel benefits
