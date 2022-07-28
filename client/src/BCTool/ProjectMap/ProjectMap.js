@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import symbology from './symbology';
 
 import 'leaflet/dist/leaflet.css';
+import 'leaflet-spin/leaflet.spin.min';
 import './ProjectMap.css';
 
 // remember larger zoom means closer
@@ -266,6 +267,9 @@ class ProjectMap extends React.Component {
           return;
         }
 
+        this.clearFeatures();
+        this.map.spin(true);
+
         let url = `${process.env.PUBLIC_URL}/api/bounds`;
 
         url += `?x1=${bounds.getWest()}&x2=${bounds.getEast()}&y1=${bounds.getSouth()}&y2=${bounds.getNorth()}`;
@@ -284,7 +288,9 @@ class ProjectMap extends React.Component {
 
               this.setState({
                 'showWarning': false,
-              }, this.renderFeatures);
+              }, () => {
+                this.renderFeatures();
+              });
             },
             (error) => {
               console.log(error);
@@ -608,6 +614,8 @@ class ProjectMap extends React.Component {
           this.userIntersectionFeatures.addTo(this.map);
         }
       }
+
+      this.map.spin(false);
     }
 
     updateMap = () => {
