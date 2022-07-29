@@ -46,11 +46,48 @@ const ExportPDF = (state, project_id) => {
 		'Project-Level Active Travel',
 		'Estimated Average Daily Bike Miles Traveled (BMT)'
 	], 10, 10);
-	doc.autoTable({ html: '#travel-bike', startY: 30});
+	doc.autoTable({ html: '#travel-bike-simple', startY: 30});
+
+	doc.text(['Estimated Average Daily Walk Miles Traveled (WMT)'], 10, doc.autoTable.previous.finalY+20);
+	doc.autoTable({ html: '#travel-pedestrian-simple', startY: doc.autoTable.previous.finalY+30});
+
+	// quantitative benefits
+	doc.addPage();
+	doc.text([
+		'Project-Level Quantitative Benefits',
+		'Safety'
+	], 10, 10);
+	doc.autoTable({ html: '#safety-simple', startY: 30});
 
 	doc.addPage();
-	doc.text(['Estimated Average Daily Walk Miles Traveled (WMT)'], 10, 10);
-	doc.autoTable({ html: '#travel-pedestrian', startY: 20});
+	doc.text(['VMT and Emissions'], 10, 10);
+	doc.autoTable({ html: '#vmt-simple', startY: 20});
+	doc.autoTable({ html: '#emissions-simple'});
+
+	doc.addPage();
+	doc.text(['Physical Activity'], 10, 10);
+	doc.autoTable({ html: '#health-simple', startY: 20});
+
+	// project qualitative benefits
+	doc.addPage();
+	doc.text(['General Benefits'], 10, 10);
+	doc.autoTable({ html: '#project-qualitative', startY: 20});
+
+	// element qualitative benefits
+	doc.addPage();
+	doc.text(['Element Specific General Benefits'], 10, 10);
+	doc.autoTable({ html: '#element-specific', startY: 20});
+
+	doc.addPage();
+	doc.text([
+		'Project Level Benefit Uncertainty',
+		'Project-Level Active Travel',
+		'Estimated Average Daily Bike Miles Traveled (BMT)',
+	], 10, 10);
+	doc.autoTable({ html: '#travel-bike', startY: 30});
+
+	doc.text(['Estimated Average Daily Walk Miles Traveled (WMT)'], 10, doc.autoTable.previous.finalY+20);
+	doc.autoTable({ html: '#travel-pedestrian', startY: doc.autoTable.previous.finalY+30});
 
 	// quantitative benefits
 	doc.addPage();
@@ -68,16 +105,6 @@ const ExportPDF = (state, project_id) => {
 	doc.addPage();
 	doc.text(['Physical Activity'], 10, 10);
 	doc.autoTable({ html: '#health', startY: 20});
-
-	// project qualitative benefits
-	doc.addPage();
-	doc.text(['Qualitative Benefits'], 10, 10);
-	doc.autoTable({ html: '#project-qualitative', startY: 20});
-
-	// element qualitative benefits
-	doc.addPage();
-	doc.text(['Element Specific Benefits'], 10, 10);
-	doc.autoTable({ html: '#element-specific', startY: 20});
 
 	doc.save("caltrans-bc-tool-export.pdf");
 };
