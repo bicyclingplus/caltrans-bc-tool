@@ -13,13 +13,14 @@ class Emissions extends React.Component {
       <h5 className="mt-4">VMT and Emissions</h5>
 
       <table className="table table-bordered mb-4" id="vmt-simple">
-        <tbody>
+        <thead>
           <tr>
             <th className="text-center">{timeframe} Year Vehicle Miles Traveled (VMT) Reductions</th>
             <th className="text-center">{timeframe} Year VMT Reductions / Capita</th>
             <th className="text-center">{timeframe} Year VMT Reductions / Jobs</th>
           </tr>
-
+        </thead>
+        <tbody>
           <tr className="striped-row">
             <td className="text-end">{readableNumber(vmtReductions.miles.mean)}</td>
             <td className="text-end">{readableNumber(vmtReductions.capita.mean)}</td>
@@ -29,13 +30,15 @@ class Emissions extends React.Component {
       </table>
 
       <table className="table table-bordered mb-4"  id="emissions-simple">
-        <tbody>
+        <thead>
           <tr>
-            <th></th>
+            <th><br /></th>
             <th className="text-center">{timeframe} Year Emission Reductions (Grams)</th>
             <th className="text-center">{timeframe} Year Emission Reductions (Grams) / Capita</th>
             <th className="text-center">{timeframe} Year Emission Reductions (Grams) / Jobs</th>
           </tr>
+        </thead>
+        <tbody>
           <tr>
             <th colSpan="4">Greenhouse Gasses</th>
           </tr>
@@ -106,7 +109,7 @@ class Emissions extends React.Component {
       </table>
 
       <table className="table table-bordered mb-4 d-none" id="vmt">
-        <tbody>
+        <thead>
           <tr>
             <th colSpan="3" className="text-center">{timeframe} Year Vehicle Miles Traveled (VMT) Reductions</th>
             <th colSpan="3" className="text-center">{timeframe} Year VMT Reductions / Capita</th>
@@ -123,6 +126,8 @@ class Emissions extends React.Component {
             <th className="text-center">Mean</th>
             <th className="text-center">Upper</th>
           </tr>
+        </thead>
+        <tbody>
           <tr className="striped-row">
             <td className="text-end">{readableNumber(vmtReductions.miles.lower)}</td>
             <td className="text-end">{readableNumber(vmtReductions.miles.mean)}</td>
@@ -138,14 +143,29 @@ class Emissions extends React.Component {
           </tr>
         </tbody>
       </table>
+
       <table className="table table-bordered mb-4 d-none" id="emissions">
-        <tbody>
+        <thead>
           <tr>
-            <th></th>
+            <th><br /></th>
             <th colSpan="3" className="text-center">{timeframe} Year Emission Reductions (Grams)</th>
             <th colSpan="3" className="text-center">{timeframe} Year Emission Reductions (Grams) / Capita</th>
             <th colSpan="3" className="text-center">{timeframe} Year Emission Reductions (Grams) / Jobs</th>
           </tr>
+          <tr>
+            <th><br /></th>
+            <th className="text-center">Lower</th>
+            <th className="text-center">Mean</th>
+            <th className="text-center">Upper</th>
+            <th className="text-center">Lower</th>
+            <th className="text-center">Mean</th>
+            <th className="text-center">Upper</th>
+            <th className="text-center">Lower</th>
+            <th className="text-center">Mean</th>
+            <th className="text-center">Upper</th>
+          </tr>
+        </thead>
+        <tbody>
           <tr>
             <th colSpan="7">Greenhouse Gasses</th>
           </tr>

@@ -44,13 +44,15 @@ class Travel extends React.Component {
       <h5 className="mt-4">Estimated Average Daily Bike Miles Traveled (BMT)</h5>
 
       <table className="table table-bordered" id="travel-bike-simple">
-        <tbody>
+        <thead>
           <tr>
             <th colSpan="2"></th>
             <th className="text-center">Daily Bike Miles Travelled (BMT)</th>
             <th className="text-center">Daily BMT / Capita</th>
             <th className="text-center">Daily BMT / Jobs</th>
           </tr>
+        </thead>
+        <tbody>
           <tr className="striped-row">
             <th colSpan="2">Existing</th>
             <td className="text-end">{readableNumber(benefits.miles.bike.existing.mean)}</td>
@@ -98,7 +100,7 @@ class Travel extends React.Component {
       </table>
 
       <table className="table table-bordered d-none" id="travel-bike">
-        <tbody>
+        <thead>
           <tr>
             <th colSpan="2"></th>
             <th colSpan="3" className="text-center">Daily Bike Miles Travelled (BMT)</th>
@@ -117,6 +119,8 @@ class Travel extends React.Component {
             <th className="text-center">Mean</th>
             <th className="text-center">Upper</th>
           </tr>
+        </thead>
+        <tbody>
           <tr className="striped-row">
             <th colSpan="2">Existing</th>
             <td className="text-end">{readableNumber(benefits.miles.bike.existing.lower)}</td>
@@ -226,13 +230,15 @@ class Travel extends React.Component {
       <h5 className="mt-4">Estimated Average Daily Walk Miles Traveled (WMT)</h5>
 
       <table className="table table-bordered" id="travel-pedestrian-simple">
-        <tbody>
+        <thead>
           <tr>
             <th colSpan="2"></th>
             <th className="text-center">Daily Walk Miles Traveled (WMT)</th>
             <th className="text-center">Daily WMT / Capita</th>
             <th className="text-center">Daily WMT / Jobs</th>
           </tr>
+        </thead>
+        <tbody>
           <tr className="striped-row">
             <th colSpan="2">Existing</th>
             <td className="text-end">{readableNumber(benefits.miles.pedestrian.existing.mean)}</td>
@@ -280,7 +286,7 @@ class Travel extends React.Component {
       </table>
 
       <table className="table table-bordered d-none" id="travel-pedestrian">
-        <tbody>
+        <thead>
           <tr>
             <th colSpan="2"></th>
             <th colSpan="3" className="text-center">Daily Walk Miles Traveled (WMT)</th>
@@ -299,6 +305,8 @@ class Travel extends React.Component {
             <th className="text-center">Mean</th>
             <th className="text-center">Upper</th>
           </tr>
+        </thead>
+        <tbody>
           <tr className="striped-row">
             <th colSpan="2">Existing</th>
             <td className="text-end">{readableNumber(benefits.miles.pedestrian.existing.lower)}</td>

@@ -16,7 +16,7 @@ class HealthBenefits extends React.Component {
       <table className="table table-bordered" id="health-simple">
         <thead>
           <tr>
-            <th></th>
+            <th><br /></th>
             <th className="text-center">Marginal Metabolic Equivalent of Task (MMET) Increase</th>
             <th className="text-center">MMET Increase / Capita</th>
             <th className="text-center">MMET Increase / Jobs</th>
