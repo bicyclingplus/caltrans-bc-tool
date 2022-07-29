@@ -56,6 +56,7 @@ class BCTool extends React.Component {
     return {
 
       projectID: '',
+      date: '',
       name: '',
       developer: '',
       cost: '',
@@ -193,6 +194,8 @@ class BCTool extends React.Component {
 
     let url = `${process.env.PUBLIC_URL}/api/projects`;
 
+    let date = new Date().toISOString();
+
     fetch(url, {
       method: 'POST',
       headers: {
@@ -201,6 +204,7 @@ class BCTool extends React.Component {
       body: JSON.stringify({
         details: {
             name: this.state.name,
+            date: date,
             developer: this.state.developer,
             county: this.state.county,
             cost: this.state.cost,
@@ -230,7 +234,11 @@ class BCTool extends React.Component {
       .then((res) => res.json())
       .then(
         (result) => {
-            ExportPDF(this.state, result.id);
+            this.setState({
+              'date': date,
+            }, () => {
+              ExportPDF(this.state, result.id);
+            });
         },
         (error) => {
           console.log(error);
@@ -410,7 +418,6 @@ class BCTool extends React.Component {
   };
 
   loadProject = () => {
-    // console.log(`Loading project: ${this.state.projectID}`);
 
     let url = `${process.env.PUBLIC_URL}/api/projects/${this.state.projectID}`;
 
@@ -422,7 +429,9 @@ class BCTool extends React.Component {
         return response.json();
       })
       .then(result => {
+
           this.setState({
+            date: result.details.date,
             name: result.details.name,
             developer: result.details.developer,
             cost: result.details.cost,
