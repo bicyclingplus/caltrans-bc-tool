@@ -24,10 +24,10 @@
   font-size: 1.1rem;
 }*/
 #bc-tool-start.modal  {
-  z-index:  150;
+  /*z-index:  150;*/
 }
 .modal-backdrop {
-  z-index:  100;
+  /*z-index:  100;*/
 }
 
 #bc-tool-start {
