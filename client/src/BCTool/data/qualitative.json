@@ -179,7 +179,7 @@
 	],
 	"speed-limit-reduction": [
 		{
-			"description": "Speed limit reductions of 5-10 mph in the U.S. and 10 kph in other countries have resulted in 1-2 mph decreases in mean speed, increased walking from 1-21% and bicycling from 4-22% although walking and bicycling increases are partially confounded. A 5-mph reduction in speed limit is expected to result in 10-15% reductions in collisions, 8-15% fewer injuries, and 10-30% fatalities. Rural areas can expect larger relative effects and areas with large numbers of children can expect larger absolute effects."
+			"description": "Speed limit reductions of 5-10 mph in the U.S. and 10 kph in other countries have resulted in 1-2 mph decreases in mean speed, increased walking from 1-21% and bicycling from 4-22% although walking and bicycling increases are partially confounded. A 5-mph reduction in speed limit is expected to result in 10-15% reductions in collisions, 8-15% fewer injuries, and 10-30% fatalities. Rural areas can expect larger relative effects and areas with large numbers of children can expect larger absolute effects.",
 			"sources": "Gayah et. al. (2018); Elvik et. al. (2019); Tranter (2018); Wier (2019)."
 		}
 	],
