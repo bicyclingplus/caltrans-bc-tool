@@ -18,6 +18,8 @@ const ExportPDF = (state, project_id) => {
 		type,
 		subtype,
 		transit,
+		totalIntersections,
+		totalLength,
 	} = state;
 
 	const doc = new jsPDF();
@@ -29,6 +31,8 @@ const ExportPDF = (state, project_id) => {
 
 	// project info
 	doc.text([
+		'Project Details',
+		'',
 		`Project ID: ${project_id}`,
 		`Project Created: ${date}`,
 		`Project Name: ${name_text}`,
@@ -38,6 +42,12 @@ const ExportPDF = (state, project_id) => {
 		`Project Type: ${PROJECT_TYPES[type]}`,
 		`Active Travel Type: ${PROJECT_SUBTYPES[subtype]}`,
 		`Transit Type: ${TRANSIT_TYPES[transit]}`,
+		'',
+		'',
+		'Project Reach:',
+		'',
+		`Number of Intersections: ${totalIntersections}`,
+		`Length: ${readableNumber(totalLength)} ft (${readableNumber(totalLength/5280, 2)} mi)`,
 	], 10, 10);
 
 	// travel benefits

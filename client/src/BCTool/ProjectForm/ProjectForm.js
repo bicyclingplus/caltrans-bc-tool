@@ -30,7 +30,7 @@ class ProjectForm extends React.Component {
 
     for(let project_type in PROJECT_TYPES) {
       projectTypeOptions.push(
-        <option value={project_type}>{PROJECT_TYPES[project_type]}</option>
+        <option value={project_type} key={project_type}>{PROJECT_TYPES[project_type]}</option>
       )
     }
 
@@ -38,7 +38,7 @@ class ProjectForm extends React.Component {
 
     for(let project_subtype in PROJECT_SUBTYPES) {
       projectSubtypeOptions.push(
-        <option value={project_subtype}>{PROJECT_SUBTYPES[project_subtype]}</option>
+        <option value={project_subtype} key={project_subtype}>{PROJECT_SUBTYPES[project_subtype]}</option>
       )
     }
 
@@ -46,7 +46,7 @@ class ProjectForm extends React.Component {
 
     for(let transit_type in TRANSIT_TYPES) {
       transitTypeOptions.push(
-        <option value={transit_type}>{TRANSIT_TYPES[transit_type]}</option>
+        <option value={transit_type} key={transit_type}>{TRANSIT_TYPES[transit_type]}</option>
       )
     }
 
