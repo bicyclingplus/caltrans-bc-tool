@@ -326,7 +326,7 @@
             "mode": "bike",
             "parameter": "deaths",
             "units": "percent",
-            "upper": -104.3888889
+            "upper": -99.0
         }
     ],
     "raised-crossing":
