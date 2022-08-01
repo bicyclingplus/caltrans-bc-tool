@@ -11,7 +11,16 @@ require('dotenv').config();
 
 const { MongoClient, ObjectId } = require("mongodb");
 
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      "object-src": ["'self'"],
+      "img-src": ["'self'", "api.mapbox.com"],
+    },
+  },
+}));
+
 app.use(morgan('combined'));
 app.use(bodyParser.json())
 
