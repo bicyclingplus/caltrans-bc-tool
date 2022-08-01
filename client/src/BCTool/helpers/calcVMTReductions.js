@@ -1,7 +1,5 @@
 import {
     ESTIMATES,
-    BIKE_FACTOR,
-    PED_FACTOR,
     CARPOOL_FACTOR,
     TRANSIT_FACTOR,
     TRANSIT_WALK_FRACTION,
@@ -12,8 +10,7 @@ import calcDiscount from './calcDiscount';
 const _calcBike = (travel) => {
   return (
     travel *
-    CARPOOL_FACTOR *
-    BIKE_FACTOR
+    CARPOOL_FACTOR
   );
 };
 
@@ -21,11 +18,9 @@ const _calcPed = (travel, transit) => {
   return ((
     travel *
     CARPOOL_FACTOR *
-    PED_FACTOR *
     (1 - TRANSIT_WALK_FRACTION[transit])
   ) + (
     travel *
-    PED_FACTOR *
     TRANSIT_WALK_FRACTION[transit] *
     TRANSIT_FACTOR
   ));
