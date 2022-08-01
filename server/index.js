@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const helmet = require("helmet");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -10,6 +11,7 @@ require('dotenv').config();
 
 const { MongoClient, ObjectId } = require("mongodb");
 
+app.use(helmet());
 app.use(morgan('combined'));
 app.use(bodyParser.json())
 
