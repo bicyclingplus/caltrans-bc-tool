@@ -4,7 +4,7 @@ function LiteratureReview(props) {
 
 
 	return(
-		<h1>Literature Review</h1>
+		<embed src={`${process.env.PUBLIC_URL}/Caltrans ATP B C Tool Literature Review Final Draft.pdf`} width="100%" height="800px" />
 	);
 }
 

@@ -4,7 +4,7 @@ function UserGuide(props) {
 
 
 	return(
-		<h1>User Guide</h1>
+		<embed src={`${process.env.PUBLIC_URL}/User Guide.pdf`} width="100%" height="800px" />
 	);
 }
 

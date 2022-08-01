@@ -4,7 +4,7 @@ function TechnicalDocumentation(props) {
 
 
 	return(
-		<h1>Technical Documentation</h1>
+		<embed src={`${process.env.PUBLIC_URL}/Caltrans ATP BC Tool Technical Documentation Final Draft.pdf`} width="100%" height="800px" />
 	);
 }
 
