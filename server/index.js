@@ -12,6 +12,7 @@ require('dotenv').config();
 const { MongoClient, ObjectId } = require("mongodb");
 
 app.use(helmet({
+  crossOriginEmbedderPolicy: false,
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
