@@ -69,7 +69,7 @@ class ProjectMapForm extends React.Component {
       return (
         <div className="row mb-4">
           <div className="mb-4">
-            <strong>Selecting on map:</strong>
+            <strong>Editable Feature:</strong>
             <div className="btn-group ms-4" role="group" aria-label="Basic example">
               <button type="button" className={wayClasses} onClick={this.changeSelectionWay}>Segments</button>
               <button type="button" className={intersectionClasses} onClick={this.changeSelectionIntersection}>Intersections</button>
@@ -80,10 +80,10 @@ class ProjectMapForm extends React.Component {
 
           <div className="mb-4">
 
-            <strong>Editing mode:</strong>
+            <strong>Editing Mode:</strong>
             <div className="btn-group ms-4" role="group" aria-label="Basic example">
-              <button type="button" className={existingClasses} onClick={this.changeModeExisting}>Selecting Existing</button>
-              <button type="button" className={addClasses} onClick={this.changeModeAdd}>Add User Defined</button>
+              <button type="button" className={existingClasses} onClick={this.changeModeExisting}>Select Existing</button>
+              <button type="button" className={addClasses} onClick={this.changeModeAdd}>Edit User Defined</button>
             </div>
           </div>
 
@@ -92,8 +92,8 @@ class ProjectMapForm extends React.Component {
 				{ numWayPoints > 1 ?
 				<>
 				<div className="mb-4">
-					<button type="button" className="btn btn-user-defined ms-4" onClick={finishTwoWay}>Add as two way segment</button>
-					<button type="button" className="btn btn-user-defined ms-4" onClick={finishOneWay}>Add as one way segment</button>
+					<button type="button" className="btn btn-user-defined ms-4" onClick={finishTwoWay}>Add as Two-Way Segment</button>
+					<button type="button" className="btn btn-user-defined ms-4" onClick={finishOneWay}>Add as One-Way segment</button>
 				</div>
 				</>
 				: null }
