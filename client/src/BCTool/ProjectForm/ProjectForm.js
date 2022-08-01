@@ -117,52 +117,83 @@ class ProjectForm extends React.Component {
             </div>
           </div>
 
-          <div className="row mb-2">
-            <div className="col-sm-3 offset-sm-3 col-form-label text-center">Bike</div>
-            <div className="col-sm-3 offset-sm-3 col-form-label text-center">Pedestrian</div>
+          <div className="row">
+            <div className="col-sm-4 offset-sm-2 col-form-label text-center">Bike</div>
+            <div className="col-sm-4 offset-sm-2 col-form-label text-center">Pedestrian</div>
+          </div>
+
+          <div className="row">
+            <div className="col-sm-2 offset-sm-2 col-form-label text-center">Intersections</div>
+            <div className="col-sm-2 col-form-label text-center">Roadways</div>
+            <div className="col-sm-2 offset-sm-2 col-form-label text-center">Intersections</div>
+            <div className="col-sm-2 col-form-label text-center">Roadways</div>
           </div>
 
           <div className="row mb-2">
-            <label htmlFor="project-risk-bike-crashes" className="col-sm-3 col-form-label text-end">Crashes</label>
-            <div className="col-md-3">
-              <input className="form-control" type="text" id="project-risk-bike-crashes" />
+            <label className="col-sm-2 col-form-label text-end">Crashes</label>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-bike-crashes-intersections" />
             </div>
-            <label htmlFor="project-risk-ped-crashes" className="col-sm-3 col-form-label text-end">Crashes</label>
-            <div className="col-md-3">
-              <input className="form-control" type="text" id="project-risk-ped-crashes" />
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-bike-crashes-roadways" />
             </div>
-          </div>
-
-          <div className="row mb-2">
-            <label htmlFor="project-risk-bike-injuries" className="col-sm-3 col-form-label text-end">Injuries</label>
-            <div className="col-md-3">
-              <input className="form-control" type="text" id="project-risk-bike-injuries" />
+            <label className="col-sm-2 col-form-label text-end">Crashes</label>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-ped-crashes-intersections" />
             </div>
-            <label htmlFor="project-risk-ped-injuries" className="col-sm-3 col-form-label text-end">Injuries</label>
-            <div className="col-md-3">
-              <input className="form-control" type="text" id="project-risk-ped-injuries" />
-            </div>
-          </div>
-
-          <div className="row mb-2">
-            <label htmlFor="project-risk-bike-deaths" className="col-sm-3 col-form-label text-end">Deaths</label>
-            <div className="col-md-3">
-              <input className="form-control" type="text" id="project-risk-bike-deaths" />
-            </div>
-            <label htmlFor="project-risk-ped-deaths" className="col-sm-3 col-form-label text-end">Deaths</label>
-            <div className="col-md-3">
-              <input className="form-control" type="text" id="project-risk-ped-deaths" />
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-ped-crashes-roadways" />
             </div>
           </div>
 
           <div className="row mb-2">
-            <label htmlFor="project-risk-bike-years" className="col-sm-3 col-form-label text-end">Years</label>
-            <div className="col-md-3">
-              <input className="form-control" type="text" id="project-risk-bike-years" />
+            <label className="col-sm-2 col-form-label text-end">Injuries</label>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-bike-injuries-intersections" />
             </div>
-            <label htmlFor="project-risk-ped-years" className="col-sm-3 col-form-label text-end">Years</label>
-            <div className="col-md-3">
-              <input className="form-control" type="text" id="project-risk-ped-years" />
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-bike-injuries-roadways" />
+            </div>
+            <label className="col-sm-2 col-form-label text-end">Injuries</label>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-ped-injuries-intersections" />
+            </div>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-ped-injuries-roadways" />
+            </div>
+          </div>
+
+          <div className="row mb-2">
+            <label className="col-sm-2 col-form-label text-end">Deaths</label>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-bike-deaths-intersections" />
+            </div>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-bike-deaths-roadways" />
+            </div>
+            <label className="col-sm-2 col-form-label text-end">Deaths</label>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-ped-deaths-intersections" />
+            </div>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-ped-deaths-roadways" />
+            </div>
+          </div>
+
+          <div className="row mb-2">
+            <label className="col-sm-2 col-form-label text-end">Years</label>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-bike-years-intersections" />
+            </div>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-bike-years-roadways" />
+            </div>
+            <label className="col-sm-2 col-form-label text-end">Years</label>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-ped-years-intersections" />
+            </div>
+            <div className="col-sm-2">
+              <input className="form-control" type="text" id="project-risk-ped-years-roadways" />
             </div>
           </div>
           </>
