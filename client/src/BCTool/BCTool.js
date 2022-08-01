@@ -772,6 +772,18 @@ class BCTool extends React.Component {
           </div>
         </div>
         : null }
+
+        { this.state.hasSelectedInfrastructure || this.state.hasSelectedNonInfrastructure ?
+        <div className="row mb-3">
+          <div className="col-sm-12 text-center">
+            <ExportButton
+              showBenefits={this.state.showBenefits}
+              exportBenefits={this.exportBenefits}
+              inputsChanged={this.state.inputsChanged}
+            />
+          </div>
+        </div>
+        : null }
       </div>
       </>
     );
