@@ -9,10 +9,10 @@ class CountInput extends React.Component {
 
         return (
             <div className="row">
-                <div className="col-sm-4 text-end">
+                <div className="col-sm-2">
                     <label htmlFor={inputId} className="col-form-label">Count:</label>
                 </div>
-                <div className="col-sm-8">
+                <div className="col-sm-4">
                     <input className="form-control" type="number" id={inputId} value={value} onChange={onChange} />
                 </div>
             </div>

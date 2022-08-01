@@ -16,9 +16,9 @@ class InfrastructureCategory extends React.Component {
             <table className="table">
                 <thead>
                     <tr>
-                        <th width="25%"></th>
-                        <th>Type</th>
-                        <th>Share of Project</th>
+                        <th width="33%"></th>
+                        <th width="33%">Type</th>
+                        <th>Length or Count of Element</th>
                     </tr>
                 </thead>
                 <tbody>
