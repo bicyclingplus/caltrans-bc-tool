@@ -13,7 +13,10 @@ const Tooltip = require('bootstrap/js/dist/tooltip');
 class ProjectBenefits extends React.Component {
 
   componentDidMount() {
-    if(this.props.benefits.safetyQuantitative || this.props.benefits.emissions || this.props.benefits.health) {
+
+    let { benefits, hasOnlyUserMapSelections } = this.props;
+
+    if(!hasOnlyUserMapSelections && (benefits.safetyQuantitative || benefits.emissions || benefits.health)) {
       this.tooltip = new Tooltip(document.getElementById(`project-timeframe-tooltip`));
     }
   }
@@ -26,17 +29,17 @@ class ProjectBenefits extends React.Component {
 
   render() {
 
-    let { benefits, timeframe, subtype } = this.props;
+    let { benefits, timeframe, subtype, hasOnlyUserMapSelections } = this.props;
 
     return (
       <div>
         <h4 className="text-center section-header">Project Benefits</h4>
 
-        { benefits.travel ?
+        { benefits.travel && !hasOnlyUserMapSelections ?
         <Travel benefits={benefits.travel} subtype={subtype} />
         : null }
 
-        { benefits.safetyQuantitative || benefits.emissions || benefits.health ?
+        { (benefits.safetyQuantitative || benefits.emissions || benefits.health) && !hasOnlyUserMapSelections ?
         <h4 className="mt-4  section-sub-header">
           Project-Level Quantitative Benefits
           <i id={`project-timeframe-tooltip`}
@@ -49,15 +52,15 @@ class ProjectBenefits extends React.Component {
         </h4>
         : null }
 
-        { benefits.safetyQuantitative ?
+        { benefits.safetyQuantitative && !hasOnlyUserMapSelections ?
         <SafetyQuantitative benefits={benefits.safetyQuantitative} />
         : null }
 
-        { benefits.emissions ?
+        { benefits.emissions && !hasOnlyUserMapSelections ?
         <Emissions emissions={benefits.emissions} vmtReductions={benefits.vmtReductions} timeframe={timeframe} />
         : null }
 
-        { benefits.health ?
+        { benefits.health && !hasOnlyUserMapSelections ?
         <Health benefits={benefits.health} subtype={subtype} />
         : null }
 

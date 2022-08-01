@@ -25,7 +25,9 @@ const calcBenefits = (
 	existingTravel,
 
 	selectedInfrastructure,
-	selectedNonInfrastructure
+	selectedNonInfrastructure,
+
+	hasOnlyUserMapSelections
 	) => {
 
 	let benefits = {};
@@ -34,6 +36,8 @@ const calcBenefits = (
 		selectedInfrastructure, selectedNonInfrastructure);
 
 	if(project_type === 'infrastructure' || project_type === 'both') {
+
+		if(!hasOnlyUserMapSelections) {
 
       benefits.travel = calcTravel(
       	infrastructure,
@@ -52,18 +56,19 @@ const calcBenefits = (
 
       benefits.safetyQualitative = calcSafetyQualitative(
       	infrastructure, selectedInfrastructure);
+	  }
 
-      benefits.safetyQuantitative = calcSafetyQuantitative(
-        infrastructure,
-        benefits.travel,
-        project_length,
-        num_intersections,
-        project_subtype,
-        project_time_frame,
-        selectedInfrastructure);
-    }
+    benefits.safetyQuantitative = calcSafetyQuantitative(
+      infrastructure,
+      benefits.travel,
+      project_length,
+      num_intersections,
+      project_subtype,
+      project_time_frame,
+      selectedInfrastructure);
+  }
 
-    return benefits;
+  return benefits;
 }
 
 export default calcBenefits;

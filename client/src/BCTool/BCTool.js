@@ -75,7 +75,6 @@ class BCTool extends React.Component {
       userIntersections: [],
       totalLength: 0,
       totalIntersections: 0,
-      hasMapSelections: false,
       isAddingUserWay: false,
       selection: "way",
       mode: "existing",
@@ -92,6 +91,8 @@ class BCTool extends React.Component {
       hasSelectedInfrastructure: false,
       hasMultiSelected: false,
       canSelectElements: false,
+      hasOnlyUserMapSelections: false,
+      hasMapSelections: false,
 
       benefits: {},
       showBenefits: false,
@@ -177,6 +178,13 @@ class BCTool extends React.Component {
       this.state.userIntersections.length
     );
 
+    let hasOnlyUserMapSelections = (
+      !this.state.selectedIntersections.length &&
+      !this.state.selectedWays.length &&
+      (this.state.userWays.length ||
+      this.state.userIntersections.length)
+    );
+
     let canSelectElements = false;
 
     if(((this.state.type === 'infrastructure' || this.state.type === 'both') &&
@@ -194,6 +202,7 @@ class BCTool extends React.Component {
       hasMultiSelected: hasMultiSelected,
       showBenefits: Object.keys(this.state.benefits).length > 0,
       hasMapSelections: hasMapSelections,
+      hasOnlyUserMapSelections: hasOnlyUserMapSelections,
     });
   }
 
@@ -768,6 +777,7 @@ class BCTool extends React.Component {
               cost={this.state.cost}
               timeframe={this.state.timeframe}
               subtype={this.state.subtype}
+              hasOnlyUserMapSelections={this.state.hasOnlyUserMapSelections}
             />
           </div>
         </div>
