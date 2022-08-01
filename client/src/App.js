@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 import {
   Routes,
@@ -21,9 +21,11 @@ import Training from './Training/Training';
 function App() {
 
   const [newProject, setNewProject] = useState(true);
+  let navigate = useNavigate();
 
   const startNewProject = () => {
     setNewProject(true);
+    navigate('/');
   }
 
   const projectStarted = () => {
