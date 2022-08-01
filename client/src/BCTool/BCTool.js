@@ -754,6 +754,8 @@ class BCTool extends React.Component {
               inputsChanged={this.state.inputsChanged}
             />
           </div>
+
+          <h4 className="text-center mt-2">IMPORTANT: BENEFIT CALCULATIONS ARE NOT SAVED UNTIL YOU SELECT Save Benefits (Export to PDF)</h4>
         </div>
         : null }
 
