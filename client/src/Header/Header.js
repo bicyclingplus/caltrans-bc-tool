@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import './Header.css';
 import atrc_logo from '../images/ATRC logo_final blue one line.png';
@@ -9,8 +9,6 @@ const Modal = require('bootstrap/js/dist/modal');
 
 
 function Header(props) {
-
-  const location = useLocation();
 
   let [ confirmModal, setConfirmModal ] = useState(null);
 
