@@ -18,7 +18,6 @@ WORKDIR /usr/src/app
 COPY . .
 
 WORKDIR /usr/src/app/client
-ARG INLINE_RUNTIME_CHUNK=false
 RUN npm run build
 
 WORKDIR /usr/src/app/server
