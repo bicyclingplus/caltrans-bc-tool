@@ -70,25 +70,13 @@ function Header(props) {
             <ul className="dropdown-menu" aria-labelledby="resourcesDropdown">
               <li><NavLink className="dropdown-item" to="technicaldocs">Technical Documentation</NavLink></li>
               <li><NavLink className="dropdown-item" to="litreview">Literature Review</NavLink></li>
-            </ul>
-            </li>
-            <li className="nav-item dropdown ms-5">
-            <button className="btn dropdown-toggle btn-link nav-link btn-borderless" id="helpDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-             Help
-            </button>
-            <ul className="dropdown-menu" aria-labelledby="helpDropdown">
               <li><NavLink className="dropdown-item" to="about">About</NavLink></li>
               <li><NavLink className="dropdown-item" to="userguide">User Guide</NavLink></li>
               <li><NavLink className="dropdown-item" to="training">Training</NavLink></li>
             </ul>
             </li>
           </ul>
-
-          <>
-          { location.pathname === '/' ?
             <button className="btn btn-lg btn-restart" onClick={openModal}>Start New Project</button>
-          : null }
-          </>
         </div>
       </nav>
     </div>
