@@ -52,6 +52,7 @@ class ProjectForm extends React.Component {
 
     return (
       <div className="row mb-4">
+        <p className="text-center">All fields marked with * are required</p>
         <form>
           <div className="row mb-2">
             <label htmlFor="project-name" className="col-sm-4 col-form-label text-end">Project Name</label>
@@ -85,7 +86,7 @@ class ProjectForm extends React.Component {
             </div>
           </div>
           <div className="row mb-2">
-            <label htmlFor="project-type" className="col-sm-4 col-form-label text-end">Project Type</label>
+            <label htmlFor="project-type" className="col-sm-4 col-form-label text-end">Project Type *</label>
             <div className="col-md-8">
               <select id="project-type" className="form-select" value={type} onChange={updateType}>
                 <option value="" disabled>-- Choose a type --</option>
@@ -97,7 +98,7 @@ class ProjectForm extends React.Component {
           { type === 'infrastructure' || type === 'both' ?
           <>
           <div className="row mb-2">
-            <label htmlFor="project-subtype" className="col-sm-4 col-form-label text-end">Active Travel Type</label>
+            <label htmlFor="project-subtype" className="col-sm-4 col-form-label text-end">Active Travel Type *</label>
             <div className="col-md-8">
               <select id="project-subtype" className="form-select" value={subtype} onChange={updateSubtype}>
                 <option value="" disabled>-- Choose a type --</option>
@@ -107,7 +108,7 @@ class ProjectForm extends React.Component {
           </div>
 
           <div className="row mb-2">
-            <label htmlFor="project-transit" className="col-sm-4 col-form-label text-end">Transit Type</label>
+            <label htmlFor="project-transit" className="col-sm-4 col-form-label text-end">Transit Type *</label>
             <div className="col-md-8">
               <select id="project-subtype" className="form-select" value={transit} onChange={updateTransit}>
                 <option value="" disabled>-- Choose a type --</option>
