@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-const helmet = require("helmet");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -10,17 +9,6 @@ const bodyParser = require('body-parser')
 require('dotenv').config();
 
 const { MongoClient, ObjectId } = require("mongodb");
-
-app.use(helmet({
-  crossOriginEmbedderPolicy: false,
-  contentSecurityPolicy: {
-    directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "object-src": ["'self'"],
-      "img-src": ["'self'", "data:", "https://api.mapbox.com"],
-    },
-  },
-}));
 
 app.use(morgan('combined'));
 app.use(bodyParser.json())
