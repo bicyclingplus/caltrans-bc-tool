@@ -14,10 +14,6 @@ class ProjectElements extends React.Component {
       <div>
           <h4 className="text-center section-header">Define Project Elements</h4>
 
-          { !type ?
-            <div className="mt-4">Select a project type above.</div>
-          : null}
-
           { type === 'infrastructure' || type === 'both' ?
           <div className="row mb-3 mt-4">
             <div className="col-sm-4"><h5 className="form-label">Infrastructure Elements</h5></div>
