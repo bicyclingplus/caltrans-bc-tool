@@ -7,16 +7,16 @@ const ExportBenefitsEnabledButton = (props) => {
 	return (
 		<button
           type="button"
-          className="btn btn-primary btn-lg ms-4"
-          onClick={exportBenefits}>Export Benefits</button>
+          className="btn btn-lg ms-4 benefits-button"
+          onClick={exportBenefits}>Save Benefits (Export to PDF)</button>
 	)
 };
 
 const ExportBenefitsDisabledButton = () => (
 	<button
       type="button"
-      className="btn btn-secondary btn-lg  ms-4"
-      disabled>Export Benefits</button>
+      className="btn btn-lg ms-4 benefits-button"
+      disabled>Save Benefits (Export to PDF)</button>
 );
 
 const ExportBenefitsButton = (props) => {

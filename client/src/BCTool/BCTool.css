@@ -55,3 +55,29 @@
   --bs-table-accent-bg: var(--bs-table-striped-bg);
   color: var(--bs-table-striped-color);
 }
+
+.benefits-button {
+  background-color: #FFBF00;
+  color: black;
+  border-color: black;
+}
+
+.benefits-button:hover {
+  background-color: #FFDF80;
+  color: black;
+  border-color: black;
+}
+
+.benefits-button:disabled {
+  background-color: #999999;
+  color: black;
+  border-color: black;
+  opacity: 1;
+}
+/*
+.benefits-button-disabled:hover {
+  background-color: #999999;
+  color: black;
+  border-color: black;
+  opacity: 1;
+}*/

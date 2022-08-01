@@ -7,7 +7,7 @@ const EstimateBenefitsButton = (props) => {
 	return (
 		<button
           type="button"
-          className="btn btn-primary btn-lg"
+          className="btn btn-lg benefits-button"
           onClick={updateBenefits}>Estimate Benefits</button>
 	);
 
@@ -20,7 +20,7 @@ const UpdateBenefitsEnabledButton = (props) => {
 	return (
 		<button
           type="button"
-          className="btn btn-primary btn-lg"
+          className="btn btn-lg benefits-button"
           onClick={updateBenefits}>Update Benefits</button>
 	)
 };
@@ -28,7 +28,7 @@ const UpdateBenefitsEnabledButton = (props) => {
 const UpdateBenefitsDisabledButton = () => (
 	<button
       type="button"
-      className="btn btn-secondary btn-lg"
+      className="btn btn-lg benefits-button"
       disabled>Update Benefits</button>
 );
 
