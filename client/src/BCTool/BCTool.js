@@ -91,6 +91,7 @@ class BCTool extends React.Component {
       selectedInfrastructure: {},
       hasSelectedInfrastructure: false,
       hasMultiSelected: false,
+      canSelectElements: false,
 
       benefits: {},
       showBenefits: false,
@@ -169,12 +170,30 @@ class BCTool extends React.Component {
       }
     }
 
+    let hasMapSelections = (
+      this.state.selectedIntersections.length ||
+      this.state.selectedWays.length ||
+      this.state.userWays.length ||
+      this.state.userIntersections.length
+    );
+
+    let canSelectElements = false;
+
+    if(((this.state.type === 'infrastructure' || this.state.type === 'both') &&
+        this.state.subtype &&
+        this.state.transit &&
+        hasMapSelections) ||
+        this.state.type === 'non-infrastructure') {
+      canSelectElements = true;
+    }
+
     this.setState({
       hasSelectedInfrastructure: Object.keys(this.state.selectedInfrastructure).length > 0,
       hasSelectedNonInfrastructure: this.state.selectedNonInfrastructure.length > 0,
+      canSelectElements: canSelectElements,
       hasMultiSelected: hasMultiSelected,
       showBenefits: Object.keys(this.state.benefits).length > 0,
-      hasMapSelections: this.state.selectedIntersections.length || this.state.selectedWays.length || this.state.userWays.length || this.state.userIntersections.length,
+      hasMapSelections: hasMapSelections,
     });
   }
 
@@ -318,7 +337,7 @@ class BCTool extends React.Component {
     this.setState({
       transit: e.target.value,
       inputsChanged: true,
-    });
+    }, this.updateStatuses);
   }
 
   updateCounty = (e) => {
@@ -689,6 +708,7 @@ class BCTool extends React.Component {
         </div>
         : null }
 
+        { this.state.canSelectElements ?
         <div className="row mb-3">
           <div className="col-sm-12">
             <ProjectElements
@@ -704,6 +724,7 @@ class BCTool extends React.Component {
             />
           </div>
         </div>
+        : null }
 
         { this.state.hasSelectedInfrastructure ?
         <div className="row mb-3">
