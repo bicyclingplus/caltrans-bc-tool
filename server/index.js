@@ -16,7 +16,7 @@ app.use(helmet({
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
       "object-src": ["'self'"],
-      "img-src": ["'self'", "api.mapbox.com"],
+      "img-src": ["'self'", "'api.mapbox.com'"],
     },
   },
 }));
