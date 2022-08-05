@@ -35,7 +35,197 @@ class SafetyQuantitative extends React.Component {
 		return (
 			<>
 			<h5 className="mt-4">Safety</h5>
-			<table className="table table-bordered table-striped" id="safety">
+
+			<table className="table table-bordered table-striped" id="safety-simple">
+				<thead>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th>Benefit</th>
+						<th>Benefit / Capita</th>
+						<th>Benefit / Jobs</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th rowSpan="9" className="align-middle">Bike</th>
+						<th rowSpan="3" className="align-middle">Crashes</th>
+						<th>Change</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>Before</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>After</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th rowSpan="3" className="align-middle">Injuries</th>
+						<th>Change</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>Before</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>After</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th rowSpan="3" className="align-middle">Deaths</th>
+						<th>Change</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>Before</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>After</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th rowSpan="9" className="align-middle">Pedestrian</th>
+						<th rowSpan="3" className="align-middle">Crashes</th>
+						<th>Change</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>Before</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>After</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th rowSpan="3" className="align-middle">Injuries</th>
+						<th>Change</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>Before</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>After</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th rowSpan="3" className="align-middle">Deaths</th>
+						<th>Change</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>Before</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>After</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th rowSpan="9" className="align-middle">Combined</th>
+						<th rowSpan="3" className="align-middle">Crashes</th>
+						<th>Change</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>Before</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>After</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th rowSpan="3" className="align-middle">Injuries</th>
+						<th>Change</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>Before</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>After</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th rowSpan="3" className="align-middle">Deaths</th>
+						<th>Change</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>Before</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+					<tr>
+						<th>After</th>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+						<td className="text-end">#</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table className="table table-bordered table-striped d-none" id="safety">
 				<thead>
 					<tr>
 						<th></th>
