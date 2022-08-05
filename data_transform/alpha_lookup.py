@@ -14,28 +14,36 @@ with open(os.path.join('input', infilename)) as infile:
 
     for r in reader:
 
-        location = r[0].lower()
+        # mojvf
+
         mode = r[1].lower()
-        exposure = r[2].lower()
-        functional = r[3].lower()
-        crash = float(r[9])
-        injury = float(r[10])
-        death = float(r[11])
+        location_type = r[0].lower()
+        volume = r[2].lower()
+        functional_class = r[3].lower()
 
-        if location not in output:
-            output[location] = {}
-
-        if mode not in output[location]:
-            output[location][mode] = {}
-
-        if exposure not in output[location][mode]:
-            output[location][mode][exposure] = {}
-
-        output[location][mode][exposure][functional] = {
-            'crash': crash,
-            'injury': injury,
-            'death': death,
+        current_outcomes = {
+            'crash': float(r[9]),
+            'injury': float(r[10]),
+            'death': float(r[11]),
         }
+
+        if mode not in output:
+            output[mode] = {}
+
+            for o in current_outcomes:
+                output[mode][o] = {}
+
+        for o in current_outcomes:
+            if location_type not in output[mode][o]:
+                output[mode][o][location_type] = {}
+
+        for o in current_outcomes:
+            if volume not in output[mode][o][location_type]:
+                output[mode][o][location_type][volume] = {}
+
+        for o in current_outcomes:
+            output[mode][o][location_type][volume][functional_class] = current_outcomes[o]
+
 
 json.dump(output, open(os.path.join('output', 'alpha_lookup.json'), 'w'))
 
