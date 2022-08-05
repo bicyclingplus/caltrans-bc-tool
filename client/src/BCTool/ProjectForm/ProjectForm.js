@@ -123,10 +123,10 @@ class ProjectForm extends React.Component {
           </div>
 
           <div className="row">
-            <div className="col-sm-2 offset-sm-2 col-form-label text-center">Intersections</div>
-            <div className="col-sm-2 col-form-label text-center">Roadways</div>
-            <div className="col-sm-2 offset-sm-2 col-form-label text-center">Intersections</div>
-            <div className="col-sm-2 col-form-label text-center">Roadways</div>
+            <div className="col-sm-2 offset-sm-2 col-form-label text-center" style={{fontSize: '0.7rem'}}>Intersections</div>
+            <div className="col-sm-2 col-form-label text-center" style={{fontSize: '0.7rem'}}>Roadways</div>
+            <div className="col-sm-2 offset-sm-2 col-form-label text-center" style={{fontSize: '0.7rem'}}>Intersections</div>
+            <div className="col-sm-2 col-form-label text-center" style={{fontSize: '0.7rem'}}>Roadways</div>
           </div>
 
           <div className="row mb-2">
