@@ -234,37 +234,46 @@ const _calcBikeDemand = (
 
     // then the bike demand is weighted by the project length and
     // number of ways
-    let projectLengthMiles = projectLength / 5280;
-    let numWays = selectedWays.length + userWays.length;
+    // let projectLengthMiles = projectLength / 5280;
+    // let numWays = selectedWays.length + userWays.length;
 
-    if(numWays > 0) {
+    // if(numWays > 0) {
 
-      console.log('bike');
+    //   console.log('bike');
 
-      console.log(existingTravel.miles.bike.mean);
+    //   console.log(existingTravel.miles.bike.mean);
 
-      existingTravel.miles.bike.mean = _weightDemand(
-        projectLengthMiles,
-        numWays,
-        existingTravel.miles.bike.mean,
-        config.bike
-      );
+    //   existingTravel.miles.bike.mean = _weightDemand(
+    //     projectLengthMiles,
+    //     numWays,
+    //     existingTravel.miles.bike.mean,
+    //     config.bike
+    //   );
 
-      console.log(existingTravel.miles.bike.mean);
+    //   console.log(existingTravel.miles.bike.mean);
 
-      existingTravel.capita.bike.mean = _weightDemand(
-        projectLengthMiles,
-        numWays,
-        existingTravel.capita.bike.mean,
-        config.bike
-      );
+    //   existingTravel.capita.bike.mean = _weightDemand(
+    //     projectLengthMiles,
+    //     numWays,
+    //     existingTravel.capita.bike.mean,
+    //     config.bike
+    //   );
 
-      existingTravel.jobs.bike.mean = _weightDemand(
-        projectLengthMiles,
-        numWays,
-        existingTravel.jobs.bike.mean,
-        config.bike);
-    }
+    //   existingTravel.jobs.bike.mean = _weightDemand(
+    //     projectLengthMiles,
+    //     numWays,
+    //     existingTravel.jobs.bike.mean,
+    //     config.bike);
+    // }
+
+    // per Dillon email 2022-08-03
+    // this is a total hack, but let's just revert to the volume*length
+    // and double it for bike miles. I think we can leave the walk
+    // calculation as is for now. I'll want to change both of these
+    // once I get more brain power to think about them.
+    existingTravel.miles.bike.mean *= 2;
+    existingTravel.capita.bike.mean *= 2;
+    existingTravel.jobs.bike.mean *= 2;
 
     return existingTravel;
 
