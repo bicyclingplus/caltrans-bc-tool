@@ -1,7 +1,13 @@
 import { SCALING_FACTORS } from './constants';
 import calcDiscount from './calcDiscount';
 
+import { USER_INPUT } from './test_data';
+
+const alpha_lookup = require('../data/alpha_lookup.json');
 const quantitative = require('../data/quantitative.json');
+
+// p power representing the safety in numbers effect (0.5)
+const POWER_SAFETY_IN_NUMBERS = 0.5;
 
 function _calc(infrastructure, travel, length, intersections, subtype,
   time_frame, selectedInfrastructure) {
@@ -250,7 +256,325 @@ function _calc(infrastructure, travel, length, intersections, subtype,
   return adjustedBenefits;
 }
 
+  // need crash change per mode (m) and outcome (o)
+  // mode = bike / walk
+  // outcome = crash / injury / death
+
+  // for each mode and outcome we need to combine location types (j)
+  // location types = intersections / roadways
+
+  // the calculation will be new crashes for that m,o,j minus existing crashes for that m,o,j
+  // crash change = new crashes - existing crashes
+
+  // new crashes for a given m,o,j will be calculated by
+
+  // NCmoj
+  // total = 0
+  // for each intersection/roadway (j determines which to consider) in project scope
+  //    lookup alpha value based on
+  //      functional class (f) (major/minor/local, from network properties)
+  //      mode (m) (bike/walk)
+  //      outcome (o) (crash/injury/death)
+  //      location type (j) (intersection/roadway)
+  //      volume index (v) (low/med/high, from network properties)
+  //
+  //    for each selected infrastructure element that has an entry for this m,o,j
+  //      mode (m) (bike/walk)
+  //      outcome (o) (crash/injury/death)
+  //      location type (j) (intersection/roadway)
+  //
+  //      CRF crash reduction factor (given as %) / 100
+  //
+  //      N / L = project share = length/count of element / length/count of project
+  //
+  //      I = improvement type (1 for new/upgrade, 0.1 for retrofit/maint)
+  //
+  //      V = volume active travel (to be calculated in previous benefits section) based on
+  //        mode (m)
+  //        location type (j)
+  //
+  //      p given as constant 0.5
+  //
+  //      total += e^alpha * (V + V * E * (N / L) * I)^p * CRF
+
+  // ECmoj
+  // existing crashes for a given m,o,j will be calculated by
+  // UImojy = user years input for given moj (mode/outcome/location)
+  // UImoj = user input for moj (mode/outcome/location)
+  //
+  // if UImojy >= 5, ECmoj = UImoj/UIy
+  // else if 5 > UImojy > 0, ECmoj = (UImoj/UIy) * (UIy / 5) + (1 - (UIy/5)) * CCmojvf (below)
+  // else if UImojy = 0 || NA, ECmoj = CCmojvf (below)
+
+  // CCmojvf
+  // total = 0
+  // for each intersection/roadway (j determines which to consider) in project scope
+  //    lookup alpha value based on
+  //      functional class (f) (major/minor/local, from network properties)
+  //      mode (m) (bike/walk)
+  //      outcome (o) (crash/injury/death)
+  //      location type (j) (intersection/roadway)
+  //      volume index (v) (low/med/high, from network properties)
+  //
+  //    lookup volume active travel (to be calculated in previous benefits section) based on
+  //      mode (m)
+  //      location type (j)
+  //
+  //    p given as constant 0.5
+
+  //    total += (e^alpha) * (volume active travel^p)
+
+  // OVERALL
+  // for [pedestrian, bicycling]
+  //  for [crashes, injuries, deaths]
+  //     calculate new crashes NC for intersections
+  //     calculate existing crashes EC for intersections
+  //
+  //     calculate new crashes NC for roadways
+  //     calculate existing crashes EC for roadways
+  //
+  //     calculate crash change (CC) for intersections (NC - EC)
+  //     calculate crash change (CC) for roadways (NC - EC)
+  //
+  //     calculate total crash change as CC intersections + CC roadways
+  //
+  //     calculate before crash outcomes for intersections as  EC intersections / V intersections
+  //     calculate before crash outcomes for roadways as EC roadways / V roadways
+  //     before crash outcomes per 1000 volumes = before crash outcomes for intersections + before crash outcomes for roadways * 1000
+  //
+  //     calculate after crash outcomes for intersections as  NC intersections / V intersections
+  //     calculate after crash outcomes for roadways as NC roadways / V roadways
+  //     after crash outcomes per 1000 volumes = after crash outcomes for intersections + after crash outcomes for roadways * 1000
+
+
+  // benefit table (output)
+  // 1st col: bike/pedestrian/combined (3)
+  // 2nd col: crashes/injuries/deaths rows for each first column (9)
+  // 3rd col: crash change for this m/o, before crash outcomes per 1000 volume for this m/o, after crash outcomes per 1000 volume for this m/o rows for each outcome in second column (27)
+  // 4th col: same as 3rd but per capita (27)
+  // 5th col: same as 3rd but per jobs (27)
+
+const _newCalc = () => {
+
+  const modes = ['bicycling', 'walking'];
+  const outcomes = ['crash', 'injury', 'death'];
+  const location_types = ['intersection', 'roadway'];
+
+  // where do we take volume active travel from here?!
+  let Vmj = {};
+
+  for(let mode of modes) {
+    Vmj[mode] = {};
+    for(let location_type of location_types) {
+      Vmj[mode][location_type] = 12345;
+    }
+  }
+
+  // calculate crash change by mode and outcome
+  // calculate new crashes by mode, outcome, and location type
+  // calculate existing crashes by mode, outcome, and location type
+  const change = {};
+  const NCmoj = {};
+  const ECmoj = {};
+
+  for(let mode of modes) {
+
+    change[mode] = {};
+    NCmoj[mode] = {};
+    ECmoj[mode] = {};
+
+    for(let outcome of outcomes) {
+
+      change[mode][outcome] = 0;
+      NCmoj[mode][outcome] = {};
+      ECmoj[mode][outcome] = {};
+
+      for(let location_type of location_types) {
+
+        let NC = _NCmoj(mode, outcome, location_type);
+        let EC = _ECmoj(mode, outcome, location_type);
+
+        NCmoj[mode][outcome][location_type] = NC;
+        ECmoj[mode][outcome][location_type] = EC;
+        change[mode][outcome] += NC - EC;
+      }
+    }
+  }
+
+  // calc crash change combined walking/bicycling
+  change.combined = {};
+
+  for(let outcome of outcomes) {
+    change.combined[outcome] = 0;
+  }
+
+  for(let mode of modes) {
+    for(let outcome of outcomes) {
+      change.combined[outcome] += change[mode][outcome];
+    }
+  }
+
+  // calc before crash outcomes per 1000 volume by mode and outcome
+  // calc after crash outcomes per 1000 volume by mode and outcome
+  let before = {};
+  let after = {};
+
+  for(let mode of modes) {
+
+    before[mode] = {};
+    after[mode] = {};
+
+    for(let outcome of outcomes) {
+
+      before[mode][outcome] = 0;
+      after[mode][outcome] = 0;
+
+      for(let location_type of location_types) {
+        before[mode][outcome] += (
+          ECmoj[mode][outcome][location_type] / Vmj[mode][location_type]);
+
+        after[mode][outcome] += (
+          NCmoj[mode][outcome][location_type] / Vmj[mode][location_type]);
+      }
+    }
+  }
+
+  for(let mode of modes) {
+    for(let outcome of outcomes) {
+      before[mode][outcome] *= 1000;
+      after[mode][outcome] *= 1000;
+    }
+  }
+
+  before.combined = {}
+  after.combined = {}
+
+  for(let outcome of outcomes) {
+    before.combined[outcome] = 0;
+    after.combined[outcome] = 0;
+  }
+
+  for(let mode of modes) {
+    for(let outcome of outcomes) {
+      before.combined[outcome] += before[mode][outcome];
+      after.combined[outcome] += after[mode][outcome];
+    }
+  }
+
+  return {
+    change: change,
+    before: before,
+    after: after,
+  };
+
+};
+
+// CRASHES BY SYSTEM CLASS
+// INPUTS:
+// m mode index (bicycling/walking)
+// o outcome index (crash/injury/death)
+// j location type index (intersection/roadway)
+// v volume index (low/medium/high)
+// f functional class index (major/minor/local)
+// V volume of active travel
+const _CCmojvf = (mode, outcome, location_type, volume, functional_class, volume_active_travel) => {
+
+  let alpha = alpha_lookup[location_type][mode][volume][functional_class][outcome];
+
+  return Math.exp(alpha) * Math.pow(volume_active_travel, POWER_SAFETY_IN_NUMBERS);
+};
+
+// CRASHES BY SYSTEM CLASS
+// INPUTS:
+// m mode index (bicycling/walking)
+// o outcome index (crash/injury/death)
+// j location type index (intersection/roadway)
+const _ECmoj_model_only = (m, o, j) => {
+
+  // calc over relevant project scope (f/v)
+  // i think this boils down to looping over all the selected
+  // intersections and roadways in the project and
+  // calling __CCmojvf for each one and passing in the relevant f and v
+  // from the properties
+
+};
+
+const _ECmoj_split = (m, o, j) => {
+
+  let UImoj = user_input[m][j][o];
+  let UIy = user_input[m][j].years;
+
+  // calc over relevant project scope (f/v)
+  // ((UImoj / UIy) * (UIy / 5)) +
+  // ((1 - (UIy / 5)) * _CCmoj(m, o, j))
+
+}
+
+// EXISTING CRASHES
+// INPUTS:
+// m mode index (bicycling/walking)
+// o outcome index (crash/injury/death)
+// j location type index (intersection/roadway)
+const _ECmoj = (m, o, j) => {
+
+  // User input number of years of data for this m, j
+  let UIy = user_input[m][j].years;
+
+  // not null and greater than 0
+  if(UIy && UIy > 0) {
+
+    // 5 or more years, use user input directly
+    if(UIy >= 5) {
+      return user_input[m][j][o];
+    }
+    // more than 0 but less than 5, split between
+    // model and user input
+    else {
+      return _ECmoj_split(m, o, j);
+    }
+  }
+  // 0 or null, use model only
+  else {
+    return _ECmoj_model_only(m, o, j);
+  }
+};
+
+// NEW CRASHES
+// INPUTS:
+// m mode index (bicycling/walking)
+// o outcome index (crash/injury/death)
+// j location type index (intersection/roadway)
+const _NCmoj = (m, o, j) => {
+
+  // calc over relevant project scope (f/v)
+
+};
+
+// NEW CRASHES
+// INPUTS:
+// m mode index (bicycling/walking)
+// o outcome index (crash/injury/death)
+// j location type index (intersection/roadway)
+// v volume index (low/medium/high)
+// f functional class index (major/minor/local)
+// V volume of active travel
+// E
+// N
+// L
+// I
+// CRF
+const _NC = (m, o, j, v, f, V, E, N, L, I, CRF) => {
+
+  let alpha = alpha_lookup[j][m][v][f][o];
+  let volume_increase = V * E * (N / L) * I;
+  let new_volume = V + volume_increase;
+
+  return Math.exp(alpha) * Math.pow(new_volume, POWER_SAFETY_IN_NUMBERS) * CRF;
+};
+
 function calcSafetyQuantitative(infrastructure, travel, length, intersections, subtype, time_frame, selectedInfrastructure) {
+
+  _newCalc(); // repeated for miles/capita/jobs
 
   return {
     "miles": _calc(infrastructure, travel.miles, length, intersections, subtype, time_frame, selectedInfrastructure),
