@@ -2,7 +2,7 @@ import json
 import os
 from pymongo import MongoClient
 
-client = MongoClient("mongodb://bctool:phev@localhost:27018")
+client = MongoClient("mongodb://bctool:phev@localhost:27017")
 dbname = client['bctool']
 
 print('Starting ways')
@@ -13,7 +13,7 @@ collection_name.delete_many({})
 way_files = [
     # "Sacramento_Bike_Network.geojson",
     # "Sacramento_Bike_Predictions_check1.geojson",
-    "Final_network_links_merged.geojson",
+    "2022_07_30_Final_network_links_merged.geojson",
 ]
 
 for file in way_files:
@@ -29,7 +29,7 @@ collection_name.delete_many({})
 intersection_files = [
     # "Sacramento_Ped_Network.geojson",
     # 'Final_network_nodes.geojson',
-    'Final_network_nodes1.geojson',
+    '2022_07_30_Final_network_nodes.geojson',
 ]
 
 for file in intersection_files:

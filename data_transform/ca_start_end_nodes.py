@@ -3,8 +3,8 @@ import os
 import json
 from tqdm import tqdm
 
-gejson_infilename = "Final_network_links.geojson"
-gejson_outfilename = "Final_network_links_merged.geojson"
+gejson_infilename = "2022_07_30_Final_network_links.geojson"
+gejson_outfilename = "2022_07_30_Final_network_links_merged.geojson"
 node_infilename = "California_start_end_nodes.csv"
 
 node_data = {}
