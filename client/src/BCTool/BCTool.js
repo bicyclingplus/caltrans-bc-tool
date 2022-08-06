@@ -290,7 +290,9 @@ class BCTool extends React.Component {
         this.state.existingTravel,
         this.state.selectedInfrastructure,
         this.state.selectedNonInfrastructure,
-        this.state.hasOnlyUserMapSelections
+        this.state.hasOnlyUserMapSelections,
+        this.state.selectedWays,
+        this.state.selectedIntersections
       ),
     }, this.updateStatuses);
   }

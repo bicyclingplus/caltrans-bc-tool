@@ -1,96 +1,120 @@
 const user_input_good = {
-  "bike": {
-    "intersections": {
-      "crashes": 1234,
-      "injuries": 1234,
-      "deaths": 1234,
-      "years": 5,
+  "bicycling": {
+    "crash": {
+      "intersection": 12345,
+      "roadway": 12345,
     },
-    "roadways": {
-      "crashes": 1234,
-      "injuries": 1234,
-      "deaths": 1234,
-      "years": 5,
+    "injury": {
+      "intersection": 12345,
+      "roadway": 12345,
     },
+    "death": {
+      "intersection": 12345,
+      "roadway": 12345,
+    },
+    "years": {
+      "intersection": 5,
+      "roadway": 5,
+    }
   },
-  "pedestrian": {
-    "intersections": {
-      "crashes": 1234,
-      "injuries": 1234,
-      "deaths": 1234,
-      "years": 5,
+  "walking": {
+    "crash": {
+      "intersection": 12345,
+      "roadway": 12345,
     },
-    "roadways": {
-      "crashes": 1234,
-      "injuries": 1234,
-      "deaths": 1234,
-      "years": 5,
+    "injury": {
+      "intersection": 12345,
+      "roadway": 12345,
     },
+    "death": {
+      "intersection": 12345,
+      "roadway": 12345,
+    },
+    "years": {
+      "intersection": 5,
+      "roadway": 5,
+    }
+  },
+};
+
+const user_input_model = {
+  "bicycling": {
+    "crash": {
+      "intersection": null,
+      "roadway": null,
+    },
+    "injury": {
+      "intersection": null,
+      "roadway": null,
+    },
+    "death": {
+      "intersection": null,
+      "roadway": null,
+    },
+    "years": {
+      "intersection": null,
+      "roadway": null,
+    }
+  },
+  "walking": {
+    "crash": {
+      "intersection": null,
+      "roadway": null,
+    },
+    "injury": {
+      "intersection": null,
+      "roadway": null,
+    },
+    "death": {
+      "intersection": null,
+      "roadway": null,
+    },
+    "years": {
+      "intersection": null,
+      "roadway": null,
+    }
   },
 };
 
 const user_input_split = {
-  "bike": {
-    "intersections": {
-      "crashes": 1234,
-      "injuries": 1234,
-      "deaths": 1234,
-      "years": 2,
+  "bicycling": {
+    "crash": {
+      "intersection": 1234,
+      "roadway": 1234,
     },
-    "roadways": {
-      "crashes": 1234,
-      "injuries": 1234,
-      "deaths": 1234,
-      "years": 2,
+    "injury": {
+      "intersection": 1234,
+      "roadway": 1234,
     },
+    "death": {
+      "intersection": 1234,
+      "roadway": 1234,
+    },
+    "years": {
+      "intersection": 3,
+      "roadway": 3,
+    }
   },
-  "pedestrian": {
-    "intersections": {
-      "crashes": 1234,
-      "injuries": 1234,
-      "deaths": 1234,
-      "years": 2,
+  "walking": {
+    "crash": {
+      "intersection": 1234,
+      "roadway": 1234,
     },
-    "roadways": {
-      "crashes": 1234,
-      "injuries": 1234,
-      "deaths": 1234,
-      "years": 2,
+    "injury": {
+      "intersection": 1234,
+      "roadway": 1234,
     },
-  },
-};
-
-const user_input_blank = {
-  "bike": {
-    "intersections": {
-      "crashes": null,
-      "injuries": null,
-      "deaths": null,
-      "years": null,
+    "death": {
+      "intersection": 1234,
+      "roadway": 1234,
     },
-    "roadways": {
-      "crashes": null,
-      "injuries": null,
-      "deaths": null,
-      "years": null,
-    },
-  },
-  "pedestrian": {
-    "intersections": {
-      "crashes": null,
-      "injuries": null,
-      "deaths": null,
-      "years": null,
-    },
-    "roadways": {
-      "crashes": null,
-      "injuries": null,
-      "deaths": null,
-      "years": null,
-    },
+    "years": {
+      "intersection": 3,
+      "roadway": 3,
+    }
   },
 };
 
-const USER_INPUT = user_input_good;
+const USER_INPUT = user_input_model;
 
 export { USER_INPUT };

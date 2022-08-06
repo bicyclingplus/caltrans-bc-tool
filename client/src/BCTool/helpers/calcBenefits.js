@@ -4,7 +4,7 @@ import calcVMTReductions from './calcVMTReductions';
 import calcEmissions from './calcEmissions';
 import calcHealth from './calcHealth';
 import calcSafetyQualitative from './calcSafetyQualitative';
-import calcSafetyQuantitative from './calcSafetyQuantitative';
+import { calcSafetyQuantitative, calcSafetyQuantitativeNew } from './calcSafetyQuantitative';
 
 const calcBenefits = (
 	project_type,
@@ -27,7 +27,10 @@ const calcBenefits = (
 	selectedInfrastructure,
 	selectedNonInfrastructure,
 
-	hasOnlyUserMapSelections
+	hasOnlyUserMapSelections,
+
+	selectedWays,
+	selectedIntersections
 	) => {
 
 	let benefits = {};
@@ -54,18 +57,28 @@ const calcBenefits = (
 
       benefits.health = calcHealth(benefits.travel, project_time_frame);
 
-      benefits.safetyQualitative = calcSafetyQualitative(
-      	infrastructure, selectedInfrastructure);
+      benefits.safetyQuantitative = calcSafetyQuantitative(
+	      infrastructure,
+	      benefits.travel,
+	      project_length,
+	      num_intersections,
+	      project_subtype,
+	      project_time_frame,
+	      selectedInfrastructure);
+
+      calcSafetyQuantitativeNew(
+      	selectedWays,
+      	selectedIntersections,
+      	infrastructure,
+      	selectedInfrastructure,
+      	project_length,
+      	num_intersections
+      );
 	  }
 
-    benefits.safetyQuantitative = calcSafetyQuantitative(
-      infrastructure,
-      benefits.travel,
-      project_length,
-      num_intersections,
-      project_subtype,
-      project_time_frame,
-      selectedInfrastructure);
+	  benefits.safetyQualitative = calcSafetyQualitative(
+      	infrastructure, selectedInfrastructure);
+
   }
 
   return benefits;
