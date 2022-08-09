@@ -61,7 +61,7 @@ function Header(props) {
       <nav className="navbar navbar-expand">
         <div className="container-fluid">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 flex-wrap">
-            <li className="nav-item  ms-3">
+            <li className="nav-item ms-3">
               <NavLink className="dropdown-item" to="tool">Tool</NavLink>
             </li>
            <li className="nav-item dropdown ms-5">
@@ -85,4 +85,4 @@ function Header(props) {
   );
 }
 
-export default Header
+export default Header;
