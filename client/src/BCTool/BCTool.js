@@ -5,6 +5,12 @@ import 'bootstrap/js/dist/button';
 
 import './BCTool.css';
 
+import {
+  MODES,
+  LOCATION_TYPES,
+  OUTCOMES,
+} from './helpers/constants';
+
 import ProjectForm from './ProjectForm/ProjectForm';
 import ProjectSummary from './ProjectSummary/ProjectSummary';
 import ProjectMap from './ProjectMap/ProjectMap';
@@ -53,6 +59,22 @@ class BCTool extends React.Component {
   }
 
   createDefaultState = () => {
+
+    let safety = {};
+
+    for(let mode of MODES) {
+      safety[mode] = {};
+
+      for(let item of [...OUTCOMES, 'years']) {
+
+        safety[mode][item] = {}
+
+        for(let location_type of LOCATION_TYPES) {
+          safety[mode][item][location_type] = 0;
+        }
+      }
+    }
+
     return {
 
       projectID: '',
@@ -66,6 +88,7 @@ class BCTool extends React.Component {
       timeframe: 20,
       year: new Date().getFullYear(),
       transit: '',
+      safety: safety,
 
       initialBounds: [],
       projectBounds: null,
@@ -241,6 +264,7 @@ class BCTool extends React.Component {
             subtype: this.state.subtype,
             year: this.state.year,
             transit: this.state.transit,
+            safety: this.state.safety,
         },
         scope: {
             intersections: this.state.selectedIntersections,
@@ -292,7 +316,8 @@ class BCTool extends React.Component {
         this.state.selectedNonInfrastructure,
         this.state.hasOnlyUserMapSelections,
         this.state.selectedWays,
-        this.state.selectedIntersections
+        this.state.selectedIntersections,
+        this.state.safety
       ),
     }, this.updateStatuses);
   }
@@ -472,6 +497,7 @@ class BCTool extends React.Component {
             timeframe: result.details.timeframe,
             year: result.details.year,
             transit: result.details.transit,
+            safety: result.details.safety,
 
             selectedNonInfrastructure: result.elements.nonInfrastructure,
             selectedInfrastructure: result.elements.infrastructure,
@@ -587,6 +613,33 @@ class BCTool extends React.Component {
     }
   };
 
+  updateSafety = (mode, item, location_type, value) => {
+
+    let safety = structuredClone(this.state.safety);
+    let parsed = parseInt(value);
+
+    if(!isNaN(parsed)) {
+
+      safety[mode][item][location_type] = parsed;
+
+      // add both modes for combined
+      safety.combined[item][location_type] = (
+        safety.walking[item][location_type] +
+        safety.bicycling[item][location_type]
+      );
+
+      // take the average of years?
+      if(item === 'years') {
+        safety.combined[item][location_type] /= 2;
+      }
+
+      this.setState({
+        safety: safety,
+        inputsChanged: true,
+      });
+    }
+  }
+
   render() {
     return (
       <>
@@ -656,6 +709,7 @@ class BCTool extends React.Component {
               type={this.state.type}
               subtype={this.state.subtype}
               transit={this.state.transit}
+              safety={this.state.safety}
               updateName={this.updateName}
               updateDeveloper={this.updateDeveloper}
               updateCost={this.updateCost}
@@ -663,6 +717,7 @@ class BCTool extends React.Component {
               updateSubtype={this.updateSubtype}
               updateTimeFrame={this.updateTimeFrame}
               updateTransit={this.updateTransit}
+              updateSafety={this.updateSafety}
             />
             <ProjectMapForm
               selection={this.state.selection}

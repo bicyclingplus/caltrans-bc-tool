@@ -1,26 +1,21 @@
 import {
   SCALING_FACTORS,
   ESTIMATES,
+  POWER_SAFETY_IN_NUMBERS,
+  FUNCTIONAL_CLASSES,
+  COLUMNS,
+  MODES,
+  LOCATION_TYPES,
+  VOLUMES,
+  OUTCOMES,
 } from './constants';
 import calcDiscount from './calcDiscount';
-
-import { USER_INPUT } from './test_data';
 
 const alpha_lookup = require('../data/alpha_lookup.json');
 const quantitative = require('../data/quantitative.json');
 const travel_volume = require('../data/travel_volume.json');
 
-// p power representing the safety in numbers effect (0.5)
-const POWER_SAFETY_IN_NUMBERS = 0.5;
-const FUNCTIONAL_CLASSES = ['major_road', 'minor_road', 'local'];
-const COLUMNS = ['safety', 'capita', 'jobs'];
-const MODES = ['bicycling', 'walking', 'combined'];
-const LOCATION_TYPES = ['intersection', 'roadway'];
-const VOLUMES = ['low', 'medium', 'high'];
-const OUTCOMES = ['crash', 'injury', 'death'];
-
-
-const _calc = (Vmj_existing, Vmj_projected, Lmjvf, selectedInfrastructure) => {
+const _calc = (Vmj_existing, Vmj_projected, Lmjvf, selectedInfrastructure, user_input) => {
 
   const internalCalc = () => {
 
@@ -170,14 +165,14 @@ const _calc = (Vmj_existing, Vmj_projected, Lmjvf, selectedInfrastructure) => {
   const _ECmoj = (m, o, j) => {
 
     // User input number of years of data for this m, j
-    let UIy = USER_INPUT[m].years[j];
+    let UIy = user_input[m].years[j];
 
     // not null and greater than 0
     if(UIy && UIy > 0) {
 
       // 5 or more years, use user input directly
       if(UIy >= 5) {
-        return USER_INPUT[m][o][j];
+        return user_input[m][o][j];
       }
       // more than 0 but less than 5, split between
       // model and user input
@@ -198,8 +193,8 @@ const _calc = (Vmj_existing, Vmj_projected, Lmjvf, selectedInfrastructure) => {
   // j location type index (intersection/roadway)
   const _ECmoj_split = (m, o, j) => {
 
-    const UImoj = USER_INPUT[m][o][j];
-    const UIy = USER_INPUT[m].years[j];
+    const UImoj = user_input[m][o][j];
+    const UIy = user_input[m].years[j];
 
     let total = 0;
 
@@ -265,8 +260,7 @@ const _calc = (Vmj_existing, Vmj_projected, Lmjvf, selectedInfrastructure) => {
         let _Lmjvf = Lmjvf[m][j][volume][functional_class];
         let Vmj = Vmj_projected[m][j][estimate];
 
-        // loop over selected elements?
-        // TODO !!!!!!!!!!!!!!!!!
+        // crash reduction factor default to 1 (no reduction)
         let CRFmoji = 1;
 
         // loop over elements that have safety benefits
@@ -279,22 +273,15 @@ const _calc = (Vmj_existing, Vmj_projected, Lmjvf, selectedInfrastructure) => {
             for(let benefit of quantitative[element]) {
 
 
-              // TODO
-              // change modes to match these ones (all to combined also)
-              // change class to match j
-              // flip benefit signs to be positive?
-
               // only apply benefits meant for this m/o/j
               if(benefit.mode === m &&
                 benefit.outcome === o &&
                 benefit.location_type === j) {
 
-                console.log('reduction!');
+                let reduction = (benefit[estimate]) / 100;
+                let factor = 1 - reduction;
 
-                let factor = (-benefit[estimate]) / 100;
-                let reduction = 1 - factor;
-
-                CRFmoji *= reduction;
+                CRFmoji *= factor;
               }
             }
           }
@@ -345,7 +332,8 @@ const calcSafetyQuantitative = (
   infrastructure,
   selectedInfrastructure,
   project_length,
-  num_intersections) => {
+  num_intersections,
+  user_input) => {
 
   // need a lookup for existing volume by mode and location type
   let Vmj_existing = {};
@@ -496,6 +484,19 @@ const calcSafetyQuantitative = (
     }
   }
 
+  for(let location_type of LOCATION_TYPES) {
+
+    for(let volume of VOLUMES) {
+
+      for(let functional_class of FUNCTIONAL_CLASSES) {
+        Lmjvf.combined[location_type][volume][functional_class] = (
+          Lmjvf.walking[location_type][volume][functional_class] +
+          Lmjvf.bicycling[location_type][volume][functional_class]
+        );
+      }
+    }
+  }
+
   // need a lookup for projected volume by mode and location type
   let Vmj_projected = {};
 
@@ -625,7 +626,7 @@ const calcSafetyQuantitative = (
 
   for(let column of COLUMNS) {
     console.log(`--------------------------------------${column}---------------------------------------------`)
-    benefits[column] = _calc(Vmj_existing[column], Vmj_projected[column], Lmjvf, selectedInfrastructure);
+    benefits[column] = _calc(Vmj_existing[column], Vmj_projected[column], Lmjvf, selectedInfrastructure, user_input);
   }
 
   console.log(benefits);

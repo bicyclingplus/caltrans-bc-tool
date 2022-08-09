@@ -130,6 +130,15 @@ const TRANSIT_WALK_FRACTION = {
   none: 0.0,
 };
 
+// p power representing the safety in numbers effect (0.5)
+const POWER_SAFETY_IN_NUMBERS = 0.5;
+const FUNCTIONAL_CLASSES = ['major_road', 'minor_road', 'local'];
+const COLUMNS = ['safety', 'capita', 'jobs'];
+const MODES = ['bicycling', 'walking', 'combined'];
+const LOCATION_TYPES = ['intersection', 'roadway'];
+const VOLUMES = ['low', 'medium', 'high'];
+const OUTCOMES = ['crash', 'injury', 'death'];
+
 export {
     PROJECT_TYPES,
     PROJECT_SUBTYPES,
@@ -158,4 +167,12 @@ export {
     CARPOOL_FACTOR,
     TRANSIT_FACTOR,
     TRANSIT_WALK_FRACTION,
+
+    POWER_SAFETY_IN_NUMBERS,
+    FUNCTIONAL_CLASSES,
+    COLUMNS,
+    MODES,
+    LOCATION_TYPES,
+    VOLUMES,
+    OUTCOMES,
 };

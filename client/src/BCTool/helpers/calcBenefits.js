@@ -30,7 +30,9 @@ const calcBenefits = (
 	hasOnlyUserMapSelections,
 
 	selectedWays,
-	selectedIntersections
+	selectedIntersections,
+
+	safety
 	) => {
 
 	let benefits = {};
@@ -63,7 +65,8 @@ const calcBenefits = (
       	infrastructure,
       	selectedInfrastructure,
       	project_length,
-      	num_intersections
+      	num_intersections,
+      	safety
       );
 	  }
 
