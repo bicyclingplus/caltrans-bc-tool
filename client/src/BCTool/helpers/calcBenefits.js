@@ -57,7 +57,6 @@ const calcBenefits = (
 
       benefits.health = calcHealth(benefits.travel, project_time_frame);
 
-
       benefits.safetyQuantitative = calcSafetyQuantitative(
       	selectedWays,
       	selectedIntersections,

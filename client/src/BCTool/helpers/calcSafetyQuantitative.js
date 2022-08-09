@@ -155,8 +155,8 @@ const _calc = (Vmj_existing, Vmj_projected, Lmjvf, selectedInfrastructure) => {
       }
     }
 
-    // console.log(ECmoj);
-    // console.log(NCmoj);
+    console.log(ECmoj);
+    console.log(NCmoj);
 
     return {
       change: change,
@@ -269,16 +269,8 @@ const _calc = (Vmj_existing, Vmj_projected, Lmjvf, selectedInfrastructure) => {
         let Vmj = Vmj_projected[m][j][estimate];
 
         // loop over selected elements?
-        // pre calc CRFmoji for selected infrastructure elements?
         // TODO !!!!!!!!!!!!!!!!!
-        // let CRFmoji = 1 // move to lookup
-
-        // total += (
-        //   Math.exp(alpha) *
-        //   _Lmjvf *
-        //   Math.pow(Vmj, POWER_SAFETY_IN_NUMBERS) *
-        //   CRFmoji
-        // );
+        let CRFmoji = 1;
 
         // loop over elements that have safety benefits
         for(let element in quantitative) {
@@ -291,28 +283,32 @@ const _calc = (Vmj_existing, Vmj_projected, Lmjvf, selectedInfrastructure) => {
 
 
               // TODO
-              // change parameters to match outcomes
               // change modes to match these ones (all to combined also)
               // change class to match j
+              // flip benefit signs to be positive?
 
               // only apply benefits meant for this m/o/j
-              if(benefit.mode == m &&
-                benefit.paramater == o &&
-                benefit.class == j) {
+              if(benefit.mode === m &&
+                benefit.outcome === o &&
+                benefit.location_type === j) {
 
-                let CRFmoji = benefit[estimate] / 100;
+                console.log('reduction!');
+              
+                let factor = (-benefit[estimate]) / 100;
+                let reduction = 1 - factor;
 
-                total += (
-                  Math.exp(alpha) *
-                  _Lmjvf *
-                  Math.pow(Vmj, POWER_SAFETY_IN_NUMBERS) *
-                  CRFmoji
-                );
-
+                CRFmoji *= reduction;
               }
             }
           }
         }
+
+        total += (
+          Math.exp(alpha) *
+          _Lmjvf *
+          Math.pow(Vmj, POWER_SAFETY_IN_NUMBERS) *
+          CRFmoji
+        );
       }
     }
 
@@ -509,7 +505,6 @@ const calcSafetyQuantitative = (
 
           Vmj_projected[column][mode][location_type][estimate] =
             Vmj_existing[column][mode][location_type];
-
         }
       }
     }
@@ -572,16 +567,23 @@ const calcSafetyQuantitative = (
                   // console.log(`Increase to ${mode} due to ${item.shortname} on ${column} and ${location_type}`);
                   // console.log(`share ${share}`);
                   // console.log(`factor ${SCALING_FACTORS[type]}`);
-                  // console.log(`benefit ${benefit.mean / 100}`)
+                  // console.log(`benefit ${benefit.mean / 100}`);
 
                   for(let estimate of ESTIMATES) {
 
-                    Vmj_projected[column][mode][location_type][estimate] += (
+                    // this is from the NCmoj equation
+                    // Vmj + Vmj * Ei * (Ni / L) * I
+
+                    let increase = (
                         Vmj_existing[column][mode][location_type] *
                         (benefit[estimate] / 100) *
                         share *
                         SCALING_FACTORS[type]
                     );
+
+                    // console.log(`${estimate} increased by ${increase}`);
+
+                    Vmj_projected[column][mode][location_type][estimate] += increase;
                   }
                 }
               }
