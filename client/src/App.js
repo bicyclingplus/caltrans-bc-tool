@@ -25,7 +25,7 @@ function App() {
 
   const startNewProject = () => {
     setNewProject(true);
-    navigate('/');
+    navigate('tool');
   }
 
   const projectStarted = () => {
@@ -39,6 +39,7 @@ function App() {
       <main role="main" className="main">
         <Routes>
           <Route index element={<BCTool newProject={newProject} projectStarted={projectStarted}/>} />
+          <Route path="tool" element={<BCTool newProject={newProject} projectStarted={projectStarted}/>} />
           <Route path="technicaldocs" element={<TechnicalDocumentation />} />
           <Route path="litreview" element={<LiteratureReview />} />
           <Route path="about" element={<About />} />

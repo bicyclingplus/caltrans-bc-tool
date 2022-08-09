@@ -9,24 +9,31 @@
 
 .navbar .nav-link {
 	color:  white;
-	font-size: 2rem;
-	font-weight:  700;
-	line-height: 1.2;
-}
-
-.navbar .dropdown-menu {
-	background-color: #022851;
-}
-
-.dropdown-item {
-	color: white;
 	font-size: 1.5rem;
-	font-weight:  500;
+	font-weight:  700;
+	line-height: 1.5rem;
+}
+
+.dropdown-item,
+.dropdown-item.active {
+	font-size: 1.5rem;
+	font-weight:  700;
+	line-height: 1.5rem;
+	padding: 0.5rem 1rem;
+	padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    color: white;
+    border: 1px solid transparent;
+    background-color:  #022851;
 }
 
 .dropdown-item:focus, .dropdown-item:hover {
 	background-color: #00c4b3;
 	color: white;
+}
+
+.navbar .dropdown-menu {
+	background-color: #022851;
 }
 
 .btn-restart {
@@ -36,8 +43,8 @@
 	font-weight: bolder;
 	border-radius: 0;
 	padding: 0rem 1.5rem 0.2rem 1.5rem;
-	font-size:  1.8rem;
-	line-height: 2.4rem;
+	font-size:  1.5rem;
+	line-height: 2.2rem;
 }
 
 .btn-restart:hover {
