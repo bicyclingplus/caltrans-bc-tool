@@ -4,7 +4,7 @@ import calcVMTReductions from './calcVMTReductions';
 import calcEmissions from './calcEmissions';
 import calcHealth from './calcHealth';
 import calcSafetyQualitative from './calcSafetyQualitative';
-import { calcSafetyQuantitative, calcSafetyQuantitativeNew } from './calcSafetyQuantitative';
+import calcSafetyQuantitative from './calcSafetyQuantitative';
 
 const calcBenefits = (
 	project_type,
@@ -57,16 +57,8 @@ const calcBenefits = (
 
       benefits.health = calcHealth(benefits.travel, project_time_frame);
 
-      benefits.safetyQuantitative = calcSafetyQuantitative(
-	      infrastructure,
-	      benefits.travel,
-	      project_length,
-	      num_intersections,
-	      project_subtype,
-	      project_time_frame,
-	      selectedInfrastructure);
 
-      calcSafetyQuantitativeNew(
+      benefits.safetyQuantitative = calcSafetyQuantitative(
       	selectedWays,
       	selectedIntersections,
       	infrastructure,
