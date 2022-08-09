@@ -14,7 +14,7 @@ const travel_volume = require('../data/travel_volume.json');
 const POWER_SAFETY_IN_NUMBERS = 0.5;
 const FUNCTIONAL_CLASSES = ['major_road', 'minor_road', 'local'];
 const COLUMNS = ['safety', 'capita', 'jobs'];
-const MODES = ['bicycling', 'walking'];
+const MODES = ['bicycling', 'walking', 'combined'];
 const LOCATION_TYPES = ['intersection', 'roadway'];
 const VOLUMES = ['low', 'medium', 'high'];
 const OUTCOMES = ['crash', 'injury', 'death'];
@@ -66,25 +66,42 @@ const _calc = (Vmj_existing, Vmj_projected, Lmjvf, selectedInfrastructure) => {
       }
     }
 
-    // calc crash change combined walking/bicycling
-    change.combined = {};
+    // add bicycling and walking to combined total
+    // for(let outcome of OUTCOMES) {
+    //   for(let location_type of LOCATION_TYPES) {
 
-    for(let outcome of OUTCOMES) {
+    //     ECmoj.combined[outcome][location_type] += (
+    //       ECmoj.walking[outcome][location_type] +
+    //       ECmoj.bicycling[outcome][location_type]
+    //     );
 
-      change.combined[outcome] = {};
+    //     for(let estimate of ESTIMATES) {
 
-      for(let estimate of ESTIMATES) {
-        change.combined[outcome][estimate] = 0;
-      }
-    }
+    //       NCmoj.combined[outcome][location_type][estimate] += (
+    //         NCmoj.walking[outcome][location_type][estimate] +
+    //         NCmoj.bicycling[outcome][location_type][estimate]
+    //       )
+    //     }
+    //   }
+    // }
 
-    for(let mode of MODES) {
-      for(let outcome of OUTCOMES) {
-        for(let estimate of ESTIMATES) {
-          change.combined[outcome][estimate] += change[mode][outcome][estimate];
-        }
-      }
-    }
+    // for(let outcome of OUTCOMES) {
+
+    //   for(let estimate of ESTIMATES) {
+
+    //     change.combined[outcome][estimate] += (
+    //       change.walking[outcome][estimate] +
+    //       change.bicycling[outcome][estimate]
+    //     );
+    //   }
+    // }
+
+    console.log('change');
+    console.log(change);
+    console.log('ECmoj');
+    console.log(ECmoj);
+    console.log('NCmoj');
+    console.log(NCmoj);
 
     // calc before crash outcomes per 1000 volume by mode and outcome
     // calc after crash outcomes per 1000 volume by mode and outcome
@@ -133,30 +150,10 @@ const _calc = (Vmj_existing, Vmj_projected, Lmjvf, selectedInfrastructure) => {
       }
     }
 
-    before.combined = {}
-    after.combined = {}
-
-    for(let outcome of OUTCOMES) {
-      before.combined[outcome] = 0;
-      after.combined[outcome] = {};
-
-      for(let estimate of ESTIMATES) {
-        after.combined[outcome][estimate] = 0;
-      }
-    }
-
-    for(let mode of MODES) {
-      for(let outcome of OUTCOMES) {
-        before.combined[outcome] += before[mode][outcome];
-
-        for(let estimate of ESTIMATES) {
-          after.combined[outcome][estimate] += after[mode][outcome][estimate];
-        }
-      }
-    }
-
-    console.log(ECmoj);
-    console.log(NCmoj);
+    console.log('before');
+    console.log(before);
+    console.log('after');
+    console.log(after);
 
     return {
       change: change,
@@ -293,7 +290,7 @@ const _calc = (Vmj_existing, Vmj_projected, Lmjvf, selectedInfrastructure) => {
                 benefit.location_type === j) {
 
                 console.log('reduction!');
-              
+
                 let factor = (-benefit[estimate]) / 100;
                 let reduction = 1 - factor;
 
@@ -488,6 +485,17 @@ const calcSafetyQuantitative = (
     }
   }
 
+  // calc combined for Vmj_existing
+  for(let column of COLUMNS) {
+    for(let location_type of LOCATION_TYPES) {
+
+      Vmj_existing[column].combined[location_type] = (
+        Vmj_existing[column].walking[location_type] +
+        Vmj_existing[column].bicycling[location_type]
+      );
+    }
+  }
+
   // need a lookup for projected volume by mode and location type
   let Vmj_projected = {};
 
@@ -594,42 +602,29 @@ const calcSafetyQuantitative = (
     }
   }
 
-  // calc combined for Vmj_existing and Vmj_projected
+  // calc combined for Vmj_projected
   for(let column of COLUMNS) {
-
-    Vmj_existing[column].combined = {};
-    Vmj_projected[column].combined = {};
-
     for(let location_type of LOCATION_TYPES) {
-      Vmj_existing[column].combined[location_type] = 0;
-
-      Vmj_projected[column].combined[location_type] = {};
-
       for(let estimate of ESTIMATES) {
-        Vmj_projected[column].combined[location_type][estimate] = 0;
-      }
-    }
-
-    for(let mode of MODES) {
-      for(let location_type of LOCATION_TYPES) {
-        Vmj_existing[column].combined[location_type] += Vmj_existing[column][mode][location_type];
-
-        for(let estimate of ESTIMATES) {
-          Vmj_projected[column].combined[location_type][estimate] +=
-            Vmj_projected[column][mode][location_type][estimate];
-        }
+        Vmj_projected[column].combined[location_type][estimate] = (
+          Vmj_projected[column].walking[location_type][estimate] +
+          Vmj_projected[column].bicycling[location_type][estimate]
+        );
       }
     }
   }
 
-  // console.log(Vmj_existing.safety);
-  // console.log(Vmj_projected.safety);
-  // console.log(Lmjvf);
+  console.log('-----------------------------------');
+  console.log(Vmj_existing.safety);
+  console.log(Vmj_projected.safety);
+  console.log(Lmjvf);
+  console.log('-----------------------------------');
 
   // generate output for each set of columns in the safety benefits table
   let benefits = {};
 
   for(let column of COLUMNS) {
+    console.log(`--------------------------------------${column}---------------------------------------------`)
     benefits[column] = _calc(Vmj_existing[column], Vmj_projected[column], Lmjvf, selectedInfrastructure);
   }
 

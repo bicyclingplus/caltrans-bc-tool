@@ -45,5 +45,37 @@ with open(os.path.join('input', infilename)) as infile:
             output[mode][o][location_type][volume][functional_class] = current_outcomes[o]
 
 
+output['bicycling'] = output['bike']
+output['walking'] = output['walk']
+
+del output['bike']
+del output['walk']
+
+output['combined'] = {}
+
+for outcome in ['crash', 'injury', 'death']:
+
+    if outcome not in output['combined']:
+        output['combined'][outcome] = {}
+
+    for location_type in ['intersection', 'roadway']:
+
+        if location_type not in output['combined'][outcome]:
+            output['combined'][outcome][location_type] = {}
+
+        for volume in ['low', 'medium', 'high']:
+
+            if volume not in output['combined'][outcome][location_type]:
+                output['combined'][outcome][location_type][volume] = {}
+
+            for functional_class in ['local', 'minor_road', 'major_road']:
+
+                output['combined'][outcome][location_type][volume][functional_class] = (
+                    (output['walking'][outcome][location_type][volume][functional_class] +
+                        output['bicycling'][outcome][location_type][volume][functional_class])
+                    / 2
+                )
+
+
 json.dump(output, open(os.path.join('output', 'alpha_lookup.json'), 'w'))
 

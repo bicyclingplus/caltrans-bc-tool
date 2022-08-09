@@ -35,6 +35,24 @@ const user_input_good = {
       "roadway": 5,
     }
   },
+  "combined": {
+    "crash": {
+      "intersection": 12345,
+      "roadway": 12345,
+    },
+    "injury": {
+      "intersection": 12345,
+      "roadway": 12345,
+    },
+    "death": {
+      "intersection": 12345,
+      "roadway": 12345,
+    },
+    "years": {
+      "intersection": 5,
+      "roadway": 5,
+    }
+  },
 };
 
 const user_input_model = {
@@ -74,6 +92,24 @@ const user_input_model = {
       "roadway": null,
     }
   },
+  "combined": {
+    "crash": {
+      "intersection": null,
+      "roadway": null,
+    },
+    "injury": {
+      "intersection": null,
+      "roadway": null,
+    },
+    "death": {
+      "intersection": null,
+      "roadway": null,
+    },
+    "years": {
+      "intersection": null,
+      "roadway": null,
+    }
+  },
 };
 
 const user_input_split = {
@@ -96,6 +132,24 @@ const user_input_split = {
     }
   },
   "walking": {
+    "crash": {
+      "intersection": 1234,
+      "roadway": 1234,
+    },
+    "injury": {
+      "intersection": 1234,
+      "roadway": 1234,
+    },
+    "death": {
+      "intersection": 1234,
+      "roadway": 1234,
+    },
+    "years": {
+      "intersection": 3,
+      "roadway": 3,
+    }
+  },
+  "combined": {
     "crash": {
       "intersection": 1234,
       "roadway": 1234,
