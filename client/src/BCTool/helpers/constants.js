@@ -69,23 +69,23 @@ const EMISSION_TYPES = [
 // TRAVEL
 
 const INDUCED_TRAVEL = {
-    bike: 11.8,
-    pedestrian: 10.98,
+    bicycling: 11.8,
+    walking: 10.98,
 };
 
 const ROUTE_SHIFT = {
-    bike: 58.81,
-    pedestrian: 7.73,
+    bicycling: 58.81,
+    walking: 7.73,
 };
 
 const CAR_SHIFT = {
-    bike: 17.64,
-    pedestrian: 33.3,
+    bicycling: 17.64,
+    walking: 33.3,
 };
 
 const OTHER_SHIFT = {
-    bike: 11.75,
-    pedestrian: 47.99,
+    bicycling: 11.75,
+    walking: 47.99,
 };
 
 // HEALTH
@@ -130,6 +130,15 @@ const TRANSIT_WALK_FRACTION = {
   none: 0.0,
 };
 
+// p power representing the safety in numbers effect (0.5)
+const POWER_SAFETY_IN_NUMBERS = 0.5;
+const FUNCTIONAL_CLASSES = ['major_road', 'minor_road', 'local'];
+const COLUMNS = ['safety', 'capita', 'jobs'];
+const MODES = ['bicycling', 'walking', 'combined'];
+const LOCATION_TYPES = ['intersection', 'roadway'];
+const VOLUMES = ['low', 'medium', 'high'];
+const OUTCOMES = ['crash', 'injury', 'death'];
+
 export {
     PROJECT_TYPES,
     PROJECT_SUBTYPES,
@@ -158,4 +167,12 @@ export {
     CARPOOL_FACTOR,
     TRANSIT_FACTOR,
     TRANSIT_WALK_FRACTION,
+
+    POWER_SAFETY_IN_NUMBERS,
+    FUNCTIONAL_CLASSES,
+    COLUMNS,
+    MODES,
+    LOCATION_TYPES,
+    VOLUMES,
+    OUTCOMES,
 };

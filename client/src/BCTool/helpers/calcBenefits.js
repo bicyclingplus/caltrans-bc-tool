@@ -27,7 +27,12 @@ const calcBenefits = (
 	selectedInfrastructure,
 	selectedNonInfrastructure,
 
-	hasOnlyUserMapSelections
+	hasOnlyUserMapSelections,
+
+	selectedWays,
+	selectedIntersections,
+
+	safety
 	) => {
 
 	let benefits = {};
@@ -54,18 +59,20 @@ const calcBenefits = (
 
       benefits.health = calcHealth(benefits.travel, project_time_frame);
 
-      benefits.safetyQualitative = calcSafetyQualitative(
-      	infrastructure, selectedInfrastructure);
+      benefits.safetyQuantitative = calcSafetyQuantitative(
+      	selectedWays,
+      	selectedIntersections,
+      	infrastructure,
+      	selectedInfrastructure,
+      	project_length,
+      	num_intersections,
+      	safety
+      );
 	  }
 
-    benefits.safetyQuantitative = calcSafetyQuantitative(
-      infrastructure,
-      benefits.travel,
-      project_length,
-      num_intersections,
-      project_subtype,
-      project_time_frame,
-      selectedInfrastructure);
+	  benefits.safetyQualitative = calcSafetyQualitative(
+      	infrastructure, selectedInfrastructure);
+
   }
 
   return benefits;

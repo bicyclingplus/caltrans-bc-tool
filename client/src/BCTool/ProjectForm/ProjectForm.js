@@ -17,6 +17,7 @@ class ProjectForm extends React.Component {
       type,
       subtype,
       transit,
+      safety,
       updateName,
       updateDeveloper,
       updateCost,
@@ -24,6 +25,7 @@ class ProjectForm extends React.Component {
       updateSubtype,
       updateTimeFrame,
       updateTransit,
+      updateSafety,
     } = this.props;
 
     let projectTypeOptions = [];
@@ -132,68 +134,68 @@ class ProjectForm extends React.Component {
           <div className="row mb-2">
             <label className="col-sm-2 col-form-label text-end">Crashes</label>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-bike-crashes-intersections" />
+              <input className="form-control" type="text" id="project-risk-bike-crashes-intersections" value={safety.bicycling.crash.intersection} onChange={(e) => {updateSafety('bicycling', 'crash', 'intersection', e.target.value)}} />
             </div>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-bike-crashes-roadways" />
+              <input className="form-control" type="text" id="project-risk-bike-crashes-roadways" value={safety.bicycling.crash.roadway} onChange={(e) => {updateSafety('bicycling', 'crash', 'roadway', e.target.value)}} />
             </div>
             <label className="col-sm-2 col-form-label text-end">Crashes</label>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-ped-crashes-intersections" />
+              <input className="form-control" type="text" id="project-risk-ped-crashes-intersections" value={safety.walking.crash.intersection} onChange={(e) => {updateSafety('walking', 'crash', 'intersection', e.target.value)}} />
             </div>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-ped-crashes-roadways" />
+              <input className="form-control" type="text" id="project-risk-ped-crashes-roadways" value={safety.walking.crash.roadway} onChange={(e) => {updateSafety('walking', 'crash', 'roadway', e.target.value)}} />
             </div>
           </div>
 
           <div className="row mb-2">
             <label className="col-sm-2 col-form-label text-end">Injuries</label>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-bike-injuries-intersections" />
+              <input className="form-control" type="text" id="project-risk-bike-injuries-intersections" value={safety.bicycling.injury.intersection} onChange={(e) => {updateSafety('bicycling', 'injury', 'intersection', e.target.value)}} />
             </div>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-bike-injuries-roadways" />
+              <input className="form-control" type="text" id="project-risk-bike-injuries-roadways" value={safety.bicycling.injury.roadway} onChange={(e) => {updateSafety('bicycling', 'injury', 'roadway', e.target.value)}} />
             </div>
             <label className="col-sm-2 col-form-label text-end">Injuries</label>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-ped-injuries-intersections" />
+              <input className="form-control" type="text" id="project-risk-ped-injuries-intersections" value={safety.walking.injury.intersection} onChange={(e) => {updateSafety('walking', 'injury', 'intersection', e.target.value)}} />
             </div>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-ped-injuries-roadways" />
+              <input className="form-control" type="text" id="project-risk-ped-injuries-roadways" value={safety.walking.injury.roadway} onChange={(e) => {updateSafety('walking', 'injury', 'roadway', e.target.value)}} />
             </div>
           </div>
 
           <div className="row mb-2">
             <label className="col-sm-2 col-form-label text-end">Deaths</label>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-bike-deaths-intersections" />
+              <input className="form-control" type="text" id="project-risk-bike-deaths-intersections" value={safety.bicycling.death.intersection} onChange={(e) => {updateSafety('bicycling', 'death', 'intersection', e.target.value)}} />
             </div>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-bike-deaths-roadways" />
+              <input className="form-control" type="text" id="project-risk-bike-deaths-roadways" value={safety.bicycling.death.roadway} onChange={(e) => {updateSafety('bicycling', 'death', 'roadway', e.target.value)}} />
             </div>
             <label className="col-sm-2 col-form-label text-end">Deaths</label>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-ped-deaths-intersections" />
+              <input className="form-control" type="text" id="project-risk-ped-deaths-intersections" value={safety.walking.death.intersection} onChange={(e) => {updateSafety('walking', 'death', 'intersection', e.target.value)}} />
             </div>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-ped-deaths-roadways" />
+              <input className="form-control" type="text" id="project-risk-ped-deaths-roadways" value={safety.walking.death.roadway} onChange={(e) => {updateSafety('walking', 'death', 'roadway', e.target.value)}} />
             </div>
           </div>
 
           <div className="row mb-2">
             <label className="col-sm-2 col-form-label text-end">Years</label>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-bike-years-intersections" />
+              <input className="form-control" type="text" id="project-risk-bike-years-intersections" value={safety.bicycling.years.intersection} onChange={(e) => {updateSafety('bicycling', 'years', 'intersection', e.target.value)}} />
             </div>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-bike-years-roadways" />
+              <input className="form-control" type="text" id="project-risk-bike-years-roadways" value={safety.bicycling.years.roadway} onChange={(e) => {updateSafety('bicycling', 'years', 'roadway', e.target.value)}} />
             </div>
             <label className="col-sm-2 col-form-label text-end">Years</label>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-ped-years-intersections" />
+              <input className="form-control" type="text" id="project-risk-ped-years-intersections" value={safety.walking.years.intersection} onChange={(e) => {updateSafety('walking', 'years', 'intersection', e.target.value)}} />
             </div>
             <div className="col-sm-2">
-              <input className="form-control" type="text" id="project-risk-ped-years-roadways" />
+              <input className="form-control" type="text" id="project-risk-ped-years-roadways" value={safety.walking.years.roadway} onChange={(e) => {updateSafety('walking', 'years', 'roadway', e.target.value)}} />
             </div>
           </div>
           </>

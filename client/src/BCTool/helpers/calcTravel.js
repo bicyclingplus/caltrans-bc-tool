@@ -151,7 +151,7 @@ const _calc = (infrastructure, selectedInfrastructure, existingTravel,
     let travel = {};
 
     travel.bike = _calcTravelMode(
-        'bike',
+        'bicycling',
         infrastructure,
         selectedInfrastructure,
         existingTravel.bike,
@@ -159,7 +159,7 @@ const _calc = (infrastructure, selectedInfrastructure, existingTravel,
         num_intersections);
 
     travel.pedestrian = _calcTravelMode(
-        'pedestrian',
+        'walking',
         infrastructure,
         selectedInfrastructure,
         existingTravel.pedestrian,

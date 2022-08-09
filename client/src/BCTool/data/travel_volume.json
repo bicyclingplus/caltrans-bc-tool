@@ -1,67 +1,67 @@
 {
 	"bike-highway": {
-		"bike": {
+		"bicycling": {
 			"lower": 38.5,
 			"mean": 77,
 			"upper": 115.5
 		}
 	},
 	"buffered-bike-lane": {
-		"bike": {
+		"bicycling": {
 			"lower": 77,
 			"mean": 174,
 			"upper": 271
 		}
 	},
 	"conventional-bike-lane": {
-		"bike": {
+		"bicycling": {
 			"lower": -21,
 			"mean": 124,
 			"upper": 268
 		}
 	},
 	"crossing-island": {
-		"pedestrian": {
+		"walking": {
 			"lower": 5,
 			"mean": 10,
 			"upper": 15
 		}
 	},
 	"protected-bike-lane": {
-		"bike": {
+		"bicycling": {
 			"lower": 21,
 			"mean": 96,
 			"upper": 171
 		}
 	},
 	"road-diet": {
-		"bike": {
+		"bicycling": {
 			"lower": 6.5,
 			"mean": 13,
 			"upper": 25
 		},
-		"pedestrian": {
+		"walking": {
 			"lower": 7.5,
 			"mean": 15,
 			"upper": 30
 		}
 	},
 	"sidewalk": {
-		"pedestrian": {
+		"walking": {
 			"lower": 12,
 			"mean": 23,
 			"upper": 33
 		}
 	},
 	"off-street-multi-use-or-bike-path": {
-		"bike": {
+		"bicycling": {
 			"lower": 21,
 			"mean": 96,
 			"upper": 171
 		}
 	},
 	"bike-boulevard": {
-		"bike": {
+		"bicycling": {
 			"lower": 77,
 			"mean": 174,
 			"upper": 271
