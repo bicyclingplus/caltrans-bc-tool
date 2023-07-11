@@ -1,7 +1,1 @@
-TODO
-
-quantitative safety benefits
-
-DONE
-
-hookup infrastructure element inputs
+Snapshot of tool completed in Summer of 2022
